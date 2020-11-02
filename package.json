@@ -1,0 +1,83 @@
+{
+  "name": "rsl-gear-optimizer",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@react-hook/debounce": "^3.0.0",
+    "@reduxjs/toolkit": "^1.4.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/classnames": "^2.2.10",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-helmet": "^6.1.0",
+    "@types/react-virtualized-auto-sizer": "^1.0.0",
+    "@types/react-window": "^1.8.2",
+    "@types/styled-components": "^5.1.4",
+    "@types/uuid": "^8.3.0",
+    "bootstrap": "^4.5.3",
+    "classnames": "^2.2.6",
+    "downshift": "^6.0.6",
+    "immer": "^7.0.14",
+    "localforage": "^1.9.0",
+    "node-sass": "^4.0.0",
+    "raid-data": "https://github.com/McRadane/raid-data",
+    "react": "^16.14.0",
+    "react-bootstrap-icons": "^1.0.0",
+    "react-dom": "^16.14.0",
+    "react-helmet-async": "^1.0.7",
+    "react-redux": "^7.2.1",
+    "react-scripts": "3.4.3",
+    "react-virtualized-auto-sizer": "^1.0.2",
+    "react-window": "^1.8.5",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.2.0",
+    "typescript": "~3.7.2",
+    "uuid": "^8.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.1.9",
+    "@types/redux-logger": "^3.0.8",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint-config-airbnb": "18.2.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-jsx-a11y": "6.3.0",
+    "eslint-plugin-only-warn": "^1.0.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "7.20.0",
+    "eslint-plugin-react-hooks": "4.0.0",
+    "prettier": "^2.1.2",
+    "worker-loader": "^3.0.5"
+  },
+  "resolutions": {
+    "react-helmet/react-side-effect": "2.1.0"
+  }
+}

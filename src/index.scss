@@ -1,0 +1,27 @@
+//$white: #124659;
+$white: #051014;
+$green: #b27301;
+$primary: $green;
+$success: #007bff;
+$enable-rounded: false;
+$enable-gradients: true;
+$gray-900: #eee5d7;
+$gray-800: #9bc6f1;
+
+:root {
+  --container: #124659;
+}
+
+.navbar .active {
+  text-shadow: 1px 0 0 currentColor;
+}
+
+.jumbotron {
+  background-color: $white !important;
+}
+
+.my-4 {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@import "../node_modules/bootstrap/scss/bootstrap";
