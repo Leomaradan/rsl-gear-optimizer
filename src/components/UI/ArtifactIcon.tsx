@@ -1,13 +1,9 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-import Artifact from "models/Artifact";
-import { SetsIconName } from "models/Sets";
-import { SlotsIconName } from "models/Slots";
+import { Artifact, SetsIconName, SlotsIconName } from "models";
 import getColour from "process/getColour";
 import React from "react";
 import styled from "styled-components";
 
-export interface ArtifactIconProps {
+interface ArtifactIconProps {
   item: Artifact;
   size?: number;
 }

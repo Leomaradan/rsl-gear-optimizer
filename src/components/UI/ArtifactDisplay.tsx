@@ -1,16 +1,11 @@
-/* eslint-disable global-require */
-/* eslint-disable import/no-dynamic-require */
-
-import React from "react";
-import styled from "styled-components";
-import Artifact from "models/Artifact";
-import { SetsIconName } from "models/Sets";
-import { SlotsIconName } from "models/Slots";
-import getColour from "process/getColour";
 import StarDisplay from "./StarDisplay";
 import ChampionPortrait from "./ChampionPortrait";
+import getColour from "process/getColour";
+import { Artifact, SetsIconName, SlotsIconName } from "models";
+import React from "react";
+import styled from "styled-components";
 
-export interface ArtifactDisplayProps {
+interface ArtifactDisplayProps {
   artifact: Artifact;
   size?: number;
   faded?: boolean;

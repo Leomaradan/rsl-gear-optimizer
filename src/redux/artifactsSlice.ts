@@ -1,20 +1,20 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Artifact, { ArtifactDraft } from "models/Artifact";
-import { ArtifactsState } from "models/Redux";
+import { Artifact, ArtifactDraft, ArtifactsState } from "models";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 import { v4 as uuidv4 } from "uuid";
 
 const initialState: ArtifactsState = [];
 
-export type ArtifactsLoadAction = PayloadAction<{
+type ArtifactsLoadAction = PayloadAction<{
   artifacts: ArtifactDraft[];
 }>;
-export type ArtifactsUpdateAction = PayloadAction<{
+type ArtifactsUpdateAction = PayloadAction<{
   id: string;
   artifact: Partial<Artifact>;
 }>;
-export type ArtifactsDeleteAction = PayloadAction<{ id: string }>;
-export type ArtifactsCreateAction = PayloadAction<Artifact>;
-export type ArtifactsCreatePrepare = ArtifactDraft;
+type ArtifactsDeleteAction = PayloadAction<{ id: string }>;
+type ArtifactsCreateAction = PayloadAction<Artifact>;
+type ArtifactsCreatePrepare = ArtifactDraft;
 
 const artifactsSlice = createSlice({
   name: "artifacts",

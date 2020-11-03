@@ -1,6 +1,6 @@
 import { Orderable } from "./Orderable";
-import Sets from "./Sets";
-import Stats from "./Stats";
+import { Sets } from "./Sets";
+import { Stat } from "./Stat";
 
 export enum ChampionSetMethod {
   RequireSets,
@@ -9,17 +9,17 @@ export enum ChampionSetMethod {
 }
 
 export interface ChampionStatsPriority {
-  [Stats.Accuracy]?: number;
-  [Stats.Attack]?: number;
-  [Stats.AttackPercent]?: number;
-  [Stats.CriticalDamage]?: number;
-  [Stats.CriticalRate]?: number;
-  [Stats.Defense]?: number;
-  [Stats.DefensePercent]?: number;
-  [Stats.HP]?: number;
-  [Stats.HpPercent]?: number;
-  [Stats.Resistance]?: number;
-  [Stats.Speed]?: number;
+  [Stat.Accuracy]?: number;
+  [Stat.Attack]?: number;
+  [Stat.AttackPercent]?: number;
+  [Stat.CriticalDamage]?: number;
+  [Stat.CriticalRate]?: number;
+  [Stat.Defense]?: number;
+  [Stat.DefensePercent]?: number;
+  [Stat.HP]?: number;
+  [Stat.HpPercent]?: number;
+  [Stat.Resistance]?: number;
+  [Stat.Speed]?: number;
 }
 
 export interface Champion extends Orderable {
@@ -27,9 +27,9 @@ export interface Champion extends Orderable {
   champion: string;
   sets: Sets[];
   statsPriority: ChampionStatsPriority;
-  gauntletStats: Stats[];
-  chestplateStats: Stats[];
-  bootsStats: Stats[];
+  gauntletStats: Stat[];
+  chestplateStats: Stat[];
+  bootsStats: Stat[];
   methods: ChampionSetMethod;
   activated: boolean;
 }

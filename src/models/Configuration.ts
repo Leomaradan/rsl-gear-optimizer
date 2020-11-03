@@ -1,7 +1,3 @@
-/*artifactsDisplay: "table" | "grid";
-excludeWornArtifact: boolean;
-generationMethod: "easy" | "real" | "theorical";*/
-
 export enum ArtifactsDisplayMode {
   Table,
   Grid,

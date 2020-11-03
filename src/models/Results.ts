@@ -1,6 +1,6 @@
 import { ListOfArtifacts } from "./Artifact";
 import { Champion } from "./Champion";
-import Sets from "./Sets";
+import { Sets } from "./Sets";
 
 export enum ResultsStatus {
   Ready,

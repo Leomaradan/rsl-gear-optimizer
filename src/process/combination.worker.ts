@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-restricted-globals */
 
-import { Champion, ChampionSetMethod } from "models/Champion";
-import Artifact from "models/Artifact";
-import { Results, ResultsDraft } from "models/Results";
+import generateData from "./generateData";
+import selectResult from "./selectResults";
 import {
   ResultsWorkerCommands,
   ResultsWorkerEventGenerate,
-} from "models/Worker";
-import { GenerationMethod } from "models/Configuration";
-import generateData from "./generateData";
-import selectResult from "./selectResults";
+  Results,
+  ResultsDraft,
+  Champion,
+  ChampionSetMethod,
+  Artifact,
+  GenerationMethod,
+} from "models";
 
 const ctx: Worker = self as any;
 

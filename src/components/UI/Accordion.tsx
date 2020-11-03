@@ -10,7 +10,7 @@ export interface AccordionSection {
   expanded?: boolean;
 }
 
-export interface AccordionProps {
+interface AccordionProps {
   section: AccordionSection[];
 }
 

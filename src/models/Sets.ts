@@ -1,4 +1,4 @@
-enum Sets {
+export enum Sets {
   Null = "",
   Life = "Life",
   Offense = "Offense",
@@ -156,5 +156,3 @@ export const SetsIconName: { [key: string]: string } = {
   [Sets.Resilience]: "Resilience",
   [Sets.Perception]: "Perception",
 };
-
-export default Sets;

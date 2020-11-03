@@ -1,8 +1,8 @@
+import { dictionaryList, languageOptions } from "./language";
+import LanguageContext, { LanguageContextDefinition } from "./LanguageContext";
 import React, { ReactNode, useState } from "react";
 
 import localforage from "localforage";
-import { dictionaryList, languageOptions } from "./language";
-import LanguageContext, { LanguageContextDefinition } from "./LanguageContext";
 
 export default ({ children }: { children: ReactNode }): JSX.Element => {
   const [userLanguage, setUserLanguage] = useState<string>("en");

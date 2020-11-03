@@ -1,28 +1,35 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChampionsState, ChampionDraft, Champion } from "models";
 import reorder from "process/reorder";
-import { Champion, ChampionDraft } from "models/Champion";
-import { ChampionsState } from "models/Redux";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: ChampionsState = [];
 
-export type ChampionsLoadAction = PayloadAction<{
+type ChampionsLoadAction = PayloadAction<{
   champions: ChampionDraft[];
 }>;
-export type ChampionsUpdateAction = PayloadAction<{
+type ChampionsUpdateAction = PayloadAction<{
   name: string;
   champion: Partial<Champion>;
 }>;
-export type ChampionsReorderAction = PayloadAction<{
+type ChampionsReorderAction = PayloadAction<{
   name: string;
   newOrder: number;
 }>;
-export type ChampionsToggleAction = PayloadAction<{
+type ChampionsToggleAction = PayloadAction<{
   name: string;
 }>;
-export type ChampionsDeleteAction = PayloadAction<{ name: string }>;
-export type ChampionsCreateAction = PayloadAction<{
+type ChampionsDeleteAction = PayloadAction<{ name: string }>;
+type ChampionsCreateAction = PayloadAction<{
   champion: ChampionDraft;
 }>;
+
+const getLastOrder = (state: ChampionsState) =>
+  state.reduce((max, current) => {
+    if (current.order > max) {
+      return current.order;
+    }
+    return max;
+  }, 0);
 
 const championsSlice = createSlice({
   name: "champions",
@@ -32,13 +39,7 @@ const championsSlice = createSlice({
       const state: ChampionsState = [];
 
       action.payload.champions.forEach((champion) => {
-        const lastOrder = state.reduce((max, current) => {
-          if (current.order > max) {
-            return current.order;
-          }
-          return max;
-        }, 0);
-
+        const lastOrder = getLastOrder(state);
         let name = champion.champion;
 
         const champ = state.filter((s) => s.champion === name);
@@ -78,9 +79,7 @@ const championsSlice = createSlice({
       );
 
       if (element) {
-        const result = reorder(flatState, element, action.payload.newOrder);
-
-        return result;
+        return reorder(flatState, element, action.payload.newOrder);
       }
 
       return state;
@@ -92,12 +91,7 @@ const championsSlice = createSlice({
     deleteChampions: (state, action: ChampionsDeleteAction) =>
       state.filter((i) => i.name !== action.payload.name),
     createChampions: (state, action: ChampionsCreateAction) => {
-      const lastOrder = state.reduce((max, current) => {
-        if (current.order > max) {
-          return current.order;
-        }
-        return max;
-      }, 0);
+      const lastOrder = getLastOrder(state);
 
       let name = action.payload.champion.champion;
 

@@ -1,18 +1,15 @@
-import React from "react";
-
-import Stats, { ExistingStats } from "models/Stats";
-import Stack from "components/UI/FlexStack";
-import Error from "models/Error";
-import { ChampionDraft } from "models/Champion";
+import DisplayError from "../UI/DisplayError";
+import Stack from "components/UI/Stack";
 
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
-import DisplayError from "../UI/DisplayError";
+import { ChampionDraft, Errors, ExistingStats, Stat } from "models";
+import React from "react";
 
-export interface ChampionFormStatsPriorityProps {
+interface ChampionFormStatsPriorityProps {
   state: ChampionDraft;
   setState: React.Dispatch<React.SetStateAction<ChampionDraft>>;
-  errors: Error;
+  errors: Errors;
 }
 
 export default ({
@@ -39,7 +36,7 @@ export default ({
     <Stack>
       <DisplayError slot="statsPriority" errors={errors} />
       {ExistingStats.map((stat) => {
-        if (stat !== Stats.None) {
+        if (stat !== Stat.None) {
           return (
             <div className="row" key={`stats-${stat}`}>
               <label htmlFor={stat} className="col-sm-2 col-form-label">

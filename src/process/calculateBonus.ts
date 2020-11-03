@@ -1,5 +1,4 @@
-import { ListOfArtifacts } from "models/Artifact";
-import Sets, { AdvancedSets } from "models/Sets";
+import { AdvancedSets, ListOfArtifacts, Sets } from "models";
 
 const calculateBonus = (
   artifacts: ListOfArtifacts

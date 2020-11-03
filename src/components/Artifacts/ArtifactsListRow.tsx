@@ -1,19 +1,17 @@
-import React from "react";
+import ArtifactEditTable from "./ArtifactEditTable";
+import { Artifact, Rarity, Stat, StatsFull } from "models";
 
-import styled from "styled-components";
-import Artifact from "models/Artifact";
-import { Rarity } from "models/Quality";
-import Stats, { StatsFull } from "models/Stats";
-import Wrapper from "components/UI/FlexWrapper";
+import Wrapper from "components/UI/Wrapper";
 
 import { useLanguage } from "lang/LanguageContext";
 import { Language } from "lang/language";
 
 import StarDisplay from "components/UI/StarDisplay";
 import ChampionPortrait from "components/UI/ChampionPortrait";
-import ArtifactEditTable from "./ArtifactEditTable";
+import styled from "styled-components";
+import React from "react";
 
-export interface ArtifactsListRowProps {
+interface ArtifactsListRowProps {
   artifact: Artifact;
 }
 
@@ -35,13 +33,13 @@ const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
 
   const lang = useLanguage();
 
-  const statsDisplay = (stats: Stats, value: number) =>
+  const statsDisplay = (stats: Stat, value: number) =>
     [
-      Stats.AttackPercent,
-      Stats.CriticalDamage,
-      Stats.CriticalRate,
-      Stats.DefensePercent,
-      Stats.HpPercent,
+      Stat.AttackPercent,
+      Stat.CriticalDamage,
+      Stat.CriticalRate,
+      Stat.DefensePercent,
+      Stat.HpPercent,
     ].includes(stats)
       ? `${value}%`
       : value;

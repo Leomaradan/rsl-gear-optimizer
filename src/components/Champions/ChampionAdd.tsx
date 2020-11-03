@@ -1,6 +1,6 @@
+import ChampionForm from "./ChampionForm";
 import React, { useState } from "react";
 import { Plus } from "react-bootstrap-icons";
-import ChampionForm from "./ChampionForm";
 
 const ChampionAdd = (): JSX.Element => {
   const [show, setShow] = useState(false);

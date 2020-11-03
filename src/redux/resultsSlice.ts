@@ -1,15 +1,13 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { ResultsState } from "models/Redux";
-import { Results, ResultsStatus } from "models/Results";
+import { Results, ResultsState, ResultsStatus } from "models";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: ResultsState = {
   data: [],
   status: ResultsStatus.Ready,
 };
 
-export type ResultsGenerateAction = PayloadAction<Results[]>;
+type ResultsGenerateAction = PayloadAction<Results[]>;
 
 const resultsSlice = createSlice({
   name: "results",

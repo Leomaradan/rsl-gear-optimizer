@@ -1,5 +1,5 @@
+import { Language, dictionaryList } from "./language";
 import React, { useContext } from "react";
-import { dictionaryList, Language } from "./language";
 
 export interface LanguageContextDefinition {
   userLanguage: string;

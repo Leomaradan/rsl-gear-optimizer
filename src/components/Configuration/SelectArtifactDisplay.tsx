@@ -1,10 +1,11 @@
 import RadioButtons from "components/UI/RadioButtons";
 import { useLanguage } from "lang/LanguageContext";
-import { ArtifactsDisplayMode } from "models/Configuration";
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { ArtifactsDisplayMode } from "models";
+
 import { setOption } from "redux/configurationSlice";
 import { State } from "redux/reducers";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default ({ inline }: { inline?: boolean }): JSX.Element => {
   const lang = useLanguage();

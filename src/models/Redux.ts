@@ -1,6 +1,5 @@
-import { ArtifactDisplayProps } from "components/UI/ArtifactDisplay";
 import { Champion } from "./Champion";
-import Artifact from "./Artifact";
+import { Artifact } from "./Artifact";
 import { ArtifactsDisplayMode, GenerationMethod } from "./Configuration";
 import { Results, ResultsStatus } from "./Results";
 

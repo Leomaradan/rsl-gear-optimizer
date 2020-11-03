@@ -1,4 +1,4 @@
-import { Rarity } from "models/Quality";
+import { Rarity } from "models";
 
 const getColour = (rarity: Rarity): string => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

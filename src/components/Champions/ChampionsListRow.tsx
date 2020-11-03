@@ -1,18 +1,17 @@
+import ChampionEdit from "./ChampionEdit";
 import ChampionPortrait from "components/UI/ChampionPortrait";
-import Wrapper from "components/UI/FlexWrapper";
+import Wrapper from "components/UI/Wrapper";
 import SetDisplay from "components/UI/SetDisplay";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
 import { Champion, ChampionStatsPriority } from "models/Champion";
 
+import { reorderChampions } from "redux/championsSlice";
+import methodDisplay from "process/methodDisplay";
 import React from "react";
 import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
-import { reorderChampions } from "redux/championsSlice";
 import styled from "styled-components";
-import methodDisplay from "process/methodDisplay";
-import Stats from "models/Stats";
-import ChampionEdit from "./ChampionEdit";
 
 export interface ChampionsListRowProps {
   lengthIndex: number;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export interface ProgressBarProps {
+interface ProgressBarProps {
   current: number;
   max: number;
   label?: string;

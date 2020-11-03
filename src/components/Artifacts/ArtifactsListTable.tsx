@@ -1,8 +1,7 @@
-import React from "react";
-
-import Artifact from "models/Artifact";
-import { useLanguage } from "lang/LanguageContext";
 import ArtifactsListRow from "./ArtifactsListRow";
+import { useLanguage } from "lang/LanguageContext";
+import { Artifact } from "models";
+import React from "react";
 
 export interface ArtifactsListTaleProps {
   artifacts: Artifact[];

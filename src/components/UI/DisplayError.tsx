@@ -1,12 +1,12 @@
+import { Errors } from "models";
 import React from "react";
-import Error from "models/Error";
 
 export default ({
   slot,
   errors,
 }: {
   slot: string;
-  errors: Error;
+  errors: Errors;
 }): JSX.Element => {
   const error = errors.find((e) => e.slot === slot);
 

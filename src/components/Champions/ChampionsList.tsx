@@ -1,12 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import Wrapper from "components/UI/FlexWrapper";
-
-import { State } from "redux/reducers";
-
-import { useLanguage } from "lang/LanguageContext";
 import ChampionAdd from "./ChampionAdd";
 import ChampionsListRow from "./ChampionsListRow";
+import Wrapper from "components/UI/Wrapper";
+import { State } from "redux/reducers";
+import { useLanguage } from "lang/LanguageContext";
+import React from "react";
+import { useSelector } from "react-redux";
 
 const ChampionsList = (): JSX.Element => {
   const champions = useSelector((state: State) => state.champions);

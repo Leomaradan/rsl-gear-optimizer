@@ -1,7 +1,4 @@
-import { Champion } from "models/Champion";
-import { ListOfArtifacts } from "models/Artifact";
-import { Rarity } from "models/Quality";
-import Stats from "models/Stats";
+import { ListOfArtifacts, Champion, Rarity, Stat } from "models";
 
 const calculateScoreEasyMode = (
   artifacts: ListOfArtifacts,
@@ -45,12 +42,12 @@ const calculateScoreEasyMode = (
     : 0;
 
   const statsScore = artifacts.reduce((acc, artifact) => {
-    const artifactStats = artifact.SubStats.map((s) => s?.Stats) as Stats[];
+    const artifactStats = artifact.SubStats.map((s) => s?.Stats) as Stat[];
 
     let sum = acc;
 
     artifactStats.forEach((artifactStat) => {
-      if (artifactStat !== Stats.None) {
+      if (artifactStat !== Stat.None) {
         sum += champion.statsPriority[artifactStat] ?? 0;
       }
     });

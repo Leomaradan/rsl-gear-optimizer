@@ -1,18 +1,18 @@
-import React from "react";
-import { useSelector } from "react-redux";
-
-import { AdvancedSets, SortedExistingSets } from "models/Sets";
+import ArtifactsList from "./ArtifactsList";
+import ArtifactAdd from "./ArtifactAdd";
 import { State } from "redux/reducers";
+
 import SetDisplay from "components/UI/SetDisplay";
 import Accordion, { AccordionSection } from "components/UI/Accordion";
 import { useLanguage } from "lang/LanguageContext";
 import { Language } from "lang/language";
-import BaseWrapper from "components/UI/FlexWrapper";
-import styled from "styled-components";
-import Stack from "components/UI/FlexStack";
+import BaseWrapper from "components/UI/Wrapper";
+import Stack from "components/UI/Stack";
 import SelectArtifactDisplay from "components/Configuration/SelectArtifactDisplay";
-import ArtifactsList from "./ArtifactsList";
-import ArtifactAdd from "./ArtifactAdd";
+import { SortedExistingSets, AdvancedSets } from "models";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import React from "react";
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;

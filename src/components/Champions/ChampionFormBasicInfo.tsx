@@ -1,26 +1,31 @@
-import React, { useMemo } from "react";
-import { ChampionDraft, ChampionSetMethod } from "models/Champion";
-import Sets, { SortedExistingSets } from "models/Sets";
-import Stack from "components/UI/FlexStack";
-import Error from "models/Error";
+import Stack from "components/UI/Stack";
+
 import SetDisplay from "components/UI/SetDisplay";
 import Grid from "components/UI/Grid";
 
 import DropdownSelect, {
   DropdownSelectItem,
 } from "components/UI/DropdownSelect";
-import ChampionsList from "models/ChampionsList";
 
 import { useLanguage } from "lang/LanguageContext";
 import { Language } from "lang/language";
 import RadioButtons from "components/UI/RadioButtons";
 import DisplayError from "components/UI/DisplayError";
 import Toggle from "components/UI/Toggle";
+import {
+  ChampionDraft,
+  Errors,
+  Sets,
+  ChampionsList,
+  ChampionSetMethod,
+  SortedExistingSets,
+} from "models";
+import React, { useMemo } from "react";
 
 export interface ChampionFormBasicInfoProps {
   state: ChampionDraft;
   setState: React.Dispatch<React.SetStateAction<ChampionDraft>>;
-  errors: Error;
+  errors: Errors;
 }
 
 type SetsString = keyof typeof Sets;

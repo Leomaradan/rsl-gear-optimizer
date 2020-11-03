@@ -1,7 +1,7 @@
 import { useLanguage } from "lang/LanguageContext";
 import React, { useState } from "react";
 
-export interface Toggle {
+interface Toggle {
   currentState: boolean;
   name: string;
   label?: string;

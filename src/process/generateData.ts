@@ -1,12 +1,14 @@
-import { Champion } from "models/Champion";
-import Artifact from "models/Artifact";
-import { ResultsRow } from "models/Results";
-import { ResultsWorkerCommands } from "models/Worker";
-import { GenerationMethod } from "models/Configuration";
 import calculateBonus from "./calculateBonus";
 import calculateScoreEasyMode from "./calculateScoreEasyMode";
 import generateTable from "./generateTable";
 import calculateScoreRealStats from "./calculateScoreRealStats";
+import {
+  Artifact,
+  Champion,
+  GenerationMethod,
+  ResultsWorkerCommands,
+  ResultsRow,
+} from "models";
 
 const generateData = (
   artifacts: Artifact[],

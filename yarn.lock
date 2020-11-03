@@ -4867,6 +4867,17 @@ eslint-import-resolver-node@^0.3.2, eslint-import-resolver-node@^0.3.4:
     debug "^2.6.9"
     resolve "^1.13.1"
 
+eslint-import-resolver-typescript@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-typescript/-/eslint-import-resolver-typescript-2.3.0.tgz#0870988098bc6c6419c87705e6b42bee89425445"
+  integrity sha512-MHSXvmj5e0SGOOBhBbt7C+fWj1bJbtSYFAD85Xeg8nvUtuooTod2HQb8bfhE9f5QyyNxEfgzqOYFCvmdDIcCuw==
+  dependencies:
+    debug "^4.1.1"
+    glob "^7.1.6"
+    is-glob "^4.0.1"
+    resolve "^1.17.0"
+    tsconfig-paths "^3.9.0"
+
 eslint-loader@3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-3.0.3.tgz#e018e3d2722381d982b1201adb56819c73b480ca"
@@ -4911,7 +4922,7 @@ eslint-plugin-import@2.20.1:
     read-pkg-up "^2.0.0"
     resolve "^1.12.0"
 
-eslint-plugin-import@2.22.1:
+eslint-plugin-import@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.22.1.tgz#0896c7e6a0cf44109a2d97b95903c2bb689d7702"
   integrity sha512-8K7JjINHOpH64ozkAhpT3sd+FswIZTfMZTjdx052pnWrgRCVfp8op9tbjpAk3DdUeI/Ba4C8OjdC0r90erHEOw==
@@ -5026,6 +5037,20 @@ eslint-plugin-react@7.20.0:
     string.prototype.matchall "^4.0.2"
     xregexp "^4.3.0"
 
+"eslint-plugin-sonarjs@npm:eslint-plugin-sonarjs-6":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-sonarjs-6/-/eslint-plugin-sonarjs-6-0.6.0.tgz#1ac899afd5a6ed177ec239aeaf65d1c2f14e789a"
+  integrity sha512-WrW+gxzpaMDzfqvGTZvfz+suwNea7AFoKgWWJdDJX7pHZw892ZL4f2/a36th0lIoJ6goocHbpOUUNS3Kiuc4pQ==
+
+eslint-plugin-web@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-web/-/eslint-plugin-web-0.0.2.tgz#d859ebf44f44a0be39a046ed608c4585022f8457"
+  integrity sha512-Qp1m7JKBGgrhc1JNsKpgZ4W7ntq+GTi25OnaUTIRUY5jHbfVQa60XtgBR9t4bpRpfS9t2fivF5UckNWMpF9CyQ==
+  dependencies:
+    espree "^6.0.0"
+    esutils "^2.0.2"
+    lodash "^4.17.11"
+
 eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
@@ -5109,7 +5134,7 @@ eslint@^6.6.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-espree@^6.1.2:
+espree@^6.0.0, espree@^6.1.2:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/espree/-/espree-6.2.1.tgz#77fc72e1fd744a2052c20f38a5b575832e82734a"
   integrity sha512-ysCxRQY3WaXJz9tdbWOwuWr5Y/XrPTGX9Kiz3yoUXwW0VZ4w30HTkQLaGx/+ttFjF8i+ACbArnB4ce68a9m5hw==

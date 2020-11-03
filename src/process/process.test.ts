@@ -1,11 +1,8 @@
-import Artifact, { ListOfArtifacts } from "models/Artifact";
-import { Orderable } from "models/Orderable";
-import Sets from "models/Sets";
-import Slots from "models/Slots";
 import calculateBonus from "./calculateBonus";
 import generateTable from "./generateTable";
 
 import reorder from "./reorder";
+import { Artifact, ListOfArtifacts, Orderable, Sets, Slots } from "models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {

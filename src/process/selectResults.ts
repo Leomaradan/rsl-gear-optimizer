@@ -1,9 +1,8 @@
-import { Results, ResultsDraft } from "models/Results";
-import { ResultsWorkerCommands } from "models/Worker";
+import { Results, ResultsDraft, ResultsWorkerCommands } from "models";
 
 const selectResult = (
   results: ResultsDraft[],
-  postCommand?: (command: ResultsWorkerCommands) => void
+  postCommand: (command: ResultsWorkerCommands) => void
 ): Results[] => {
   const takenArtifacts: string[] = [];
   const response: Results[] = results.map((r) => ({
@@ -12,35 +11,36 @@ const selectResult = (
     artifacts: null,
   }));
 
-  results.forEach((result, index) => {
-    if (response[index].selected === -1) {
-      result.result.sort((a, b) => b.score - a.score);
+  results.some((result, index) => {
+    result.result.sort((a, b) => b.score - a.score);
 
-      result.result.forEach((line) => {
-        if (response[index].selected === -1) {
-          let ok = true;
-          if (postCommand && index % 1000 === 0) {
-            postCommand({
-              command: "progress",
-              current: index,
-              task: "taskSelectResults",
-            });
-          }
+    result.result.some((line) => {
+      let ok = true;
 
-          line.artifacts.forEach((artifact) => {
-            if (takenArtifacts.includes(artifact.Guid as string)) {
-              ok = false;
-            }
-          });
-
-          if (ok) {
-            response[index].selected = line.id;
-            response[index].artifacts = line;
-            takenArtifacts.push(...line.artifacts.map((i) => i.Guid as string));
-          }
+      if (index % 1000 === 0) {
+        postCommand({
+          command: "progress",
+          current: index,
+          task: "taskSelectResults",
+        });
+      }
+      line.artifacts.forEach((artifact) => {
+        if (takenArtifacts.includes(artifact.Guid as string)) {
+          ok = false;
         }
       });
-    }
+
+      if (ok) {
+        response[index].selected = line.id;
+        response[index].artifacts = line;
+        takenArtifacts.push(...line.artifacts.map((i) => i.Guid as string));
+        return true;
+      }
+
+      return false;
+    });
+
+    return response[index].selected !== -1;
   });
 
   return response;

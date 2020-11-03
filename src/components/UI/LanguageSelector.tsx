@@ -1,10 +1,10 @@
-import React, { ChangeEvent, useContext, useEffect } from "react";
-
-import localforage from "localforage";
 import LanguageContext, {
   LanguageContextDefinition,
 } from "lang/LanguageContext";
 import { languageOptions } from "lang/language";
+import React, { ChangeEvent, useContext, useEffect } from "react";
+
+import localforage from "localforage";
 
 export default (): JSX.Element => {
   const { userLanguage, userLanguageChange } = useContext<
