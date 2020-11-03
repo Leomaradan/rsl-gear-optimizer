@@ -1,6 +1,6 @@
 import { Results, ResultsDraft, ResultsWorkerCommands } from "models";
 
-const selectResult = (
+const selectResults = (
   results: ResultsDraft[],
   postCommand: (command: ResultsWorkerCommands) => void
 ): Results[] => {
@@ -25,7 +25,7 @@ const selectResult = (
         });
       }
       line.artifacts.forEach((artifact) => {
-        if (takenArtifacts.includes(artifact.Guid as string)) {
+        if (takenArtifacts.includes(artifact.Guid)) {
           ok = false;
         }
       });
@@ -33,7 +33,7 @@ const selectResult = (
       if (ok) {
         response[index].selected = line.id;
         response[index].artifacts = line;
-        takenArtifacts.push(...line.artifacts.map((i) => i.Guid as string));
+        takenArtifacts.push(...line.artifacts.map((i) => i.Guid));
         return true;
       }
 
@@ -46,4 +46,4 @@ const selectResult = (
   return response;
 };
 
-export default selectResult;
+export default selectResults;

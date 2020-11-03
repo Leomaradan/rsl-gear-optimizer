@@ -80,7 +80,7 @@ export const ExistingSets: Sets[] = [
   Sets.Perception,
 ];
 
-export const SortedExistingSets: Sets[] = ExistingSets.sort();
+export const SortedExistingSets: Sets[] = [...ExistingSets].sort();
 
 export const AdvancedSets = [
   Sets.Lifesteal,

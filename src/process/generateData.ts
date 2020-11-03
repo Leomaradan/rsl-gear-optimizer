@@ -13,8 +13,8 @@ import {
 const generateData = (
   artifacts: Artifact[],
   champion: Champion,
-  forceComplete = false,
   generationMethod: GenerationMethod,
+  forceComplete = false,
   postCommand?: (command: ResultsWorkerCommands) => void
 ): ResultsRow[] => {
   const table = generateTable(artifacts, postCommand);

@@ -29,7 +29,7 @@ export default ({
 
     if (stat) {
       setState((current) => {
-        let newStats = current[slot];
+        let newStats: Stat[];
         if (current[slot].includes(stat)) {
           newStats = current[slot].filter((s) => s !== stat);
         } else {

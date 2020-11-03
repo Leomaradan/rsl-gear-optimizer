@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 
 import generateData from "./generateData";
-import selectResult from "./selectResults";
+import selectResults from "./selectResults";
 import {
   ResultsWorkerCommands,
   ResultsWorkerEventGenerate,
@@ -43,8 +43,8 @@ class CombinationWorker {
       const result = generateData(
         filtererdArtifacts,
         champion,
-        champion.methods === ChampionSetMethod.RequireSets,
         generationMethod,
+        champion.methods === ChampionSetMethod.RequireSets,
         postCommand
       );
 
@@ -58,7 +58,7 @@ class CombinationWorker {
       });
     });
 
-    return selectResult(results, postCommand);
+    return selectResults(results, postCommand);
   }
 }
 

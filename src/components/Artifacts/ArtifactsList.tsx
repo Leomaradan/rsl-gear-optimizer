@@ -69,7 +69,7 @@ export default (props: ArtifactsListProps): JSX.Element => {
     (state: State) => state.configuration.artifactsDisplay
   );
 
-  const sorted = artifacts.sort((a, b) => {
+  const sorted = [...artifacts].sort((a, b) => {
     const scoreA = sortScore(a);
     const scoreB = sortScore(b);
 

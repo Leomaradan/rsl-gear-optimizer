@@ -57,7 +57,7 @@ export default ({
       const set = Sets[setKey as SetsString];
 
       setState((current) => {
-        let newSets = current.sets;
+        let newSets: Sets[];
         if (current.sets.includes(set)) {
           newSets = current.sets.filter((s) => s !== set);
         } else {

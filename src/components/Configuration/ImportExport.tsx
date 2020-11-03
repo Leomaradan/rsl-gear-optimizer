@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/cognitive-complexity */
 import Stack from "components/UI/Stack";
 import Modal from "components/UI/Modal";
 
