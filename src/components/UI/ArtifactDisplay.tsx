@@ -70,7 +70,7 @@ const ArtifactDisplay = ({
     return (
       <ArtifactWrapper artifact={artifact} size={size} faded={!!faded}>
         <ArtifactImage
-          src={require(`raid-data/images/ItemSets/${filename}.png`)}
+          src={`assets/ItemSets/${filename}.png`}
           alt={`${artifact.Set} ${artifact.Slot}`}
         />
         <StarContainer size={size}>

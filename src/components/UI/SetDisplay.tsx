@@ -9,12 +9,10 @@ const Image = styled.img<{ size?: number }>`
   ${(props) => (props.size ? `width: ${props.size}px` : "")};
 `;
 
-export default ({ set, size }: { set: Sets; size?: number }): JSX.Element => {
-  try {
-    const url = require(`raid-data/images/ItemSetIcons/${SetsIconName[set]}.png`);
-
-    return <Image size={size} src={url} alt={`${set}`} />;
-  } catch {
-    return <></>;
-  }
-};
+export default ({ set, size }: { set: Sets; size?: number }): JSX.Element => (
+  <Image
+    size={size}
+    src={`assets/ItemSetIcons/${SetsIconName[set]}.png`}
+    alt={`${set}`}
+  />
+);
