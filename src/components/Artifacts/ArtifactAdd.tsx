@@ -14,7 +14,7 @@ const ArtifactAdd = (): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const emptyArtifact: ArtifactDraft = {
-    Level: 1,
+    Level: 0,
     MainStats: StatsBySlots.Weapon[0],
     Quality: 1,
     Rarity: Rarity.Common,

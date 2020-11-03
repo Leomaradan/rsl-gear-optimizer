@@ -24,13 +24,14 @@ const Tab = styled.li.attrs((p: { active: boolean }) => ({
   className: classNames("nav-item", {
     active: p.active,
   }),
-}))<{ active: boolean }>`
+})) <{ active: boolean }>`
   cursor: pointer;
 `;
 
 export default (props: TabsProps): JSX.Element => {
   const { tabs, defaultTabs, widget, main } = props;
 
+  const [show, updateShow] = useState(false);
   const [activeTabs, setTabs] = useState(defaultTabs ?? tabs[0].id ?? "");
   const lang = useLanguage();
   return (
@@ -46,10 +47,11 @@ export default (props: TabsProps): JSX.Element => {
           data-toggle="collapse"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          onClick={() => { updateShow(!show) }}
         >
           <span className="navbar-toggler-icon" />
         </button>
-        <div className="collapse navbar-collapse">
+        <div className={classNames("collapse navbar-collapse", { show })}>
           <ul className="navbar-nav">
             {tabs.map((tab) => (
               <Tab active={tab.id === activeTabs} key={tab.id}>
@@ -61,6 +63,7 @@ export default (props: TabsProps): JSX.Element => {
                   href="#"
                   onClick={() => {
                     setTabs(tab.id);
+                    updateShow(false);
                   }}
                 >
                   {lang[tab.title as keyof Language]}
