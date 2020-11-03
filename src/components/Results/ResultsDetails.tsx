@@ -1,18 +1,18 @@
+import ResultsModal from "./ResultsModal";
 import ProgressBar from "components/UI/ProgressBar";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
 
-import React from "react";
-import { useSelector } from "react-redux";
 import { State } from "redux/reducers";
-import styled from "styled-components";
 import methodDisplay from "process/methodDisplay";
 import ArtifactDisplay from "components/UI/ArtifactDisplay";
 import ChampionPortrait from "components/UI/ChampionPortrait";
 import SetDisplay from "components/UI/SetDisplay";
-import { ChampionSetMethod } from "models/Champion";
 
-import ResultsModal from "./ResultsModal";
+import { ChampionSetMethod } from "models";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import React from "react";
 
 const NameContainer = styled.div`
   padding: 0.75rem;

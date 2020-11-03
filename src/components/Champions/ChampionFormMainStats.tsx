@@ -1,19 +1,17 @@
-import React from "react";
-import Stats from "models/Stats";
-import Stack from "components/UI/FlexStack";
-import Error from "models/Error";
-import { ChampionDraft } from "models/Champion";
-import { StatsBySlots } from "models/Artifact";
+import DisplayError from "../UI/DisplayError";
+import Stack from "components/UI/Stack";
+
 import Grid from "components/UI/Grid";
 
 import { useLanguage } from "lang/LanguageContext";
 import { Language } from "lang/language";
-import DisplayError from "../UI/DisplayError";
+import { ChampionDraft, Errors, Stat, StatsBySlots } from "models";
+import React from "react";
 
-export interface ChampionFormMainStatsProps {
+interface ChampionFormMainStatsProps {
   state: ChampionDraft;
   setState: React.Dispatch<React.SetStateAction<ChampionDraft>>;
-  errors: Error;
+  errors: Errors;
 }
 
 export default ({
@@ -27,11 +25,11 @@ export default ({
     event: React.ChangeEvent<HTMLInputElement>,
     slot: "gauntletStats" | "chestplateStats" | "bootsStats"
   ) => {
-    const stat = event?.target?.value as Stats;
+    const stat = event?.target?.value as Stat;
 
     if (stat) {
       setState((current) => {
-        let newStats = current[slot];
+        let newStats: Stat[];
         if (current[slot].includes(stat)) {
           newStats = current[slot].filter((s) => s !== stat);
         } else {

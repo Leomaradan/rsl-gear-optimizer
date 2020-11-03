@@ -1,10 +1,15 @@
-import { useLanguage } from "lang/LanguageContext";
-import Artifact, { ArtifactDraft, StatsBySlots } from "models/Artifact";
-import { Rarity } from "models/Quality";
-import Sets from "models/Sets";
-import Slots from "models/Slots";
-import React, { useState } from "react";
 import ArtifactForm from "./ArtifactForm";
+import { useLanguage } from "lang/LanguageContext";
+import {
+  ArtifactDraft,
+  StatsBySlots,
+  Rarity,
+  Slots,
+  Sets,
+  Artifact,
+} from "models";
+
+import React, { useState } from "react";
 
 const ArtifactAdd = (): JSX.Element => {
   const [show, setShow] = useState(false);

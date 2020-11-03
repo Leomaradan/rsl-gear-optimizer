@@ -1,15 +1,12 @@
+import ArtifactsListGrid from "./ArtifactsListGrid";
+import ArtifactsListTable from "./ArtifactsListTable";
+import { State } from "redux/reducers";
+import { Artifact, Slots, Rarity, ArtifactsDisplayMode } from "models";
 import React from "react";
 
-import Artifact from "models/Artifact";
-import { Rarity } from "models/Quality";
-import Slots from "models/Slots";
 import { useSelector } from "react-redux";
-import { State } from "redux/reducers";
-import { ArtifactsDisplayMode } from "models/Configuration";
-import ArtifactsListTable from "./ArtifactsListTable";
-import ArtifactsListGrid from "./ArtifactsListGrid";
 
-export interface ArtifactsListProps {
+interface ArtifactsListProps {
   artifacts: Artifact[];
 }
 
@@ -72,7 +69,7 @@ export default (props: ArtifactsListProps): JSX.Element => {
     (state: State) => state.configuration.artifactsDisplay
   );
 
-  const sorted = artifacts.sort((a, b) => {
+  const sorted = [...artifacts].sort((a, b) => {
     const scoreA = sortScore(a);
     const scoreB = sortScore(b);
 

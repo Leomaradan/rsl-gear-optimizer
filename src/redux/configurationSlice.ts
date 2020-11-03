@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ArtifactsDisplayMode, GenerationMethod } from "models/Configuration";
 
-import { ConfigurationOptions, ConfigurationState } from "models/Redux";
+import { ConfigurationOptions, ConfigurationState } from "models";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: ConfigurationState = {
   artifactsDisplay: ArtifactsDisplayMode.Table,
@@ -9,7 +9,7 @@ const initialState: ConfigurationState = {
   generationMethod: GenerationMethod.Easy,
 };
 
-export type ConfigurationSetOptionAction = PayloadAction<{
+type ConfigurationSetOptionAction = PayloadAction<{
   option: ConfigurationOptions;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;

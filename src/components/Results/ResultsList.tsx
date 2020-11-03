@@ -4,7 +4,7 @@ import SetDisplay from "components/UI/SetDisplay";
 import { useLanguage } from "lang/LanguageContext";
 import { Results, ResultsRow } from "models/Results";
 import React, { memo } from "react";
-import { areEqual, VariableSizeGrid as Grid } from "react-window";
+import { VariableSizeGrid as Grid, areEqual } from "react-window";
 
 import AutoSizer from "react-virtualized-auto-sizer";
 import styled from "styled-components";

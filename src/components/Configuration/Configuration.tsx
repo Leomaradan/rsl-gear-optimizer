@@ -1,15 +1,16 @@
+import SelectArtifactDisplay from "./SelectArtifactDisplay";
+import ImportExport from "./ImportExport";
 import LanguageSelector from "components/UI/LanguageSelector";
 import RadioButtons from "components/UI/RadioButtons";
 import { useLanguage } from "lang/LanguageContext";
-import { GenerationMethod } from "models/Configuration";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { setOption } from "redux/configurationSlice";
 import { State } from "redux/reducers";
-import styled from "styled-components";
 import Toggle from "components/UI/Toggle";
-import SelectArtifactDisplay from "./SelectArtifactDisplay";
-import ImportExport from "./ImportExport";
+import { GenerationMethod } from "models";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 const FormRow = styled.div.attrs(() => ({ className: "form-group row" }))``;
 const FormLabel = styled.label.attrs(() => ({

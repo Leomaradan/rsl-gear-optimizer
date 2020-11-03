@@ -1,17 +1,16 @@
-import React, { useContext, useEffect } from "react";
-
-import Configuration from "components/Configuration/Configuration";
-import styled from "styled-components";
-import LanguageContext, {
-  LanguageContextDefinition,
-} from "lang/LanguageContext";
-import { Helmet } from "react-helmet-async";
-import localforage from "localforage";
 import Results from "./components/Results/Results";
 import Artifacts from "./components/Artifacts/Artifacts";
 import ChampionsList from "./components/Champions/ChampionsList";
 import Home from "./Home";
 import Tabs, { TabProps } from "./components/UI/Tabs";
+import LanguageContext, {
+  LanguageContextDefinition,
+} from "lang/LanguageContext";
+import Configuration from "components/Configuration/Configuration";
+import localforage from "localforage";
+import { Helmet } from "react-helmet-async";
+import styled from "styled-components";
+import React, { useContext, useEffect } from "react";
 
 const Layout = styled.div.attrs(() => ({ className: "container" }))`
   padding: 30px;

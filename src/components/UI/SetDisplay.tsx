@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
+import { Sets, SetsIconName } from "models";
 import React from "react";
 import styled from "styled-components";
-import Sets, { SetsIconName } from "models/Sets";
 
 const Image = styled.img<{ size?: number }>`
   ${(props) => (props.size ? `width: ${props.size}px` : "")};

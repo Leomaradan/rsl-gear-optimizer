@@ -1,12 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import Artifact from "models/Artifact";
-import ArtifactDisplay from "components/UI/ArtifactDisplay";
-import Stack from "components/UI/FlexStack";
-import Wrapper from "components/UI/FlexWrapper";
 import ArtifactEditGrid from "./ArtifactEditGrid";
+import ArtifactDisplay from "components/UI/ArtifactDisplay";
 
-export interface ArtifactsListGridProps {
+import Stack from "components/UI/Stack";
+import Wrapper from "components/UI/Wrapper";
+import { Artifact } from "models";
+import styled from "styled-components";
+import React from "react";
+
+interface ArtifactsListGridProps {
   artifacts: Artifact[];
 }
 

@@ -1,4 +1,4 @@
-enum Slots {
+export enum Slots {
   Weapon = "Weapon",
   Helmet = "Helmet",
   Shield = "Shield",
@@ -21,5 +21,3 @@ export const SlotsIconName: { [key: string]: string } = {
   [Slots.Amulet]: "Pendant",
   [Slots.Banner]: "Banner",
 };
-
-export default Slots;

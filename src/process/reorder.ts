@@ -1,4 +1,4 @@
-import { Orderable } from "models/Orderable";
+import { Orderable } from "models";
 
 const reorder = <T extends Orderable>(
   list: T[],

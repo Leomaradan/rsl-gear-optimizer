@@ -1,13 +1,13 @@
+import ResultsDetails from "./ResultsDetails";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
-import { GenerationMethod } from "models/Configuration";
-import { ResultsStatus } from "models/Results";
+import { GenerationMethod, ResultsStatus } from "models";
+
 import generateCombination from "process/runWorker";
+import { State } from "redux/reducers";
 import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { State } from "redux/reducers";
-import ResultsDetails from "./ResultsDetails";
 
 const Results = (): JSX.Element => {
   const lang = useLanguage();

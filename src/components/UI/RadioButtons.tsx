@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 
-export interface RadioButtonsProps {
+interface RadioButtonsProps {
   options: { value: string | number; text: string; disabled?: boolean }[];
   selectedOption: string | number;
   name: string;
@@ -9,7 +9,7 @@ export interface RadioButtonsProps {
   inline?: boolean;
 }
 
-const RadioButtons = ({
+export default ({
   name,
   options,
   selectedOption,
@@ -47,5 +47,3 @@ const RadioButtons = ({
     </>
   );
 };
-
-export default RadioButtons;

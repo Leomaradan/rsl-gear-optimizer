@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+export default styled.div`
   display: flex;
+  flex-direction: column;
   gap: 5px;
-  flex-wrap: wrap;
+  height: 100%;
 `;
-
-export default Wrapper;

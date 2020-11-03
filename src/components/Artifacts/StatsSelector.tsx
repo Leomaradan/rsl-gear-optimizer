@@ -1,17 +1,17 @@
-import React from "react";
-import Stats from "models/Stats";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
+import { Stat } from "models";
+import React from "react";
 
-export interface StatsSelectorProps {
-  availableStats: Stats[];
-  currentStats?: Stats;
+interface StatsSelectorProps {
+  availableStats: Stat[];
+  currentStats?: Stat;
   disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   id?: string;
 }
 
-const StatsSelector = ({
+export default ({
   availableStats,
   currentStats,
   disabled,
@@ -36,5 +36,3 @@ const StatsSelector = ({
     </select>
   );
 };
-
-export default StatsSelector;

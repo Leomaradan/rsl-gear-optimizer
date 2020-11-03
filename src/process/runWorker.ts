@@ -1,15 +1,19 @@
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import CombinationWorker from "worker-loader!process/combination.worker";
-
-import Artifact from "models/Artifact";
+/* eslint-disable import/no-webpack-loader-syntax */
 import {
   resultsDoneGeneration,
   resultsStartGeneration,
 } from "redux/resultsSlice";
+import {
+  Artifact,
+  Champion,
+  GenerationMethod,
+  ResultsWorkerCommands,
+  ResultsWorkerEvents,
+} from "models";
+// eslint-disable-next-line import/no-unresolved
+import CombinationWorker from "worker-loader!process/combination.worker";
+
 import { Dispatch } from "@reduxjs/toolkit";
-import { Champion } from "models/Champion";
-import { ResultsWorkerCommands, ResultsWorkerEvents } from "models/Worker";
-import { GenerationMethod } from "models/Configuration";
 
 const log = (message: string) => {
   if (process.env.NODE_ENV !== "production") {

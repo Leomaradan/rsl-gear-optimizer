@@ -1,8 +1,8 @@
+import { Stars } from "models";
 import React from "react";
 import styled from "styled-components";
-import { Stars } from "models/Quality";
 
-export interface StatsSelectorProps {
+interface StatsSelectorProps {
   maxQuality?: Stars;
   currentQuality?: Stars;
   onChange: (quality: Stars) => void;
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   width: 125px;
 `;
 
-const QualitySelector = ({
+export default ({
   maxQuality,
   currentQuality,
   onChange,
@@ -50,5 +50,3 @@ const QualitySelector = ({
     </Wrapper>
   );
 };
-
-export default QualitySelector;

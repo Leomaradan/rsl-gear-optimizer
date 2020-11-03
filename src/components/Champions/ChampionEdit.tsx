@@ -1,9 +1,9 @@
+import ChampionForm from "./ChampionForm";
+import { Champion } from "models";
+import { deleteChampions } from "redux/championsSlice";
 import React, { useState } from "react";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
-import { deleteChampions } from "redux/championsSlice";
-import { Champion } from "models/Champion";
-import ChampionForm from "./ChampionForm";
 
 export interface ChampionEditProps {
   champion: Champion;

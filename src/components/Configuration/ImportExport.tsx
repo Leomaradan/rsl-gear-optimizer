@@ -1,21 +1,31 @@
-import classNames from "classnames";
-import Stack from "components/UI/FlexStack";
+import Stack from "components/UI/Stack";
 import Modal from "components/UI/Modal";
-import { ChampionDraft, ChampionSetMethod } from "models/Champion";
+
 import { RarityFromString, RarityString, Stars } from "models/Quality";
-import Sets, { ExistingSets } from "models/Sets";
-import Stats, { ExistingStats, StatsFull } from "models/Stats";
-import React, { ChangeEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { State } from "redux/reducers";
-import styled from "styled-components";
-import ChampionsList from "models/ChampionsList";
-import Artifact, { ArtifactDraft } from "models/Artifact";
-import Slots from "models/Slots";
+
 import { validateArtifact } from "components/Artifacts/ArtifactForm";
 import { loadArtifacts } from "redux/artifactsSlice";
 import { loadChampions } from "redux/championsSlice";
 import { useLanguage } from "lang/LanguageContext";
+import {
+  Artifact,
+  ArtifactDraft,
+  ChampionDraft,
+  ChampionSetMethod,
+  ChampionsList,
+  ExistingSets,
+  ExistingStats,
+  Sets,
+  Slots,
+  Stat,
+  StatsFull,
+} from "models";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import React, { ChangeEvent, useState } from "react";
+import classNames from "classnames";
 
 interface ButtonProps {
   variant: string;
@@ -77,7 +87,7 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
 
       const [gauntletStats, chestplateStats, bootsStats] = fields
         .slice(15)
-        .map((s) => s.split(",").sort() as Stats[]);
+        .map((s) => s.split(",").sort() as Stat[]);
 
       if (!ChampionsList.includes(champion)) {
         throw Error(champion);
@@ -229,7 +239,7 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       const Level = parseInt(fields[4], 10);
       const Champion = fields[5];
 
-      const MainStats = fields[6] as Stats;
+      const MainStats = fields[6] as Stat;
       const MainStatsValue = parseInt(fields[7], 10);
 
       const SubStats: [StatsFull?, StatsFull?, StatsFull?, StatsFull?] = [
@@ -239,7 +249,7 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         undefined,
       ];
 
-      const subStat1 = fields[8] as Stats;
+      const subStat1 = fields[8] as Stat;
       const subValue1 = parseInt(fields[9], 10);
       const subRolls1 = parseInt(fields[10], 10);
       const subRune1 = parseInt(fields[11], 10);
@@ -252,7 +262,7 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         };
       }
 
-      const subStat2 = fields[12] as Stats;
+      const subStat2 = fields[12] as Stat;
       const subValue2 = parseInt(fields[13], 10);
       const subRolls2 = parseInt(fields[14], 10);
       const subRune2 = parseInt(fields[15], 10);
@@ -265,7 +275,7 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         };
       }
 
-      const subStat3 = fields[16] as Stats;
+      const subStat3 = fields[16] as Stat;
       const subValue3 = parseInt(fields[17], 10);
       const subRolls3 = parseInt(fields[18], 10);
       const subRune3 = parseInt(fields[19], 10);
@@ -278,7 +288,7 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         };
       }
 
-      const subStat4 = fields[20] as Stats;
+      const subStat4 = fields[20] as Stat;
       const subValue4 = parseInt(fields[21], 10);
       const subRolls4 = parseInt(fields[22], 10);
       const subRune4 = parseInt(fields[23], 10);
@@ -333,10 +343,8 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       }
 
       SubStats.forEach((sub) => {
-        if (sub) {
-          if (!ExistingStats.includes(sub.Stats)) {
-            throw Error(JSON.stringify(sub));
-          }
+        if (sub && !ExistingStats.includes(sub.Stats)) {
+          throw Error(JSON.stringify(sub));
         }
       });
 

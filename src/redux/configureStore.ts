@@ -1,8 +1,8 @@
-import { configureStore, EnhancedStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer, Persistor } from "redux-persist";
+import rootReducer from "./reducers";
+import { EnhancedStore, configureStore } from "@reduxjs/toolkit";
+import { Persistor, persistReducer, persistStore } from "redux-persist";
 import localforage from "localforage";
 import logger from "redux-logger";
-import rootReducer from "./reducers";
 
 const persistConfig = {
   key: "root",

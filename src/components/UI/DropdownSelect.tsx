@@ -9,7 +9,7 @@ export interface DropdownSelectItem {
   text: string;
 }
 
-export interface DropdownSelectProps {
+interface DropdownSelectProps {
   items: DropdownSelectItem[];
   value: string;
   onChange(value: DropdownSelectItem | null): void;

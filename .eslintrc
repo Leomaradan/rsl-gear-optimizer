@@ -7,9 +7,13 @@
     "prettier",
     "prettier/react",
     "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:web/all",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
-  "plugins": ["react", "@typescript-eslint", "jest", "only-warn"],
+  "plugins": ["react", "@typescript-eslint", "jest", "only-warn", "sonarjs"],
   "env": {
     "browser": true,
     "es6": true,
@@ -35,6 +39,43 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "sonarjs/cognitive-complexity": "off",
+    "import/no-absolute-path": "warn",
+    "import/no-dynamic-require": "warn",
+    "import/no-self-import": "warn",
+    "import/no-cycle": "warn",
+    "import/no-useless-path-segments": "warn",
+    "import/no-deprecated": "warn",
+    "import/no-mutable-exports": "warn",
+    "import/unambiguous": "warn",
+    "import/no-commonjs": "warn",
+    "import/no-amd": "warn",
+    "import/no-nodejs-modules": "warn",
+    "import/first": "warn",
+    "import/no-namespace": "warn",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "index",
+          "sibling",
+          "parent",
+          "internal",
+          "external",
+          "builtin",
+          "object"
+        ]
+      }
+    ],
+    "import/newline-after-import": "warn",
+    "import/prefer-default-export": "warn",
+    "import/no-unassigned-import": ["warn", { "allow": ["**/*.scss"] }],
+    "import/no-named-default": "warn"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
   }
 }

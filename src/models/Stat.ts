@@ -1,4 +1,4 @@
-enum Stats {
+export enum Stat {
   None = "",
   HP = "HP",
   HpPercent = "HP%",
@@ -14,24 +14,22 @@ enum Stats {
 }
 
 export const ExistingStats = [
-  Stats.HP,
-  Stats.HpPercent,
-  Stats.Attack,
-  Stats.AttackPercent,
-  Stats.Defense,
-  Stats.DefensePercent,
-  Stats.Speed,
-  Stats.CriticalRate,
-  Stats.CriticalDamage,
-  Stats.Resistance,
-  Stats.Accuracy,
+  Stat.HP,
+  Stat.HpPercent,
+  Stat.Attack,
+  Stat.AttackPercent,
+  Stat.Defense,
+  Stat.DefensePercent,
+  Stat.Speed,
+  Stat.CriticalRate,
+  Stat.CriticalDamage,
+  Stat.Resistance,
+  Stat.Accuracy,
 ];
 
 export interface StatsFull {
-  Stats: Stats;
+  Stats: Stat;
   Value: number;
   Rune: number;
   Roll: number;
 }
-
-export default Stats;

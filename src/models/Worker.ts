@@ -1,5 +1,5 @@
 import { Champion } from "./Champion";
-import Artifact from "./Artifact";
+import { Artifact } from "./Artifact";
 import { Results } from "./Results";
 import { GenerationMethod } from "./Configuration";
 

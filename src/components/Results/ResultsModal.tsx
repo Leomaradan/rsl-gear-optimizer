@@ -1,11 +1,11 @@
+import ResultsList from "./ResultsList";
 import Modal from "components/UI/Modal";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
-import { Results } from "models/Results";
+import { Results } from "models";
 
 import React, { useState } from "react";
 import { ZoomIn } from "react-bootstrap-icons";
-import ResultsList from "./ResultsList";
 
 export interface ResultsModalProps {
   result: Results;

@@ -1,6 +1,7 @@
 import Champions from "raid-data/champions-base-info.json";
 
-const ChampionsList: string[] = [];
+// eslint-disable-next-line import/prefer-default-export
+export const ChampionsList: string[] = [];
 
 if (ChampionsList.length === 0) {
   ChampionsList.push(
@@ -9,5 +10,3 @@ if (ChampionsList.length === 0) {
     )
   );
 }
-
-export default ChampionsList;

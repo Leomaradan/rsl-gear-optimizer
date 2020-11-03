@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
-export interface ModalProps {
+interface ModalProps {
   title: JSX.Element | string;
   content: JSX.Element;
   show: boolean;

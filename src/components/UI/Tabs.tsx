@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import classNames from "classnames";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
+import classNames from "classnames";
 
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -13,7 +13,7 @@ export interface TabProps {
   disable?: boolean;
 }
 
-export interface TabsProps {
+interface TabsProps {
   tabs: TabProps[];
   defaultTabs?: string;
   widget?: JSX.Element;
@@ -24,7 +24,7 @@ const Tab = styled.li.attrs((p: { active: boolean }) => ({
   className: classNames("nav-item", {
     active: p.active,
   }),
-})) <{ active: boolean }>`
+}))<{ active: boolean }>`
   cursor: pointer;
 `;
 
@@ -47,7 +47,9 @@ export default (props: TabsProps): JSX.Element => {
           data-toggle="collapse"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          onClick={() => { updateShow(!show) }}
+          onClick={() => {
+            updateShow(!show);
+          }}
         >
           <span className="navbar-toggler-icon" />
         </button>

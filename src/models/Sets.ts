@@ -1,4 +1,4 @@
-enum Sets {
+export enum Sets {
   Null = "",
   Life = "Life",
   Offense = "Offense",
@@ -80,7 +80,7 @@ export const ExistingSets: Sets[] = [
   Sets.Perception,
 ];
 
-export const SortedExistingSets: Sets[] = ExistingSets.sort();
+export const SortedExistingSets: Sets[] = [...ExistingSets].sort();
 
 export const AdvancedSets = [
   Sets.Lifesteal,
@@ -156,5 +156,3 @@ export const SetsIconName: { [key: string]: string } = {
   [Sets.Resilience]: "Resilience",
   [Sets.Perception]: "Perception",
 };
-
-export default Sets;

@@ -1,6 +1,6 @@
 {
   "btnExportArtifacts": "Export Artifact's List",
-  "btnExportChampions":"Export Champion's List",
+  "btnExportChampions": "Export Champion's List",
   "btnGenerateCombination": "Generate Results",
   "btnImportArtifactsOrChampions": "Import Artifacts or Champion's List",
   "championAbbess": "Abbess",
@@ -17,7 +17,7 @@
   "championAnointed": "Anointed",
   "championAothar": "Aothar",
   "championApothecary": "Apothecary",
-  "championArbalester": "Arbalester", 
+  "championArbalester": "Arbalester",
   "championArbiter": "Arbiter",
   "championArcanist": "Arcanist",
   "championArcher": "Archer",

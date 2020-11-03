@@ -1,11 +1,8 @@
-import { Champion } from "models/Champion";
-import { ListOfArtifacts } from "models/Artifact";
-import { Stars } from "models/Quality";
-import Stats, { StatsFull } from "models/Stats";
+import { Stars, ListOfArtifacts, Champion, Stat, StatsFull } from "models";
 
-const statsWeight = (stats: Stats, quality: Stars) => {
+const statsWeight = (stats: Stat, quality: Stars) => {
   switch (stats) {
-    case Stats.Speed:
+    case Stat.Speed:
       switch (quality) {
         case 4:
           return 0.437;
@@ -17,12 +14,12 @@ const statsWeight = (stats: Stats, quality: Stars) => {
           return 0.5;
       }
 
-    case Stats.HpPercent:
-    case Stats.AttackPercent:
-    case Stats.DefensePercent:
-    case Stats.CriticalRate:
+    case Stat.HpPercent:
+    case Stat.AttackPercent:
+    case Stat.DefensePercent:
+    case Stat.CriticalRate:
       return 0.5;
-    case Stats.CriticalDamage:
+    case Stat.CriticalDamage:
       switch (quality) {
         case 4:
           return 0.61;
@@ -32,8 +29,8 @@ const statsWeight = (stats: Stats, quality: Stars) => {
         default:
           return 0.665;
       }
-    case Stats.Accuracy:
-    case Stats.Resistance:
+    case Stat.Accuracy:
+    case Stat.Resistance:
       switch (quality) {
         case 4:
         case 6:
@@ -44,8 +41,8 @@ const statsWeight = (stats: Stats, quality: Stars) => {
         default:
           return 0.815;
       }
-    case Stats.Attack:
-    case Stats.Defense:
+    case Stat.Attack:
+    case Stat.Defense:
       switch (quality) {
         case 4:
           return 2.37;
@@ -56,7 +53,7 @@ const statsWeight = (stats: Stats, quality: Stars) => {
         default:
           return 2.58;
       }
-    case Stats.HP:
+    case Stat.HP:
       switch (quality) {
         case 4:
           return 35.5;
@@ -107,7 +104,7 @@ const calculateScoreRealStats = (
     let sum = acc;
 
     artifactStats.forEach((artifactStat) => {
-      if (artifactStat && artifactStat.Stats !== Stats.None) {
+      if (artifactStat && artifactStat.Stats !== Stat.None) {
         const modifier =
           (champion.statsPriority[artifactStat.Stats] ?? 0) *
           statsWeight(artifactStat.Stats, artifact.Quality);
