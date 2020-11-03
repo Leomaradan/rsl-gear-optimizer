@@ -4,3 +4,17 @@ os:
 language: node_js
 node_js:
   - stable
+cache: yarn
+
+script:
+  - yarn test
+
+before_deploy:
+  - npm install -g gulp-cli
+  - yarn pull-assets
+
+deploy:
+  - provider: script
+    script: bash scripts/deploy.sh
+    on:
+      branch: master
