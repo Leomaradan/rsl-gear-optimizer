@@ -24,7 +24,6 @@ import Stack from "components/UI/FlexStack";
 import DisplayError from "components/UI/DisplayError";
 import Error from "models/Error";
 
-import Stone from "raid-data/images/Misc/Stone.png";
 import Wrapper from "components/UI/FlexWrapper";
 import ArtifactDisplay from "components/UI/ArtifactDisplay";
 import Modal from "components/UI/Modal";
@@ -43,7 +42,7 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const Rune = styled.img.attrs(() => ({ src: Stone }))`
+const Rune = styled.img.attrs(() => ({ src: "assets/Misc/Stone.png" }))`
   height: 32px;
 `;
 

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Star from "raid-data/images/Misc/regular_star.png";
 import { Stars } from "models/Quality";
 
 export interface StatsSelectorProps {
@@ -40,7 +39,7 @@ const QualitySelector = ({
       {stars.map((star) => (
         <Image
           key={star}
-          src={Star}
+          src="assets/Misc/regular_star.png"
           style={star <= (currentQuality ?? 1) ? {} : styleInactive}
           alt={`${star} Star`}
           onClick={() => {

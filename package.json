@@ -42,7 +42,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "pull-assets": "gulp copyRaidData"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -74,6 +75,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.0",
+    "gulp": "^4.0.2",
     "prettier": "^2.1.2",
     "worker-loader": "^3.0.5"
   },

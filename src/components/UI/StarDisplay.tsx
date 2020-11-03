@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import star from "raid-data/images/Misc/regular_star.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,7 +20,12 @@ export default ({
 
   for (let index = 0; index < stars; index += 1) {
     starsJSX.push(
-      <Image size={size ?? 15} key={index} src={star} alt="Stars" />
+      <Image
+        size={size ?? 15}
+        key={index}
+        src="assets/Misc/regular_star.png"
+        alt="Stars"
+      />
     );
   }
 
