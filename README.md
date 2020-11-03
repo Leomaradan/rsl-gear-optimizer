@@ -1,5 +1,7 @@
 # RAID Shadow Legends - Gear Optimizer
 
+[![Build Status](https://travis-ci.org/Leomaradan/rsl-gear-optimizer.svg?branch=master)](https://travis-ci.org/Leomaradan/rsl-gear-optimizer)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Leomaradan_rsl-gear-optimizer&metric=alert_status)](https://sonarcloud.io/dashboard?id=Leomaradan_rsl-gear-optimizer)
 
 ## Available Scripts
 
