@@ -15,6 +15,9 @@ import {
   SortedExistingSets,
   Rarity,
   Stat,
+  ExistingSlotsAccessories,
+  ExistingSlotsArtifacts,
+  SortedExistingClans,
 } from "models";
 import { useDebounceCallback } from "@react-hook/debounce";
 
@@ -55,6 +58,7 @@ export default ({
 
     const newStats = StatsBySlots[newSlot];
     newArtifact.MainStats = Stat.None;
+    newArtifact.SubStats = [];
 
     if (newStats.length === 1) {
       [newArtifact.MainStats] = newStats;
@@ -72,6 +76,10 @@ export default ({
 
   const onChangeSets = (value: DropdownSelectItem) => {
     updateNewArtifact("Set", value.value);
+  };
+
+  const onChangeClan = (value: DropdownSelectItem) => {
+    updateNewArtifact("Clan", value.value);
   };
 
   const onChangeLevel = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +113,20 @@ export default ({
     [lang]
   );
 
+  const listClans: DropdownSelectItem[] = useMemo(
+    () =>
+      SortedExistingClans.map((s) => ({
+        text: lang[`clan${s}` as keyof Language],
+        value: s,
+      })),
+    [lang]
+  );
+
   const level = Number.isNaN(state.Level) ? 0 : state.Level;
+
+  const AvailableSlots = state.isAccessory
+    ? ExistingSlotsAccessories
+    : ExistingSlotsArtifacts;
 
   return (
     <>
@@ -118,14 +139,7 @@ export default ({
             onChange={onChangeSlot}
             value={state.Slot}
           >
-            {[
-              Slots.Weapon,
-              Slots.Helmet,
-              Slots.Shield,
-              Slots.Gauntlets,
-              Slots.Chestplate,
-              Slots.Boots,
-            ].map((slot) => (
+            {AvailableSlots.map((slot) => (
               <option key={slot} value={slot}>
                 {lang[`slot${slot}` as keyof Language]}
               </option>
@@ -170,16 +184,33 @@ export default ({
       </div>
 
       <div className="form-group row">
-        <Label htmlFor="selectSet">{lang.titleSet}</Label>
-        <LargeCell>
-          <DisplayError slot="Set" errors={errors} />
-          <DropdownSelect
-            id="selectSet"
-            items={listSets}
-            onChange={onChangeSets}
-            value={state.Set}
-          />
-        </LargeCell>
+        {state.isAccessory ? (
+          <>
+            <Label htmlFor="selectClan">{lang.titleClan}</Label>
+            <LargeCell>
+              <DisplayError slot="Clan" errors={errors} />
+              <DropdownSelect
+                id="selectClan"
+                items={listClans}
+                onChange={onChangeClan}
+                value={state.Clan}
+              />
+            </LargeCell>
+          </>
+        ) : (
+          <>
+            <Label htmlFor="selectSet">{lang.titleSet}</Label>
+            <LargeCell>
+              <DisplayError slot="Set" errors={errors} />
+              <DropdownSelect
+                id="selectSet"
+                items={listSets}
+                onChange={onChangeSets}
+                value={state.Set}
+              />
+            </LargeCell>
+          </>
+        )}
         <Label htmlFor="selectLevel">{lang.titleLevel}</Label>
         <LargeCell>
           <DisplayError slot="Level" errors={errors} />

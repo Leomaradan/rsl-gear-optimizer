@@ -18,6 +18,7 @@ interface TabsProps {
   defaultTabs?: string;
   widget?: JSX.Element;
   main?: boolean;
+  onChange?(id: string): void;
 }
 
 const Tab = styled.li.attrs((p: { active: boolean }) => ({
@@ -29,7 +30,7 @@ const Tab = styled.li.attrs((p: { active: boolean }) => ({
 `;
 
 export default (props: TabsProps): JSX.Element => {
-  const { tabs, defaultTabs, widget, main } = props;
+  const { tabs, defaultTabs, widget, main, onChange } = props;
 
   const [show, updateShow] = useState(false);
   const [activeTabs, setTabs] = useState(defaultTabs ?? tabs[0].id ?? "");
@@ -64,6 +65,9 @@ export default (props: TabsProps): JSX.Element => {
                   })}
                   href="#"
                   onClick={() => {
+                    if (onChange) {
+                      onChange(tab.id);
+                    }
                     setTabs(tab.id);
                     updateShow(false);
                   }}

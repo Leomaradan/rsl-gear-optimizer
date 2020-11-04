@@ -1,6 +1,7 @@
 export * from "./Artifact";
 export * from "./Champion";
 export * from "./ChampionsList";
+export * from "./Clans";
 export * from "./Configuration";
 export * from "./Errors";
 export * from "./Orderable";

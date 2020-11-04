@@ -57,37 +57,45 @@ const ArtifactDisplay = ({
   size: baseSize,
   faded,
 }: ArtifactDisplayProps): JSX.Element => {
-  const filename = `${SetsIconName[artifact.Set]}_${
-    SlotsIconName[artifact.Slot]
-  }`;
+  const filename = artifact.isAccessory
+    ? `FactionAccessories/${artifact.Clan}_${SlotsIconName[artifact.Slot]}`
+    : `ItemSets/${SetsIconName[artifact.Set]}_${SlotsIconName[artifact.Slot]}`;
   const size = baseSize ?? 100;
-  try {
+
+  if (artifact.Rarity === -1) {
     return (
       <ArtifactWrapper artifact={artifact} size={size} faded={!!faded}>
         <ArtifactImage
-          src={`assets/ItemSets/${filename}.png`}
+          src="assets/UnknownItem.jpg"
           alt={`${artifact.Set} ${artifact.Slot}`}
         />
-        <StarContainer size={size}>
-          <StarDisplay
-            size={size / 6 - Math.ceil(size / 20)}
-            stars={artifact.Quality}
-          />
-        </StarContainer>
-        {artifact.Champion && (
-          <ChampionContainer size={size}>
-            <ChampionPortrait champion={artifact.Champion} size={size / 2.5} />
-          </ChampionContainer>
-        )}
-
-        <Level size={size}>
-          {artifact.Level > 0 ? `+${artifact.Level}` : ""}
-        </Level>
       </ArtifactWrapper>
     );
-  } catch {
-    return <ArtifactWrapper artifact={artifact} size={size} faded={!!faded} />;
   }
+
+  return (
+    <ArtifactWrapper artifact={artifact} size={size} faded={!!faded}>
+      <ArtifactImage
+        src={`assets/${filename}.png`}
+        alt={`${artifact.Set} ${artifact.Slot}`}
+      />
+      <StarContainer size={size}>
+        <StarDisplay
+          size={size / 6 - Math.ceil(size / 20)}
+          stars={artifact.Quality}
+        />
+      </StarContainer>
+      {artifact.Champion && (
+        <ChampionContainer size={size}>
+          <ChampionPortrait champion={artifact.Champion} size={size / 2.5} />
+        </ChampionContainer>
+      )}
+
+      <Level size={size}>
+        {artifact.Level > 0 ? `+${artifact.Level}` : ""}
+      </Level>
+    </ArtifactWrapper>
+  );
 };
 
 export default ArtifactDisplay;

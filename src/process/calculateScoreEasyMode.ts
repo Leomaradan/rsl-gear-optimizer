@@ -41,6 +41,16 @@ const calculateScoreEasyMode = (
     ? 1
     : 0;
 
+  const accessoryScore = artifacts.slice(6).reduce((acc, artifact) => {
+    let sum = acc;
+
+    if (artifact.MainStats !== Stat.None) {
+      sum += champion.statsPriority[artifact.MainStats] ?? 0;
+    }
+
+    return sum;
+  }, 0);
+
   const statsScore = artifacts.reduce((acc, artifact) => {
     const artifactStats = artifact.SubStats.map((s) => s?.Stats) as Stat[];
 
@@ -61,6 +71,7 @@ const calculateScoreEasyMode = (
     gauntletStatsStatsScore +
     chestplateStatsStatsScore +
     bootsStatsStatsScore +
+    accessoryScore +
     statsScore
   );
 };

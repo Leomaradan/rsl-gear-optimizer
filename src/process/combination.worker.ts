@@ -29,14 +29,15 @@ class CombinationWorker {
     artifacts: Artifact[],
     generationMethod: GenerationMethod
   ): Results[] {
-    postCommand({ command: "message", message: "Starting" });
     const results: ResultsDraft[] = [];
     champions.forEach((champion) => {
       let filtererdArtifacts = artifacts;
 
       if (champion.methods !== ChampionSetMethod.NoSets) {
         filtererdArtifacts = artifacts.filter((artifact) =>
-          champion.sets.includes(artifact.Set)
+          artifact.isAccessory
+            ? champion.clan === artifact.Clan
+            : champion.sets.includes(artifact.Set)
         );
       }
 

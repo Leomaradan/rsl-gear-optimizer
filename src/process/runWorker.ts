@@ -49,7 +49,11 @@ export default (
     }
 
     if (event.data.command === "message") {
-      log(event.data.message);
+      if (event.data.message.startsWith("{")) {
+        log(JSON.parse(event.data.message));
+      } else {
+        log(event.data.message);
+      }
     }
 
     if (event.data.command === "progress") {

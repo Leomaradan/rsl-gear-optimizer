@@ -13,6 +13,14 @@ import {
   ExistingStats,
   Sets,
   Stat,
+  Clans,
+  Slots,
+  WeaponSubStats,
+  ShieldSubStats,
+  AmuletSubStats,
+  BannerSubStats,
+  HelmetSubStats,
+  RingSubStats,
 } from "models";
 import produce from "immer";
 
@@ -118,7 +126,25 @@ export default ({
     updateNewArtifact("SubStats", substats);
   };
 
-  const availableSubStats1 = ExistingStats.filter((i) => i !== state.MainStats);
+  let availableSlotSubStats = ExistingStats;
+
+  if (state.Slot === Slots.Weapon) {
+    availableSlotSubStats = WeaponSubStats;
+  } else if (state.Slot === Slots.Helmet) {
+    availableSlotSubStats = HelmetSubStats;
+  } else if (state.Slot === Slots.Shield) {
+    availableSlotSubStats = ShieldSubStats;
+  } else if (state.Slot === Slots.Ring) {
+    availableSlotSubStats = RingSubStats;
+  } else if (state.Slot === Slots.Amulet) {
+    availableSlotSubStats = AmuletSubStats;
+  } else if (state.Slot === Slots.Banner) {
+    availableSlotSubStats = BannerSubStats;
+  }
+
+  const availableSubStats1 = availableSlotSubStats.filter(
+    (i) => i !== state.MainStats
+  );
   const availableSubStats2 = availableSubStats1.filter(
     (i) => i !== state.SubStats[0]?.Stats
   );
@@ -175,6 +201,7 @@ export default ({
             type="number"
             disabled={state.MainStats === Stat.None}
             min={0}
+            max={9999}
             value={state.MainStatsValue ?? 0}
             onChange={onChangeMainStatsValue}
           />
@@ -216,6 +243,7 @@ export default ({
                 type="number"
                 disabled={valuesDisabled}
                 min={0}
+                max={9999}
                 value={stat?.Value ?? 0}
                 onChange={(e) => {
                   onChangeSubStatsValue(e, statIndex);
@@ -256,6 +284,7 @@ export default ({
                 type="number"
                 disabled={valuesDisabled}
                 min={0}
+                max={9999}
                 value={stat?.Rune ?? 0}
                 onChange={(e) => {
                   onChangeSubStatsRune(e, statIndex);
@@ -267,7 +296,7 @@ export default ({
       })}
       <div className="row justify-content-center">
         <div className="col-sm-1">
-          {state.Set !== Sets.Null && (
+          {(state.Set !== Sets.Null || state.Clan !== Clans.Null) && (
             <ArtifactDisplay artifact={state} size={120} />
           )}
         </div>

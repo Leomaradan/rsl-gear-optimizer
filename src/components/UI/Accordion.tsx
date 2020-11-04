@@ -8,6 +8,7 @@ export interface AccordionSection {
   title: JSX.Element | string;
   content: JSX.Element | string;
   expanded?: boolean;
+  widget?: JSX.Element;
 }
 
 interface AccordionProps {
@@ -22,6 +23,9 @@ const Card = styled.div.attrs(() => ({ className: "card" }))`
 const CardHeader = styled.div.attrs(() => ({ className: "card-header" }))`
   background-color: var(--white);
   border-bottom: 1px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Accordion = ({ section }: AccordionProps): JSX.Element => {
@@ -59,7 +63,7 @@ const Accordion = ({ section }: AccordionProps): JSX.Element => {
             <Card key={key}>
               <CardHeader id={`heading${key}`}>
                 <button
-                  className="btn btn-link btn-block text-left"
+                  className="btn btn-link text-left"
                   type="button"
                   aria-expanded={isExpanded}
                   aria-controls={`collapse${key}`}
@@ -69,6 +73,7 @@ const Accordion = ({ section }: AccordionProps): JSX.Element => {
                 >
                   {filterItems.title}
                 </button>
+                {filterItems.widget && <div>{filterItems.widget}</div>}
               </CardHeader>
               <div
                 id={`collapse${key}`}

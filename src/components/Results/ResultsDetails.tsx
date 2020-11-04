@@ -10,6 +10,7 @@ import ChampionPortrait from "components/UI/ChampionPortrait";
 import SetDisplay from "components/UI/SetDisplay";
 
 import { ChampionSetMethod } from "models";
+import Wrapper from "components/UI/Wrapper";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import React from "react";
@@ -40,7 +41,7 @@ export default (): JSX.Element => {
       <thead>
         <tr>
           <th>{lang.titleChampion}</th>
-          <th colSpan={3}>{lang.titleArtifacts}</th>
+          <th colSpan={4}>{lang.titleArtifacts}</th>
           <th>{lang.titleActions}</th>
         </tr>
       </thead>
@@ -91,6 +92,22 @@ export default (): JSX.Element => {
                     size={60}
                     artifact={result.artifacts.artifacts[2]}
                   />
+                </td>
+                <td rowSpan={2}>
+                  <Wrapper>
+                    <ArtifactDisplay
+                      size={60}
+                      artifact={result.artifacts.artifacts[6]}
+                    />
+                    <ArtifactDisplay
+                      size={60}
+                      artifact={result.artifacts.artifacts[7]}
+                    />
+                    <ArtifactDisplay
+                      size={60}
+                      artifact={result.artifacts.artifacts[8]}
+                    />
+                  </Wrapper>
                 </td>
                 <td>
                   <ProgressBar

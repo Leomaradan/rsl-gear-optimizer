@@ -1,4 +1,5 @@
 import ChampionForm from "./ChampionForm";
+import { ChampionDraft } from "models";
 import React, { useState } from "react";
 import { Plus } from "react-bootstrap-icons";
 
@@ -18,7 +19,8 @@ const ChampionAdd = (): JSX.Element => {
     sets: [],
     statsPriority: {},
     activated: true,
-  };
+    accessories: "",
+  } as ChampionDraft;
 
   return (
     <>
