@@ -24,4 +24,4 @@ yarn-error.log*
 src/raid-data
 
 public/assets/*
-!public/assets/.gitkeep
+!public/assets/UnknownItem.jpg

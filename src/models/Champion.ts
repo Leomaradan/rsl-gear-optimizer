@@ -1,5 +1,7 @@
+import { Clans } from "./Clans";
 import { Orderable } from "./Orderable";
 import { Sets } from "./Sets";
+import { Slots } from "./Slots";
 import { Stat } from "./Stat";
 
 export enum ChampionSetMethod {
@@ -25,6 +27,7 @@ export interface ChampionStatsPriority {
 export interface Champion extends Orderable {
   name: string;
   champion: string;
+  clan: Clans;
   sets: Sets[];
   statsPriority: ChampionStatsPriority;
   gauntletStats: Stat[];
@@ -32,6 +35,7 @@ export interface Champion extends Orderable {
   bootsStats: Stat[];
   methods: ChampionSetMethod;
   activated: boolean;
+  accessories: "" | Slots.Ring | Slots.Amulet | Slots.Banner;
 }
 
-export type ChampionDraft = Omit<Champion, "name">;
+export type ChampionDraft = Omit<Champion, "name" | "clan">;

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import calculateBonus from "./calculateBonus";
 import generateTable from "./generateTable";
 
 import reorder from "./reorder";
-import { Artifact, ListOfArtifacts, Orderable, Sets, Slots } from "models";
+import { Artifact, Champion, Clans, Orderable, Sets, Slots } from "models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {
@@ -13,7 +14,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Offense },
       { Set: Sets.Offense },
       { Set: Sets.Offense },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [Sets.Offense, Sets.Offense, Sets.Offense],
@@ -29,7 +30,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Lifesteal },
       { Set: Sets.Lifesteal },
       { Set: Sets.Lifesteal },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [Sets.Lifesteal],
@@ -45,7 +46,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Speed },
       { Set: Sets.DivineCriticalRate },
       { Set: Sets.DivineOffense },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [],
@@ -61,7 +62,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Speed },
       { Set: Sets.Lifesteal },
       { Set: Sets.Lifesteal },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [Sets.Speed, Sets.Lifesteal],
@@ -77,7 +78,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Speed },
       { Set: Sets.Defense },
       { Set: Sets.CriticalRate },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [Sets.Speed, Sets.Offense],
@@ -93,7 +94,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Speed },
       { Set: Sets.CriticalRate },
       { Set: Sets.CriticalRate },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [Sets.Speed, Sets.Offense, Sets.CriticalRate],
@@ -109,7 +110,7 @@ describe("Process >> Calculate Bonus", () => {
       { Set: Sets.Speed },
       { Set: Sets.CriticalRate },
       { Set: Sets.Speed },
-    ] as ListOfArtifacts);
+    ] as any);
 
     expect(result).toStrictEqual({
       sets: [Sets.Speed, Sets.Offense],
@@ -143,13 +144,25 @@ describe("Process >> Generate Table", () => {
     { Slot: Slots.Boots, Guid: "B1" } as Artifact,
     { Slot: Slots.Boots, Guid: "B2" } as Artifact,
     { Slot: Slots.Boots, Guid: "B3" } as Artifact,
+
+    { Slot: Slots.Ring, Guid: "R1", Clan: Clans.BannerLords } as Artifact,
+    { Slot: Slots.Ring, Guid: "R2", Clan: Clans.BannerLords } as Artifact,
+    { Slot: Slots.Ring, Guid: "R3", Clan: Clans.BannerLords } as Artifact,
+
+    { Slot: Slots.Amulet, Guid: "A1", Clan: Clans.BannerLords } as Artifact,
+    { Slot: Slots.Amulet, Guid: "A2", Clan: Clans.BannerLords } as Artifact,
+    { Slot: Slots.Amulet, Guid: "A3", Clan: Clans.BannerLords } as Artifact,
   ];
 
-  test("Generate all combination", () => {
-    const result = generateTable(ARTIFACTS);
+  test("Generate all combination without accessories", () => {
+    const result = generateTable(
+      ARTIFACTS,
+      { accessories: "", clan: Clans.BannerLords } as Champion,
+      () => {}
+    );
 
-    expect(result.length).toBe(729);
-    expect(result[0]).toStrictEqual([
+    expect(result.length).toBe(729); // 6 artifact, 3 possibility each : 3^6
+    expect(result[0].filter((f) => f.Rarity !== -1)).toStrictEqual([
       { Slot: Slots.Weapon, Guid: "W1" },
       { Slot: Slots.Helmet, Guid: "H1" },
       { Slot: Slots.Shield, Guid: "S1" },
@@ -158,13 +171,48 @@ describe("Process >> Generate Table", () => {
       { Slot: Slots.Boots, Guid: "B1" },
     ]);
 
-    expect(result[result.length - 1]).toStrictEqual([
+    expect(
+      result[result.length - 1].filter((f) => f.Rarity !== -1)
+    ).toStrictEqual([
       { Slot: Slots.Weapon, Guid: "W3" },
       { Slot: Slots.Helmet, Guid: "H3" },
       { Slot: Slots.Shield, Guid: "S3" },
       { Slot: Slots.Gauntlets, Guid: "G3" },
       { Slot: Slots.Chestplate, Guid: "C3" },
       { Slot: Slots.Boots, Guid: "B3" },
+    ]);
+  });
+
+  test("Generate all combination with accessories", () => {
+    const result = generateTable(
+      ARTIFACTS,
+      { accessories: Slots.Banner, clan: Clans.BannerLords } as Champion,
+      () => {}
+    );
+
+    expect(result.length).toBe(6561); // 6 artifact + 2 accessories, 3 possibility each : 3^8
+    expect(result[0].filter((f) => f.Rarity !== -1)).toStrictEqual([
+      { Slot: Slots.Weapon, Guid: "W1" },
+      { Slot: Slots.Helmet, Guid: "H1" },
+      { Slot: Slots.Shield, Guid: "S1" },
+      { Slot: Slots.Gauntlets, Guid: "G1" },
+      { Slot: Slots.Chestplate, Guid: "C1" },
+      { Slot: Slots.Boots, Guid: "B1" },
+      { Slot: Slots.Ring, Guid: "R1", Clan: Clans.BannerLords },
+      { Slot: Slots.Amulet, Guid: "A1", Clan: Clans.BannerLords },
+    ]);
+
+    expect(
+      result[result.length - 1].filter((f) => f.Rarity !== -1)
+    ).toStrictEqual([
+      { Slot: Slots.Weapon, Guid: "W3" },
+      { Slot: Slots.Helmet, Guid: "H3" },
+      { Slot: Slots.Shield, Guid: "S3" },
+      { Slot: Slots.Gauntlets, Guid: "G3" },
+      { Slot: Slots.Chestplate, Guid: "C3" },
+      { Slot: Slots.Boots, Guid: "B3" },
+      { Slot: Slots.Ring, Guid: "R3", Clan: Clans.BannerLords },
+      { Slot: Slots.Amulet, Guid: "A3", Clan: Clans.BannerLords },
     ]);
   });
 });

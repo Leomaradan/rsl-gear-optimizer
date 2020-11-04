@@ -7,7 +7,7 @@ import { useLanguage } from "lang/LanguageContext";
 import Stack from "components/UI/Stack";
 
 import Modal from "components/UI/Modal";
-import { Artifact, Errors, Sets, Stat } from "models";
+import { Artifact, Clans, Errors, Sets, Stat } from "models";
 import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 
@@ -51,17 +51,23 @@ export const validateArtifact = (
     });
   }
 
-  if (!artifact.Rarity) {
-    errorsList.push({
-      slot: "Rarity",
-      text: "select a rarity",
-    });
-  }
-
-  if (!artifact.Set || (artifact.Set as any) === Sets.Null) {
+  if (
+    !artifact.isAccessory &&
+    (!artifact.Set || (artifact.Set as any) === Sets.Null)
+  ) {
     errorsList.push({
       slot: "Set",
       text: "select a set",
+    });
+  }
+
+  if (
+    artifact.isAccessory &&
+    (!artifact.Clan || (artifact.Clan as any) === Clans.Null)
+  ) {
+    errorsList.push({
+      slot: "Clan",
+      text: "select a clan",
     });
   }
 

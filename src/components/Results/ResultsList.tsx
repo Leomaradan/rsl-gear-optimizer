@@ -112,11 +112,32 @@ export default ({ result, selectedItems }: ResultsListProps): JSX.Element => {
         faded={faded && selectedItems.includes(i.artifacts[5].Guid)}
       />
     ),
+    (i: ResultsRow, faded: boolean) => (
+      <ArtifactDisplay
+        size={60}
+        artifact={i.artifacts[6]}
+        faded={faded && selectedItems.includes(i.artifacts[6].Guid)}
+      />
+    ),
+    (i: ResultsRow, faded: boolean) => (
+      <ArtifactDisplay
+        size={60}
+        artifact={i.artifacts[7]}
+        faded={faded && selectedItems.includes(i.artifacts[7].Guid)}
+      />
+    ),
+    (i: ResultsRow, faded: boolean) => (
+      <ArtifactDisplay
+        size={60}
+        artifact={i.artifacts[8]}
+        faded={faded && selectedItems.includes(i.artifacts[8].Guid)}
+      />
+    ),
     (i: ResultsRow) => (
       <>
         {i.bonus.map((set, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <SetDisplay key={`${i.id}-${index}-${set}`} set={set} />
+          <SetDisplay key={`${i.id}-${index}-${set}`} set={set} size={20} />
         ))}{" "}
         {!i.bonusComplete && (
           <span className="badge badge-warning">{lang.commonWarning}</span>
@@ -131,8 +152,6 @@ export default ({ result, selectedItems }: ResultsListProps): JSX.Element => {
       />
     ),
   ];
-
-  const columnWidths = (index: number) => (index <= 5 ? 90 : 180);
 
   interface CellProps {
     style: React.CSSProperties;
@@ -170,15 +189,18 @@ export default ({ result, selectedItems }: ResultsListProps): JSX.Element => {
         <CellTitle>{lang.slotGauntlets}</CellTitle>
         <CellTitle>{lang.slotChestplate}</CellTitle>
         <CellTitle>{lang.slotBoots}</CellTitle>
-        <CellTitle double>{lang.titleBonus}</CellTitle>
-        <CellTitle double>{lang.titleScore}</CellTitle>
+        <CellTitle>{lang.slotRing}</CellTitle>
+        <CellTitle>{lang.slotAmulet}</CellTitle>
+        <CellTitle>{lang.slotBanner}</CellTitle>
+        <CellTitle>{lang.titleBonus}</CellTitle>
+        <CellTitle>{lang.titleScore}</CellTitle>
       </Title>
       <Container>
         <AutoSizer>
           {({ height, width }) => (
             <Grid
-              columnCount={8}
-              columnWidth={(index) => columnWidths(index)}
+              columnCount={11}
+              columnWidth={() => 90}
               height={height}
               rowCount={results.length}
               rowHeight={() => 70}

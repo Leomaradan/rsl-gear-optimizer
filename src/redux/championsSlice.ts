@@ -1,4 +1,9 @@
-import { ChampionsState, ChampionDraft, Champion } from "models";
+import {
+  ChampionsState,
+  ChampionDraft,
+  Champion,
+  ChampionsClanList,
+} from "models";
 import reorder from "process/reorder";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
@@ -53,6 +58,7 @@ const championsSlice = createSlice({
           order: lastOrder + 1,
           name,
           activated: true,
+          clan: ChampionsClanList[champion.champion],
         });
       });
 
@@ -69,6 +75,10 @@ const championsSlice = createSlice({
           ...state[championIndex],
           ...action.payload.champion,
         };
+
+        // eslint-disable-next-line no-param-reassign
+        state[championIndex].clan =
+          ChampionsClanList[state[championIndex].champion];
       }
     },
     reorderChampions: (state, action: ChampionsReorderAction) => {
@@ -106,6 +116,7 @@ const championsSlice = createSlice({
         order: lastOrder + 1,
         name,
         activated: true,
+        clan: ChampionsClanList[action.payload.champion.champion],
       });
     },
   },

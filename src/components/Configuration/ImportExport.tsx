@@ -10,12 +10,17 @@ import { loadArtifacts } from "redux/artifactsSlice";
 import { loadChampions } from "redux/championsSlice";
 import { useLanguage } from "lang/LanguageContext";
 import {
+  AccessoriesSlots,
   Artifact,
   ArtifactDraft,
   ChampionDraft,
   ChampionSetMethod,
   ChampionsList,
+  Clans,
+  ExistingClans,
   ExistingSets,
+  ExistingSlots,
+  ExistingSlotsAccessories,
   ExistingStats,
   Sets,
   Slots,
@@ -58,7 +63,7 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
     const champions: ChampionDraft[] = [];
     rows.forEach((row) => {
       const fields = row.split(";");
-      if (fields.length !== 18) {
+      if (fields.length >= 18) {
         throw Error(String(fields.length));
       }
 
@@ -88,6 +93,8 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
       const [gauntletStats, chestplateStats, bootsStats] = fields
         .slice(15)
         .map((s) => s.split(",").sort() as Stat[]);
+
+      const accessories = (fields[18] ?? "") as AccessoriesSlots | "";
 
       if (!ChampionsList.includes(champion)) {
         throw Error(champion);
@@ -187,6 +194,13 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
         throw Error(String(invalidBootsStats.join(",")));
       }
 
+      if (
+        accessories !== "" &&
+        !ExistingSlotsAccessories.includes(accessories)
+      ) {
+        throw Error(accessories);
+      }
+
       const newChampion: ChampionDraft = {
         champion,
         order,
@@ -209,6 +223,7 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
         chestplateStats,
         gauntletStats,
         activated: true,
+        accessories,
       };
 
       champions.push(newChampion);
@@ -233,7 +248,7 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       }
 
       const Slot = fields[0] as Slots;
-      const Set = fields[1] as Sets;
+      const SetOrClan = fields[1] as Sets;
       const Quality = parseInt(fields[2], 10) as Stars;
       const RarityStr = fields[3];
       const Level = parseInt(fields[4], 10);
@@ -242,24 +257,24 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       const MainStats = fields[6] as Stat;
       const MainStatsValue = parseInt(fields[7], 10);
 
-      const SubStats: [StatsFull?, StatsFull?, StatsFull?, StatsFull?] = [
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      ];
+      const SubStats: [StatsFull?, StatsFull?, StatsFull?, StatsFull?] = [];
+
+      const Set = ExistingSets.includes(SetOrClan) ? SetOrClan : Sets.Null;
+      const Clan = ExistingClans.includes((SetOrClan as unknown) as Clans)
+        ? ((SetOrClan as unknown) as Clans)
+        : Clans.Null;
 
       const subStat1 = fields[8] as Stat;
       const subValue1 = parseInt(fields[9], 10);
       const subRolls1 = parseInt(fields[10], 10);
       const subRune1 = parseInt(fields[11], 10);
       if (subStat1) {
-        SubStats[0] = {
+        SubStats.push({
           Stats: subStat1,
           Value: subValue1,
           Roll: subRolls1,
           Rune: subRune1,
-        };
+        });
       }
 
       const subStat2 = fields[12] as Stat;
@@ -267,12 +282,12 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       const subRolls2 = parseInt(fields[14], 10);
       const subRune2 = parseInt(fields[15], 10);
       if (subStat2) {
-        SubStats[1] = {
+        SubStats.push({
           Stats: subStat2,
           Value: subValue2,
           Roll: subRolls2,
           Rune: subRune2,
-        };
+        });
       }
 
       const subStat3 = fields[16] as Stat;
@@ -280,12 +295,12 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       const subRolls3 = parseInt(fields[18], 10);
       const subRune3 = parseInt(fields[19], 10);
       if (subStat3) {
-        SubStats[2] = {
+        SubStats.push({
           Stats: subStat3,
           Value: subValue3,
           Roll: subRolls3,
           Rune: subRune3,
-        };
+        });
       }
 
       const subStat4 = fields[20] as Stat;
@@ -293,29 +308,28 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       const subRolls4 = parseInt(fields[22], 10);
       const subRune4 = parseInt(fields[23], 10);
       if (subStat4) {
-        SubStats[3] = {
+        SubStats.push({
           Stats: subStat4,
           Value: subValue4,
           Roll: subRolls4,
           Rune: subRune4,
-        };
+        });
       }
 
-      if (
-        ![
-          Slots.Weapon,
-          Slots.Helmet,
-          Slots.Shield,
-          Slots.Gauntlets,
-          Slots.Chestplate,
-          Slots.Boots,
-        ].includes(Slot)
-      ) {
+      if (!ExistingSlots.includes(Slot)) {
         throw Error(Slot);
       }
 
-      if (Set === "" || !ExistingSets.includes(Set)) {
+      if (Set === "" && Clan === "") {
         throw Error(Set);
+      }
+
+      if (Clan === "" && !ExistingSets.includes(Set)) {
+        throw Error(Set);
+      }
+
+      if (Set === "" && !ExistingClans.includes(Clan)) {
+        throw Error(Clan);
       }
 
       if (Quality < 1 || Quality > 6) {
@@ -351,6 +365,8 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
       const newArtifact: ArtifactDraft = {
         Slot,
         Set,
+        Clan,
+        isAccessory: Clan !== Clans.Null,
         Quality,
         Rarity: RarityFromString[RarityStr],
         Level,
@@ -429,6 +445,7 @@ export default (): JSX.Element => {
         champion.gauntletStats.join(","),
         champion.chestplateStats.join(","),
         champion.bootsStats.join(","),
+        champion.accessories,
       ].map((v) => (v !== undefined ? String(v) : ""));
     });
 
@@ -460,7 +477,7 @@ export default (): JSX.Element => {
     const rows = artifacts.map((artifact) => {
       return [
         artifact.Slot,
-        artifact.Set,
+        artifact.isAccessory ? artifact.Clan : artifact.Set,
         artifact.Quality,
         RarityString[artifact.Rarity],
         artifact.Level,
@@ -488,7 +505,7 @@ export default (): JSX.Element => {
 
     const header = [
       "slot",
-      "set",
+      "set_or_clan",
       "quality",
       "rarity",
       "lvl",

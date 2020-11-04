@@ -19,6 +19,8 @@ import {
   ChampionsList,
   ChampionSetMethod,
   SortedExistingSets,
+  Slots,
+  AccessoriesSlots,
 } from "models";
 import React, { useMemo } from "react";
 
@@ -73,6 +75,10 @@ export default ({
     setState((current) => ({ ...current, methods }));
   };
 
+  const updateAccessories = (accessories: AccessoriesSlots | "") => {
+    setState((current) => ({ ...current, accessories }));
+  };
+
   const toggleChampion = () => {
     setState((current) => ({ ...current, activated: !current.activated }));
   };
@@ -102,6 +108,40 @@ export default ({
               currentState={state.activated}
               name="toggleChampion"
               onToggle={toggleChampion}
+            />
+          </div>
+        </div>
+      </fieldset>
+      <DisplayError slot="accessories" errors={errors} />
+      <fieldset className="form-group">
+        <div className="row">
+          <legend className="col-form-label col-sm-2 pt-0">
+            {lang.titleAvailableAccessories}
+          </legend>
+          <div className="col-sm-10">
+            <RadioButtons
+              inline
+              name="accessoriesRadio"
+              selectedOption={state.accessories ?? ""}
+              options={[
+                {
+                  text: lang.commonNo,
+                  value: "",
+                },
+                {
+                  text: lang.slotRing,
+                  value: Slots.Ring,
+                },
+                {
+                  text: lang.slotAmulet,
+                  value: Slots.Amulet,
+                },
+                {
+                  text: lang.slotBanner,
+                  value: Slots.Banner,
+                },
+              ]}
+              onChange={updateAccessories}
             />
           </div>
         </div>

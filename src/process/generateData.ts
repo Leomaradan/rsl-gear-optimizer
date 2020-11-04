@@ -14,10 +14,10 @@ const generateData = (
   artifacts: Artifact[],
   champion: Champion,
   generationMethod: GenerationMethod,
-  forceComplete = false,
-  postCommand?: (command: ResultsWorkerCommands) => void
+  postCommand: (command: ResultsWorkerCommands) => void,
+  forceComplete = false
 ): ResultsRow[] => {
-  const table = generateTable(artifacts, postCommand);
+  const table = generateTable(artifacts, champion, postCommand);
 
   let maxScore = 0;
 
@@ -48,7 +48,6 @@ const generateData = (
       }
 
       return {
-        ...champion,
         artifacts: artifact,
         score,
         maxScore: 0,
