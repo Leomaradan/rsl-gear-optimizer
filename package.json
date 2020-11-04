@@ -76,7 +76,7 @@
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-only-warn": "^1.0.2",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "7.20.0",
+    "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-sonarjs": "npm:eslint-plugin-sonarjs-6",
     "eslint-plugin-web": "^0.0.2",
