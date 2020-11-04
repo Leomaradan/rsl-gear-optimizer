@@ -45,8 +45,8 @@ class CombinationWorker {
         filtererdArtifacts,
         champion,
         generationMethod,
-        champion.methods === ChampionSetMethod.RequireSets,
-        postCommand
+        postCommand,
+        champion.methods === ChampionSetMethod.RequireSets
       );
 
       items += result.length;
