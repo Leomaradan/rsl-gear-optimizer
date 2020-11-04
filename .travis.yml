@@ -9,7 +9,7 @@ script:
 - yarn test
 
 addons:
-  ssh_known_hosts: $SSH_HOST
+  ssh_known_hosts: h84xu.ftp.infomaniak.com
 
 before_deploy:
 - npm install -g gulp-cli
@@ -23,7 +23,7 @@ before_deploy:
 deploy:
 - provider: script
   skip_cleanup: true
-  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist $SSH_USER@$SSH_HOST:$SSH_DIRECTORY
+  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist h84xu_leomaradan@h84xu.ftp.infomaniak.com:$SSH_DIRECTORY
   on:
     branch: master
 
