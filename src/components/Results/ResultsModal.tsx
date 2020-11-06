@@ -3,11 +3,11 @@ import Modal from "components/UI/Modal";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
 import { Results } from "models";
-
+import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
 import { ZoomIn } from "react-bootstrap-icons";
 
-export interface ResultsModalProps {
+interface ResultsModalProps {
   result: Results;
   selectedItems: string[];
 }
@@ -22,15 +22,11 @@ export default (props: ResultsModalProps): JSX.Element => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-success btn-sm"
-        onClick={handleShow}
-      >
+      <Button variant="success" size="sm" onClick={handleShow}>
         <ZoomIn />
-      </button>
+      </Button>
       <Modal
-        title={lang[`champion${result.champion.champion}` as keyof Language]}
+        title={lang[`champion${result.champion.Champion}` as keyof Language]}
         content={<ResultsList result={result} selectedItems={selectedItems} />}
         onClose={handleClose}
         show={show}

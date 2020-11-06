@@ -30,17 +30,7 @@ import {
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
-import classNames from "classnames";
-
-interface ButtonProps {
-  variant: string;
-}
-const Button = styled.button.attrs((p: ButtonProps) => ({
-  type: "button",
-  className: classNames("btn", `btn-${p.variant}`),
-}))<ButtonProps>`
-  width: 200px;
-`;
+import Button from "react-bootstrap/Button";
 
 const Textarea = styled.textarea.attrs(() => ({ className: "form-control" }))`
   flex: 1;
@@ -63,7 +53,7 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
     const champions: ChampionDraft[] = [];
     rows.forEach((row) => {
       const fields = row.split(";");
-      if (fields.length >= 18) {
+      if (fields.length < 18) {
         throw Error(String(fields.length));
       }
 
@@ -202,11 +192,11 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
       }
 
       const newChampion: ChampionDraft = {
-        champion,
+        Champion: champion,
         order,
-        methods,
-        sets,
-        statsPriority: {
+        Methods: methods,
+        Sets: sets,
+        StatsPriority: {
           "ATK%": statsPriorityAtkp,
           "C.DMG": statsPriorityCdmg,
           "C.RATE": statsPriorityCrate,
@@ -219,11 +209,11 @@ const importChampions = (value: string[]): ChampionDraft[] | false => {
           RESI: statsPriorityResi,
           SPD: statsPrioritySpd,
         },
-        bootsStats,
-        chestplateStats,
-        gauntletStats,
-        activated: true,
-        accessories,
+        BootsStats: bootsStats,
+        ChestplateStats: chestplateStats,
+        GauntletStats: gauntletStats,
+        Activated: true,
+        Accessories: accessories,
       };
 
       champions.push(newChampion);
@@ -272,8 +262,8 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         SubStats.push({
           Stats: subStat1,
           Value: subValue1,
-          Roll: subRolls1,
-          Rune: subRune1,
+          Roll: Number.isNaN(subRolls1) ? 0 : subRolls1,
+          Rune: Number.isNaN(subRune1) ? 0 : subRune1,
         });
       }
 
@@ -285,8 +275,8 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         SubStats.push({
           Stats: subStat2,
           Value: subValue2,
-          Roll: subRolls2,
-          Rune: subRune2,
+          Roll: Number.isNaN(subRolls2) ? 0 : subRolls2,
+          Rune: Number.isNaN(subRune2) ? 0 : subRune2,
         });
       }
 
@@ -298,8 +288,8 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         SubStats.push({
           Stats: subStat3,
           Value: subValue3,
-          Roll: subRolls3,
-          Rune: subRune3,
+          Roll: Number.isNaN(subRolls3) ? 0 : subRolls3,
+          Rune: Number.isNaN(subRune3) ? 0 : subRune3,
         });
       }
 
@@ -311,8 +301,8 @@ const importArtifact = (value: string[]): ArtifactDraft[] | false => {
         SubStats.push({
           Stats: subStat4,
           Value: subValue4,
-          Roll: subRolls4,
-          Rune: subRune4,
+          Roll: Number.isNaN(subRolls4) ? 0 : subRolls4,
+          Rune: Number.isNaN(subRune4) ? 0 : subRune4,
         });
       }
 
@@ -407,45 +397,46 @@ export default (): JSX.Element => {
   const onImport = () => {
     const rows = textareaValue.trim().replace("\r", "").split("\n");
 
-    if (rows[0].startsWith("slot")) {
-      const listArtifacts = importArtifact(rows);
-      if (listArtifacts) {
-        dispatch(loadArtifacts({ artifacts: listArtifacts }));
-        handleClose();
-      }
+    const separator = rows.findIndex((r) => r === "---");
+
+    const rowsChampions = rows.slice(1, separator);
+    const rowsArtifacts = rows.slice(separator + 1);
+
+    const listArtifacts = importArtifact(rowsArtifacts);
+    if (listArtifacts) {
+      dispatch(loadArtifacts({ artifacts: listArtifacts }));
     }
 
-    if (rows[0].startsWith("champion")) {
-      const listChampions = importChampions(rows);
-      if (listChampions) {
-        dispatch(loadChampions({ champions: listChampions }));
-        handleClose();
-      }
+    const listChampions = importChampions(rowsChampions);
+    if (listChampions) {
+      dispatch(loadChampions({ champions: listChampions }));
     }
+
+    handleClose();
   };
 
   const exportChampions = () => {
     const rows = champions.map((champion) => {
       return [
-        champion.champion,
+        champion.Champion,
         champion.order,
-        champion.methods,
-        champion.sets.join(","),
-        champion.statsPriority.ACC ?? "0",
-        champion.statsPriority["ATK%"] ?? "0",
-        champion.statsPriority.ATK ?? "0",
-        champion.statsPriority["C.DMG"] ?? "0",
-        champion.statsPriority["C.RATE"] ?? "0",
-        champion.statsPriority["DEF%"] ?? "0",
-        champion.statsPriority.DEF ?? "0",
-        champion.statsPriority["HP%"] ?? "0",
-        champion.statsPriority.HP ?? "0",
-        champion.statsPriority.RESI ?? "0",
-        champion.statsPriority.SPD ?? "0",
-        champion.gauntletStats.join(","),
-        champion.chestplateStats.join(","),
-        champion.bootsStats.join(","),
-        champion.accessories,
+        champion.Methods,
+        champion.Sets.join(","),
+        champion.StatsPriority.ACC ?? "0",
+        champion.StatsPriority["ATK%"] ?? "0",
+        champion.StatsPriority.ATK ?? "0",
+        champion.StatsPriority["C.DMG"] ?? "0",
+        champion.StatsPriority["C.RATE"] ?? "0",
+        champion.StatsPriority["DEF%"] ?? "0",
+        champion.StatsPriority.DEF ?? "0",
+        champion.StatsPriority["HP%"] ?? "0",
+        champion.StatsPriority.HP ?? "0",
+        champion.StatsPriority.RESI ?? "0",
+        champion.StatsPriority.SPD ?? "0",
+        champion.GauntletStats.join(","),
+        champion.ChestplateStats.join(","),
+        champion.BootsStats.join(","),
+        champion.Accessories,
       ].map((v) => (v !== undefined ? String(v) : ""));
     });
 
@@ -470,7 +461,7 @@ export default (): JSX.Element => {
       "boots_stats",
     ];
 
-    exportCSV([header, ...rows], "champions.csv");
+    return [header, ...rows];
   };
 
   const exportArtifacts = () => {
@@ -530,7 +521,17 @@ export default (): JSX.Element => {
       "sub_rune_4",
     ];
 
-    exportCSV([header, ...rows], "artifacts.csv");
+    return [header, ...rows];
+  };
+
+  const exportBackup = () => {
+    const rowsChampions = exportChampions();
+    const rowsArtifacts = exportArtifacts();
+
+    exportCSV(
+      [["v1"], ...rowsChampions, ["---"], ...rowsArtifacts],
+      "raid-gear-optimizer.csv"
+    );
   };
 
   const fileUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -544,21 +545,18 @@ export default (): JSX.Element => {
   };
 
   return (
-    <Stack>
+    <>
       <Button variant="danger" onClick={handleShow}>
-        {lang.btnImportArtifactsOrChampions}
+        {lang.btnImportBackup}
       </Button>
-      <Button variant="success" onClick={exportChampions}>
-        {lang.btnExportChampions}
-      </Button>
-      <Button variant="success" onClick={exportArtifacts}>
-        {lang.btnExportArtifacts}
+      <Button variant="success" onClick={exportBackup}>
+        {lang.btnExportBackup}
       </Button>
       <Modal
         title={lang.titleImportCSV}
         content={
           <Stack>
-            <span className="badge badge-warning">
+            <span className="badge badge-danger">
               <strong>{lang.commonWarning}</strong>:{" "}
               {lang.messageImportOverrideData}
             </span>
@@ -567,7 +565,7 @@ export default (): JSX.Element => {
                 type="file"
                 className="custom-file-input"
                 id="fileImport"
-                accept=".csv"
+                accept="raid-gear-optimizer.csv"
                 onChange={fileUpload}
               />
               <label className="custom-file-label" htmlFor="fileImport">
@@ -586,6 +584,6 @@ export default (): JSX.Element => {
         onSave={onImport}
         onClose={handleClose}
       />
-    </Stack>
+    </>
   );
 };

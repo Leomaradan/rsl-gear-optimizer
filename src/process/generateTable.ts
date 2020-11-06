@@ -1,17 +1,23 @@
 import {
-  Artifact,
-  Champion,
   Clans,
   ExistingSlotsAccessories,
-  ListOfArtifacts,
-  ResultsWorkerCommands,
+  ScoredArtifact,
   Sets,
   Slots,
   Stat,
 } from "models";
 import { v4 as uuidv4 } from "uuid";
 
-const getEmtyItem = (Slot: Slots) =>
+type ListOfScoredArtifacts = [
+  ScoredArtifact,
+  ScoredArtifact,
+  ScoredArtifact,
+  ScoredArtifact,
+  ScoredArtifact,
+  ScoredArtifact
+];
+
+export const getEmtyItem = (Slot: Slots): ScoredArtifact =>
   ({
     Guid: `fake${uuidv4()}`,
     MainStats: Stat.None,
@@ -24,45 +30,18 @@ const getEmtyItem = (Slot: Slots) =>
     Level: 0,
     Quality: 1,
     SubStats: [],
-  } as Artifact);
+    score: 0,
+  } as ScoredArtifact);
 
-const generateTable = (
-  artifacts: Artifact[],
-  champion: Champion,
-  postCommand: (command: ResultsWorkerCommands) => void
-): ListOfArtifacts[] => {
-  const results: ListOfArtifacts[] = [];
-
-  let counter = 0;
-
-  const hasBanner = champion.accessories === Slots.Banner;
-  const hasAmulet = hasBanner || champion.accessories === Slots.Amulet;
-  const hasRing = hasAmulet || champion.accessories === Slots.Ring;
-
-  postCommand({
-    message: JSON.stringify({ hasBanner, hasAmulet, hasRing, artifacts }),
-    command: "message",
-  });
-
-  const weapons = artifacts.filter((i) => i.Slot === Slots.Weapon);
-  const helmets = artifacts.filter((i) => i.Slot === Slots.Helmet);
-  const shields = artifacts.filter((i) => i.Slot === Slots.Shield);
-  const gauntlets = artifacts.filter((i) => i.Slot === Slots.Gauntlets);
-  const chestplates = artifacts.filter((i) => i.Slot === Slots.Chestplate);
-  const boots = artifacts.filter((i) => i.Slot === Slots.Boots);
-  const rings = hasRing
-    ? artifacts.filter((i) => i.Slot === Slots.Ring && i.Clan === champion.clan)
-    : [];
-  const amulets = hasAmulet
-    ? artifacts.filter(
-        (i) => i.Slot === Slots.Amulet && i.Clan === champion.clan
-      )
-    : [];
-  const banners = hasBanner
-    ? artifacts.filter(
-        (i) => i.Slot === Slots.Banner && i.Clan === champion.clan
-      )
-    : [];
+function* generateTable(
+  entryArtifacts: ScoredArtifact[]
+): Generator<{ artifacts: ListOfScoredArtifacts; max: number }> {
+  let weapons = entryArtifacts.filter((i) => i.Slot === Slots.Weapon);
+  let helmets = entryArtifacts.filter((i) => i.Slot === Slots.Helmet);
+  let shields = entryArtifacts.filter((i) => i.Slot === Slots.Shield);
+  let gauntlets = entryArtifacts.filter((i) => i.Slot === Slots.Gauntlets);
+  let chestplates = entryArtifacts.filter((i) => i.Slot === Slots.Chestplate);
+  let boots = entryArtifacts.filter((i) => i.Slot === Slots.Boots);
 
   if (weapons.length === 0) {
     weapons.push(getEmtyItem(Slots.Weapon));
@@ -88,65 +67,60 @@ const generateTable = (
     boots.push(getEmtyItem(Slots.Boots));
   }
 
-  if (rings.length === 0) {
-    rings.push(getEmtyItem(Slots.Ring));
+  weapons = weapons.sort((a, b) => b.score - a.score).slice(0, 10);
+  helmets = helmets.sort((a, b) => b.score - a.score).slice(0, 10);
+  shields = shields.sort((a, b) => b.score - a.score).slice(0, 10);
+  gauntlets = gauntlets.sort((a, b) => b.score - a.score).slice(0, 10);
+  chestplates = chestplates.sort((a, b) => b.score - a.score).slice(0, 10);
+  boots = boots.sort((a, b) => b.score - a.score).slice(0, 10);
+
+  const max =
+    weapons.length *
+    helmets.length *
+    shields.length *
+    gauntlets.length *
+    chestplates.length *
+    boots.length;
+
+  for (let weaponIndex = 0; weaponIndex < weapons.length; weaponIndex += 1) {
+    const weapon = weapons[weaponIndex];
+    for (let helmetIndex = 0; helmetIndex < helmets.length; helmetIndex += 1) {
+      const helmet = helmets[helmetIndex];
+      for (
+        let shieldIndex = 0;
+        shieldIndex < shields.length;
+        shieldIndex += 1
+      ) {
+        const shield = shields[shieldIndex];
+        for (
+          let gloveIndex = 0;
+          gloveIndex < gauntlets.length;
+          gloveIndex += 1
+        ) {
+          const gauntlet = gauntlets[gloveIndex];
+          for (
+            let chestIndex = 0;
+            chestIndex < chestplates.length;
+            chestIndex += 1
+          ) {
+            const chestplate = chestplates[chestIndex];
+            for (let bootIndex = 0; bootIndex < boots.length; bootIndex += 1) {
+              const artifacts = [
+                weapon,
+                helmet,
+                shield,
+                gauntlet,
+                chestplate,
+                boots[bootIndex],
+              ] as ListOfScoredArtifacts;
+
+              yield { artifacts, max };
+            }
+          }
+        }
+      }
+    }
   }
-
-  if (amulets.length === 0) {
-    amulets.push(getEmtyItem(Slots.Amulet));
-  }
-
-  if (banners.length === 0) {
-    banners.push(getEmtyItem(Slots.Banner));
-  }
-
-  postCommand({
-    message: JSON.stringify({ rings, amulets, banners, champion }),
-    command: "message",
-  });
-
-  weapons.forEach((weapon) => {
-    helmets.forEach((helmet) => {
-      shields.forEach((shield) => {
-        gauntlets.forEach((gauntlet) => {
-          chestplates.forEach((chestplate) => {
-            boots.forEach((boot) => {
-              rings.forEach((ring) => {
-                amulets.forEach((amulet) => {
-                  banners.forEach((banner) => {
-                    const sets = [
-                      weapon,
-                      helmet,
-                      shield,
-                      gauntlet,
-                      chestplate,
-                      boot,
-                      ring,
-                      amulet,
-                      banner,
-                    ] as ListOfArtifacts;
-                    counter += 1;
-
-                    if (postCommand && counter % 15000 === 0) {
-                      postCommand({
-                        command: "progress",
-                        current: counter,
-                        task: "taskGenerateTable",
-                      });
-                    }
-
-                    results.push(sets);
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-
-  return results;
-};
+}
 
 export default generateTable;

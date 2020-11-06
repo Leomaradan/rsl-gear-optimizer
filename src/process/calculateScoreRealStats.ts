@@ -1,4 +1,4 @@
-import { Stars, ListOfArtifacts, Champion, Stat, StatsFull } from "models";
+import { Stars, Champion, Stat, StatsFull, Artifact, Slots } from "models";
 
 const statsWeight = (stats: Stat, quality: Stars) => {
   switch (stats) {
@@ -70,50 +70,50 @@ const statsWeight = (stats: Stat, quality: Stars) => {
 };
 
 const calculateScoreRealStats = (
-  artifacts: ListOfArtifacts,
+  artifact: Artifact,
   champion: Champion
 ): number => {
-  const gauntletStatsStatsScore = champion.gauntletStats.includes(
-    artifacts[3].MainStats
-  )
-    ? Math.round(
-        statsWeight(artifacts[3].MainStats, artifacts[3].Quality) *
-          (artifacts[3].MainStatsValue ?? 0)
-      )
-    : 0;
-  const chestplateStatsStatsScore = champion.chestplateStats.includes(
-    artifacts[4].MainStats
-  )
-    ? Math.round(
-        statsWeight(artifacts[4].MainStats, artifacts[4].Quality) *
-          (artifacts[4].MainStatsValue ?? 0)
-      )
-    : 0;
-  const bootsStatsStatsScore = champion.bootsStats.includes(
-    artifacts[5].MainStats
-  )
-    ? Math.round(
-        statsWeight(artifacts[5].MainStats, artifacts[5].Quality) *
-          (artifacts[5].MainStatsValue ?? 0)
-      )
-    : 0;
+  const gauntletStatsStatsScore =
+    artifact.Slot === Slots.Gauntlets &&
+    champion.GauntletStats.includes(artifact.MainStats)
+      ? Math.round(
+          statsWeight(artifact.MainStats, artifact.Quality) *
+            (artifact.MainStatsValue ?? 0)
+        )
+      : 0;
 
-  const statsScore = artifacts.reduce((acc, artifact) => {
-    const artifactStats = artifact.SubStats as StatsFull[];
+  const chestplateStatsStatsScore =
+    artifact.Slot === Slots.Chestplate &&
+    champion.ChestplateStats.includes(artifact.MainStats)
+      ? Math.round(
+          statsWeight(artifact.MainStats, artifact.Quality) *
+            (artifact.MainStatsValue ?? 0)
+        )
+      : 0;
 
-    let sum = acc;
+  const bootsStatsStatsScore =
+    artifact.Slot === Slots.Boots &&
+    champion.BootsStats.includes(artifact.MainStats)
+      ? Math.round(
+          statsWeight(artifact.MainStats, artifact.Quality) *
+            (artifact.MainStatsValue ?? 0)
+        )
+      : 0;
 
-    artifactStats.forEach((artifactStat) => {
-      if (artifactStat && artifactStat.Stats !== Stat.None) {
-        const modifier =
-          (champion.statsPriority[artifactStat.Stats] ?? 0) *
-          statsWeight(artifactStat.Stats, artifact.Quality);
-        sum += Math.round(modifier * (artifactStat.Value + artifactStat.Rune));
-      }
-    });
+  const artifactStats = artifact.SubStats as StatsFull[];
 
-    return sum;
-  }, 0);
+  let statsScore = 0;
+
+  artifactStats.forEach((artifactStat) => {
+    if (artifactStat && artifactStat.Stats !== Stat.None) {
+      const modifier =
+        (champion.StatsPriority[artifactStat.Stats] ?? 0) *
+        statsWeight(artifactStat.Stats, artifact.Quality);
+      statsScore += Math.round(
+        modifier * (artifactStat.Value + artifactStat.Rune)
+      );
+    }
+  });
 
   return (
     gauntletStatsStatsScore +

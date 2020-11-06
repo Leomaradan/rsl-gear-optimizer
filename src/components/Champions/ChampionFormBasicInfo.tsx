@@ -24,7 +24,7 @@ import {
 } from "models";
 import React, { useMemo } from "react";
 
-export interface ChampionFormBasicInfoProps {
+interface ChampionFormBasicInfoProps {
   state: ChampionDraft;
   setState: React.Dispatch<React.SetStateAction<ChampionDraft>>;
   errors: Errors;
@@ -38,7 +38,7 @@ export default ({
   errors,
 }: ChampionFormBasicInfoProps): JSX.Element => {
   const updateChampion = (champion: DropdownSelectItem) => {
-    setState((current) => ({ ...current, champion: champion.value }));
+    setState((current) => ({ ...current, Champion: champion.value }));
   };
 
   const lang = useLanguage();
@@ -60,27 +60,27 @@ export default ({
 
       setState((current) => {
         let newSets: Sets[];
-        if (current.sets.includes(set)) {
-          newSets = current.sets.filter((s) => s !== set);
+        if (current.Sets.includes(set)) {
+          newSets = current.Sets.filter((s) => s !== set);
         } else {
-          newSets = [...current.sets, set].sort();
+          newSets = [...current.Sets, set].sort();
         }
 
-        return { ...current, sets: newSets };
+        return { ...current, Sets: newSets };
       });
     }
   };
 
   const updateMethod = (methods: ChampionSetMethod) => {
-    setState((current) => ({ ...current, methods }));
+    setState((current) => ({ ...current, Methods: methods }));
   };
 
   const updateAccessories = (accessories: AccessoriesSlots | "") => {
-    setState((current) => ({ ...current, accessories }));
+    setState((current) => ({ ...current, Accessories: accessories }));
   };
 
   const toggleChampion = () => {
-    setState((current) => ({ ...current, activated: !current.activated }));
+    setState((current) => ({ ...current, Activated: !current.Activated }));
   };
 
   return (
@@ -93,7 +93,7 @@ export default ({
         <div className="col-sm-10">
           <DropdownSelect
             items={selectList}
-            value={state.champion}
+            value={state.Champion}
             onChange={updateChampion}
           />
         </div>
@@ -105,7 +105,7 @@ export default ({
           </legend>
           <div className="col-sm-10">
             <Toggle
-              currentState={state.activated}
+              currentState={state.Activated}
               name="toggleChampion"
               onToggle={toggleChampion}
             />
@@ -122,7 +122,7 @@ export default ({
             <RadioButtons
               inline
               name="accessoriesRadio"
-              selectedOption={state.accessories ?? ""}
+              selectedOption={state.Accessories ?? ""}
               options={[
                 {
                   text: lang.commonNo,
@@ -156,7 +156,7 @@ export default ({
             <RadioButtons
               inline
               name="methodRadio"
-              selectedOption={state.methods}
+              selectedOption={state.Methods}
               options={[
                 {
                   text: lang.optionMethodRequiredSet,
@@ -195,8 +195,8 @@ export default ({
                 className="custom-control-input"
                 type="checkbox"
                 id={`sets-${set}`}
-                checked={state.sets.includes(set)}
-                disabled={state.methods === ChampionSetMethod.NoSets}
+                checked={state.Sets.includes(set)}
+                disabled={state.Methods === ChampionSetMethod.NoSets}
                 onChange={updateSets}
                 value={set}
               />

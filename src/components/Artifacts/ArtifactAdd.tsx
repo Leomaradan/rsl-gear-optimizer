@@ -9,6 +9,7 @@ import {
   Artifact,
   Clans,
 } from "models";
+import Button from "react-bootstrap/Button";
 
 import React, { useState } from "react";
 
@@ -45,13 +46,9 @@ const ArtifactAdd = ({
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-info btn-sm"
-        onClick={handleShow}
-      >
+      <Button variant="info" size="sm" onClick={handleShow}>
         {label || lang.commonAddNew}
-      </button>
+      </Button>
       <ArtifactForm
         artifact={emptyArtifact as Artifact}
         handleClose={handleClose}

@@ -2,10 +2,10 @@ import en from "./en-us.json";
 import fr from "./fr-fr.json";
 
 export interface Language {
-  btnExportArtifacts: string;
-  btnExportChampions: string;
+  btnExportBackup: string;
   btnGenerateCombination: string;
-  btnImportArtifactsOrChampions: string;
+  btnImportBackup: string;
+  btnImportRaidExtract: string;
   championAbbess: string;
   championAcolyte: string;
   championAdjudicator: string;
@@ -531,10 +531,13 @@ export interface Language {
   messageHomeContribute: string;
   messageHomeWarning: string;
   messageImportOverrideData: string;
+  messageRaidExtractHelp: string;
+  messageRaidExtractLink: string;
   optionArtifactsDisplayAsGrid: string;
   optionArtifactsDisplayAsTable: string;
   optionArtifactsDisplayMode: string;
   optionChooseCSVFile: string;
+  optionChooseJSONFile: string;
   optionExcludeWornArtifacts: string;
   optionGenerationMethods: string;
   optionGenerationEasyMode: string;
@@ -633,6 +636,7 @@ export interface Language {
   titleGenerationOptions: string;
   titleHome: string;
   titleImportCSV: string;
+  titleImportJSON: string;
   titleIsActivated: string;
   titleLevel: string;
   titleMainStats: string;
@@ -670,7 +674,7 @@ const transform = (lang: Language): Language => {
 
 export const dictionaryList: { [key: string]: Language } = {
   en: (en as unknown) as Language,
-  fr: transform(fr as Language),
+  fr: transform((fr as unknown) as Language),
 };
 
 export const languageOptions = {

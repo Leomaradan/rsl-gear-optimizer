@@ -1,36 +1,34 @@
 import ChampionForm from "./ChampionForm";
 import { ChampionDraft } from "models";
+import { useLanguage } from "lang/LanguageContext";
 import React, { useState } from "react";
-import { Plus } from "react-bootstrap-icons";
+import Button from "react-bootstrap/Button";
 
 const ChampionAdd = (): JSX.Element => {
   const [show, setShow] = useState(false);
+  const lang = useLanguage();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const emptyChampion = {
     order: -1,
-    bootsStats: [],
-    chestplateStats: [],
-    gauntletStats: [],
-    methods: -1,
-    champion: "",
-    sets: [],
-    statsPriority: {},
-    activated: true,
-    accessories: "",
+    BootsStats: [],
+    ChestplateStats: [],
+    GauntletStats: [],
+    Methods: -1,
+    Champion: "",
+    Sets: [],
+    StatsPriority: {},
+    Activated: true,
+    Accessories: "",
   } as ChampionDraft;
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-info btn-sm"
-        onClick={handleShow}
-      >
-        <Plus />
-      </button>
+      <Button variant="primary" size="sm" onClick={handleShow}>
+        {lang.commonAddNew}
+      </Button>
       <ChampionForm
         champion={emptyChampion}
         handleClose={handleClose}

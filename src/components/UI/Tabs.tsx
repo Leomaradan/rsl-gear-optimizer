@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
-import classNames from "classnames";
-
-import React, { useState } from "react";
-import styled from "styled-components";
+import React from "react";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 
 export interface TabProps {
   id: string;
@@ -17,70 +15,28 @@ interface TabsProps {
   tabs: TabProps[];
   defaultTabs?: string;
   widget?: JSX.Element;
-  main?: boolean;
   onChange?(id: string): void;
 }
 
-const Tab = styled.li.attrs((p: { active: boolean }) => ({
-  className: classNames("nav-item", {
-    active: p.active,
-  }),
-}))<{ active: boolean }>`
-  cursor: pointer;
-`;
-
 export default (props: TabsProps): JSX.Element => {
-  const { tabs, defaultTabs, widget, main, onChange } = props;
+  const { tabs, defaultTabs, widget, onChange } = props;
 
-  const [show, updateShow] = useState(false);
-  const [activeTabs, setTabs] = useState(defaultTabs ?? tabs[0].id ?? "");
   const lang = useLanguage();
+
+  const onSelect = (key: string | null) => {
+    if (key && onChange) {
+      onChange(key);
+    }
+  };
+
   return (
-    <>
-      <nav
-        className={classNames("navbar navbar-expand-lg", {
-          "navbar-dark bg-dark fixed-top": main,
-        })}
-      >
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          onClick={() => {
-            updateShow(!show);
-          }}
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
-        <div className={classNames("collapse navbar-collapse", { show })}>
-          <ul className="navbar-nav">
-            {tabs.map((tab) => (
-              <Tab active={tab.id === activeTabs} key={tab.id}>
-                <a
-                  role="button"
-                  className={classNames("nav-link", {
-                    disabled: tab.disable,
-                  })}
-                  href="#"
-                  onClick={() => {
-                    if (onChange) {
-                      onChange(tab.id);
-                    }
-                    setTabs(tab.id);
-                    updateShow(false);
-                  }}
-                >
-                  {lang[tab.title as keyof Language]}
-                </a>
-              </Tab>
-            ))}
-          </ul>
-        </div>
-        <form className="form-inline my-2 my-lg-0">{widget}</form>
-      </nav>
-      {tabs.find((t) => t.id === activeTabs)?.page}
-    </>
+    <Tabs defaultActiveKey={defaultTabs} onSelect={onSelect}>
+      {tabs.map((tab) => (
+        <Tab eventKey={tab.id} title={lang[tab.title as keyof Language]}>
+          {tab.page}
+        </Tab>
+      ))}
+      <form className="form-inline my-2 my-lg-0">{widget}</form>
+    </Tabs>
   );
 };

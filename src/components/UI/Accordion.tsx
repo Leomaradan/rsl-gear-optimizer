@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import classNames from "classnames";
-import { v4 as uuidv4 } from "uuid";
+import Stack from "./Stack";
+import React, { useState } from "react";
 import styled from "styled-components";
+import BtAccordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
 
 export interface AccordionSection {
   key: string;
@@ -10,86 +11,54 @@ export interface AccordionSection {
   expanded?: boolean;
   widget?: JSX.Element;
 }
-
-interface AccordionProps {
-  section: AccordionSection[];
-}
-
-const Card = styled.div.attrs(() => ({ className: "card" }))`
-  background-color: inherit;
-  border: 2px solid;
-`;
-
-const CardHeader = styled.div.attrs(() => ({ className: "card-header" }))`
-  background-color: var(--white);
-  border-bottom: 1px solid;
+const CardHeader = styled(Card.Header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
+interface AccordionProps {
+  section: AccordionSection[];
+}
+
+const InnerAccordion = ({ filterItems }: { filterItems: AccordionSection }) => {
+  const [show, setShow] = useState(filterItems.expanded ?? false);
+
+  return (
+    <BtAccordion
+      defaultActiveKey={filterItems.expanded ? "0" : undefined}
+      onSelect={(e) => {
+        setShow(e === "0");
+      }}
+    >
+      <Card>
+        <BtAccordion.Toggle as={CardHeader} eventKey="0">
+          <button className="btn btn-link text-left" type="button">
+            {filterItems.title}
+          </button>
+          {filterItems.widget && <div>{filterItems.widget}</div>}
+        </BtAccordion.Toggle>
+        <BtAccordion.Collapse eventKey="0">
+          <Card.Body>{show && filterItems.content}</Card.Body>
+        </BtAccordion.Collapse>
+      </Card>
+    </BtAccordion>
+  );
+};
+
 const Accordion = ({ section }: AccordionProps): JSX.Element => {
   const listSection = section.map((s) => s.key);
 
-  const [expanded, updateExanded] = useState(
-    section.filter((s) => s.expanded !== false).map((s) => s.key)
-  );
-
-  const id = useMemo(() => uuidv4(), []);
-
-  useEffect(() => {
-    updateExanded(
-      section.filter((s) => s.expanded !== false).map((s) => s.key)
-    );
-  }, [section]);
-
-  const toggleExpanded = (key: string) => {
-    if (expanded.includes(key)) {
-      updateExanded(expanded.filter((e) => e !== key));
-    } else {
-      updateExanded([...expanded, key]);
-    }
-  };
-
   return (
-    <div className="accordion" id={id}>
+    <Stack>
       {listSection.map((key) => {
         const filterItems = section.find((i) => i.key === key);
-
         if (filterItems) {
-          const isExpanded = expanded.includes(key);
-
-          return (
-            <Card key={key}>
-              <CardHeader id={`heading${key}`}>
-                <button
-                  className="btn btn-link text-left"
-                  type="button"
-                  aria-expanded={isExpanded}
-                  aria-controls={`collapse${key}`}
-                  onClick={() => {
-                    toggleExpanded(key);
-                  }}
-                >
-                  {filterItems.title}
-                </button>
-                {filterItems.widget && <div>{filterItems.widget}</div>}
-              </CardHeader>
-              <div
-                id={`collapse${key}`}
-                className={classNames("collapse", { show: isExpanded })}
-                aria-labelledby={`heading${key}`}
-                data-parent={`#${id}`}
-              >
-                <div className="card-body">{filterItems.content}</div>
-              </div>
-            </Card>
-          );
+          return <InnerAccordion key={key} filterItems={filterItems} />;
         }
-
         return null;
       })}
-    </div>
+    </Stack>
   );
 };
 

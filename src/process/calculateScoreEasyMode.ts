@@ -1,69 +1,65 @@
-import { ListOfArtifacts, Champion, Rarity, Stat } from "models";
+import {
+  Champion,
+  Rarity,
+  Stat,
+  Artifact,
+  Slots,
+  ExistingSlotsAccessories,
+} from "models";
 
 const calculateScoreEasyMode = (
-  artifacts: ListOfArtifacts,
+  artifact: Artifact,
   champion: Champion
 ): number => {
-  const rarityScore = artifacts.reduce((acc, item) => {
-    if (item.Rarity === Rarity.Rare) {
-      return acc + 1;
+  let rarityScore = 0;
+
+  if (artifact.Rarity === Rarity.Rare) {
+    rarityScore = 1;
+  }
+
+  if (artifact.Rarity === Rarity.Epic) {
+    rarityScore = 2;
+  }
+
+  if (artifact.Rarity === Rarity.Legendary) {
+    rarityScore = 3;
+  }
+
+  const qualityScore = Math.max(0, artifact.Quality - 2);
+
+  const gauntletStatsStatsScore =
+    artifact.Slot === Slots.Gauntlets &&
+    champion.GauntletStats.includes(artifact.MainStats)
+      ? 1
+      : 0;
+  const chestplateStatsStatsScore =
+    artifact.Slot === Slots.Chestplate &&
+    champion.ChestplateStats.includes(artifact.MainStats)
+      ? 1
+      : 0;
+  const bootsStatsStatsScore =
+    artifact.Slot === Slots.Boots &&
+    champion.BootsStats.includes(artifact.MainStats)
+      ? 1
+      : 0;
+
+  let accessoryScore = 0;
+  if (
+    ExistingSlotsAccessories.includes(artifact.Slot) &&
+    artifact.MainStats !== Stat.None
+  ) {
+    accessoryScore = champion.StatsPriority[artifact.MainStats] ?? 0;
+  }
+
+  let statsScore = 0;
+
+  const artifactStats = artifact.SubStats.map((s) => s?.Stats) as Stat[];
+
+  artifactStats.forEach((artifactStat) => {
+    if (artifactStat !== Stat.None) {
+      statsScore += champion.StatsPriority[artifactStat] ?? 0;
     }
-
-    if (item.Rarity === Rarity.Epic) {
-      return acc + 2;
-    }
-
-    if (item.Rarity === Rarity.Legendary) {
-      return acc + 3;
-    }
-
-    return acc;
-  }, 0);
-
-  const qualityScore = artifacts.reduce(
-    (acc, item) => acc + Math.max(0, item.Quality - 2),
-    0
-  );
-
-  const gauntletStatsStatsScore = champion.gauntletStats.includes(
-    artifacts[3].MainStats
-  )
-    ? 1
-    : 0;
-  const chestplateStatsStatsScore = champion.chestplateStats.includes(
-    artifacts[4].MainStats
-  )
-    ? 1
-    : 0;
-  const bootsStatsStatsScore = champion.bootsStats.includes(
-    artifacts[5].MainStats
-  )
-    ? 1
-    : 0;
-
-  const accessoryScore = artifacts.slice(6).reduce((acc, artifact) => {
-    let sum = acc;
-
-    if (artifact.MainStats !== Stat.None) {
-      sum += champion.statsPriority[artifact.MainStats] ?? 0;
-    }
-
-    return sum;
-  }, 0);
-
-  const statsScore = artifacts.reduce((acc, artifact) => {
-    const artifactStats = artifact.SubStats.map((s) => s?.Stats) as Stat[];
-
-    let sum = acc;
-
-    artifactStats.forEach((artifactStat) => {
-      if (artifactStat !== Stat.None) {
-        sum += champion.statsPriority[artifactStat] ?? 0;
-      }
-    });
-
-    return sum;
-  }, 0);
+  });
 
   return (
     rarityScore +

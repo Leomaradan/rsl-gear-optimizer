@@ -24,31 +24,31 @@ const validate = (
 ): boolean => {
   const errorsList: Errors = [];
 
-  if (state.champion.length === 0) {
+  if (state.Champion.length === 0) {
     errorsList.push({
       slot: "champion",
       text: "errorSelectChampion",
     });
   }
 
-  if (state.methods < 0 || state.methods > 2) {
+  if (state.Methods < 0 || state.Methods > 2) {
     errorsList.push({
       slot: "methods",
       text: lang.errorSelectMethod,
     });
   }
 
-  if (state.sets.length === 0 && state.methods !== ChampionSetMethod.NoSets) {
+  if (state.Sets.length === 0 && state.Methods !== ChampionSetMethod.NoSets) {
     errorsList.push({
       slot: "sets",
       text: lang.errorSelectSets,
     });
   }
 
-  const statsPrioritySum = Object.keys(state.statsPriority).reduce(
+  const statsPrioritySum = Object.keys(state.StatsPriority).reduce(
     (acc, key) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return acc + Number((state.statsPriority as any)[key]);
+      return acc + Number((state.StatsPriority as any)[key]);
     },
     0
   );
@@ -60,21 +60,21 @@ const validate = (
     });
   }
 
-  if (state.gauntletStats.length === 0) {
+  if (state.GauntletStats.length === 0) {
     errorsList.push({
       slot: "gauntletStats",
       text: lang.errorSelectStatsGauntlets,
     });
   }
 
-  if (state.chestplateStats.length === 0) {
+  if (state.ChestplateStats.length === 0) {
     errorsList.push({
       slot: "chestplateStats",
       text: lang.errorSelectStatsChestplate,
     });
   }
 
-  if (state.bootsStats.length === 0) {
+  if (state.BootsStats.length === 0) {
     errorsList.push({
       slot: "bootsStats",
       text: lang.errorSelectStatsBoots,
@@ -106,14 +106,14 @@ const ChampionForm = (props: ChampionFormProps): JSX.Element => {
 
     if (ok) {
       let championSaving = state;
-      if (championSaving.methods === ChampionSetMethod.NoSets) {
-        championSaving = { ...state, sets: [] };
+      if (championSaving.Methods === ChampionSetMethod.NoSets) {
+        championSaving = { ...state, Sets: [] };
       }
 
       if (champion.order !== -1) {
         dispatch(
           updateChampions({
-            name: champion.name as string,
+            id: champion.name as string,
             champion: championSaving,
           })
         );
@@ -167,13 +167,13 @@ const ChampionForm = (props: ChampionFormProps): JSX.Element => {
         title={
           champion.order !== -1
             ? `${lang.commonEditing} ${
-                state.champion
-                  ? lang[`champion${state.champion}` as keyof Language]
+                state.Champion
+                  ? lang[`champion${state.Champion}` as keyof Language]
                   : ""
               }`
             : `${lang.commonAdding} ${
-                state.champion
-                  ? lang[`champion${state.champion}` as keyof Language]
+                state.Champion
+                  ? lang[`champion${state.Champion}` as keyof Language]
                   : ""
               }`
         }

@@ -2,12 +2,10 @@
 /* eslint-disable no-restricted-globals */
 
 import generateData from "./generateData";
-import selectResults from "./selectResults";
 import {
   ResultsWorkerCommands,
   ResultsWorkerEventGenerate,
   Results,
-  ResultsDraft,
   Champion,
   ChampionSetMethod,
   Artifact,
@@ -27,39 +25,77 @@ class CombinationWorker {
   generate(
     champions: Champion[],
     artifacts: Artifact[],
-    generationMethod: GenerationMethod
+    generationMethod: GenerationMethod,
+    excludeWornArtifacts: boolean
   ): Results[] {
-    const results: ResultsDraft[] = [];
-    champions.forEach((champion) => {
+    const results: Results[] = [];
+    const usedArtifacts: string[] = [];
+    const max = champions.length;
+
+    champions.forEach((champion, nbChampion) => {
       let filtererdArtifacts = artifacts;
 
-      if (champion.methods !== ChampionSetMethod.NoSets) {
+      postCommand({
+        message: `Starting with champion ${champion.Champion}`,
+        command: "message",
+      });
+
+      if (champion.Methods !== ChampionSetMethod.NoSets) {
         filtererdArtifacts = artifacts.filter((artifact) =>
           artifact.isAccessory
-            ? champion.clan === artifact.Clan
-            : champion.sets.includes(artifact.Set)
+            ? champion.Clan === artifact.Clan
+            : champion.Sets.includes(artifact.Set)
         );
       }
 
-      const result = generateData(
+      if (excludeWornArtifacts) {
+        filtererdArtifacts = filtererdArtifacts.filter(
+          (artifact) =>
+            artifact.Champion === "" || artifact.Champion === champion.Champion
+        );
+      }
+
+      filtererdArtifacts = filtererdArtifacts.filter(
+        (artifact) => !usedArtifacts.includes(artifact.Guid)
+      );
+
+      let result = generateData(
         filtererdArtifacts,
         champion,
         generationMethod,
         postCommand,
-        champion.methods === ChampionSetMethod.RequireSets
+        nbChampion,
+        max,
+        champion.Methods === ChampionSetMethod.RequireSets
       );
 
       items += result.length;
 
+      result = result.sort((a, b) => b.score - a.score).slice(0, 100);
+
+      const selected = result.length > 0 ? result[0] : null;
+
+      if (selected) {
+        selected.artifacts.forEach((element) => {
+          usedArtifacts.push(element.Guid);
+        });
+      }
+
+      postCommand({
+        message: `Ending with champion ${champion.Champion}`,
+        command: "message",
+      });
+
       results.push({
-        result,
+        result: result.map((row) => JSON.stringify(row)),
         champion,
-        name: champion.name,
-        selected: -1,
+        name: champion.Guid,
+        selected: selected !== null,
+        artifacts: selected,
       });
     });
 
-    return selectResults(results, postCommand);
+    return results;
   }
 }
 
@@ -70,7 +106,8 @@ ctx.addEventListener("message", (event: ResultsWorkerEventGenerate) => {
     const results = worker.generate(
       event.data.champions,
       event.data.artifacts,
-      event.data.generationMethod
+      event.data.generationMethod,
+      event.data.excludeWornArtifacts
     );
 
     postCommand({ command: "done", results, items });

@@ -6,7 +6,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { HelmetProvider } from "react-helmet-async";
-import "./index.scss";
+import "./theme.scss";
 import { Provider } from "react-redux";
 
 const { store, persistor } = configureStore();

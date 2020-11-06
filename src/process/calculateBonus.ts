@@ -3,7 +3,7 @@ import { AdvancedSets, ListOfArtifacts, Sets } from "models";
 const calculateBonus = (
   artifacts: ListOfArtifacts
 ): { sets: Sets[]; complete: boolean } => {
-  const sets = artifacts.map((i) => i.Set);
+  const sets = artifacts.map((i) => i.Set).filter((s) => s !== "");
   const activated: Sets[] = [];
   let pieces = 0;
 

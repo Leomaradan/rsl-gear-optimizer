@@ -107,15 +107,6 @@ export const AdvancedSets = [
   Sets.Deflection,
 ];
 
-export const DivineSets = [
-  Sets.Cruel,
-  Sets.Immortal,
-  Sets.DivineLife,
-  Sets.DivineOffense,
-  Sets.DivineCriticalRate,
-  Sets.DivineSpeed,
-];
-
 export const SetsIconName: { [key: string]: string } = {
   [Sets.Life]: "Life",
   [Sets.Offense]: "Offense",

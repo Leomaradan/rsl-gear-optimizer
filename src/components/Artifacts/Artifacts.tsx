@@ -3,7 +3,7 @@ import ArtifactAdd from "./ArtifactAdd";
 import { State } from "redux/reducers";
 
 import SetDisplay from "components/UI/SetDisplay";
-import Accordion, { AccordionSection } from "components/UI/Accordion";
+import BtAccordion, { AccordionSection } from "components/UI/Accordion";
 import { useLanguage } from "lang/LanguageContext";
 import { Language } from "lang/language";
 import BaseWrapper from "components/UI/Wrapper";
@@ -16,12 +16,12 @@ import {
   Clans,
   Sets,
 } from "models";
-import Tabs from "components/UI/Tabs";
 import ClanDisplay from "components/UI/ClanDisplay";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import React, { useState } from "react";
+import React from "react";
 import { Plus } from "react-bootstrap-icons";
+import { NavLink } from "react-router-dom";
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
@@ -33,14 +33,12 @@ const InnerWrapper = styled(Wrapper)`
   gap: 15px;
 `;
 
-const Artifacts = (): JSX.Element => {
+const Artifacts = ({ accessories }: { accessories?: boolean }): JSX.Element => {
   const artifacts = useSelector((state: State) => state.artifacts);
 
   const lang = useLanguage();
   const sectionArtifacts: AccordionSection[] = [];
   const sectionAccessories: AccordionSection[] = [];
-
-  const [isAccessory, setAccessory] = useState(false);
 
   SortedExistingSets.forEach((set) => {
     const filterArtifacts = artifacts.filter(
@@ -88,27 +86,32 @@ const Artifacts = (): JSX.Element => {
       <Wrapper>
         <h1>{lang.titleArtifacts}</h1>
         <InnerWrapper>
-          <ArtifactAdd isAccessory={isAccessory} />
+          <ArtifactAdd isAccessory={accessories} />
           <SelectArtifactDisplay inline />
         </InnerWrapper>
       </Wrapper>
-      <Tabs
-        onChange={(id) => {
-          setAccessory(id === "accessories");
-        }}
-        tabs={[
-          {
-            id: "artifacts",
-            title: "titleArtifacts",
-            page: <Accordion section={sectionArtifacts} />,
-          },
-          {
-            id: "accessories",
-            title: "titleAccessories",
-            page: <Accordion section={sectionAccessories} />,
-          },
-        ]}
-      />
+      <ul className="nav nav-tabs">
+        <li className="nav-item">
+          <NavLink
+            to="/artifacts"
+            className="nav-link"
+            activeClassName="active"
+          >
+            {lang.titleArtifacts}
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/accessories"
+            className="nav-link"
+            activeClassName="active"
+          >
+            {lang.titleAccessories}
+          </NavLink>
+        </li>
+      </ul>
+      {!accessories && <BtAccordion section={sectionArtifacts} />}
+      {accessories && <BtAccordion section={sectionAccessories} />}
     </Stack>
   );
 };

@@ -1,13 +1,13 @@
 import ArtifactEditTable from "./ArtifactEditTable";
-import { Artifact, Rarity, Stat, StatsFull } from "models";
+import { Artifact, Stat, StatsFull } from "models";
 
 import Wrapper from "components/UI/Wrapper";
 
 import { useLanguage } from "lang/LanguageContext";
 import { Language } from "lang/language";
 
-import StarDisplay from "components/UI/StarDisplay";
 import ChampionPortrait from "components/UI/ChampionPortrait";
+import ArtifactDisplay from "components/UI/ArtifactDisplay";
 import styled from "styled-components";
 import React from "react";
 
@@ -16,13 +16,6 @@ interface ArtifactsListRowProps {
 }
 
 const Cell = styled.td``;
-
-const CellPortrait = styled.td`
-  height: 97px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const Yellow = styled.span`
   color: yellowgreen;
@@ -46,7 +39,7 @@ const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
 
   const subStatDisplay = (stat: StatsFull) => (
     <>
-      {lang[`stat${stat.Stats}` as keyof Language]}
+      {lang[`stat${stat.Stats}Short` as keyof Language]}
       {stat.Roll !== undefined && stat.Roll !== 0 && `(${stat.Roll})`}{" "}
       {stat.Value && statsDisplay(stat.Stats, stat.Value)}
       {stat.Rune !== undefined && stat.Rune !== 0 && (
@@ -55,27 +48,13 @@ const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
     </>
   );
 
-  const RarityName = {
-    [Rarity.Common]: lang.rarityCommon,
-    [Rarity.Uncommon]: lang.rarityUncommon,
-    [Rarity.Rare]: lang.rarityRare,
-    [Rarity.Epic]: lang.rarityEpic,
-    [Rarity.Legendary]: lang.rarityLegendary,
-  };
-
   return (
     <tr>
-      <Cell>{lang[`slot${artifact.Slot}` as keyof Language]}</Cell>
-      <Cell>{lang[`set${artifact.Set}` as keyof Language]}</Cell>
-      <Cell>{RarityName[artifact.Rarity]}</Cell>
-
       <Cell>
-        <StarDisplay stars={artifact.Quality} />
+        <ArtifactDisplay artifact={artifact} champion={false} size={50} />
       </Cell>
-
-      <Cell>{artifact.Level ?? 1}</Cell>
       <Cell>
-        {lang[`stat${artifact.MainStats}` as keyof Language]}{" "}
+        {lang[`stat${artifact.MainStats}Short` as keyof Language]}{" "}
         {artifact.MainStatsValue &&
           statsDisplay(artifact.MainStats, artifact.MainStatsValue)}
       </Cell>
@@ -86,11 +65,11 @@ const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
           <Cell key={`sub-${statIndex}`}>{stat && subStatDisplay(stat)}</Cell>
         );
       })}
-      <CellPortrait>
+      <Cell>
         {artifact.Champion && (
-          <ChampionPortrait champion={artifact.Champion} size={70} />
+          <ChampionPortrait champion={artifact.Champion} size={50} />
         )}
-      </CellPortrait>
+      </Cell>
       <Cell>
         <Wrapper>
           <ArtifactEditTable artifact={artifact} />

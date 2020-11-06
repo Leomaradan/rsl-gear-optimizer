@@ -1,5 +1,6 @@
 import { useLanguage } from "lang/LanguageContext";
 import React from "react";
+import Button from "react-bootstrap/Button";
 
 export default (): JSX.Element => {
   const lang = useLanguage();
@@ -11,13 +12,13 @@ export default (): JSX.Element => {
       <p>{lang.messageHomeWarning}</p>
       <hr className="my-4" />
       <p>{lang.messageHomeContribute}</p>
-      <a
-        className="btn btn-primary btn-lg"
+      <Button
+        variant="primary"
+        size="lg"
         href="https://github.com/Leomaradan/rsl-gear-optimizer"
-        role="button"
       >
         GitHub
-      </a>
+      </Button>
     </div>
   );
 };

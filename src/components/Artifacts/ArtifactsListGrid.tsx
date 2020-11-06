@@ -23,7 +23,7 @@ export default (props: ArtifactsListGridProps): JSX.Element => {
   return (
     <Grid>
       {artifacts.map((artifact) => (
-        <Stack>
+        <Stack key={artifact.Guid}>
           <ArtifactDisplay size={120} artifact={artifact} />
           <Wrapper>
             <ArtifactEditGrid artifact={artifact} />

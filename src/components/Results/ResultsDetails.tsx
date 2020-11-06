@@ -65,13 +65,13 @@ export default (): JSX.Element => {
                   <NameContainer>
                     {
                       lang[
-                        `champion${result.champion.champion}` as keyof Language
+                        `champion${result.champion.Champion}` as keyof Language
                       ]
                     }
                   </NameContainer>
 
                   <ChampionPortrait
-                    champion={result.champion.champion}
+                    champion={result.champion.Champion}
                     size={84}
                   />
                 </ChampionContainer>
@@ -123,7 +123,7 @@ export default (): JSX.Element => {
                     />
                   ))}{" "}
                   {!result.artifacts.bonusComplete &&
-                    result.champion.methods ===
+                    result.champion.Methods ===
                       ChampionSetMethod.RequireSets && (
                       <span className="badge badge-warning">
                         {lang.commonWarning}
@@ -132,7 +132,7 @@ export default (): JSX.Element => {
                 </td>
               </tr>
               <tr>
-                <td>{methodDisplay(lang, result.champion.methods)}</td>
+                <td>{methodDisplay(lang, result.champion.Methods)}</td>
                 <td>
                   <ArtifactDisplay
                     size={60}

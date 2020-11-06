@@ -23,7 +23,7 @@ export default ({
 
   const updateMainStats = (
     event: React.ChangeEvent<HTMLInputElement>,
-    slot: "gauntletStats" | "chestplateStats" | "bootsStats"
+    slot: "GauntletStats" | "ChestplateStats" | "BootsStats"
   ) => {
     const stat = event?.target?.value as Stat;
 
@@ -42,17 +42,17 @@ export default ({
   };
 
   const updateGauntletStats = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateMainStats(event, "gauntletStats");
+    updateMainStats(event, "GauntletStats");
   };
 
   const updateChestplateStats = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    updateMainStats(event, "chestplateStats");
+    updateMainStats(event, "ChestplateStats");
   };
 
   const updateBootsStats = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateMainStats(event, "bootsStats");
+    updateMainStats(event, "BootsStats");
   };
 
   return (
@@ -69,7 +69,7 @@ export default ({
                 value={stat}
                 id={`checkGauntlets-${stat}`}
                 onChange={updateGauntletStats}
-                checked={state.gauntletStats.includes(stat)}
+                checked={state.GauntletStats.includes(stat)}
               />
               <label
                 className="form-check-label"
@@ -93,7 +93,7 @@ export default ({
                 value={stat}
                 id={`checkChestplate-${stat}`}
                 onChange={updateChestplateStats}
-                checked={state.chestplateStats.includes(stat)}
+                checked={state.ChestplateStats.includes(stat)}
               />
               <label
                 className="form-check-label"
@@ -117,7 +117,7 @@ export default ({
                 value={stat}
                 id={`checkBoots-${stat}`}
                 onChange={updateBootsStats}
-                checked={state.bootsStats.includes(stat)}
+                checked={state.BootsStats.includes(stat)}
               />
               <label
                 className="form-check-label"

@@ -19,15 +19,8 @@ export interface ResultsRow {
 
 export interface Results {
   name: string;
-  selected: number;
+  selected: boolean;
   artifacts: ResultsRow | null;
   champion: Champion;
-  result: string;
-}
-
-export interface ResultsDraft {
-  name: string;
-  selected: number;
-  champion: Champion;
-  result: ResultsRow[];
+  result: string[];
 }

@@ -23,6 +23,7 @@ import {
   RingSubStats,
 } from "models";
 import produce from "immer";
+import Button from "react-bootstrap/Button";
 
 import React, { Dispatch, SetStateAction } from "react";
 import { DashCircle, PlusCircle } from "react-bootstrap-icons";
@@ -252,19 +253,19 @@ export default ({
             </MediumCell>
             <MediumCell>
               <Wrapper>
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm"
+                <Button
+                  variant="primary"
+                  size="sm"
                   disabled={stat?.Roll === 0 || valuesDisabled}
                   onClick={() => {
                     onChangeSubStatsRolls((stat?.Roll ?? 0) - 1, statIndex);
                   }}
                 >
                   <DashCircle />
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm"
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
                   disabled={
                     stat?.Roll === 4 || numberRolls === 4 || valuesDisabled
                   }
@@ -273,7 +274,7 @@ export default ({
                   }}
                 >
                   <PlusCircle />
-                </button>
+                </Button>
                 {stat?.Roll}
               </Wrapper>
             </MediumCell>

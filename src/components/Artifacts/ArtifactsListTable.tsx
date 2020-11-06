@@ -3,27 +3,19 @@ import { useLanguage } from "lang/LanguageContext";
 import { Artifact } from "models";
 import React from "react";
 
-export interface ArtifactsListTaleProps {
+interface ArtifactsListTableProps {
   artifacts: Artifact[];
 }
 
-export default (props: ArtifactsListTaleProps): JSX.Element => {
+export default (props: ArtifactsListTableProps): JSX.Element => {
   const { artifacts } = props;
   const lang = useLanguage();
 
   return (
-    <table className="table table-striped table-bordered table-hover">
+    <table className="table table-dark table-striped table-bordered table-hover">
       <thead>
         <tr>
-          <th>{lang.titleSlot}</th>
-
-          <th>{lang.titleSet}</th>
-
-          <th>{lang.titleRarity}</th>
-
-          <th>{lang.titleQuality}</th>
-
-          <th>{lang.titleLevel}</th>
+          <th>{lang.titleArtifacts}</th>
 
           <th>{lang.titleMainStats}</th>
 

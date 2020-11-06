@@ -13,11 +13,9 @@ const resultsSlice = createSlice({
   name: "results",
   initialState,
   reducers: {
-    resultsInitialize: () => {
-      return initialState;
-    },
     resultsStartGeneration: (state) => {
       state.status = ResultsStatus.Processing;
+      state.data = [];
     },
     resultsDoneGeneration: (state, action: ResultsGenerateAction) => {
       state.data = action.payload;
@@ -28,7 +26,6 @@ const resultsSlice = createSlice({
 
 export const {
   resultsDoneGeneration,
-  resultsInitialize,
   resultsStartGeneration,
 } = resultsSlice.actions;
 
