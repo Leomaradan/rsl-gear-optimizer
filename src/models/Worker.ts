@@ -7,27 +7,30 @@ type WorkerCommand<T> = {
   data: T;
 };
 
-export interface ResultsWorkerCommandGenerate {
+interface ResultsWorkerCommandGenerate {
   champions: Champion[];
   artifacts: Artifact[];
   generationMethod: GenerationMethod;
+  excludeWornArtifacts: boolean;
   command: "generate";
 }
 
-export interface ResultsWorkerCommandDone {
+interface ResultsWorkerCommandDone {
   results: Results[];
   items: number;
   command: "done";
 }
 
-export interface ResultsWorkerCommandMessage {
+interface ResultsWorkerCommandMessage {
   message: string;
   command: "message";
 }
 
-export interface ResultsWorkerCommandProgress {
+interface ResultsWorkerCommandProgress {
   current: number;
+  max?: number;
   task: string;
+  champion: string;
   command: "progress";
 }
 
@@ -35,15 +38,11 @@ export type ResultsWorkerEventGenerate = WorkerCommand<
   ResultsWorkerCommandGenerate
 >;
 
-export type ResultsWorkerEventDone = WorkerCommand<ResultsWorkerCommandDone>;
+type ResultsWorkerEventDone = WorkerCommand<ResultsWorkerCommandDone>;
 
-export type ResultsWorkerEventMessage = WorkerCommand<
-  ResultsWorkerCommandMessage
->;
+type ResultsWorkerEventMessage = WorkerCommand<ResultsWorkerCommandMessage>;
 
-export type ResultsWorkerEventProgress = WorkerCommand<
-  ResultsWorkerCommandProgress
->;
+type ResultsWorkerEventProgress = WorkerCommand<ResultsWorkerCommandProgress>;
 
 export type ResultsWorkerCommands =
   | ResultsWorkerCommandGenerate

@@ -2,7 +2,6 @@ import Results from "./components/Results/Results";
 import Artifacts from "./components/Artifacts/Artifacts";
 import ChampionsList from "./components/Champions/ChampionsList";
 import Home from "./Home";
-import Tabs, { TabProps } from "./components/UI/Tabs";
 import LanguageContext, {
   LanguageContextDefinition,
 } from "lang/LanguageContext";
@@ -11,67 +10,24 @@ import localforage from "localforage";
 import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 import React, { useContext, useEffect } from "react";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  NavLink,
+} from "react-router-dom";
 
-const Layout = styled.div.attrs(() => ({ className: "container" }))`
-  padding: 30px;
-  padding-top: 5rem;
-  max-width: calc(100vw - 50px);
-  background-color: var(--container);
-  min-height: calc(100vh - 30px);
+const Main = styled.main`
+  padding-top: 100px;
 `;
 
 const App = (): JSX.Element => {
   const { userLanguageChange, dictionary: lang } = useContext<
     LanguageContextDefinition
   >(LanguageContext);
-
-  const tabs: TabProps[] = [
-    {
-      id: "home",
-      title: "titleHome",
-      page: (
-        <Layout>
-          <Home />
-        </Layout>
-      ),
-    },
-    {
-      id: "champions",
-      title: "titleChampions",
-      page: (
-        <Layout>
-          <ChampionsList />
-        </Layout>
-      ),
-    },
-    {
-      id: "artifacts",
-      title: "titleArtifacts",
-      page: (
-        <Layout>
-          <Artifacts />
-        </Layout>
-      ),
-    },
-    {
-      id: "results",
-      title: "titleResults",
-      page: (
-        <Layout>
-          <Results />
-        </Layout>
-      ),
-    },
-    {
-      id: "config",
-      title: "titleConfig",
-      page: (
-        <Layout>
-          <Configuration />
-        </Layout>
-      ),
-    },
-  ];
 
   useEffect(() => {
     localforage.getItem<string>("rcml-lang").then((defaultLanguage) => {
@@ -92,7 +48,79 @@ const App = (): JSX.Element => {
         <meta name="description" content={lang.siteDescription} />
         <link rel="canonical" href="https://raid-gear-optimizer.com" />
       </Helmet>
-      <Tabs tabs={tabs} main defaultTabs="home" />
+      <Router>
+        <Navbar bg="primary" expand="lg" variant="dark" fixed="top">
+          <div className="container">
+            <Link to="/" className="navbar-brand">
+              <img
+                alt=""
+                src="./android-chrome-192x192.png"
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+              />{" "}
+              RAID Gear Optimizer
+            </Link>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ml-auto">
+                <NavLink
+                  to="/champions"
+                  className="nav-link"
+                  activeClassName="active"
+                >
+                  {lang.titleChampions}
+                </NavLink>
+                <NavLink
+                  to="/artifacts"
+                  className="nav-link"
+                  activeClassName="active"
+                >
+                  {lang.titleArtifacts}
+                </NavLink>
+                <NavLink
+                  to="/results"
+                  className="nav-link"
+                  activeClassName="active"
+                >
+                  {lang.titleResults}
+                </NavLink>
+                <NavLink
+                  to="/config"
+                  className="nav-link"
+                  activeClassName="active"
+                >
+                  {lang.titleConfig}
+                </NavLink>
+              </Nav>
+            </Navbar.Collapse>
+          </div>
+        </Navbar>
+        <Main>
+          <div className="container">
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/champions">
+                <ChampionsList />
+              </Route>
+              <Route path="/accessories">
+                <Artifacts accessories />
+              </Route>
+              <Route path="/artifacts">
+                <Artifacts />
+              </Route>
+              <Route path="/results">
+                <Results />
+              </Route>
+              <Route path="/config">
+                <Configuration />
+              </Route>
+            </Switch>
+          </div>
+        </Main>
+      </Router>
     </>
   );
 };

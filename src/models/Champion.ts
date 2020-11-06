@@ -25,17 +25,17 @@ export interface ChampionStatsPriority {
 }
 
 export interface Champion extends Orderable {
-  name: string;
-  champion: string;
-  clan: Clans;
-  sets: Sets[];
-  statsPriority: ChampionStatsPriority;
-  gauntletStats: Stat[];
-  chestplateStats: Stat[];
-  bootsStats: Stat[];
-  methods: ChampionSetMethod;
-  activated: boolean;
-  accessories: "" | Slots.Ring | Slots.Amulet | Slots.Banner;
+  Guid: string;
+  Champion: string;
+  Clan: Clans;
+  Sets: Sets[];
+  StatsPriority: ChampionStatsPriority;
+  GauntletStats: Stat[];
+  ChestplateStats: Stat[];
+  BootsStats: Stat[];
+  Methods: ChampionSetMethod;
+  Activated: boolean;
+  Accessories: "" | Slots.Ring | Slots.Amulet | Slots.Banner;
 }
 
-export type ChampionDraft = Omit<Champion, "name" | "clan">;
+export type ChampionDraft = Omit<Champion, "Guid" | "Clan">;

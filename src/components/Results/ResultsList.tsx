@@ -9,7 +9,7 @@ import { VariableSizeGrid as Grid, areEqual } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import styled from "styled-components";
 
-export interface ResultsListProps {
+interface ResultsListProps {
   result: Results;
   selectedItems: string[];
 }
@@ -58,12 +58,9 @@ const Container = styled.div`
 `;
 
 export default ({ result, selectedItems }: ResultsListProps): JSX.Element => {
-  const baseResults: ResultsRow[] = JSON.parse(result.result);
+  const baseResults: ResultsRow[] = result.result.map((row) => JSON.parse(row));
 
-  const rowIndex = Math.max(
-    0,
-    baseResults.findIndex((r) => r.id === result.selected) - 10
-  );
+  const rowIndex = 0;
 
   const results = baseResults.slice(rowIndex);
 
@@ -163,7 +160,7 @@ export default ({ result, selectedItems }: ResultsListProps): JSX.Element => {
     ({ columnIndex, rowIndex: row, style }: CellProps) => {
       const line = results[row];
 
-      if (line.id === result.selected) {
+      if (result.selected) {
         return (
           <SelectedCell row={row} column={columnIndex} style={style}>
             {cells[columnIndex](line, false)}

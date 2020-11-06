@@ -7,23 +7,25 @@ import {
 import reorder from "process/reorder";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+import { v4 as uuidv4 } from "uuid";
+
 const initialState: ChampionsState = [];
 
 type ChampionsLoadAction = PayloadAction<{
   champions: ChampionDraft[];
 }>;
 type ChampionsUpdateAction = PayloadAction<{
-  name: string;
+  id: string;
   champion: Partial<Champion>;
 }>;
 type ChampionsReorderAction = PayloadAction<{
-  name: string;
+  id: string;
   newOrder: number;
 }>;
 type ChampionsToggleAction = PayloadAction<{
-  name: string;
+  id: string;
 }>;
-type ChampionsDeleteAction = PayloadAction<{ name: string }>;
+type ChampionsDeleteAction = PayloadAction<{ id: string }>;
 type ChampionsCreateAction = PayloadAction<{
   champion: ChampionDraft;
 }>;
@@ -45,28 +47,23 @@ const championsSlice = createSlice({
 
       action.payload.champions.forEach((champion) => {
         const lastOrder = getLastOrder(state);
-        let name = champion.champion;
 
-        const champ = state.filter((s) => s.champion === name);
-
-        if (champ.length > 0) {
-          name += champ.length;
-        }
-
-        state.push({
+        const newChampion: Champion = {
           ...champion,
+          Guid: uuidv4(),
           order: lastOrder + 1,
-          name,
-          activated: true,
-          clan: ChampionsClanList[champion.champion],
-        });
+          Activated: true,
+          Clan: ChampionsClanList[champion.Champion],
+        };
+
+        state.push(newChampion);
       });
 
       return state;
     },
     updateChampions: (state, action: ChampionsUpdateAction) => {
       const championIndex = state.findIndex(
-        (i) => i.name === action.payload.name
+        (i) => i.Guid === action.payload.id
       );
 
       if (championIndex !== -1) {
@@ -77,15 +74,15 @@ const championsSlice = createSlice({
         };
 
         // eslint-disable-next-line no-param-reassign
-        state[championIndex].clan =
-          ChampionsClanList[state[championIndex].champion];
+        state[championIndex].Clan =
+          ChampionsClanList[state[championIndex].Champion];
       }
     },
     reorderChampions: (state, action: ChampionsReorderAction) => {
       const flatState: Champion[] = JSON.parse(JSON.stringify(state));
 
       const element = flatState.find(
-        (champion) => champion.name === action.payload.name
+        (champion) => champion.Guid === action.payload.id
       );
 
       if (element) {
@@ -96,28 +93,22 @@ const championsSlice = createSlice({
     },
     toggleChampions: (state, action: ChampionsToggleAction) =>
       state.map((i) =>
-        i.name === action.payload.name ? { ...i, activated: !i.activated } : i
+        i.Guid === action.payload.id ? { ...i, Activated: !i.Activated } : i
       ),
     deleteChampions: (state, action: ChampionsDeleteAction) =>
-      state.filter((i) => i.name !== action.payload.name),
+      state.filter((i) => i.Guid !== action.payload.id),
     createChampions: (state, action: ChampionsCreateAction) => {
       const lastOrder = getLastOrder(state);
 
-      let name = action.payload.champion.champion;
-
-      const champ = state.filter((s) => s.champion === name);
-
-      if (champ.length > 0) {
-        name += champ.length;
-      }
-
-      state.push({
+      const newChampion: Champion = {
         ...action.payload.champion,
+        Guid: uuidv4(),
         order: lastOrder + 1,
-        name,
-        activated: true,
-        clan: ChampionsClanList[action.payload.champion.champion],
-      });
+        Activated: true,
+        Clan: ChampionsClanList[action.payload.champion.Champion],
+      };
+
+      state.push(newChampion);
     },
   },
 });

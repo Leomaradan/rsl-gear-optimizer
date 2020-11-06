@@ -21,28 +21,28 @@ interface ArtifactBase {
 
 export type ArtifactDraft = Omit<ArtifactBase, "Guid"> & { Guid?: string };
 
-export interface ArtifactWeapon extends ArtifactBase {
+interface ArtifactWeapon extends ArtifactBase {
   Slot: Slots.Weapon;
   MainStats: Stat.None | Stat.Attack;
   Clan: Clans.Null;
   isAccessory: false;
 }
 
-export interface ArtifactHelmet extends ArtifactBase {
+interface ArtifactHelmet extends ArtifactBase {
   Slot: Slots.Helmet;
   MainStats: Stat.None | Stat.HP;
   Clan: Clans.Null;
   isAccessory: false;
 }
 
-export interface ArtifactShield extends ArtifactBase {
+interface ArtifactShield extends ArtifactBase {
   Slot: Slots.Shield;
   MainStats: Stat.None | Stat.Defense;
   Clan: Clans.Null;
   isAccessory: false;
 }
 
-export interface ArtifactGauntlets extends ArtifactBase {
+interface ArtifactGauntlets extends ArtifactBase {
   Slot: Slots.Gauntlets;
   MainStats:
     | Stat.None
@@ -58,7 +58,7 @@ export interface ArtifactGauntlets extends ArtifactBase {
   isAccessory: false;
 }
 
-export interface ArtifactChestplate extends ArtifactBase {
+interface ArtifactChestplate extends ArtifactBase {
   Slot: Slots.Chestplate;
   MainStats:
     | Stat.None
@@ -74,7 +74,7 @@ export interface ArtifactChestplate extends ArtifactBase {
   isAccessory: false;
 }
 
-export interface ArtifactBoots extends ArtifactBase {
+interface ArtifactBoots extends ArtifactBase {
   Slot: Slots.Boots;
   MainStats:
     | Stat.None
@@ -89,14 +89,14 @@ export interface ArtifactBoots extends ArtifactBase {
   isAccessory: false;
 }
 
-export interface ArtifactRing extends ArtifactBase {
+interface ArtifactRing extends ArtifactBase {
   Slot: Slots.Ring;
   MainStats: Stat.None | Stat.HP | Stat.Attack | Stat.Defense;
   Set: Sets.Null;
   isAccessory: true;
 }
 
-export interface ArtifactAmulet extends ArtifactBase {
+interface ArtifactAmulet extends ArtifactBase {
   Slot: Slots.Amulet;
   MainStats:
     | Stat.None
@@ -108,7 +108,7 @@ export interface ArtifactAmulet extends ArtifactBase {
   isAccessory: true;
 }
 
-export interface ArtifactBanner extends ArtifactBase {
+interface ArtifactBanner extends ArtifactBase {
   Slot: Slots.Banner;
   MainStats:
     | Stat.None
@@ -121,7 +121,7 @@ export interface ArtifactBanner extends ArtifactBase {
   isAccessory: true;
 }
 
-export const WeaponStats = [Stat.Attack];
+const WeaponStats = [Stat.Attack];
 export const WeaponSubStats = [
   Stat.HP,
   Stat.HpPercent,
@@ -132,7 +132,7 @@ export const WeaponSubStats = [
   Stat.Resistance,
   Stat.Accuracy,
 ];
-export const HelmetStats = [Stat.HP];
+const HelmetStats = [Stat.HP];
 export const HelmetSubStats = [
   Stat.HpPercent,
   Stat.Attack,
@@ -145,7 +145,7 @@ export const HelmetSubStats = [
   Stat.Resistance,
   Stat.Accuracy,
 ];
-export const ShieldStats = [Stat.Defense];
+const ShieldStats = [Stat.Defense];
 export const ShieldSubStats = [
   Stat.HP,
   Stat.HpPercent,
@@ -156,7 +156,7 @@ export const ShieldSubStats = [
   Stat.Resistance,
   Stat.Accuracy,
 ];
-export const GauntletsStats = [
+const GauntletsStats = [
   Stat.HP,
   Stat.HpPercent,
   Stat.Attack,
@@ -167,7 +167,7 @@ export const GauntletsStats = [
   Stat.CriticalDamage,
 ];
 
-export const ChestplateStats = [
+const ChestplateStats = [
   Stat.HP,
   Stat.HpPercent,
   Stat.Attack,
@@ -177,7 +177,7 @@ export const ChestplateStats = [
   Stat.Accuracy,
   Stat.Resistance,
 ];
-export const BootsStats = [
+const BootsStats = [
   Stat.HP,
   Stat.HpPercent,
   Stat.Attack,
@@ -187,44 +187,39 @@ export const BootsStats = [
   Stat.Speed,
 ];
 
-export const RingStats = [Stat.HP, Stat.Attack, Stat.Defense];
+const RingStats = [Stat.HP, Stat.Attack, Stat.Defense];
 export const RingSubStats = [
   Stat.HP,
-  Stat.Attack,
-  Stat.Defense,
   Stat.HpPercent,
+  Stat.Attack,
   Stat.AttackPercent,
+  Stat.Defense,
   Stat.DefensePercent,
 ];
 
-export const AmuletStats = [
-  Stat.HP,
-  Stat.Attack,
-  Stat.Defense,
-  Stat.CriticalDamage,
-];
+const AmuletStats = [Stat.HP, Stat.Attack, Stat.Defense, Stat.CriticalDamage];
 export const AmuletSubStats = [
   Stat.HP,
   Stat.Attack,
   Stat.Defense,
-  Stat.Accuracy,
-  Stat.Resistance,
   Stat.CriticalDamage,
+  Stat.Resistance,
+  Stat.Accuracy,
 ];
 
-export const BannerStats = [
+const BannerStats = [
   Stat.HP,
   Stat.Attack,
   Stat.Defense,
-  Stat.Accuracy,
   Stat.Resistance,
+  Stat.Accuracy,
 ];
 export const BannerSubStats = [
   Stat.HP,
-  Stat.Attack,
-  Stat.Defense,
   Stat.HpPercent,
+  Stat.Attack,
   Stat.AttackPercent,
+  Stat.Defense,
   Stat.DefensePercent,
   Stat.Speed,
 ];
@@ -240,8 +235,6 @@ export type Artifact =
   | ArtifactAmulet
   | ArtifactBanner;
 
-export type Accessory = ArtifactRing | ArtifactAmulet | ArtifactBanner;
-
 export type ListOfArtifacts = [
   ArtifactWeapon,
   ArtifactHelmet,
@@ -253,6 +246,8 @@ export type ListOfArtifacts = [
   ArtifactAmulet,
   ArtifactBanner
 ];
+
+export type ScoredArtifact = Artifact & { score: number };
 
 export const StatsBySlots = {
   [Slots.Weapon]: WeaponStats,

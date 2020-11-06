@@ -23,8 +23,8 @@ export default ({
     if (stat && value !== undefined) {
       setState((current) => ({
         ...current,
-        statsPriority: {
-          ...current.statsPriority,
+        StatsPriority: {
+          ...current.StatsPriority,
           [stat]: parseInt(value, 10),
         },
       }));
@@ -43,13 +43,13 @@ export default ({
                 {lang[`stat${stat}` as keyof Language]}
               </label>
               <div className="col-sm-10">
-                {state.statsPriority[stat] ?? 0}
+                {state.StatsPriority[stat] ?? 0}
                 <input
                   type="range"
                   min="0"
                   max="3"
                   className="custom-range"
-                  value={state.statsPriority[stat] ?? 0}
+                  value={state.StatsPriority[stat] ?? 0}
                   onChange={updateStatsPriority}
                   id={stat}
                 />

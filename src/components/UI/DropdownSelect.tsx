@@ -50,11 +50,15 @@ export default ({
             })}
           >
             <input
-              className="form-control form-control-sm"
+              className="form-control form-control-sm custom-control"
               {...getInputProps()}
             />
           </div>
-          <ul className="list-group" {...getMenuProps()}>
+          <ul
+            className="list-group"
+            style={{ position: "absolute", zIndex: "1" }}
+            {...getMenuProps()}
+          >
             {isOpen
               ? items
                   .filter(

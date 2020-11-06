@@ -5,15 +5,15 @@ import SetDisplay from "components/UI/SetDisplay";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
 import { Champion, ChampionStatsPriority } from "models/Champion";
-
 import { reorderChampions } from "redux/championsSlice";
 import methodDisplay from "process/methodDisplay";
+import Button from "react-bootstrap/Button";
 import React from "react";
 import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-export interface ChampionsListRowProps {
+interface ChampionsListRowProps {
   lengthIndex: number;
   index: number;
   champion: Champion;
@@ -23,16 +23,7 @@ const Row = styled.tr<{ activated: boolean }>`
   opacity: ${(p) => (p.activated ? 1 : 0.5)};
 `;
 
-const FlatCell = styled.td`
-  padding: 0 !important;
-  display: flex;
-  justify-content: space-between;
-  border: none !important;
-`;
-
-const ChampionContainer = styled.div`
-  padding: 0.75rem;
-`;
+const FlatCell = styled.td``;
 
 export default ({
   champion,
@@ -57,74 +48,55 @@ export default ({
   };
 
   const updateOrder = (name: string, newOrder: number) => {
-    dispatch(reorderChampions({ name, newOrder }));
+    dispatch(reorderChampions({ id: name, newOrder }));
   };
 
   return (
-    <Row key={champion.name} activated={champion.activated}>
+    <Row key={champion.Guid} activated={champion.Activated}>
       <FlatCell>
-        <ChampionContainer>
-          {lang[`champion${champion.champion}` as keyof Language]}
-        </ChampionContainer>
-
-        <ChampionPortrait champion={champion.champion} size={100} />
+        <ChampionPortrait champion={champion.Champion} size={100} />
       </FlatCell>
       <td>
-        {champion.sets.map((set) => (
+        {champion.Sets.map((set) => (
           <SetDisplay key={set} set={set} size={20} />
         ))}
       </td>
       <td>
-        {sortStatsPriority(champion.statsPriority)
+        {sortStatsPriority(champion.StatsPriority)
           .map(
             (s: string) =>
               `${lang[`stat${s}` as keyof Language]} (${
-                champion.statsPriority[s as keyof ChampionStatsPriority]
+                champion.StatsPriority[s as keyof ChampionStatsPriority]
               })`
           )
           .join(", ")}
       </td>
-      <td>
-        {champion.gauntletStats
-          .map((s) => lang[`stat${s}` as keyof Language])
-          .join(", ")}
-      </td>
-      <td>
-        {champion.chestplateStats
-          .map((s) => lang[`stat${s}` as keyof Language])
-          .join(", ")}
-      </td>
-      <td>
-        {champion.bootsStats
-          .map((s) => lang[`stat${s}` as keyof Language])
-          .join(", ")}
-      </td>
-      <td>{methodDisplay(lang, champion.methods)}</td>
+      <td>{methodDisplay(lang, champion.Methods)}</td>
       <td>
         <Wrapper>
           <ChampionEdit champion={champion} />
           {index !== 0 && (
-            <button
-              type="button"
-              className="btn btn-info btn-sm"
+            <Button
+              variant="link"
+              size="sm"
               onClick={() => {
-                updateOrder(champion.name, index - 1);
+                updateOrder(champion.Guid, index - 1);
               }}
             >
               <ArrowUp />
-            </button>
+            </Button>
           )}
           {index !== lengthIndex && (
-            <button
-              type="button"
-              className="btn btn-info btn-sm"
+            <Button
+              variant="link"
+              size="sm"
               onClick={() => {
                 // We need to "push" the index to two position
-                updateOrder(champion.name, index + 2);
+                updateOrder(champion.Guid, index + 2);
               }}
             >
               <ArrowDown />
-            </button>
+            </Button>
           )}
         </Wrapper>
       </td>

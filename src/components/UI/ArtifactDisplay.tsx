@@ -9,6 +9,7 @@ interface ArtifactDisplayProps {
   artifact: Artifact;
   size?: number;
   faded?: boolean;
+  champion?: false;
 }
 
 const ArtifactWrapper = styled.div<{
@@ -56,6 +57,7 @@ const ArtifactDisplay = ({
   artifact,
   size: baseSize,
   faded,
+  champion,
 }: ArtifactDisplayProps): JSX.Element => {
   const filename = artifact.isAccessory
     ? `FactionAccessories/${artifact.Clan}_${SlotsIconName[artifact.Slot]}`
@@ -85,7 +87,7 @@ const ArtifactDisplay = ({
           stars={artifact.Quality}
         />
       </StarContainer>
-      {artifact.Champion && (
+      {artifact.Champion && champion !== false && (
         <ChampionContainer size={size}>
           <ChampionPortrait champion={artifact.Champion} size={size / 2.5} />
         </ChampionContainer>

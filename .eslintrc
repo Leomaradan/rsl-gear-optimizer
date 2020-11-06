@@ -41,6 +41,7 @@
       }
     ],
     "sonarjs/cognitive-complexity": "off",
+    "sonarjs/max-switch-cases": "off",
     "import/no-absolute-path": "warn",
     "import/no-dynamic-require": "warn",
     "import/no-self-import": "warn",

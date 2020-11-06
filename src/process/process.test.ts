@@ -3,7 +3,7 @@ import calculateBonus from "./calculateBonus";
 import generateTable from "./generateTable";
 
 import reorder from "./reorder";
-import { Artifact, Champion, Clans, Orderable, Sets, Slots } from "models";
+import { Orderable, ScoredArtifact, Sets, Slots } from "models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {
@@ -120,104 +120,61 @@ describe("Process >> Calculate Bonus", () => {
 });
 
 describe("Process >> Generate Table", () => {
-  const ARTIFACTS: Artifact[] = [
-    { Slot: Slots.Weapon, Guid: "W1" } as Artifact,
-    { Slot: Slots.Weapon, Guid: "W2" } as Artifact,
-    { Slot: Slots.Weapon, Guid: "W3" } as Artifact,
+  const ARTIFACTS: ScoredArtifact[] = [
+    { Slot: Slots.Weapon, Guid: "W1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Weapon, Guid: "W2", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Weapon, Guid: "W3", score: 1 } as ScoredArtifact,
 
-    { Slot: Slots.Helmet, Guid: "H1" } as Artifact,
-    { Slot: Slots.Helmet, Guid: "H2" } as Artifact,
-    { Slot: Slots.Helmet, Guid: "H3" } as Artifact,
+    { Slot: Slots.Helmet, Guid: "H1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Helmet, Guid: "H2", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Helmet, Guid: "H3", score: 1 } as ScoredArtifact,
 
-    { Slot: Slots.Shield, Guid: "S1" } as Artifact,
-    { Slot: Slots.Shield, Guid: "S1" } as Artifact,
-    { Slot: Slots.Shield, Guid: "S3" } as Artifact,
+    { Slot: Slots.Shield, Guid: "S1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Shield, Guid: "S1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Shield, Guid: "S3", score: 1 } as ScoredArtifact,
 
-    { Slot: Slots.Gauntlets, Guid: "G1" } as Artifact,
-    { Slot: Slots.Gauntlets, Guid: "G2" } as Artifact,
-    { Slot: Slots.Gauntlets, Guid: "G3" } as Artifact,
+    { Slot: Slots.Gauntlets, Guid: "G1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Gauntlets, Guid: "G2", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Gauntlets, Guid: "G3", score: 1 } as ScoredArtifact,
 
-    { Slot: Slots.Chestplate, Guid: "C1" } as Artifact,
-    { Slot: Slots.Chestplate, Guid: "C2" } as Artifact,
-    { Slot: Slots.Chestplate, Guid: "C3" } as Artifact,
+    { Slot: Slots.Chestplate, Guid: "C1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Chestplate, Guid: "C2", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Chestplate, Guid: "C3", score: 1 } as ScoredArtifact,
 
-    { Slot: Slots.Boots, Guid: "B1" } as Artifact,
-    { Slot: Slots.Boots, Guid: "B2" } as Artifact,
-    { Slot: Slots.Boots, Guid: "B3" } as Artifact,
-
-    { Slot: Slots.Ring, Guid: "R1", Clan: Clans.BannerLords } as Artifact,
-    { Slot: Slots.Ring, Guid: "R2", Clan: Clans.BannerLords } as Artifact,
-    { Slot: Slots.Ring, Guid: "R3", Clan: Clans.BannerLords } as Artifact,
-
-    { Slot: Slots.Amulet, Guid: "A1", Clan: Clans.BannerLords } as Artifact,
-    { Slot: Slots.Amulet, Guid: "A2", Clan: Clans.BannerLords } as Artifact,
-    { Slot: Slots.Amulet, Guid: "A3", Clan: Clans.BannerLords } as Artifact,
+    { Slot: Slots.Boots, Guid: "B1", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Boots, Guid: "B2", score: 1 } as ScoredArtifact,
+    { Slot: Slots.Boots, Guid: "B3", score: 1 } as ScoredArtifact,
   ];
 
   test("Generate all combination without accessories", () => {
-    const result = generateTable(
-      ARTIFACTS,
-      { accessories: "", clan: Clans.BannerLords } as Champion,
-      () => {}
-    );
+    const iterator = generateTable(ARTIFACTS);
+
+    const result = Array.from(iterator);
 
     expect(result.length).toBe(729); // 6 artifact, 3 possibility each : 3^6
-    expect(result[0].filter((f) => f.Rarity !== -1)).toStrictEqual([
-      { Slot: Slots.Weapon, Guid: "W1" },
-      { Slot: Slots.Helmet, Guid: "H1" },
-      { Slot: Slots.Shield, Guid: "S1" },
-      { Slot: Slots.Gauntlets, Guid: "G1" },
-      { Slot: Slots.Chestplate, Guid: "C1" },
-      { Slot: Slots.Boots, Guid: "B1" },
+    expect(result[0].artifacts.filter((f) => f.Rarity !== -1)).toStrictEqual([
+      { Slot: Slots.Weapon, Guid: "W1", score: 1 },
+      { Slot: Slots.Helmet, Guid: "H1", score: 1 },
+      { Slot: Slots.Shield, Guid: "S1", score: 1 },
+      { Slot: Slots.Gauntlets, Guid: "G1", score: 1 },
+      { Slot: Slots.Chestplate, Guid: "C1", score: 1 },
+      { Slot: Slots.Boots, Guid: "B1", score: 1 },
     ]);
 
     expect(
-      result[result.length - 1].filter((f) => f.Rarity !== -1)
+      result[result.length - 1].artifacts.filter((f) => f.Rarity !== -1)
     ).toStrictEqual([
-      { Slot: Slots.Weapon, Guid: "W3" },
-      { Slot: Slots.Helmet, Guid: "H3" },
-      { Slot: Slots.Shield, Guid: "S3" },
-      { Slot: Slots.Gauntlets, Guid: "G3" },
-      { Slot: Slots.Chestplate, Guid: "C3" },
-      { Slot: Slots.Boots, Guid: "B3" },
-    ]);
-  });
-
-  test("Generate all combination with accessories", () => {
-    const result = generateTable(
-      ARTIFACTS,
-      { accessories: Slots.Banner, clan: Clans.BannerLords } as Champion,
-      () => {}
-    );
-
-    expect(result.length).toBe(6561); // 6 artifact + 2 accessories, 3 possibility each : 3^8
-    expect(result[0].filter((f) => f.Rarity !== -1)).toStrictEqual([
-      { Slot: Slots.Weapon, Guid: "W1" },
-      { Slot: Slots.Helmet, Guid: "H1" },
-      { Slot: Slots.Shield, Guid: "S1" },
-      { Slot: Slots.Gauntlets, Guid: "G1" },
-      { Slot: Slots.Chestplate, Guid: "C1" },
-      { Slot: Slots.Boots, Guid: "B1" },
-      { Slot: Slots.Ring, Guid: "R1", Clan: Clans.BannerLords },
-      { Slot: Slots.Amulet, Guid: "A1", Clan: Clans.BannerLords },
-    ]);
-
-    expect(
-      result[result.length - 1].filter((f) => f.Rarity !== -1)
-    ).toStrictEqual([
-      { Slot: Slots.Weapon, Guid: "W3" },
-      { Slot: Slots.Helmet, Guid: "H3" },
-      { Slot: Slots.Shield, Guid: "S3" },
-      { Slot: Slots.Gauntlets, Guid: "G3" },
-      { Slot: Slots.Chestplate, Guid: "C3" },
-      { Slot: Slots.Boots, Guid: "B3" },
-      { Slot: Slots.Ring, Guid: "R3", Clan: Clans.BannerLords },
-      { Slot: Slots.Amulet, Guid: "A3", Clan: Clans.BannerLords },
+      { Slot: Slots.Weapon, Guid: "W3", score: 1 },
+      { Slot: Slots.Helmet, Guid: "H3", score: 1 },
+      { Slot: Slots.Shield, Guid: "S3", score: 1 },
+      { Slot: Slots.Gauntlets, Guid: "G3", score: 1 },
+      { Slot: Slots.Chestplate, Guid: "C3", score: 1 },
+      { Slot: Slots.Boots, Guid: "B3", score: 1 },
     ]);
   });
 });
 
-describe("Process >> Reorder tess", () => {
+describe("Process >> Reorder", () => {
   interface JestOrderable extends Orderable {
     key: string;
   }

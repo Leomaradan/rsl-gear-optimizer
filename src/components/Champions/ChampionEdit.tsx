@@ -4,14 +4,15 @@ import { deleteChampions } from "redux/championsSlice";
 import React, { useState } from "react";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
+import Button from "react-bootstrap/Button";
 
-export interface ChampionEditProps {
+interface ChampionEditProps {
   champion: Champion;
 }
 
 const ChampionEdit = (props: ChampionEditProps): JSX.Element => {
   const { champion } = props;
-  const { name } = champion;
+  const { Guid: name } = champion;
 
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -20,25 +21,17 @@ const ChampionEdit = (props: ChampionEditProps): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const dispatchDeleteChampion = () => {
-    dispatch(deleteChampions({ name }));
+    dispatch(deleteChampions({ id: name }));
   };
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-success btn-sm"
-        onClick={handleShow}
-      >
+      <Button variant="primary" size="sm" onClick={handleShow}>
         <Pencil />
-      </button>
-      <button
-        type="button"
-        className="btn btn-danger btn-sm"
-        onClick={dispatchDeleteChampion}
-      >
+      </Button>
+      <Button variant="danger" size="sm" onClick={dispatchDeleteChampion}>
         <Trash />
-      </button>
+      </Button>
       <ChampionForm champion={champion} handleClose={handleClose} show={show} />
     </>
   );

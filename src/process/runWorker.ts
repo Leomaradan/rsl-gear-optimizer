@@ -27,7 +27,7 @@ export default (
   champions: Champion[],
   artifacts: Artifact[],
   generationMethod: GenerationMethod,
-  updateProgress: (task: string, value: number) => void
+  updateProgress: (task: string, value: number, max: number) => void
 ): void => {
   dispatch(resultsStartGeneration());
 
@@ -44,6 +44,7 @@ export default (
   worker.onmessage = (event: ResultsWorkerEvents) => {
     if (event.data.command === "done") {
       const endTime = performance.now();
+      worker.terminate();
       log(`Generated ${event.data.items} combination in ${endTime - time}ms`);
       dispatch(resultsDoneGeneration(event.data.results));
     }
@@ -57,8 +58,7 @@ export default (
     }
 
     if (event.data.command === "progress") {
-      updateProgress(event.data.task, event.data.current);
-      log(`${event.data.task} / ${event.data.current}`);
+      updateProgress(event.data.task, event.data.current, event.data.max ?? 0);
     }
   };
 };

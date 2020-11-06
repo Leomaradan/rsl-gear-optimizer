@@ -1,12 +1,15 @@
 import ResultsDetails from "./ResultsDetails";
 import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
-import { GenerationMethod, ResultsStatus } from "models";
+import { Clans, GenerationMethod, ResultsStatus, Sets } from "models";
 
 import generateCombination from "process/runWorker";
 import { State } from "redux/reducers";
+import ProgressBar from "components/UI/ProgressBar";
+import ClanDisplay from "components/UI/ClanDisplay";
+import SetDisplay from "components/UI/SetDisplay";
 import React, { useState } from "react";
-
+import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 
 const Results = (): JSX.Element => {
@@ -17,16 +20,39 @@ const Results = (): JSX.Element => {
   const configuration = useSelector((state: State) => state.configuration);
   const results = useSelector((state: State) => state.results);
 
-  const [progress, updateProgress] = useState("");
+  const [progress, updateProgress] = useState({
+    label: "",
+    current: 0,
+    max: 0,
+  });
 
   const filteredArtifacts = configuration.excludeWornArtifact
     ? artifacts.filter((c) => c.Champion === "" || !c.Champion)
     : artifacts;
 
-  const filteredChampions = champions.filter((c) => c.activated);
+  const filteredChampions = champions.filter((c) => c.Activated);
 
-  const updateProgressMessage = (task: string, value: number): void => {
-    updateProgress(`${lang[task as keyof Language]}: ${value}`);
+  const activesSets = new Set<Sets>();
+  const activesClans = new Set<Clans>();
+
+  filteredChampions.forEach((champion) => {
+    activesClans.add(champion.Clan);
+    champion.Sets.forEach((set) => {
+      activesSets.add(set);
+    });
+  });
+
+  const updateProgressMessage = (
+    task: string,
+    value: number,
+    max: number
+  ): void => {
+    const label =
+      max !== 0
+        ? `${lang[task as keyof Language]} : ${value} / ${max}`
+        : `${lang[task as keyof Language]} : ${value}`;
+    const current = max ? value : 100;
+    updateProgress({ label, current, max });
   };
 
   const generate = () => {
@@ -88,27 +114,38 @@ const Results = (): JSX.Element => {
             <td>{lang.titleNumberOfArtifacts}</td>
             <td>{filteredArtifacts.length}</td>
           </tr>
+          <tr>
+            <td>{lang.titleActiveSets}</td>
+            <td>
+              {Array.from(activesSets).map((set) => (
+                <SetDisplay key={set} set={set} size={30} />
+              ))}
+            </td>
+          </tr>
+          <tr>
+            <td>{lang.titleClan}</td>
+            <td>
+              {Array.from(activesClans).map((clan) => (
+                <ClanDisplay key={clan} clan={clan} size={30} />
+              ))}
+            </td>
+          </tr>
         </tbody>
       </table>
       {results.status === ResultsStatus.Processing && (
-        <div className="progress">
-          <div
-            className="progress-bar progress-bar-striped bg-warning progress-bar-animated"
-            role="progressbar"
-            style={{ width: "100%" }}
-          >
-            {progress}
-          </div>
-        </div>
+        <ProgressBar
+          current={progress.current}
+          max={progress.max}
+          label={progress.label}
+        />
       )}
-      <button
-        type="button"
+      <Button
         className="btn btn-primary"
         onClick={generate}
         disabled={results.status === ResultsStatus.Processing}
       >
         {lang.btnGenerateCombination}
-      </button>
+      </Button>
     </>
   );
 };
