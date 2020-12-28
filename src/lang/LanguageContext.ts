@@ -1,19 +1,22 @@
-import { Language, dictionaryList } from "./language";
-import React, { useContext } from "react";
+import { ILanguage, dictionaryList } from "./language";
 
-export interface LanguageContextDefinition {
+import emptyFunction from "process/emptyFunction";
+
+import { createContext, useContext } from "react";
+
+export interface ILanguageContextDefinition {
   userLanguage: string;
-  dictionary: Language;
+  dictionary: ILanguage;
   userLanguageChange: (selected: string) => void;
 }
 
-const LanguageContext = React.createContext<LanguageContextDefinition>({
+const LanguageContext = createContext<ILanguageContextDefinition>({
   userLanguage: "en",
   dictionary: dictionaryList.en,
-  userLanguageChange: () => {},
+  userLanguageChange: emptyFunction,
 });
 
-export const useLanguage = (): Language => {
+export const useLanguage = (): ILanguage => {
   const languageContext = useContext(LanguageContext);
 
   return languageContext.dictionary;

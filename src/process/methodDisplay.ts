@@ -1,14 +1,16 @@
-import { Language } from "lang/language";
-import { ChampionSetMethod } from "models";
+import type { ILanguage } from "lang/language";
+import type { IChampionSetMethod } from "models";
 
-export default (lang: Language, method: ChampionSetMethod): string => {
-  if (method === ChampionSetMethod.RequireSets) {
-    return lang.optionMethodRequiredSet;
+const methodDisplay = (lang: ILanguage, method: IChampionSetMethod): string => {
+  if (method === "ListSets") {
+    return lang.ui.option.methodRequiredSet;
   }
 
-  if (method === ChampionSetMethod.OptionalSets) {
-    return lang.optionMethodOptionalSets;
+  if (method === "ListSetsNoBonus") {
+    return lang.ui.option.methodOptionalSets;
   }
 
-  return lang.optionMethodNoSets;
+  return lang.ui.option.methodNoSets;
 };
+
+export default methodDisplay;

@@ -1,51 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import calculateBonus from "./calculateBonus";
 import generateTable from "./generateTable";
-
 import reorder from "./reorder";
-import { Orderable, ScoredArtifact, Sets, Slots } from "models";
+import calculateScoreRealStats from "./calculateScoreRealStats";
+import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
+import generateTheoricalArtifact from "./generateTheoricalArtifact";
+
+import type { IArtifact, IOrderable, IScoredArtifact } from "models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {
     const result = calculateBonus([
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Offense" },
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [Sets.Offense, Sets.Offense, Sets.Offense],
+      sets: ["Offense", "Offense", "Offense"],
       complete: true,
     });
   });
 
   test("Six same set, advanced sets", () => {
     const result = calculateBonus([
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [Sets.Lifesteal],
+      sets: ["Lifesteal"],
       complete: false,
     });
   });
 
   test("Six differents set", () => {
     const result = calculateBonus([
-      { Set: Sets.Offense },
-      { Set: Sets.Accuracy },
-      { Set: Sets.Defense },
-      { Set: Sets.Speed },
-      { Set: Sets.DivineCriticalRate },
-      { Set: Sets.DivineOffense },
+      { Set: "Offense" },
+      { Set: "Accuracy" },
+      { Set: "Defense" },
+      { Set: "Speed" },
+      { Set: "DivineCriticalRate" },
+      { Set: "DivineOffense" },
     ] as any);
 
     expect(result).toStrictEqual({
@@ -56,94 +59,318 @@ describe("Process >> Calculate Bonus", () => {
 
   test("4p + 2p", () => {
     const result = calculateBonus([
-      { Set: Sets.Speed },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Speed },
-      { Set: Sets.Lifesteal },
-      { Set: Sets.Lifesteal },
+      { Set: "Speed" },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
+      { Set: "Speed" },
+      { Set: "Lifesteal" },
+      { Set: "Lifesteal" },
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [Sets.Speed, Sets.Lifesteal],
+      sets: ["Speed", "Lifesteal"],
       complete: true,
     });
   });
 
   test("2p + 2p + 1 + 1", () => {
     const result = calculateBonus([
-      { Set: Sets.Speed },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Speed },
-      { Set: Sets.Defense },
-      { Set: Sets.CriticalRate },
+      { Set: "Speed" },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Speed" },
+      { Set: "Defense" },
+      { Set: "CriticalRate" },
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [Sets.Speed, Sets.Offense],
+      sets: ["Speed", "Offense"],
       complete: false,
     });
   });
 
   test("2p + 2p + 2p", () => {
     const result = calculateBonus([
-      { Set: Sets.Speed },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Speed },
-      { Set: Sets.CriticalRate },
-      { Set: Sets.CriticalRate },
+      { Set: "Speed" },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Speed" },
+      { Set: "CriticalRate" },
+      { Set: "CriticalRate" },
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [Sets.Speed, Sets.Offense, Sets.CriticalRate],
+      sets: ["Speed", "Offense", "CriticalRate"],
       complete: true,
     });
   });
 
   test("3p + 2p + 1", () => {
     const result = calculateBonus([
-      { Set: Sets.Speed },
-      { Set: Sets.Offense },
-      { Set: Sets.Offense },
-      { Set: Sets.Speed },
-      { Set: Sets.CriticalRate },
-      { Set: Sets.Speed },
+      { Set: "Speed" },
+      { Set: "Offense" },
+      { Set: "Offense" },
+      { Set: "Speed" },
+      { Set: "CriticalRate" },
+      { Set: "Speed" },
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [Sets.Speed, Sets.Offense],
+      sets: ["Speed", "Offense"],
       complete: false,
     });
   });
 });
 
+describe("Process >> Calculate Stats", () => {
+  const SixStarHPArtifact = {
+    Level: 16,
+    Quality: 6,
+    MainStats: "HP",
+    MainStatsValue: 4080,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarAttackArtifact = {
+    Level: 16,
+    Quality: 6,
+    MainStats: "ATK",
+    MainStatsValue: 265,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarDefPercentArtifact = {
+    Level: 16,
+    Quality: 6,
+    MainStats: "DEF%",
+    MainStatsValue: 60,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarCDmgArtifact = {
+    Level: 16,
+    Quality: 6,
+    MainStats: "C.DMG",
+    MainStatsValue: 80,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarResistArtifact = {
+    Level: 16,
+    Quality: 6,
+    MainStats: "RESI",
+    MainStatsValue: 96,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarSpeedArtifact = {
+    Level: 16,
+    Quality: 6,
+    MainStats: "SPD",
+    MainStatsValue: 45,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const FiveStarHPArtifact = {
+    Level: 16,
+    Quality: 5,
+    MainStats: "HP",
+    MainStatsValue: 3480,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const FiveStarHPArtifactWithSubStat = {
+    Level: 16,
+    Quality: 5,
+    MainStats: "HP",
+    MainStatsValue: 3480,
+    SubStats: [{ Stats: "SPD", Value: 40, Roll: 0, Rune: 0 }] as any,
+  } as IArtifact;
+
+  const SixStarHPArtifactLvl1 = {
+    Level: 1,
+    Quality: 6,
+    MainStats: "HP",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarAttackArtifactLvl1 = {
+    Level: 1,
+    Quality: 6,
+    MainStats: "ATK",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarDefPercentArtifactLvl1 = {
+    Level: 1,
+    Quality: 6,
+    MainStats: "DEF%",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarCDmgArtifactLvl1 = {
+    Level: 1,
+    Quality: 6,
+    MainStats: "C.DMG",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarResistArtifactLvl1 = {
+    Level: 1,
+    Quality: 6,
+    MainStats: "RESI",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const SixStarSpeedArtifactLvl1 = {
+    Level: 1,
+    Quality: 6,
+    MainStats: "SPD",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const FiveStarHPArtifactLvl1 = {
+    Level: 1,
+    Quality: 5,
+    MainStats: "HP",
+    MainStatsValue: 1,
+    SubStats: [] as any,
+  } as IArtifact;
+
+  const FiveStarHPArtifactWithSubStatLvl1 = {
+    Level: 1,
+    Quality: 5,
+    MainStats: "HP",
+    MainStatsValue: 1,
+    SubStats: [
+      { Stats: "SPD", Value: 40, Roll: 1, Rune: 0 },
+      { Stats: "SPD", Value: 60, Roll: 2, Rune: 0 },
+    ] as any,
+  } as IArtifact;
+
+  test("Real Stats Power calculation", () => {
+    const hp = calculateScoreRealStats(SixStarHPArtifact);
+    const atk = calculateScoreRealStats(SixStarAttackArtifact);
+    const defp = calculateScoreRealStats(SixStarDefPercentArtifact);
+    const cmdg = calculateScoreRealStats(SixStarCDmgArtifact);
+    const resist = calculateScoreRealStats(SixStarResistArtifact);
+    const spd = calculateScoreRealStats(SixStarSpeedArtifact);
+
+    const hpFive = calculateScoreRealStats(FiveStarHPArtifact);
+    const hpFiveSubstat = calculateScoreRealStats(
+      FiveStarHPArtifactWithSubStat
+    );
+
+    expect(hp).toBe(120 * 0.2);
+    expect(atk).toBe(120 * 0.2);
+    expect(defp).toBe(120);
+    expect(cmdg).toBe(120);
+    expect(resist).toBe(120);
+    expect(spd).toBe(120);
+
+    expect(hpFive).toBe(100 * 0.2);
+    expect(hpFiveSubstat).toBe(100 * 0.2 + 100);
+  });
+
+  test("Theorical Stats Power calculation", () => {
+    const hp = calculateScoreTheoricalStats(SixStarHPArtifactLvl1);
+    const atk = calculateScoreTheoricalStats(SixStarAttackArtifactLvl1);
+    const defp = calculateScoreTheoricalStats(SixStarDefPercentArtifactLvl1);
+    const cmdg = calculateScoreTheoricalStats(SixStarCDmgArtifactLvl1);
+    const resist = calculateScoreTheoricalStats(SixStarResistArtifactLvl1);
+    const spd = calculateScoreTheoricalStats(SixStarSpeedArtifactLvl1);
+
+    const hpFive = calculateScoreTheoricalStats(FiveStarHPArtifactLvl1);
+    const hpFiveSubstat = calculateScoreTheoricalStats(
+      FiveStarHPArtifactWithSubStatLvl1
+    );
+
+    const hpFiveSubstatVerification = calculateScoreRealStats({
+      Level: 16,
+      Quality: 5,
+      MainStats: "HP",
+      MainStatsValue: 3480,
+      SubStats: [
+        { Stats: "SPD", Value: 0, Roll: 0, Rune: 0 },
+        { Stats: "SPD", Value: 113.4, Roll: 0, Rune: 0 }, // 113.4 is the average of 40+60, 40+80 and 60+60
+      ] as any,
+    } as IArtifact);
+
+    expect(hp).toBe(120 * 0.2);
+    expect(atk).toBe(120 * 0.2);
+    expect(defp).toBe(120);
+    expect(cmdg).toBe(120);
+    expect(resist).toBe(120);
+    expect(spd).toBe(120);
+
+    expect(hpFive).toBe(100 * 0.2);
+    expect(hpFiveSubstat).toBe(hpFiveSubstatVerification);
+  });
+});
+
+describe("Process >> Generate Theorical Artifact", () => {
+  const FiveStarHPArtifactWithSubStatLvl1 = {
+    Level: 1,
+    Quality: 5,
+    MainStats: "HP",
+    MainStatsValue: 1,
+    SubStats: [
+      { Stats: "SPD", Value: 40, Roll: 1, Rune: 0 },
+      { Stats: "SPD", Value: 60, Roll: 2, Rune: 0 },
+    ] as any,
+  } as IArtifact;
+
+  test("Generate", () => {
+    const hpFiveSubstat = generateTheoricalArtifact(
+      FiveStarHPArtifactWithSubStatLvl1
+    );
+
+    const hpFiveSubstatVerification = {
+      Level: 1,
+      Quality: 5,
+      MainStats: "HP",
+      MainStatsValue: 3480,
+      SubStats: [
+        { Stats: "SPD", Value: 140 / 3, Roll: 4 / 3, Rune: 0 },
+        { Stats: "SPD", Value: 200 / 3, Roll: 7 / 3, Rune: 0 },
+      ] as any,
+    } as IArtifact;
+
+    expect(hpFiveSubstat).toMatchObject(hpFiveSubstatVerification);
+  });
+});
+
 describe("Process >> Generate Table", () => {
-  const ARTIFACTS: ScoredArtifact[] = [
-    { Slot: Slots.Weapon, Guid: "W1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Weapon, Guid: "W2", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Weapon, Guid: "W3", score: 1 } as ScoredArtifact,
+  const ARTIFACTS: IScoredArtifact[] = [
+    { Slot: "Weapon", Guid: "W1", score: 1 } as IScoredArtifact,
+    { Slot: "Weapon", Guid: "W2", score: 1 } as IScoredArtifact,
+    { Slot: "Weapon", Guid: "W3", score: 1 } as IScoredArtifact,
 
-    { Slot: Slots.Helmet, Guid: "H1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Helmet, Guid: "H2", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Helmet, Guid: "H3", score: 1 } as ScoredArtifact,
+    { Slot: "Helmet", Guid: "H1", score: 1 } as IScoredArtifact,
+    { Slot: "Helmet", Guid: "H2", score: 1 } as IScoredArtifact,
+    { Slot: "Helmet", Guid: "H3", score: 1 } as IScoredArtifact,
 
-    { Slot: Slots.Shield, Guid: "S1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Shield, Guid: "S1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Shield, Guid: "S3", score: 1 } as ScoredArtifact,
+    { Slot: "Shield", Guid: "S1", score: 1 } as IScoredArtifact,
+    { Slot: "Shield", Guid: "S1", score: 1 } as IScoredArtifact,
+    { Slot: "Shield", Guid: "S3", score: 1 } as IScoredArtifact,
 
-    { Slot: Slots.Gauntlets, Guid: "G1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Gauntlets, Guid: "G2", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Gauntlets, Guid: "G3", score: 1 } as ScoredArtifact,
+    { Slot: "Gauntlets", Guid: "G1", score: 1 } as IScoredArtifact,
+    { Slot: "Gauntlets", Guid: "G2", score: 1 } as IScoredArtifact,
+    { Slot: "Gauntlets", Guid: "G3", score: 1 } as IScoredArtifact,
 
-    { Slot: Slots.Chestplate, Guid: "C1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Chestplate, Guid: "C2", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Chestplate, Guid: "C3", score: 1 } as ScoredArtifact,
+    { Slot: "Chestplate", Guid: "C1", score: 1 } as IScoredArtifact,
+    { Slot: "Chestplate", Guid: "C2", score: 1 } as IScoredArtifact,
+    { Slot: "Chestplate", Guid: "C3", score: 1 } as IScoredArtifact,
 
-    { Slot: Slots.Boots, Guid: "B1", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Boots, Guid: "B2", score: 1 } as ScoredArtifact,
-    { Slot: Slots.Boots, Guid: "B3", score: 1 } as ScoredArtifact,
+    { Slot: "Boots", Guid: "B1", score: 1 } as IScoredArtifact,
+    { Slot: "Boots", Guid: "B2", score: 1 } as IScoredArtifact,
+    { Slot: "Boots", Guid: "B3", score: 1 } as IScoredArtifact,
   ];
 
   test("Generate all combination without accessories", () => {
@@ -152,34 +379,34 @@ describe("Process >> Generate Table", () => {
     const result = Array.from(iterator);
 
     expect(result.length).toBe(729); // 6 artifact, 3 possibility each : 3^6
-    expect(result[0].artifacts.filter((f) => f.Rarity !== -1)).toStrictEqual([
-      { Slot: Slots.Weapon, Guid: "W1", score: 1 },
-      { Slot: Slots.Helmet, Guid: "H1", score: 1 },
-      { Slot: Slots.Shield, Guid: "S1", score: 1 },
-      { Slot: Slots.Gauntlets, Guid: "G1", score: 1 },
-      { Slot: Slots.Chestplate, Guid: "C1", score: 1 },
-      { Slot: Slots.Boots, Guid: "B1", score: 1 },
+    expect(result[0].artifacts.filter((f) => f.Rarity !== "")).toStrictEqual([
+      { Slot: "Weapon", Guid: "W1", score: 1 },
+      { Slot: "Helmet", Guid: "H1", score: 1 },
+      { Slot: "Shield", Guid: "S1", score: 1 },
+      { Slot: "Gauntlets", Guid: "G1", score: 1 },
+      { Slot: "Chestplate", Guid: "C1", score: 1 },
+      { Slot: "Boots", Guid: "B1", score: 1 },
     ]);
 
     expect(
-      result[result.length - 1].artifacts.filter((f) => f.Rarity !== -1)
+      result[result.length - 1].artifacts.filter((f) => f.Rarity !== "")
     ).toStrictEqual([
-      { Slot: Slots.Weapon, Guid: "W3", score: 1 },
-      { Slot: Slots.Helmet, Guid: "H3", score: 1 },
-      { Slot: Slots.Shield, Guid: "S3", score: 1 },
-      { Slot: Slots.Gauntlets, Guid: "G3", score: 1 },
-      { Slot: Slots.Chestplate, Guid: "C3", score: 1 },
-      { Slot: Slots.Boots, Guid: "B3", score: 1 },
+      { Slot: "Weapon", Guid: "W3", score: 1 },
+      { Slot: "Helmet", Guid: "H3", score: 1 },
+      { Slot: "Shield", Guid: "S3", score: 1 },
+      { Slot: "Gauntlets", Guid: "G3", score: 1 },
+      { Slot: "Chestplate", Guid: "C3", score: 1 },
+      { Slot: "Boots", Guid: "B3", score: 1 },
     ]);
   });
 });
 
 describe("Process >> Reorder", () => {
-  interface JestOrderable extends Orderable {
+  interface IJestOrderable extends IOrderable {
     key: string;
   }
 
-  const TEST_ARRAY: JestOrderable[] = [
+  const TEST_ARRAY: IJestOrderable[] = [
     { key: "A", order: 0 },
     { key: "B", order: 1 },
     { key: "C", order: 2 },
@@ -192,7 +419,7 @@ describe("Process >> Reorder", () => {
     { key: "J", order: 9 },
   ];
 
-  const TEST_ARRAY_WITH_MISSING: JestOrderable[] = [
+  const TEST_ARRAY_WITH_MISSING: IJestOrderable[] = [
     { key: "A", order: 0 },
     { key: "C", order: 2 },
     { key: "E", order: 4 },
@@ -201,7 +428,7 @@ describe("Process >> Reorder", () => {
     { key: "J", order: 9 },
   ];
 
-  const TEST_ARRAY_NEGATIVE: JestOrderable[] = [
+  const TEST_ARRAY_NEGATIVE: IJestOrderable[] = [
     { key: "A", order: -1 },
     { key: "B", order: -2 },
     { key: "C", order: 2 },
@@ -214,8 +441,8 @@ describe("Process >> Reorder", () => {
     { key: "J", order: 9 },
   ];
 
-  const newElement: JestOrderable = { key: "K", order: 99 };
-  const existingElement: JestOrderable = { key: "I", order: 8 };
+  const newElement: IJestOrderable = { key: "K", order: 99 };
+  const existingElement: IJestOrderable = { key: "I", order: 8 };
 
   test("Item at position 0", () => {
     expect(reorder(TEST_ARRAY, newElement, 0)).toStrictEqual([

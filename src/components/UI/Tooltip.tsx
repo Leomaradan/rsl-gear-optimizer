@@ -1,14 +1,13 @@
-import BtTooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { Tooltip as BtTooltip, OverlayTrigger } from "react-bootstrap";
 import React, { FunctionComponent } from "react";
 
-interface TooltipProps {
+interface ITooltipProps {
   id: string;
-  text: string;
+  text: string | JSX.Element;
 }
 
 // eslint-disable-next-line react/prop-types
-const Tooltip: FunctionComponent<TooltipProps> = ({ id, text, children }) => {
+const Tooltip: FunctionComponent<ITooltipProps> = ({ id, text, children }) => {
   return (
     <OverlayTrigger
       trigger={["hover", "focus"]}

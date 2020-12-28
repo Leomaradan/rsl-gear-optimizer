@@ -1,44 +1,48 @@
+import { FormRow, FormInput, Textarea, FormLabel } from "./Layout";
+
 import Stack from "components/UI/Stack";
 import Modal from "components/UI/Modal";
-
-import { RarityFromString, RarityString, Stars } from "models/Quality";
-
-import { State } from "redux/reducers";
-
-import { validateArtifact } from "components/Artifacts/ArtifactForm";
+import type { IState } from "redux/reducers";
 import { loadArtifacts } from "redux/artifactsSlice";
-import { loadChampions } from "redux/championsSlice";
 import { useLanguage } from "lang/LanguageContext";
-import {
-  AccessoriesSlots,
-  Artifact,
-  ArtifactDraft,
-  ChampionDraft,
-  ChampionSetMethod,
-  ChampionsList,
-  Clans,
-  ExistingClans,
-  ExistingSets,
-  ExistingSlots,
-  ExistingSlotsAccessories,
-  ExistingStats,
-  Sets,
-  Slots,
-  Stat,
-  StatsFull,
+import { loadChampions } from "redux/championsSlice";
+import logger from "process/logger";
+import Backup1Schema from "process/backup-schema.json";
+import { RarityFromString, ExistingSlotsAccessories } from "data";
+import type {
+  IChampionDraft,
+  IStars,
+  IStat,
+  ISlots,
+  ISets,
+  IClans,
+  IBackup,
+  IBackupPrepare,
+  IBackupV1,
+  IArtifact,
+  IChampionMastery,
+  IChampion,
+  IChampionAffinity,
 } from "models";
-import styled from "styled-components";
+import { loadChampionConfigurations } from "redux/championConfigurationsSlice";
+import calculateScoreRealStats from "process/calculateScoreRealStats";
+import {
+  DefenseMasteries,
+  OffenseMasteries,
+  SupportMasteries,
+} from "data/Masteries";
+
 import { useDispatch, useSelector } from "react-redux";
 import React, { ChangeEvent, useState } from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
+import { Validator } from "jsonschema";
+import calculateChampionStats from "process/calculateChampionStats";
 
-const Textarea = styled.textarea.attrs(() => ({ className: "form-control" }))`
-  flex: 1;
-`;
+const validator = new Validator();
 
-const exportCSV = (rows: string[][], filename: string) => {
-  const csvContent = rows.map((e) => e.join(";")).join("\n");
-  const encodedUri = encodeURI(`data:text/csv;charset=utf-8,${csvContent}`);
+const exportJSON = (json: string, filename: string) => {
+  const encodedUri = encodeURI(`data:text/json;charset=utf-8,${json}`);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", filename);
@@ -47,498 +51,590 @@ const exportCSV = (rows: string[][], filename: string) => {
   link.click();
 };
 
-const importChampions = (value: string[]): ChampionDraft[] | false => {
-  try {
-    const rows = value.slice(1);
-    const champions: ChampionDraft[] = [];
-    rows.forEach((row) => {
-      const fields = row.split(";");
-      if (fields.length < 18) {
-        throw Error(String(fields.length));
+type IArtifactJsonStat =
+  | "Speed"
+  | "Attack"
+  | "Health"
+  | "CriticalChance"
+  | "CriticalDamage"
+  | "Resistance"
+  | "Accuracy"
+  | "Defense";
+
+type IArtifactJsonSet =
+  | "LifeDrain"
+  | "AttackPower"
+  | "Hp"
+  | "None"
+  | "AttackSpeed"
+  | "DotRate"
+  | "ShieldAndHp"
+  | "Accuracy"
+  | "AoeDamageDecrease"
+  | "Counterattack"
+  | "SleepChance"
+  | "CounterattackOnCrit"
+  | "Defense"
+  | "Resistance"
+  | "CriticalChance"
+  | "ProvokeChance"
+  | "Heal"
+  | "AttackPowerAndIgnoreDefense"
+  | "DecreaseMaxHp"
+  | "Shield"
+  | "GetExtraTurn"
+  | "HpAndHeal"
+  | "BlockHealChance"
+  | "StunChance"
+  | "DamageIncreaseOnHpDecrease"
+  | "IgnoreDefense"
+  | "CriticalDamage"
+  | "CriticalHealMultiplier"
+  | "CooldownReductionChance"
+  | "ShieldAndAttackPower"
+  | "BlockDebuff"
+  | "FreezeRateOnDamageReceived"
+  | "UnkillableAndSpdAndCrDmg"
+  | "HpAndDefence"
+  | "AccuracyAndSpeed"
+  | "Stamina"
+  | "BlockReflectDebuffAndHpAndDef"
+  | "ShieldAndSpeed"
+  | "ShieldAndCriticalChance";
+
+type IWornList = { [key: number]: string };
+type IArtifactJson = {
+  id: number;
+  level: number;
+  kind:
+    | "Boots"
+    | "Weapon"
+    | "Helmet"
+    | "Chest"
+    | "Gloves"
+    | "Shield"
+    | "Ring"
+    | "Cloak"
+    | "Banner";
+  rank: "One" | "Two" | "Three" | "Four" | "Five" | "Six";
+  rarity: string;
+  setKind: IArtifactJsonSet;
+  primaryBonus: {
+    kind: IArtifactJsonStat;
+    isAbsolute: boolean;
+    value: number;
+  };
+  secondaryBonuses: {
+    kind: IArtifactJsonStat;
+    isAbsolute: boolean;
+    value: number;
+    enhancement: number;
+    level: number;
+  }[];
+  requiredFraction?: string;
+};
+
+type IChampionJson = {
+  grade: "Stars1" | "Stars2" | "Stars3" | "Stars4" | "Stars5" | "Stars6";
+  level: number;
+  locked: boolean;
+  inStorage: boolean;
+  artifacts?: number[];
+  fraction: string;
+  rarity: string;
+  role: string;
+  element: string;
+  awakenLevel: number;
+  name: string;
+  health: number;
+  accuracy: number;
+  attack: number;
+  defense: number;
+  criticalChance: number;
+  criticalDamage: number;
+  criticalHeal: number;
+  resistance: number;
+  speed: number;
+  masteries: number[];
+};
+
+type IRaidExtractJson = {
+  artifacts: IArtifactJson[];
+  heroes: IChampionJson[];
+};
+
+const importChampion = (
+  heroes: IChampionJson[]
+): { champions: IChampionDraft[]; wornList: IWornList } => {
+  const champions: IChampionDraft[] = [];
+  const wornList: IWornList = {};
+
+  heroes.forEach((hero) => {
+    let Quality: IStars;
+
+    switch (hero.grade) {
+      case "Stars6":
+        Quality = 6;
+        break;
+      case "Stars5":
+        Quality = 5;
+        break;
+      case "Stars4":
+        Quality = 4;
+        break;
+      case "Stars3":
+        Quality = 3;
+        break;
+      case "Stars2":
+        Quality = 2;
+        break;
+      default:
+        Quality = 1;
+        break;
+    }
+
+    const Guid = uuidv4();
+
+    if (hero.artifacts) {
+      hero.artifacts.forEach((artifact) => {
+        wornList[artifact] = Guid;
+      });
+    }
+
+    const Masteries: IChampionMastery[] = [];
+
+    hero.masteries.forEach((idMastery) => {
+      let cleanId = idMastery - 500000;
+      let table = OffenseMasteries;
+      if (cleanId > 300) {
+        table = SupportMasteries;
+        cleanId -= 300;
+      } else if (cleanId > 200) {
+        table = DefenseMasteries;
+        cleanId -= 200;
+      } else {
+        cleanId -= 100;
       }
 
-      const champion = fields[0];
-      const order = parseInt(fields[1], 10);
-      const methods = parseInt(fields[2], 10);
+      const [rowStr, cellStr] = String(cleanId).split("");
 
-      const sets = fields[3]
-        .split(",")
-        .filter((s) => s)
-        .sort() as Sets[];
+      const row = parseInt(rowStr, 10) - 1;
+      const cell = parseInt(cellStr, 10) - (row === 0 ? 2 : 1);
 
-      const [
-        statsPriorityAcc,
-        statsPriorityAtkp,
-        statsPriorityAtk,
-        statsPriorityCdmg,
-        statsPriorityCrate,
-        statsPriorityDefp,
-        statsPriorityDef,
-        statsPriorityHpp,
-        statsPriorityHp,
-        statsPriorityResi,
-        statsPrioritySpd,
-      ] = fields.slice(4, 15).map((s) => parseInt(s, 10));
-
-      const [gauntletStats, chestplateStats, bootsStats] = fields
-        .slice(15)
-        .map((s) => s.split(",").sort() as Stat[]);
-
-      const accessories = (fields[18] ?? "") as AccessoriesSlots | "";
-
-      if (!ChampionsList.includes(champion)) {
-        throw Error(champion);
-      }
-
-      if (typeof order !== "number") {
-        throw Error(order);
-      }
-
-      if (order < 0 || Number.isNaN(order)) {
-        throw Error(String(order));
-      }
-
-      const existingOrder = champions.find((c) => c.order === order);
-      if (existingOrder) {
-        throw Error(String(order));
-      }
-
-      if (typeof methods !== "number") {
-        throw Error(methods);
-      }
-
-      if (methods < 0 || methods > 2) {
-        throw Error(String(methods));
-      }
-
-      if (methods === ChampionSetMethod.NoSets && sets.length !== 0) {
-        throw Error(String(sets.length));
-      }
-
-      const invalidSets = sets.filter((s) => !ExistingSets.includes(s));
-      if (invalidSets.length !== 0) {
-        throw Error(String(invalidSets.join(",")));
-      }
-
-      if (statsPriorityAtkp < 0 || statsPriorityAtkp > 3) {
-        throw Error(String(statsPriorityAtkp));
-      }
-      if (statsPriorityCdmg < 0 || statsPriorityCdmg > 3) {
-        throw Error(String(statsPriorityCdmg));
-      }
-      if (statsPriorityCrate < 0 || statsPriorityCrate > 3) {
-        throw Error(String(statsPriorityCrate));
-      }
-      if (statsPriorityDefp < 0 || statsPriorityDefp > 3) {
-        throw Error(String(statsPriorityDefp));
-      }
-      if (statsPriorityHpp < 0 || statsPriorityHpp > 3) {
-        throw Error(String(statsPriorityHpp));
-      }
-      if (statsPriorityAcc < 0 || statsPriorityAcc > 3) {
-        throw Error(String(statsPriorityAcc));
-      }
-      if (statsPriorityAtk < 0 || statsPriorityAtk > 3) {
-        throw Error(String(statsPriorityAtk));
-      }
-      if (statsPriorityDef < 0 || statsPriorityDef > 3) {
-        throw Error(String(statsPriorityDef));
-      }
-      if (statsPriorityHp < 0 || statsPriorityHp > 3) {
-        throw Error(String(statsPriorityHp));
-      }
-      if (statsPriorityResi < 0 || statsPriorityResi > 3) {
-        throw Error(String(statsPriorityResi));
-      }
-      if (statsPrioritySpd < 0 || statsPrioritySpd > 3) {
-        throw Error(String(statsPrioritySpd));
-      }
-
-      if (gauntletStats.length === 0) {
-        throw Error(String(gauntletStats.length));
-      }
-      if (chestplateStats.length === 0) {
-        throw Error(String(chestplateStats.length));
-      }
-      if (bootsStats.length === 0) {
-        throw Error(String(bootsStats.length));
-      }
-
-      const invalidGauntletsStats = gauntletStats.filter(
-        (s) => !ExistingStats.includes(s)
-      );
-      const invalidChestplateStats = chestplateStats.filter(
-        (s) => !ExistingStats.includes(s)
-      );
-      const invalidBootsStats = bootsStats.filter(
-        (s) => !ExistingStats.includes(s)
-      );
-
-      if (invalidGauntletsStats.length !== 0) {
-        throw Error(String(invalidGauntletsStats.join(",")));
-      }
-      if (invalidChestplateStats.length !== 0) {
-        throw Error(String(invalidChestplateStats.join(",")));
-      }
-      if (invalidBootsStats.length !== 0) {
-        throw Error(String(invalidBootsStats.join(",")));
-      }
-
-      if (
-        accessories !== "" &&
-        !ExistingSlotsAccessories.includes(accessories)
-      ) {
-        throw Error(accessories);
-      }
-
-      const newChampion: ChampionDraft = {
-        Champion: champion,
-        order,
-        Methods: methods,
-        Sets: sets,
-        StatsPriority: {
-          "ATK%": statsPriorityAtkp,
-          "C.DMG": statsPriorityCdmg,
-          "C.RATE": statsPriorityCrate,
-          "DEF%": statsPriorityDefp,
-          "HP%": statsPriorityHpp,
-          ACC: statsPriorityAcc,
-          ATK: statsPriorityAtk,
-          DEF: statsPriorityDef,
-          HP: statsPriorityHp,
-          RESI: statsPriorityResi,
-          SPD: statsPrioritySpd,
-        },
-        BootsStats: bootsStats,
-        ChestplateStats: chestplateStats,
-        GauntletStats: gauntletStats,
-        Activated: true,
-        Accessories: accessories,
-      };
-
-      champions.push(newChampion);
+      Masteries.push(table[row][cell]);
     });
-    return champions;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
-    return false;
+
+    champions.push({
+      Guid,
+      BaseAccuracy: hero.accuracy,
+      BaseAttack: hero.attack,
+      Awaken: hero.awakenLevel as IStars,
+      Name: hero.name.replace(/[^a-z -]+/gi, "").replace(/[ -]+/gi, "_"),
+      BaseCriticalRate: hero.criticalChance,
+      BaseCriticalDamage: hero.criticalDamage,
+      BaseDefense: hero.defense,
+      BaseHP: hero.health,
+      Level: hero.level,
+      Affinity: hero.element as IChampionAffinity,
+      Quality,
+      BaseResistance: hero.resistance,
+      BaseSpeed: hero.speed,
+      Masteries,
+      Power: 0,
+      CurrentAccuracy: hero.accuracy,
+      CurrentAttack: hero.attack,
+      CurrentCriticalRate: hero.criticalChance,
+      CurrentCriticalDamage: hero.criticalDamage,
+      CurrentDefense: hero.defense,
+      CurrentHP: hero.health,
+      CurrentResistance: hero.resistance,
+      CurrentSpeed: hero.speed,
+    });
+  });
+
+  return { champions, wornList };
+};
+
+interface IGetStatProps {
+  kind: IArtifactJsonStat;
+  isAbsolute: boolean;
+  value: number;
+  enhancement?: number;
+}
+
+const getStat = ({
+  kind,
+  isAbsolute,
+  value,
+  enhancement: enhancementBase,
+}: IGetStatProps): { Stats: IStat; Value: number; Rune: number } => {
+  const enhancement = enhancementBase ?? 0;
+  switch (kind) {
+    case "Accuracy":
+      return { Stats: "ACC", Value: value, Rune: enhancement };
+    case "Attack":
+      if (isAbsolute) {
+        return { Stats: "ATK", Value: value, Rune: enhancement };
+      }
+      return {
+        Stats: "ATK%",
+        Value: Math.round(value * 100),
+        Rune: Math.round(enhancement * 100),
+      };
+    case "CriticalChance":
+      return { Stats: "C.RATE", Value: Math.round(value * 100), Rune: 0 };
+    case "CriticalDamage":
+      return { Stats: "C.DMG", Value: Math.round(value * 100), Rune: 0 };
+    case "Defense":
+      if (isAbsolute) {
+        return { Stats: "DEF", Value: value, Rune: enhancement };
+      }
+      return {
+        Stats: "DEF%",
+        Value: Math.round(value * 100),
+        Rune: Math.round(enhancement * 100),
+      };
+    case "Health":
+      if (isAbsolute) {
+        return { Stats: "HP", Value: value, Rune: enhancement };
+      }
+      return {
+        Stats: "HP%",
+        Value: Math.round(value * 100),
+        Rune: Math.round(enhancement * 100),
+      };
+    case "Resistance":
+      return { Stats: "RESI", Value: value, Rune: enhancement };
+    case "Speed":
+      return { Stats: "SPD", Value: value, Rune: enhancement };
+    default:
+      return { Stats: "", Value: 0, Rune: 0 };
   }
 };
 
-const importArtifact = (value: string[]): ArtifactDraft[] | false => {
-  try {
-    const rows = value.slice(1);
-    const artifacts: ArtifactDraft[] = [];
-
-    rows.forEach((row) => {
-      const fields = row.split(";");
-      if (fields.length !== 24) {
-        throw Error(String(fields.length));
-      }
-
-      const Slot = fields[0] as Slots;
-      const SetOrClan = fields[1] as Sets;
-      const Quality = parseInt(fields[2], 10) as Stars;
-      const RarityStr = fields[3];
-      const Level = parseInt(fields[4], 10);
-      const Champion = fields[5];
-
-      const MainStats = fields[6] as Stat;
-      const MainStatsValue = parseInt(fields[7], 10);
-
-      const SubStats: [StatsFull?, StatsFull?, StatsFull?, StatsFull?] = [];
-
-      const Set = ExistingSets.includes(SetOrClan) ? SetOrClan : Sets.Null;
-      const Clan = ExistingClans.includes((SetOrClan as unknown) as Clans)
-        ? ((SetOrClan as unknown) as Clans)
-        : Clans.Null;
-
-      const subStat1 = fields[8] as Stat;
-      const subValue1 = parseInt(fields[9], 10);
-      const subRolls1 = parseInt(fields[10], 10);
-      const subRune1 = parseInt(fields[11], 10);
-      if (subStat1) {
-        SubStats.push({
-          Stats: subStat1,
-          Value: subValue1,
-          Roll: Number.isNaN(subRolls1) ? 0 : subRolls1,
-          Rune: Number.isNaN(subRune1) ? 0 : subRune1,
-        });
-      }
-
-      const subStat2 = fields[12] as Stat;
-      const subValue2 = parseInt(fields[13], 10);
-      const subRolls2 = parseInt(fields[14], 10);
-      const subRune2 = parseInt(fields[15], 10);
-      if (subStat2) {
-        SubStats.push({
-          Stats: subStat2,
-          Value: subValue2,
-          Roll: Number.isNaN(subRolls2) ? 0 : subRolls2,
-          Rune: Number.isNaN(subRune2) ? 0 : subRune2,
-        });
-      }
-
-      const subStat3 = fields[16] as Stat;
-      const subValue3 = parseInt(fields[17], 10);
-      const subRolls3 = parseInt(fields[18], 10);
-      const subRune3 = parseInt(fields[19], 10);
-      if (subStat3) {
-        SubStats.push({
-          Stats: subStat3,
-          Value: subValue3,
-          Roll: Number.isNaN(subRolls3) ? 0 : subRolls3,
-          Rune: Number.isNaN(subRune3) ? 0 : subRune3,
-        });
-      }
-
-      const subStat4 = fields[20] as Stat;
-      const subValue4 = parseInt(fields[21], 10);
-      const subRolls4 = parseInt(fields[22], 10);
-      const subRune4 = parseInt(fields[23], 10);
-      if (subStat4) {
-        SubStats.push({
-          Stats: subStat4,
-          Value: subValue4,
-          Roll: Number.isNaN(subRolls4) ? 0 : subRolls4,
-          Rune: Number.isNaN(subRune4) ? 0 : subRune4,
-        });
-      }
-
-      if (!ExistingSlots.includes(Slot)) {
-        throw Error(Slot);
-      }
-
-      if (Set === "" && Clan === "") {
-        throw Error(Set);
-      }
-
-      if (Clan === "" && !ExistingSets.includes(Set)) {
-        throw Error(Set);
-      }
-
-      if (Set === "" && !ExistingClans.includes(Clan)) {
-        throw Error(Clan);
-      }
-
-      if (Quality < 1 || Quality > 6) {
-        throw Error(String(Quality));
-      }
-
-      if (!Object.values(RarityString).includes(RarityStr)) {
-        throw Error(RarityStr);
-      }
-
-      if (Level < 0 || Level > 16) {
-        throw Error(String(Level));
-      }
-
-      if (Champion !== "" && !ChampionsList.includes(Champion)) {
-        throw Error(Champion);
-      }
-
-      if (!ExistingStats.includes(MainStats)) {
-        throw Error(MainStats);
-      }
-
-      if (MainStatsValue <= 0) {
-        throw Error(String(MainStatsValue));
-      }
-
-      SubStats.forEach((sub) => {
-        if (sub && !ExistingStats.includes(sub.Stats)) {
-          throw Error(JSON.stringify(sub));
-        }
-      });
-
-      const newArtifact: ArtifactDraft = {
-        Slot,
-        Set,
-        Clan,
-        isAccessory: Clan !== Clans.Null,
-        Quality,
-        Rarity: RarityFromString[RarityStr],
-        Level,
-        Champion,
-        MainStats,
-        MainStatsValue,
-        SubStats,
-      };
-
-      validateArtifact(newArtifact as Artifact, (errors) => {
-        if (errors.length > 0) {
-          throw Error(JSON.stringify({ row, errors }));
-        }
-      });
-
-      artifacts.push(newArtifact);
-    });
-    return artifacts;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
-    return false;
+const getQuality = (
+  rank: "One" | "Two" | "Three" | "Four" | "Five" | "Six"
+): IStars => {
+  switch (rank) {
+    case "Six":
+      return 6;
+    case "Five":
+      return 5;
+    case "Four":
+      return 4;
+    case "Three":
+      return 3;
+    case "Two":
+      return 2;
+    case "One":
+    default:
+      return 1;
   }
 };
 
-export default (): JSX.Element => {
-  const champions = useSelector((state: State) => state.champions);
-  const artifacts = useSelector((state: State) => state.artifacts);
+const getSlot = (
+  kind:
+    | "Boots"
+    | "Weapon"
+    | "Helmet"
+    | "Chest"
+    | "Gloves"
+    | "Shield"
+    | "Ring"
+    | "Cloak"
+    | "Banner"
+): ISlots => {
+  switch (kind) {
+    case "Banner":
+      return "Banner";
+    case "Boots":
+      return "Boots";
+    case "Chest":
+      return "Chestplate";
+    case "Cloak":
+      return "Amulet";
+    case "Gloves":
+      return "Gauntlets";
+    case "Helmet":
+      return "Helmet";
+    case "Ring":
+      return "Ring";
+    case "Shield":
+      return "Shield";
+    case "Weapon":
+    default:
+      return "Weapon";
+  }
+};
+
+const getSet = (kind: IArtifactJsonSet): ISets => {
+  switch (kind) {
+    case "Hp":
+      return "Life";
+    case "AttackPower":
+      return "Offense";
+    case "Defense":
+      return "Defense";
+    case "AttackSpeed":
+      return "Speed";
+    case "CriticalChance":
+      return "CriticalRate";
+    case "CriticalDamage":
+      return "CriticalDamage";
+    case "Accuracy":
+      return "Accuracy";
+    case "Resistance":
+      return "Resistance";
+    case "LifeDrain":
+      return "Lifesteal";
+    case "DamageIncreaseOnHpDecrease":
+      return "Fury";
+    case "SleepChance":
+      return "Daze";
+    case "BlockHealChance":
+      return "Cursed";
+    case "FreezeRateOnDamageReceived":
+      return "Frost";
+    case "Stamina":
+      return "Frenzy";
+    case "Heal":
+      return "Regeneration";
+    case "BlockDebuff":
+      return "Immunity";
+    case "Shield":
+      return "Shield";
+    case "GetExtraTurn":
+      return "Relentless";
+    case "IgnoreDefense":
+      return "Savage";
+    case "DecreaseMaxHp":
+      return "Destroy";
+    case "StunChance":
+      return "Stun";
+    case "DotRate":
+      return "Toxic";
+    case "ProvokeChance":
+      return "Taunting";
+    case "Counterattack":
+      return "Retaliation";
+    case "CounterattackOnCrit":
+      return "Avenging";
+    case "AoeDamageDecrease":
+      return "Stalwart";
+    case "CooldownReductionChance":
+      return "Reflex";
+    case "CriticalHealMultiplier":
+      return "Curing";
+    case "AttackPowerAndIgnoreDefense":
+      return "Cruel";
+    case "HpAndHeal":
+      return "Immortal";
+    case "ShieldAndAttackPower":
+      return "DivineOffense";
+    case "ShieldAndCriticalChance":
+      return "DivineCriticalRate";
+    case "ShieldAndHp":
+      return "DivineLife";
+    case "ShieldAndSpeed":
+      return "DivineSpeed";
+    case "UnkillableAndSpdAndCrDmg":
+      return "SwiftParry";
+    case "BlockReflectDebuffAndHpAndDef":
+      return "Deflection";
+    case "HpAndDefence":
+      return "Resilience";
+    case "AccuracyAndSpeed":
+      return "Perception";
+    case "None":
+    default:
+      return "";
+  }
+};
+
+const generateArtifact = (
+  artifact: IArtifactJson,
+  wornList: IWornList
+): IArtifact => {
+  const MainStats = getStat(artifact.primaryBonus);
+  const Slot = getSlot(artifact.kind);
+
+  const newArtifact: IArtifact = {
+    Clan: (artifact.requiredFraction as IClans) ?? "",
+    Level: artifact.level,
+    MainStats: MainStats.Stats,
+    Quality: getQuality(artifact.rank),
+    Rarity: RarityFromString[artifact.rarity.toLowerCase()],
+    Set: getSet(artifact.setKind),
+    Slot,
+    SubStats: [],
+    MainStatsValue: MainStats.Value,
+    isAccessory: ExistingSlotsAccessories.includes(Slot),
+    Champion: wornList[artifact.id],
+    Guid: uuidv4(),
+    Power: 0,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any;
+
+  artifact.secondaryBonuses.forEach((bonus) => {
+    const stats = getStat(bonus);
+    newArtifact.SubStats.push({
+      ...stats,
+      Roll: bonus.level,
+    });
+  });
+
+  newArtifact.Power = calculateScoreRealStats(newArtifact);
+
+  return newArtifact;
+};
+
+const importBackup1 = (backup: IBackupV1): IBackupPrepare => {
+  const { artifacts, championConfig, champions } = backup;
+  // Nothing to do for the backup's current version
+  return { artifacts, championConfig, champions };
+};
+
+const ImportExport = (): JSX.Element => {
+  const championConfigurations = useSelector(
+    (state: IState) => state.championConfigurations
+  );
+  const artifacts = useSelector((state: IState) => state.artifacts);
+  const champions = useSelector((state: IState) => state.champions);
+  const { arenaRank, greatHallBonus } = useSelector(
+    (state: IState) => state.configuration
+  );
+
   const lang = useLanguage();
 
-  const [showModalImport, setShow] = useState(false);
-  const [textareaValue, setTextareaValue] = useState("");
+  const [showModalBackup, setShowBackup] = useState(false);
+  const [showModalRaidExtract, setShowRaidExtract] = useState(false);
+
+  const [textareaBackup, setTextareaBackup] = useState("");
+  const [textareaRaidExtract, setTextareaRaidExtract] = useState("");
   const dispatch = useDispatch();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseBackup = () => setShowBackup(false);
+  const handleShowBackup = () => setShowBackup(true);
 
-  const onImport = () => {
-    const rows = textareaValue.trim().replace("\r", "").split("\n");
+  const handleCloseRaidExtract = () => setShowRaidExtract(false);
+  const handleShowRaidExtract = () => setShowRaidExtract(true);
 
-    const separator = rows.findIndex((r) => r === "---");
+  const onImportBackup = () => {
+    const json = textareaBackup.trim();
 
-    const rowsChampions = rows.slice(1, separator);
-    const rowsArtifacts = rows.slice(separator + 1);
+    const backup: IBackup = JSON.parse(json);
 
-    const listArtifacts = importArtifact(rowsArtifacts);
-    if (listArtifacts) {
-      dispatch(loadArtifacts({ artifacts: listArtifacts }));
+    const validate = validator.validate(backup, Backup1Schema);
+
+    if (validate.errors.length === 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let result: IBackupPrepare = undefined as any;
+
+      if (backup.version === "1") {
+        result = importBackup1(backup);
+      }
+
+      if (result !== undefined) {
+        dispatch(loadArtifacts({ artifacts: result.artifacts }));
+        dispatch(loadChampions({ champions: result.champions }));
+        dispatch(
+          loadChampionConfigurations({
+            championConfigurations: result.championConfig,
+          })
+        );
+      }
     }
 
-    const listChampions = importChampions(rowsChampions);
-    if (listChampions) {
-      dispatch(loadChampions({ champions: listChampions }));
+    handleCloseBackup();
+  };
+
+  const onImportRaidExtract = () => {
+    try {
+      const json: IRaidExtractJson = JSON.parse(textareaRaidExtract);
+
+      const { champions: importedChampions, wornList } = importChampion(
+        json.heroes
+      );
+
+      const newArtifacts: IArtifact[] = [];
+      json.artifacts.forEach((artifact: IArtifactJson) => {
+        const newArtifact = generateArtifact(
+          artifact as IArtifactJson,
+          wornList
+        );
+        newArtifacts.push(newArtifact);
+
+        if (newArtifact.Champion) {
+          const index = importedChampions.findIndex(
+            (c) => c.Guid === newArtifact.Champion
+          );
+
+          if (index !== -1) {
+            importedChampions[index].Power += newArtifact.Power;
+          }
+        }
+      });
+
+      importedChampions.forEach((champion, index) => {
+        const art = newArtifacts.filter((a) => a.Champion === champion.Guid);
+
+        const stats = calculateChampionStats(champion as IChampion, art, {
+          arenaRank,
+          greatHallBonus,
+        });
+
+        importedChampions[index].CurrentAccuracy = stats.ACC.total;
+        importedChampions[index].CurrentAttack = stats.ATK.total;
+        importedChampions[index].CurrentCriticalDamage = stats["C.DMG"].total;
+        importedChampions[index].CurrentCriticalRate = stats["C.RATE"].total;
+        importedChampions[index].CurrentDefense = stats.DEF.total;
+        importedChampions[index].CurrentHP = stats.HP.total;
+        importedChampions[index].CurrentResistance = stats.RESI.total;
+        importedChampions[index].CurrentSpeed = stats.SPD.total;
+      });
+
+      dispatch(loadChampions({ champions: importedChampions }));
+      dispatch(loadArtifacts({ artifacts: newArtifacts }));
+      dispatch(
+        loadChampionConfigurations({
+          championConfigurations: [],
+        })
+      );
+      handleCloseRaidExtract();
+    } catch (e) {
+      logger.error(e);
     }
-
-    handleClose();
-  };
-
-  const exportChampions = () => {
-    const rows = champions.map((champion) => {
-      return [
-        champion.Champion,
-        champion.order,
-        champion.Methods,
-        champion.Sets.join(","),
-        champion.StatsPriority.ACC ?? "0",
-        champion.StatsPriority["ATK%"] ?? "0",
-        champion.StatsPriority.ATK ?? "0",
-        champion.StatsPriority["C.DMG"] ?? "0",
-        champion.StatsPriority["C.RATE"] ?? "0",
-        champion.StatsPriority["DEF%"] ?? "0",
-        champion.StatsPriority.DEF ?? "0",
-        champion.StatsPriority["HP%"] ?? "0",
-        champion.StatsPriority.HP ?? "0",
-        champion.StatsPriority.RESI ?? "0",
-        champion.StatsPriority.SPD ?? "0",
-        champion.GauntletStats.join(","),
-        champion.ChestplateStats.join(","),
-        champion.BootsStats.join(","),
-        champion.Accessories,
-      ].map((v) => (v !== undefined ? String(v) : ""));
-    });
-
-    const header = [
-      "champion",
-      "order",
-      "methods",
-      "sets",
-      "stats_priority_acc",
-      "stats_priority_atkp",
-      "stats_priority_atk",
-      "stats_priority_cdmg",
-      "stats_priority_crate",
-      "stats_priority_defp",
-      "stats_priority_def",
-      "stats_priority_hpp",
-      "stats_priority_hp",
-      "stats_priority_resi",
-      "stats_priority_spd",
-      "gauntlet_stats",
-      "chestplate_stats",
-      "boots_stats",
-    ];
-
-    return [header, ...rows];
-  };
-
-  const exportArtifacts = () => {
-    const rows = artifacts.map((artifact) => {
-      return [
-        artifact.Slot,
-        artifact.isAccessory ? artifact.Clan : artifact.Set,
-        artifact.Quality,
-        RarityString[artifact.Rarity],
-        artifact.Level,
-        artifact.Champion,
-        artifact.MainStats,
-        artifact.MainStatsValue,
-        artifact.SubStats[0]?.Stats,
-        artifact.SubStats[0]?.Value,
-        artifact.SubStats[0]?.Roll,
-        artifact.SubStats[0]?.Rune,
-        artifact.SubStats[1]?.Stats,
-        artifact.SubStats[1]?.Value,
-        artifact.SubStats[1]?.Roll,
-        artifact.SubStats[1]?.Rune,
-        artifact.SubStats[2]?.Stats,
-        artifact.SubStats[2]?.Value,
-        artifact.SubStats[2]?.Roll,
-        artifact.SubStats[2]?.Rune,
-        artifact.SubStats[3]?.Stats,
-        artifact.SubStats[3]?.Value,
-        artifact.SubStats[3]?.Roll,
-        artifact.SubStats[3]?.Rune,
-      ].map((v) => (v !== undefined ? String(v) : ""));
-    });
-
-    const header = [
-      "slot",
-      "set_or_clan",
-      "quality",
-      "rarity",
-      "lvl",
-      "champion",
-      "main_stat",
-      "main_value",
-      "sub_stat_1",
-      "sub_value_1",
-      "sub_rolls_1",
-      "sub_rune_1",
-      "sub_stat_2",
-      "sub_value_2",
-      "sub_rolls_2",
-      "sub_rune_2",
-      "sub_stat_3",
-      "sub_value_3",
-      "sub_rolls_3",
-      "sub_rune_3",
-      "sub_stat_4",
-      "sub_value_4",
-      "sub_rolls_4",
-      "sub_rune_4",
-    ];
-
-    return [header, ...rows];
   };
 
   const exportBackup = () => {
-    const rowsChampions = exportChampions();
-    const rowsArtifacts = exportArtifacts();
+    const backup: IBackup = {
+      version: "1",
+      artifacts,
+      championConfig: championConfigurations,
+      champions,
+    };
 
-    exportCSV(
-      [["v1"], ...rowsChampions, ["---"], ...rowsArtifacts],
-      "raid-gear-optimizer.csv"
+    exportJSON(
+      JSON.stringify(backup),
+      `raid-gear-optimizer-${new Date().toISOString()}.rgo`
     );
   };
 
-  const fileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const fileUploadBackup = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length === 1) {
       const reader = new FileReader();
-      reader.onload = (csv: ProgressEvent<FileReader>) => {
-        setTextareaValue((csv.target?.result as string) ?? "");
+      reader.onload = (json: ProgressEvent<FileReader>) => {
+        setTextareaBackup((json.target?.result as string) ?? "{}");
+      };
+      reader.readAsText(e.target.files[0]);
+    }
+  };
+
+  const fileUploadRaidExtract = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length === 1) {
+      const reader = new FileReader();
+      reader.onload = (json: ProgressEvent<FileReader>) => {
+        setTextareaRaidExtract((json.target?.result as string) ?? "{}");
       };
       reader.readAsText(e.target.files[0]);
     }
@@ -546,44 +642,104 @@ export default (): JSX.Element => {
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
-        {lang.btnImportBackup}
-      </Button>
-      <Button variant="success" onClick={exportBackup}>
-        {lang.btnExportBackup}
-      </Button>
-      <Modal
-        title={lang.titleImportCSV}
-        content={
-          <Stack>
-            <span className="badge badge-danger">
-              <strong>{lang.commonWarning}</strong>:{" "}
-              {lang.messageImportOverrideData}
-            </span>
-            <div className="custom-file">
-              <input
-                type="file"
-                className="custom-file-input"
-                id="fileImport"
-                accept="raid-gear-optimizer.csv"
-                onChange={fileUpload}
+      <h1>{lang.ui.title.importExport}</h1>
+      <form>
+        <FormRow>
+          <FormLabel>{lang.ui.title.importExport}</FormLabel>
+          <FormInput>
+            <Stack style={{ width: "300px" }}>
+              <Button variant="danger" onClick={handleShowBackup}>
+                {lang.ui.button.importBackup}
+              </Button>
+              <Button variant="success" onClick={exportBackup}>
+                {lang.ui.button.exportBackup}
+              </Button>
+              <Modal
+                title={lang.ui.title.importBackup}
+                content={
+                  <Stack>
+                    <span className="badge badge-danger">
+                      <strong>{lang.ui.common.warning}</strong>:{" "}
+                      {lang.ui.message.importOverrideData}
+                    </span>
+                    <div className="custom-file">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="fileImportBackup"
+                        accept=".rgo"
+                        onChange={fileUploadBackup}
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="fileImportBackup"
+                        data-browse={lang.ui.common.browse}
+                      >
+                        {lang.ui.option.chooseBackupFile}
+                      </label>
+                    </div>
+                    <Textarea value={textareaBackup} readOnly />
+                  </Stack>
+                }
+                show={showModalBackup}
+                onSave={onImportBackup}
+                onClose={handleCloseBackup}
               />
-              <label className="custom-file-label" htmlFor="fileImport">
-                {lang.optionChooseCSVFile}
-              </label>
-            </div>
-            <Textarea
-              value={textareaValue}
-              onChange={(e) => {
-                setTextareaValue(e.target.value);
-              }}
-            />
-          </Stack>
-        }
-        show={showModalImport}
-        onSave={onImport}
-        onClose={handleClose}
-      />
+            </Stack>
+          </FormInput>
+        </FormRow>
+        <FormRow>
+          <FormLabel>RaidExtract</FormLabel>
+          <FormInput>
+            <Stack style={{ width: "300px" }}>
+              <Button variant="danger" onClick={handleShowRaidExtract}>
+                {lang.ui.button.importRaidExtract}
+              </Button>
+              <p>{lang.ui.message.raidExtractHelp}</p>
+              <Button
+                variant="info"
+                href="https://github.com/Da-Teach/RaidExtractor/releases/latest"
+                target="_blank"
+              >
+                RaidExtract
+              </Button>
+              <Modal
+                title={lang.ui.title.importJSON}
+                content={
+                  <Stack>
+                    <span className="badge badge-danger">
+                      <strong>{lang.ui.common.warning}</strong>:{" "}
+                      {lang.ui.message.importOverrideData}
+                    </span>
+                    <div className="custom-file">
+                      <input
+                        type="file"
+                        className="custom-file-input"
+                        id="fileImportRaidExtract"
+                        accept=".json"
+                        onChange={fileUploadRaidExtract}
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="fileImportRaidExtract"
+                        data-browse={lang.ui.common.browse}
+                      >
+                        {lang.ui.option.chooseJSONFile}
+                      </label>
+                    </div>
+                    <Textarea value={textareaRaidExtract} readOnly />
+                  </Stack>
+                }
+                show={showModalRaidExtract}
+                onSave={onImportRaidExtract}
+                onClose={handleCloseRaidExtract}
+              />
+            </Stack>
+          </FormInput>
+        </FormRow>
+      </form>
     </>
   );
 };
+
+export default ImportExport;

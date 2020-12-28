@@ -1,15 +1,14 @@
-import { Rarity } from "models";
+import type { IRarity } from "models";
 
-const getColour = (rarity: Rarity): string => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  switch (parseInt(rarity as any, 10)) {
-    case Rarity.Legendary:
+const getColour = (rarity: IRarity): string => {
+  switch (rarity) {
+    case "Legendary":
       return "#c67b23";
-    case Rarity.Epic:
+    case "Epic":
       return "#cb5cea";
-    case Rarity.Rare:
+    case "Rare":
       return "#2d92e9";
-    case Rarity.Uncommon:
+    case "Uncommon":
       return "#27bc49";
     default:
       return "#a8acb1";

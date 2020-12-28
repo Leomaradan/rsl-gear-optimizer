@@ -1,26 +1,23 @@
-import { ListOfArtifacts } from "./Artifact";
-import { Champion } from "./Champion";
-import { Sets } from "./Sets";
+import type { IArtifact } from "./Artifact";
+import type { IChampionConfiguration } from "./ChampionConfiguration";
+import type { ISets } from "./Sets";
 
-export enum ResultsStatus {
-  Ready,
-  Processing,
-  Done,
-}
+export type IResultsStatus = "Ready" | "Processing" | "Done";
 
-export interface ResultsRow {
-  id: number;
-  artifacts: ListOfArtifacts;
+export interface IResultsRow {
+  artifacts: IArtifact[];
   score: number;
   maxScore: number;
-  bonus: Sets[];
+  bonus: ISets[];
   bonusComplete?: boolean;
 }
 
-export interface Results {
+export interface IResults {
   name: string;
-  selected: boolean;
-  artifacts: ResultsRow | null;
-  champion: Champion;
-  result: string[];
+  champion: IChampionConfiguration;
+  artifacts: IArtifact[];
+  score: number;
+  maxScore: number;
+  bonus: ISets[];
+  bonusComplete?: boolean;
 }

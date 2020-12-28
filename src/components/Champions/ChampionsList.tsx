@@ -1,57 +1,343 @@
-import ChampionAdd from "./ChampionAdd";
-import ChampionsListRow from "./ChampionsListRow";
-import BaseWrapper from "components/UI/Wrapper";
-import { State } from "redux/reducers";
+import ChampionDetails from "../ChampionDetails/ChampionDetails";
+
+import type { IChampion, IProfile, IStat } from "models";
+import ChampionDisplay from "components/UI/ChampionDisplay";
+import Toggle from "components/UI/Toggle";
+import Modal from "components/UI/Modal";
 import { useLanguage } from "lang/LanguageContext";
-import React from "react";
-import { useSelector } from "react-redux";
+import type { ILanguage, ILanguageChampion } from "lang/language";
+import Stack from "components/UI/Stack";
+
 import styled from "styled-components";
+import { Link, useParams, useHistory } from "react-router-dom";
+import React, { useMemo, useState } from "react";
 
-const Wrapper = styled(BaseWrapper)`
-  justify-content: space-between;
+const getWeightAffinity = (champion: IChampion): number => {
+  switch (champion.Affinity) {
+    case "Magic":
+      return 400000;
+    case "Spirit":
+      return 300000;
+    case "Force":
+      return 200000;
+    default:
+      return 100000;
+  }
+};
+
+const getWeightRole = (champion: IChampion): number => {
+  switch (champion.Role) {
+    case "Attack":
+      return 400000;
+    case "Defense":
+      return 300000;
+    case "Support":
+      return 200000;
+    default:
+      return 100000;
+  }
+};
+
+const getWeightFaction = (champion: IChampion): number => {
+  switch (champion.Clan) {
+    case "BannerLords":
+      return 1300000;
+    case "HighElves":
+      return 1200000;
+    case "SacredOrder":
+      return 1100000;
+    case "Barbarians":
+      return 1000000;
+    case "OgrynTribes":
+      return 900000;
+    case "LizardMen":
+      return 800000;
+    case "Skinwalkers":
+      return 700000;
+    case "Orcs":
+      return 600000;
+    case "Demonspawn":
+      return 500000;
+    case "UndeadHordes":
+      return 400000;
+    case "DarkElves":
+      return 300000;
+    case "KnightsRevenant":
+      return 200000;
+
+    default:
+      return 100000;
+  }
+};
+
+const rankSort = (champion: IChampion, criteria?: ISortMethods) => {
+  let score = champion.Level ?? 0;
+
+  switch (criteria) {
+    case "level":
+      // in Level sorting, sort only by level and ignore other criteria
+      return champion.Level ?? 0;
+    case "power":
+      return champion.Power;
+    case "ACC":
+      return champion.CurrentAccuracy;
+    case "ATK":
+      return champion.CurrentAttack;
+    case "C.DMG":
+      return champion.CurrentCriticalDamage;
+    case "C.RATE":
+      return champion.CurrentCriticalRate;
+    case "DEF":
+      return champion.CurrentDefense;
+    case "HP":
+      return champion.CurrentHP;
+    case "RESI":
+      return champion.CurrentResistance;
+    case "SPD":
+      return champion.CurrentSpeed;
+    case "affinity":
+      score += getWeightAffinity(champion);
+      break;
+    case "faction":
+      score += getWeightFaction(champion);
+      break;
+    case "role":
+      score += getWeightRole(champion);
+      break;
+    default:
+      break;
+  }
+
+  switch (champion.Rarity) {
+    case "Legendary":
+      score += 600;
+      break;
+    case "Epic":
+      score += 500;
+      break;
+    case "Rare":
+      score += 400;
+      break;
+    case "Uncommon":
+      score += 300;
+      break;
+    default:
+      score += 200;
+      break;
+  }
+
+  score += (champion.Awaken as number) * 1000;
+
+  score += (champion.Quality as number) * 10000;
+
+  return score;
+};
+
+const ChampionContainer = styled.div`
+  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .active {
+    box-shadow: 0px 0px 3px 3px rgba(181, 242, 142, 1);
+  }
 `;
 
-const InnerWrapper = styled(Wrapper)`
-  height: 30px;
+const Stacked = styled(Stack)`
+  padding: 10px;
+  h2 {
+    padding-left: 15px;
+  }
+`;
+
+const Col = styled.div.attrs(() => ({ className: "col" }))`
+  display: flex;
+  gap: 10px;
   align-items: center;
-  gap: 15px;
+  select {
+    max-width: 400px;
+  }
 `;
 
-const ChampionsList = (): JSX.Element => {
-  const champions = useSelector((state: State) => state.champions);
+type IBaseOptions = "rank" | "affinity" | "role" | "faction";
+type IFilters = "sets" | "tags" | IBaseOptions;
+type ISortMethods =
+  | "level"
+  | "power"
+  | "HP"
+  | "ATK"
+  | "DEF"
+  | "SPD"
+  | "C.RATE"
+  | "C.DMG"
+  | "RESI"
+  | "ACC"
+  | IBaseOptions;
+
+const grouping: ISortMethods[] = ["affinity", "faction", "role"];
+
+const ChampionsList = (profile: IProfile): JSX.Element => {
+  const { slug } = useParams<{ slug?: string }>();
+  const history = useHistory();
+
+  const [sortMethod, updateSortMethod] = useState<ISortMethods>("rank");
+  const [group, setGroup] = useState(false);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [filter, setFilter] = useState<{
+    type: IFilters;
+    value: string;
+  } | null>(null);
+
   const lang = useLanguage();
 
-  const lengthIndex = champions.length - 1;
+  const selectedChampion = profile.champions.find((c) => c.Slug === slug);
+
+  const selectedName =
+    selectedChampion !== undefined
+      ? lang.champion[selectedChampion.Name as keyof ILanguageChampion]
+      : "";
+
+  const sorted = useMemo(() => {
+    const championsToSort = [...profile.champions];
+
+    return championsToSort.sort((a, b) => {
+      const scoreA = rankSort(a, sortMethod);
+      const scoreB = rankSort(b, sortMethod);
+
+      return scoreB - scoreA;
+    });
+  }, [profile.champions, sortMethod]);
+
+  const sortedGrouped = useMemo(() => {
+    let field: keyof IChampion | "" = "";
+    let langKey: keyof ILanguage | "" = "";
+    switch (sortMethod) {
+      case "affinity":
+        field = "Affinity";
+        langKey = "affinity";
+        break;
+      case "faction":
+        field = "Clan";
+        langKey = "clan";
+        break;
+      case "role":
+        field = "Role";
+        langKey = "role";
+        break;
+      default:
+        break;
+    }
+
+    if (!group || field === "") {
+      return [{ text: lang.ui.option.groupAllChampions, champions: sorted }];
+    }
+
+    const grouped: Record<
+      string,
+      { text: string; champions: IChampion[] }
+    > = {};
+
+    sorted.forEach((champion) => {
+      const category = champion[field as keyof IChampion] as string;
+      let text = category;
+      if (langKey !== "") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const langCategory: any = lang[langKey as keyof ILanguage];
+        text = langCategory[category];
+      }
+
+      if (!grouped[category]) {
+        grouped[category] = { text, champions: [] };
+      }
+
+      grouped[category].champions.push(champion);
+    });
+
+    return Object.values(grouped);
+  }, [group, lang, sortMethod, sorted]);
+
+  const handleUpdateSortMethod = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    updateSortMethod((event?.target?.value as ISortMethods) ?? "rank");
+  };
 
   return (
     <>
-      <Wrapper>
-        <h1>{lang.titleChampions}</h1>
-        <InnerWrapper>
-          <ChampionAdd />
-        </InnerWrapper>
-      </Wrapper>
-      <table className="table table-dark table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>{lang.titleChampion}</th>
-            <th>{lang.titleActiveSets}</th>
-            <th>{lang.titleStatsPriority}</th>
-            <th>{lang.titleMethod}</th>
-            <th>{lang.titleActions}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {champions.map((champion, index) => (
-            <ChampionsListRow
-              key={champion.Guid}
-              champion={champion}
-              index={index}
-              lengthIndex={lengthIndex}
-            />
-          ))}
-        </tbody>
-      </table>
+      <Col>
+        <select
+          className="custom-select custom-select-sm"
+          onChange={handleUpdateSortMethod}
+          value={sortMethod as string}
+        >
+          <option value="rank">{lang.ui.option.orderByRank}</option>
+          <option value="power">{lang.ui.option.orderByPower}</option>
+          <option value="level">{lang.ui.option.orderByLevel}</option>
+          <option value="affinity">{lang.ui.option.orderByAffinity}</option>
+          <option value="role">{lang.ui.option.orderByRole}</option>
+          <option value="faction">{lang.ui.option.orderByFaction}</option>
+          <option value="HP">{lang.ui.option.orderByHP}</option>
+          <option value="ATK">{lang.ui.option.orderByAttack}</option>
+          <option value="DEF">{lang.ui.option.orderByDefense}</option>
+          <option value="SPD">{lang.ui.option.orderBySpeed}</option>
+          <option value="C.RATE">{lang.ui.option.orderByCriticalRate}</option>
+          <option value="C.DMG">{lang.ui.option.orderByCriticalDamage}</option>
+          <option value="RESIST">{lang.ui.option.orderByResistance}</option>
+          <option value="ACC">{lang.ui.option.orderByAccuracy}</option>
+        </select>
+        <Toggle
+          currentState={group}
+          name="mustGroup"
+          onToggle={setGroup}
+          label={lang.ui.option.group}
+          disabled={!grouping.includes(sortMethod)}
+        />
+      </Col>
+
+      <div className="row">
+        {sortedGrouped.map((category) => (
+          <Stacked key={category.text}>
+            {sorted.length > 1 && <h2>{category.text}</h2>}
+            <ChampionContainer className="col">
+              {category.champions.map((champion) => {
+                const selected = selectedChampion === champion;
+
+                const to = selected
+                  ? "/champions"
+                  : `/champions/${champion.Slug}`;
+                const active = selected ? "active" : "";
+
+                return (
+                  <Link key={champion.Guid} to={to} className={active}>
+                    <div>
+                      <ChampionDisplay champion={champion} />
+                    </div>
+                  </Link>
+                );
+              })}
+            </ChampionContainer>
+          </Stacked>
+        ))}
+
+        <Modal
+          title={selectedName}
+          content={
+            <>
+              {selectedChampion && (
+                <ChampionDetails
+                  profile={profile}
+                  champion={selectedChampion}
+                />
+              )}
+            </>
+          }
+          onClose={() => {
+            history.goBack();
+          }}
+          show={!!selectedChampion}
+        />
+      </div>
     </>
   );
 };

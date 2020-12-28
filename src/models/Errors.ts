@@ -1,1 +1,1 @@
-export type Errors = { slot: string; text: string | JSX.Element }[];
+export type IErrors = { slot: string; text: string | JSX.Element }[];

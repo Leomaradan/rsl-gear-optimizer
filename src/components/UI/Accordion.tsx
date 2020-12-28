@@ -1,10 +1,10 @@
 import Stack from "./Stack";
+
 import React, { useState } from "react";
 import styled from "styled-components";
-import BtAccordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
+import { Accordion as BtAccordion, Button, Card } from "react-bootstrap";
 
-export interface AccordionSection {
+export interface IAccordionSection {
   key: string;
   title: JSX.Element | string;
   content: JSX.Element | string;
@@ -17,11 +17,15 @@ const CardHeader = styled(Card.Header)`
   align-items: center;
 `;
 
-interface AccordionProps {
-  section: AccordionSection[];
+interface IAccordionProps {
+  section: IAccordionSection[];
 }
 
-const InnerAccordion = ({ filterItems }: { filterItems: AccordionSection }) => {
+interface IInnerAccordionProps {
+  filterItems: IAccordionSection;
+}
+
+const InnerAccordion = ({ filterItems }: IInnerAccordionProps) => {
   const [show, setShow] = useState(filterItems.expanded ?? false);
 
   return (
@@ -33,9 +37,7 @@ const InnerAccordion = ({ filterItems }: { filterItems: AccordionSection }) => {
     >
       <Card>
         <BtAccordion.Toggle as={CardHeader} eventKey="0">
-          <button className="btn btn-link text-left" type="button">
-            {filterItems.title}
-          </button>
+          <Button variant="link">{filterItems.title}</Button>
           {filterItems.widget && <div>{filterItems.widget}</div>}
         </BtAccordion.Toggle>
         <BtAccordion.Collapse eventKey="0">
@@ -46,7 +48,7 @@ const InnerAccordion = ({ filterItems }: { filterItems: AccordionSection }) => {
   );
 };
 
-const Accordion = ({ section }: AccordionProps): JSX.Element => {
+const Accordion = ({ section }: IAccordionProps): JSX.Element => {
   const listSection = section.map((s) => s.key);
 
   return (

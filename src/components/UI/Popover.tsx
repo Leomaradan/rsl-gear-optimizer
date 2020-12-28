@@ -1,27 +1,28 @@
-import Popover from "react-bootstrap/Popover";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { Popover as BtPopover, OverlayTrigger } from "react-bootstrap";
 import React from "react";
 import { InfoCircle } from "react-bootstrap-icons";
 
-interface PopoverProps {
+interface IPopoverProps {
   id: string;
   title: string;
   content: string;
 }
 
-export default ({ id, content, title }: PopoverProps): JSX.Element => {
+const Popover = ({ id, content, title }: IPopoverProps): JSX.Element => {
   return (
     <OverlayTrigger
       trigger={["hover", "focus"]}
       placement="auto"
       overlay={
-        <Popover id={id}>
-          <Popover.Title as="h3">{title}</Popover.Title>
-          <Popover.Content>{content}</Popover.Content>
-        </Popover>
+        <BtPopover id={id}>
+          <BtPopover.Title as="h3">{title}</BtPopover.Title>
+          <BtPopover.Content>{content}</BtPopover.Content>
+        </BtPopover>
       }
     >
       <InfoCircle />
     </OverlayTrigger>
   );
 };
+
+export default Popover;

@@ -1,24 +1,16 @@
-import Results from "./components/Results/Results";
-import Artifacts from "./components/Artifacts/Artifacts";
-import ChampionsList from "./components/Champions/ChampionsList";
-import Home from "./Home";
 import LanguageContext, {
-  LanguageContextDefinition,
+  ILanguageContextDefinition,
 } from "lang/LanguageContext";
-import Configuration from "components/Configuration/Configuration";
+import AuthContext, { IAuthContextDefinition } from "auth/AuthContext";
+import Menu from "Menu";
+import Routes from "Routes";
+
 import localforage from "localforage";
 import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 import React, { useContext, useEffect } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 const Main = styled.main`
   padding-top: 100px;
@@ -26,8 +18,10 @@ const Main = styled.main`
 
 const App = (): JSX.Element => {
   const { userLanguageChange, dictionary: lang } = useContext<
-    LanguageContextDefinition
+    ILanguageContextDefinition
   >(LanguageContext);
+
+  const { setAuthToken } = useContext<IAuthContextDefinition>(AuthContext);
 
   useEffect(() => {
     localforage.getItem<string>("rcml-lang").then((defaultLanguage) => {
@@ -40,85 +34,26 @@ const App = (): JSX.Element => {
     });
   }, [userLanguageChange]);
 
+  useEffect(() => {
+    localforage.getItem<string>("auth-token").then((token) => {
+      setAuthToken(token ?? undefined);
+    });
+  }, [setAuthToken]);
+
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{lang.siteTitle}</title>
-        <meta name="description" content={lang.siteDescription} />
+        <title>{lang.ui.title.siteTitle}</title>
+        <meta name="description" content={lang.ui.title.siteDescription} />
         <link rel="canonical" href="https://raid-gear-optimizer.com" />
       </Helmet>
-      <Router>
-        <Navbar bg="primary" expand="lg" variant="dark" fixed="top">
-          <div className="container">
-            <Link to="/" className="navbar-brand">
-              <img
-                alt=""
-                src="./android-chrome-192x192.png"
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
-              />{" "}
-              RAID Gear Optimizer
-            </Link>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                <NavLink
-                  to="/champions"
-                  className="nav-link"
-                  activeClassName="active"
-                >
-                  {lang.titleChampions}
-                </NavLink>
-                <NavLink
-                  to="/artifacts"
-                  className="nav-link"
-                  activeClassName="active"
-                >
-                  {lang.titleArtifacts}
-                </NavLink>
-                <NavLink
-                  to="/results"
-                  className="nav-link"
-                  activeClassName="active"
-                >
-                  {lang.titleResults}
-                </NavLink>
-                <NavLink
-                  to="/config"
-                  className="nav-link"
-                  activeClassName="active"
-                >
-                  {lang.titleConfig}
-                </NavLink>
-              </Nav>
-            </Navbar.Collapse>
-          </div>
-        </Navbar>
+      <Router basename={process.env.PUBLIC_URL}>
+        <Menu />
         <Main>
-          <div className="container">
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/champions">
-                <ChampionsList />
-              </Route>
-              <Route path="/accessories">
-                <Artifacts accessories />
-              </Route>
-              <Route path="/artifacts">
-                <Artifacts />
-              </Route>
-              <Route path="/results">
-                <Results />
-              </Route>
-              <Route path="/config">
-                <Configuration />
-              </Route>
-            </Switch>
-          </div>
+          <Container>
+            <Routes />
+          </Container>
         </Main>
       </Router>
     </>

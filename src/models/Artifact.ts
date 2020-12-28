@@ -1,262 +1,117 @@
-import { Stat, StatsFull } from "./Stat";
-import { Rarity, Stars } from "./Quality";
-import { Sets } from "./Sets";
-import { Slots } from "./Slots";
-import { Clans } from "./Clans";
+import type { IStat, IStatsFull } from "./Stat";
+import type { IRarity, IStars } from "./Quality";
+import type { ISets } from "./Sets";
+import type { ISlots } from "./Slots";
+import type { IClans } from "./Clans";
 
-interface ArtifactBase {
+interface IArtifactBase {
   Guid: string;
-  Slot: Slots;
-  Set: Sets;
-  Clan: Clans;
-  Rarity: Rarity;
-  Quality: Stars;
+  Slot: ISlots;
+  Set: ISets;
+  Clan: IClans;
+  Rarity: IRarity;
+  Quality: IStars;
   Level: number;
-  MainStats: Stat;
+  MainStats: IStat;
   MainStatsValue?: number;
   Champion?: string;
   isAccessory: boolean;
-  SubStats: [StatsFull?, StatsFull?, StatsFull?, StatsFull?];
+  SubStats: [IStatsFull?, IStatsFull?, IStatsFull?, IStatsFull?];
+  Power: number;
 }
 
-export type ArtifactDraft = Omit<ArtifactBase, "Guid"> & { Guid?: string };
+export type IArtifactDraft = Omit<IArtifactBase, "Guid">;
 
-interface ArtifactWeapon extends ArtifactBase {
-  Slot: Slots.Weapon;
-  MainStats: Stat.None | Stat.Attack;
-  Clan: Clans.Null;
+interface IArtifactWeapon extends IArtifactBase {
+  Slot: "Weapon";
+  MainStats: "" | "ATK";
+  Clan: "";
   isAccessory: false;
 }
 
-interface ArtifactHelmet extends ArtifactBase {
-  Slot: Slots.Helmet;
-  MainStats: Stat.None | Stat.HP;
-  Clan: Clans.Null;
+interface IArtifactHelmet extends IArtifactBase {
+  Slot: "Helmet";
+  MainStats: "" | "HP";
+  Clan: "";
   isAccessory: false;
 }
 
-interface ArtifactShield extends ArtifactBase {
-  Slot: Slots.Shield;
-  MainStats: Stat.None | Stat.Defense;
-  Clan: Clans.Null;
+interface IArtifactShield extends IArtifactBase {
+  Slot: "Shield";
+  MainStats: "" | "DEF";
+  Clan: "";
   isAccessory: false;
 }
 
-interface ArtifactGauntlets extends ArtifactBase {
-  Slot: Slots.Gauntlets;
+interface IArtifactGauntlets extends IArtifactBase {
+  Slot: "Gauntlets";
   MainStats:
-    | Stat.None
-    | Stat.HP
-    | Stat.HpPercent
-    | Stat.Attack
-    | Stat.AttackPercent
-    | Stat.Defense
-    | Stat.DefensePercent
-    | Stat.CriticalRate
-    | Stat.CriticalDamage;
-  Clan: Clans.Null;
+    | ""
+    | "HP"
+    | "HP%"
+    | "ATK"
+    | "ATK%"
+    | "DEF"
+    | "DEF%"
+    | "C.RATE"
+    | "C.DMG";
+  Clan: "";
   isAccessory: false;
 }
 
-interface ArtifactChestplate extends ArtifactBase {
-  Slot: Slots.Chestplate;
+interface IArtifactChestplate extends IArtifactBase {
+  Slot: "Chestplate";
   MainStats:
-    | Stat.None
-    | Stat.HP
-    | Stat.HpPercent
-    | Stat.Attack
-    | Stat.AttackPercent
-    | Stat.Defense
-    | Stat.DefensePercent
-    | Stat.Accuracy
-    | Stat.Resistance;
-  Clan: Clans.Null;
+    | ""
+    | "HP"
+    | "HP%"
+    | "ATK"
+    | "ATK%"
+    | "DEF"
+    | "DEF%"
+    | "ACC"
+    | "RESI";
+  Clan: "";
   isAccessory: false;
 }
 
-interface ArtifactBoots extends ArtifactBase {
-  Slot: Slots.Boots;
-  MainStats:
-    | Stat.None
-    | Stat.HP
-    | Stat.HpPercent
-    | Stat.Attack
-    | Stat.AttackPercent
-    | Stat.Defense
-    | Stat.DefensePercent
-    | Stat.Speed;
-  Clan: Clans.Null;
+interface IArtifactBoots extends IArtifactBase {
+  Slot: "Boots";
+  MainStats: "" | "HP" | "HP%" | "ATK" | "ATK%" | "DEF" | "DEF%" | "SPD";
+  Clan: "";
   isAccessory: false;
 }
 
-interface ArtifactRing extends ArtifactBase {
-  Slot: Slots.Ring;
-  MainStats: Stat.None | Stat.HP | Stat.Attack | Stat.Defense;
-  Set: Sets.Null;
+interface IArtifactRing extends IArtifactBase {
+  Slot: "Ring";
+  MainStats: "" | "HP" | "ATK" | "DEF";
+  Set: "";
   isAccessory: true;
 }
 
-interface ArtifactAmulet extends ArtifactBase {
-  Slot: Slots.Amulet;
-  MainStats:
-    | Stat.None
-    | Stat.HP
-    | Stat.Attack
-    | Stat.Defense
-    | Stat.CriticalDamage;
-  Set: Sets.Null;
+interface IArtifactAmulet extends IArtifactBase {
+  Slot: "Amulet";
+  MainStats: "" | "HP" | "ATK" | "DEF" | "C.DMG";
+  Set: "";
   isAccessory: true;
 }
 
-interface ArtifactBanner extends ArtifactBase {
-  Slot: Slots.Banner;
-  MainStats:
-    | Stat.None
-    | Stat.HP
-    | Stat.Attack
-    | Stat.Defense
-    | Stat.Accuracy
-    | Stat.Resistance;
-  Set: Sets.Null;
+interface IArtifactBanner extends IArtifactBase {
+  Slot: "Banner";
+  MainStats: "" | "HP" | "ATK" | "DEF" | "ACC" | "RESI";
+  Set: "";
   isAccessory: true;
 }
 
-const WeaponStats = [Stat.Attack];
-export const WeaponSubStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.AttackPercent,
-  Stat.Speed,
-  Stat.CriticalRate,
-  Stat.CriticalDamage,
-  Stat.Resistance,
-  Stat.Accuracy,
-];
-const HelmetStats = [Stat.HP];
-export const HelmetSubStats = [
-  Stat.HpPercent,
-  Stat.Attack,
-  Stat.AttackPercent,
-  Stat.Defense,
-  Stat.DefensePercent,
-  Stat.Speed,
-  Stat.CriticalRate,
-  Stat.CriticalDamage,
-  Stat.Resistance,
-  Stat.Accuracy,
-];
-const ShieldStats = [Stat.Defense];
-export const ShieldSubStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.DefensePercent,
-  Stat.Speed,
-  Stat.CriticalRate,
-  Stat.CriticalDamage,
-  Stat.Resistance,
-  Stat.Accuracy,
-];
-const GauntletsStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.Attack,
-  Stat.AttackPercent,
-  Stat.Defense,
-  Stat.DefensePercent,
-  Stat.CriticalRate,
-  Stat.CriticalDamage,
-];
+export type IArtifact =
+  | IArtifactWeapon
+  | IArtifactHelmet
+  | IArtifactShield
+  | IArtifactGauntlets
+  | IArtifactChestplate
+  | IArtifactBoots
+  | IArtifactRing
+  | IArtifactAmulet
+  | IArtifactBanner;
 
-const ChestplateStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.Attack,
-  Stat.AttackPercent,
-  Stat.Defense,
-  Stat.DefensePercent,
-  Stat.Accuracy,
-  Stat.Resistance,
-];
-const BootsStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.Attack,
-  Stat.AttackPercent,
-  Stat.Defense,
-  Stat.DefensePercent,
-  Stat.Speed,
-];
-
-const RingStats = [Stat.HP, Stat.Attack, Stat.Defense];
-export const RingSubStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.Attack,
-  Stat.AttackPercent,
-  Stat.Defense,
-  Stat.DefensePercent,
-];
-
-const AmuletStats = [Stat.HP, Stat.Attack, Stat.Defense, Stat.CriticalDamage];
-export const AmuletSubStats = [
-  Stat.HP,
-  Stat.Attack,
-  Stat.Defense,
-  Stat.CriticalDamage,
-  Stat.Resistance,
-  Stat.Accuracy,
-];
-
-const BannerStats = [
-  Stat.HP,
-  Stat.Attack,
-  Stat.Defense,
-  Stat.Resistance,
-  Stat.Accuracy,
-];
-export const BannerSubStats = [
-  Stat.HP,
-  Stat.HpPercent,
-  Stat.Attack,
-  Stat.AttackPercent,
-  Stat.Defense,
-  Stat.DefensePercent,
-  Stat.Speed,
-];
-
-export type Artifact =
-  | ArtifactWeapon
-  | ArtifactHelmet
-  | ArtifactShield
-  | ArtifactGauntlets
-  | ArtifactChestplate
-  | ArtifactBoots
-  | ArtifactRing
-  | ArtifactAmulet
-  | ArtifactBanner;
-
-export type ListOfArtifacts = [
-  ArtifactWeapon,
-  ArtifactHelmet,
-  ArtifactShield,
-  ArtifactGauntlets,
-  ArtifactChestplate,
-  ArtifactBoots,
-  ArtifactRing,
-  ArtifactAmulet,
-  ArtifactBanner
-];
-
-export type ScoredArtifact = Artifact & { score: number };
-
-export const StatsBySlots = {
-  [Slots.Weapon]: WeaponStats,
-  [Slots.Helmet]: HelmetStats,
-  [Slots.Shield]: ShieldStats,
-  [Slots.Gauntlets]: GauntletsStats,
-  [Slots.Chestplate]: ChestplateStats,
-  [Slots.Boots]: BootsStats,
-  [Slots.Ring]: RingStats,
-  [Slots.Amulet]: AmuletStats,
-  [Slots.Banner]: BannerStats,
-};
+export type IScoredArtifact = IArtifact & { score: number };

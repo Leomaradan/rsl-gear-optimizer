@@ -1,41 +1,119 @@
-import { Clans } from "./Clans";
-import { Orderable } from "./Orderable";
-import { Sets } from "./Sets";
-import { Slots } from "./Slots";
-import { Stat } from "./Stat";
+import type { IArtifact } from "./Artifact";
+import type { IClans } from "./Clans";
+import type { IGameProgression } from "./Configuration";
+import type { IRarity, IStars } from "./Quality";
 
-export enum ChampionSetMethod {
-  RequireSets,
-  OptionalSets,
-  NoSets,
-}
+export type IChampionRole = "Attack" | "Defense" | "HP" | "Support";
 
-export interface ChampionStatsPriority {
-  [Stat.Accuracy]?: number;
-  [Stat.Attack]?: number;
-  [Stat.AttackPercent]?: number;
-  [Stat.CriticalDamage]?: number;
-  [Stat.CriticalRate]?: number;
-  [Stat.Defense]?: number;
-  [Stat.DefensePercent]?: number;
-  [Stat.HP]?: number;
-  [Stat.HpPercent]?: number;
-  [Stat.Resistance]?: number;
-  [Stat.Speed]?: number;
-}
+export type IChampionAffinity = "Force" | "Magic" | "Spirit" | "Void";
 
-export interface Champion extends Orderable {
+export type IChampionMastery =
+  | "BladeDisciple"
+  | "DeadlyPrecision"
+  | "ToughSkin"
+  | "Defiant"
+  | "Steadfast"
+  | "PinpointAccuracy"
+  | "HeartOfGlory"
+  | "KeenStrike"
+  | "ShieldBreaker"
+  | "GrimResolve"
+  | "Blastproof"
+  | "Rejuvenation"
+  | "MightyEndurance"
+  | "ImprovedParry"
+  | "LayOnHands"
+  | "Shieldbearer"
+  | "ExaltInDeath"
+  | "ChargedFocus"
+  | "SingleOut"
+  | "LifeDrinker"
+  | "WhirlwindOfDeath"
+  | "RuthlessAmbush"
+  | "ShadowHeal"
+  | "Resurgent"
+  | "Bloodthirst"
+  | "WisdomOfBattle"
+  | "HealingSavior"
+  | "RapidResponse"
+  | "SwarmSmiter"
+  | "ArcaneCelerity"
+  | "BringItDown"
+  | "WrathOfTheSlain"
+  | "CycleOfViolence"
+  | "Opportunist"
+  | "Solidarity"
+  | "DelayDeath"
+  | "HarvestDespair"
+  | "Stubbornness"
+  | "MercifulAid"
+  | "CycleOfMagic"
+  | "LoreOfSteel"
+  | "EvilEye"
+  | "Methodical"
+  | "KillStreak"
+  | "BloodShield"
+  | "StokedToFury"
+  | "SelflessDefender"
+  | "CycleOfRevenge"
+  | "Retribution"
+  | "Deterrence"
+  | "LastingGifts"
+  | "SpiritHaste"
+  | "Sniper"
+  | "MasterHexer"
+  | "Warmaster"
+  | "Helmsmasher"
+  | "GiantSlayer"
+  | "FlawlessExecution"
+  | "IronSkin"
+  | "Bulwark"
+  | "FearsomePresence"
+  | "Unshakeable"
+  | "ElixirOfLife"
+  | "TimelyIntervention"
+  | "Oppressor"
+  | "EagleEye";
+
+export interface IChampion {
   Guid: string;
-  Champion: string;
-  Clan: Clans;
-  Sets: Sets[];
-  StatsPriority: ChampionStatsPriority;
-  GauntletStats: Stat[];
-  ChestplateStats: Stat[];
-  BootsStats: Stat[];
-  Methods: ChampionSetMethod;
-  Activated: boolean;
-  Accessories: "" | Slots.Ring | Slots.Amulet | Slots.Banner;
+  Slug: string;
+  Name: string;
+  Quality: IStars;
+  Awaken: IStars;
+  Level: number;
+  Clan: IClans;
+  Rarity: IRarity;
+  Role: IChampionRole;
+  Affinity: IChampionAffinity;
+  BaseHP: number;
+  BaseAccuracy: number;
+  BaseAttack: number;
+  BaseDefense: number;
+  BaseCriticalRate: number;
+  BaseCriticalDamage: number;
+  BaseResistance: number;
+  BaseSpeed: number;
+  CurrentHP: number;
+  CurrentAccuracy: number;
+  CurrentAttack: number;
+  CurrentDefense: number;
+  CurrentCriticalRate: number;
+  CurrentCriticalDamage: number;
+  CurrentResistance: number;
+  CurrentSpeed: number;
+  Masteries: IChampionMastery[];
+  Power: number;
 }
 
-export type ChampionDraft = Omit<Champion, "Guid" | "Clan">;
+export interface IProfile {
+  champions: IChampion[];
+  artifacts: IArtifact[];
+  gameProgression: IGameProgression;
+  readOnly?: boolean;
+}
+
+export type IChampionDraft = Omit<
+  IChampion,
+  "Slug" | "Clan" | "Rarity" | "Role"
+>;

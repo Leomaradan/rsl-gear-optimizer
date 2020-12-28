@@ -1,42 +1,52 @@
 import ArtifactsListRow from "./ArtifactsListRow";
-import { useLanguage } from "lang/LanguageContext";
-import { Artifact } from "models";
-import React from "react";
 
-interface ArtifactsListTableProps {
-  artifacts: Artifact[];
+import { useLanguage } from "lang/LanguageContext";
+import type { IArtifact } from "models";
+
+import React from "react";
+import { Table } from "react-bootstrap";
+
+interface IArtifactsListTableProps {
+  artifacts: IArtifact[];
+  readOnly?: boolean;
 }
 
-export default (props: ArtifactsListTableProps): JSX.Element => {
-  const { artifacts } = props;
+const ArtifactsListTable = (props: IArtifactsListTableProps): JSX.Element => {
+  const { artifacts, readOnly } = props;
   const lang = useLanguage();
 
   return (
-    <table className="table table-dark table-striped table-bordered table-hover">
+    <Table variant="dark" striped bordered hover>
       <thead>
         <tr>
-          <th>{lang.titleArtifacts}</th>
+          <th>{lang.ui.title.artifacts}</th>
 
-          <th>{lang.titleMainStats}</th>
+          <th>{lang.ui.title.mainStats}</th>
 
-          <th>{lang.titleStats1}</th>
+          <th>{lang.ui.title.stats1}</th>
 
-          <th>{lang.titleStats2}</th>
+          <th>{lang.ui.title.stats2}</th>
 
-          <th>{lang.titleStats3}</th>
+          <th>{lang.ui.title.stats3}</th>
 
-          <th>{lang.titleStats4}</th>
+          <th>{lang.ui.title.stats4}</th>
 
-          <th>{lang.titleChampion}</th>
+          <th>{lang.ui.title.champion}</th>
 
-          <th>{lang.titleActions}</th>
+          {!readOnly && <th>{lang.ui.title.actions}</th>}
         </tr>
       </thead>
       <tbody>
         {artifacts.map((artifact) => (
-          <ArtifactsListRow key={artifact.Guid} artifact={artifact} />
+          <ArtifactsListRow
+            key={artifact.Guid}
+            artifact={artifact}
+            readOnly={readOnly}
+          />
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
+
+export default ArtifactsListTable;

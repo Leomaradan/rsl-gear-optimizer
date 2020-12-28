@@ -1,27 +1,22 @@
-import { Language } from "lang/language";
-import { useLanguage } from "lang/LanguageContext";
 import React from "react";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
+import { Tabs as BtTabs, Tab, Form } from "react-bootstrap";
 
-export interface TabProps {
+export interface ITabProps {
   id: string;
   title: string;
   page: JSX.Element;
   disable?: boolean;
 }
 
-interface TabsProps {
-  tabs: TabProps[];
+interface ITabsProps {
+  tabs: ITabProps[];
   defaultTabs?: string;
   widget?: JSX.Element;
   onChange?(id: string): void;
 }
 
-export default (props: TabsProps): JSX.Element => {
+const Tabs = (props: ITabsProps): JSX.Element => {
   const { tabs, defaultTabs, widget, onChange } = props;
-
-  const lang = useLanguage();
 
   const onSelect = (key: string | null) => {
     if (key && onChange) {
@@ -30,13 +25,17 @@ export default (props: TabsProps): JSX.Element => {
   };
 
   return (
-    <Tabs defaultActiveKey={defaultTabs} onSelect={onSelect}>
+    <BtTabs defaultActiveKey={defaultTabs} onSelect={onSelect}>
       {tabs.map((tab) => (
-        <Tab eventKey={tab.id} title={lang[tab.title as keyof Language]}>
+        <Tab key={tab.id} eventKey={tab.id} title={tab.title}>
           {tab.page}
         </Tab>
       ))}
-      <form className="form-inline my-2 my-lg-0">{widget}</form>
-    </Tabs>
+      <Form inline className="my-2 my-lg-0">
+        {widget}
+      </Form>
+    </BtTabs>
   );
 };
+
+export default Tabs;

@@ -4,6 +4,7 @@
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
+    "plugin:react/recommended",
     "prettier",
     "prettier/react",
     "prettier/@typescript-eslint",
@@ -34,6 +35,35 @@
   },
   "rules": {
     "linebreak-style": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": ["interface", "typeAlias"],
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ],
+    "react/jsx-no-literals": [
+      "warn",
+      {
+        "ignoreProps": false,
+        "allowedStrings": [
+          "(",
+          ")",
+          "[",
+          "]",
+          "+",
+          "%",
+          ":",
+          "---",
+          "RaidExtract",
+          "GitHub"
+        ]
+      }
+    ],
     "prettier/prettier": [
       "error",
       {
@@ -66,7 +96,8 @@
           "external",
           "builtin",
           "object"
-        ]
+        ],
+        "newlines-between": "always"
       }
     ],
     "import/newline-after-import": "warn",

@@ -1,16 +1,18 @@
 import ArtifactForm from "./ArtifactForm";
-import { Artifact } from "models";
+
+import type { IArtifact } from "models";
 import { deleteArtifacts } from "redux/artifactsSlice";
+
 import React, { useState } from "react";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
-import Button from "react-bootstrap/Button";
+import { Button } from "react-bootstrap";
 
-interface ArtifactEditTableProps {
-  artifact: Artifact;
+interface IArtifactEditTableProps {
+  artifact: IArtifact;
 }
 
-const ArtifactEditTable = (props: ArtifactEditTableProps): JSX.Element => {
+const ArtifactEditTable = (props: IArtifactEditTableProps): JSX.Element => {
   const { artifact } = props;
   const { Guid } = artifact;
 

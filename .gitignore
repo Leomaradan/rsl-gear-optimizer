@@ -11,6 +11,9 @@
 # production
 /build
 
+# temp
+/temp
+
 # misc
 .DS_Store
 .env.local
@@ -25,3 +28,4 @@ src/raid-data
 
 public/assets/*
 !public/assets/UnknownItem.jpg
+!public/assets/Masteries/

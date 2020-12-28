@@ -1,32 +1,30 @@
 /* eslint-disable import/no-webpack-loader-syntax */
+import logger from "./logger";
+
 import {
   resultsDoneGeneration,
   resultsStartGeneration,
 } from "redux/resultsSlice";
-import {
-  Artifact,
-  Champion,
-  GenerationMethod,
-  ResultsWorkerCommands,
-  ResultsWorkerEvents,
+import type {
+  IArtifact,
+  IChampion,
+  IChampionConfiguration,
+  IGenerationMethod,
+  IResultsWorkerCommandGenerate,
+  IResultsWorkerEvents,
 } from "models";
+
 // eslint-disable-next-line import/no-unresolved
 import CombinationWorker from "worker-loader!process/combination.worker";
-
-import { Dispatch } from "@reduxjs/toolkit";
-
-const log = (message: string) => {
-  if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
-    console.log(message);
-  }
-};
+import type { Dispatch } from "@reduxjs/toolkit";
 
 export default (
   dispatch: Dispatch,
-  champions: Champion[],
-  artifacts: Artifact[],
-  generationMethod: GenerationMethod,
+  champions: IChampion[],
+  championConfigurations: IChampionConfiguration[],
+  artifacts: IArtifact[],
+  generationMethod: IGenerationMethod,
+  excludeWornArtifacts: boolean,
   updateProgress: (task: string, value: number, max: number) => void
 ): void => {
   dispatch(resultsStartGeneration());
@@ -34,26 +32,32 @@ export default (
   const worker = new CombinationWorker();
   const time = performance.now();
 
-  worker.postMessage({
+  const generateCommand: IResultsWorkerCommandGenerate = {
     command: "generate",
-    champions,
+    championConfigurations,
     artifacts,
     generationMethod,
-  } as ResultsWorkerCommands);
+    champions,
+    excludeWornArtifacts,
+  };
 
-  worker.onmessage = (event: ResultsWorkerEvents) => {
+  worker.postMessage(generateCommand);
+
+  worker.onmessage = (event: IResultsWorkerEvents) => {
     if (event.data.command === "done") {
       const endTime = performance.now();
       worker.terminate();
-      log(`Generated ${event.data.items} combination in ${endTime - time}ms`);
+      logger.info(
+        `Generated ${event.data.items} combination in ${endTime - time}ms`
+      );
       dispatch(resultsDoneGeneration(event.data.results));
     }
 
     if (event.data.command === "message") {
       if (event.data.message.startsWith("{")) {
-        log(JSON.parse(event.data.message));
+        logger.info(JSON.parse(event.data.message));
       } else {
-        log(event.data.message);
+        logger.info(event.data.message);
       }
     }
 

@@ -1,110 +1,120 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ArtifactFormBase from "./ArtifactFormBase";
 import ArtifactFormStats from "./ArtifactFormStats";
-import { createArtifacts, updateArtifacts } from "redux/artifactsSlice";
 
+import { createArtifacts, updateArtifacts } from "redux/artifactsSlice";
 import { useLanguage } from "lang/LanguageContext";
 import Stack from "components/UI/Stack";
-
 import Modal from "components/UI/Modal";
-import { Artifact, Clans, Errors, Sets, Stat } from "models";
-import { useDispatch } from "react-redux";
-import React, { useEffect, useState } from "react";
+import type { IArtifact, IErrors, IRarity } from "models";
 
-interface ArtifactFormProps {
-  artifact: Artifact;
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+interface IArtifactFormProps {
+  artifact: IArtifact;
   show: boolean;
+  moreButtons?: { title: string; variant?: string; action: () => void }[];
+  lockedFields?: string[];
   handleClose(): void;
 }
 
-export const validateArtifact = (
-  artifact: Artifact,
-  setErrors: (errors: Errors) => void
-): boolean => {
-  const errorsList: Errors = [];
+export interface IArtifactFormSubProps {
+  state: IArtifact;
+  setState: Dispatch<SetStateAction<IArtifact>>;
+  errors: IErrors;
+  lockedFields: string[];
+}
+
+const validateArtifact = (artifact: IArtifact): Record<string, string> => {
+  const errors: Record<string, string> = {} as any;
 
   if ((artifact.Level as any) === "") {
-    errorsList.push({
-      slot: "Level",
-      text: "set a level",
-    });
+    errors.Level = "set a level";
   }
 
-  if (artifact.MainStats === Stat.None) {
-    errorsList.push({
-      slot: "MainStats",
-      text: "select a main stats",
-    });
+  if (artifact.MainStats === "") {
+    errors.MainStats = "Select a main stats";
   }
 
   if (artifact.MainStatsValue === undefined) {
-    errorsList.push({
-      slot: "MainStatValue",
-      text: "select a main stats value",
-    });
+    errors.MainStatsValue = "Select a main stats value";
   }
 
   if (!artifact.Quality) {
-    errorsList.push({
-      slot: "Quality",
-      text: "select a quality",
-    });
+    errors.Quality = "select a quality";
   }
 
   if (
     !artifact.isAccessory &&
-    (!artifact.Set || (artifact.Set as any) === Sets.Null)
+    (!artifact.Set || (artifact.Set as any) === "")
   ) {
-    errorsList.push({
-      slot: "Set",
-      text: "select a set",
-    });
+    errors.Set = "Select a set";
   }
 
   if (
     artifact.isAccessory &&
-    (!artifact.Clan || (artifact.Clan as any) === Clans.Null)
+    (!artifact.Clan || (artifact.Clan as any) === "")
   ) {
-    errorsList.push({
-      slot: "Clan",
-      text: "select a clan",
-    });
+    errors.Clan = "Select a clan";
   }
 
-  const subStatMin = Math.max(Math.floor(artifact.Level / 4), artifact.Rarity);
+  const raritySubStat = (rarity: IRarity) => {
+    if (rarity === "Legendary") {
+      return 4;
+    }
+
+    if (rarity === "Epic") {
+      return 3;
+    }
+
+    if (rarity === "Rare") {
+      return 2;
+    }
+
+    if (rarity === "Uncommon") {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const subStatMin = Math.max(
+    Math.floor(artifact.Level / 4),
+    raritySubStat(artifact.Rarity)
+  );
 
   artifact.SubStats.forEach((stat, index) => {
     const statNumber = index + 1;
-    if (
-      (!stat || (!stat.Stats as any) === Stat.None) &&
-      subStatMin >= statNumber
-    ) {
-      errorsList.push({
-        slot: `SubStat${statNumber}`,
-        text: `configure the stat ${statNumber}`,
-      });
+    if ((!stat || (!stat.Stats as any) === "") && subStatMin >= statNumber) {
+      errors[`SubStat${statNumber}`] = `configure the stat ${statNumber}`;
     }
 
-    if (stat && (!stat.Stats as any) === Stat.None && !stat.Value) {
-      errorsList.push({
-        slot: `SubStatValue${statNumber}`,
-        text: `configure the stat value ${statNumber}`,
-      });
+    if (stat && (!stat.Stats as any) === "" && !stat.Value) {
+      errors[
+        `SubStatValue${statNumber}`
+      ] = `configure the stat value ${statNumber}`;
     }
   });
 
-  setErrors(errorsList);
-
-  return errorsList.length === 0;
+  return errors;
 };
 
-const ArtifactForm = (props: ArtifactFormProps): JSX.Element => {
-  const { show, handleClose, artifact } = props;
+const ArtifactForm = (props: IArtifactFormProps): JSX.Element => {
+  const {
+    show,
+    handleClose,
+    artifact,
+    moreButtons,
+    lockedFields: baseLockedFields,
+  } = props;
+
+  const lockedFields = baseLockedFields ?? [];
 
   const dispatch = useDispatch();
 
-  const [state, setState] = useState<Readonly<Artifact>>(artifact);
-  const [errors, setErrors] = useState<Errors>([]);
+  const [state, setState] = useState<Readonly<IArtifact>>(artifact);
+  const [errors, setErrors] = useState<IErrors>([]);
 
   const lang = useLanguage();
 
@@ -114,14 +124,14 @@ const ArtifactForm = (props: ArtifactFormProps): JSX.Element => {
   }, [artifact, show]);
 
   const save = () => {
-    const ok = validateArtifact(state, setErrors);
+    const validation = validateArtifact(state);
 
-    if (ok) {
+    if (Object.keys(validation).length === 0) {
       if (state.Guid !== undefined) {
         dispatch(
           updateArtifacts({
             id: state.Guid as string,
-            artifact: state as Artifact,
+            artifact: state as IArtifact,
           })
         );
       } else {
@@ -129,23 +139,41 @@ const ArtifactForm = (props: ArtifactFormProps): JSX.Element => {
       }
 
       handleClose();
+    } else {
+      setErrors(
+        Object.keys(validation).map((error) => ({
+          slot: error,
+          text: validation[error],
+        }))
+      );
     }
   };
 
   const content = (
     <Stack>
-      <ArtifactFormBase errors={errors} setState={setState} state={state} />
-      <ArtifactFormStats errors={errors} setState={setState} state={state} />
+      <ArtifactFormBase
+        errors={errors}
+        lockedFields={lockedFields}
+        setState={setState}
+        state={state}
+      />
+      <ArtifactFormStats
+        errors={errors}
+        lockedFields={lockedFields}
+        setState={setState}
+        state={state}
+      />
     </Stack>
   );
 
   return (
     <>
       <Modal
-        title={lang.titleArtifacts}
+        title={lang.ui.title.artifacts}
         content={content}
         onClose={handleClose}
         onSave={save}
+        moreButtons={moreButtons}
         show={show}
       />
     </>

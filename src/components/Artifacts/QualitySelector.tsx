@@ -1,17 +1,19 @@
-import { Stars } from "models";
+import type { IStars } from "models";
+
 import React from "react";
 import styled from "styled-components";
 
-interface StatsSelectorProps {
-  maxQuality?: Stars;
-  currentQuality?: Stars;
-  onChange: (quality: Stars) => void;
+interface IStatsSelectorProps {
+  maxQuality?: IStars;
+  currentQuality?: IStars;
+  disabled?: boolean;
+  onChange: (quality: IStars) => void;
 }
 
-const Image = styled.img`
+const Image = styled.img<{ disabled: boolean }>`
   width: 15px;
   height: 15px;
-  cursor: pointer;
+  cursor: ${(p) => (p.disabled ? "not-allowed" : "pointer")};
 `;
 
 const Wrapper = styled.div`
@@ -21,32 +23,38 @@ const Wrapper = styled.div`
   width: 125px;
 `;
 
-export default ({
+const QualitySelector = ({
   maxQuality,
   currentQuality,
   onChange,
-}: StatsSelectorProps): JSX.Element => {
+  disabled,
+}: IStatsSelectorProps): JSX.Element => {
   const styleInactive: React.CSSProperties = {
     filter: "grayscale(100%)",
   };
 
   const stars = [1, 2, 3, 4, 5, 6].filter(
     (n) => n <= (maxQuality ?? 6)
-  ) as Stars[];
+  ) as IStars[];
 
   return (
     <Wrapper id="selectQuality">
       {stars.map((star) => (
         <Image
+          disabled={disabled ?? false}
           key={star}
           src="assets/Misc/regular_star.png"
           style={star <= (currentQuality ?? 1) ? {} : styleInactive}
           alt={`${star} Star`}
           onClick={() => {
-            onChange(star);
+            if (!disabled) {
+              onChange(star);
+            }
           }}
         />
       ))}
     </Wrapper>
   );
 };
+
+export default QualitySelector;

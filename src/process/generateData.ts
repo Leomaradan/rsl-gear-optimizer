@@ -2,38 +2,55 @@ import calculateBonus from "./calculateBonus";
 import calculateScoreEasyMode from "./calculateScoreEasyMode";
 import generateTable, { getEmtyItem } from "./generateTable";
 import calculateScoreRealStats from "./calculateScoreRealStats";
-import {
-  Artifact,
-  Champion,
-  GenerationMethod,
-  ResultsWorkerCommands,
-  ResultsRow,
-  ListOfArtifacts,
-  Slots,
-  ScoredArtifact,
+import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
+
+import type {
+  IArtifact,
+  IChampionConfiguration,
+  IGenerationMethod,
+  IResultsWorkerCommands,
+  IResultsRow,
+  IScoredArtifact,
+  IChampion,
 } from "models";
 
+interface IGenerateDataProps {
+  artifacts: IArtifact[];
+  championConfiguration: IChampionConfiguration;
+  champion: IChampion;
+  generationMethod: IGenerationMethod;
+  nbChampion: number;
+  maxChampions: number;
+  forceComplete: boolean;
+}
+
 const generateData = (
-  artifacts: Artifact[],
-  champion: Champion,
-  generationMethod: GenerationMethod,
-  postCommand: (command: ResultsWorkerCommands) => void,
-  nbChampion: number,
-  maxChampions: number,
-  forceComplete = false
-): ResultsRow[] => {
+  {
+    artifacts,
+    championConfiguration,
+    champion,
+    forceComplete,
+    generationMethod,
+    maxChampions,
+    nbChampion,
+  }: IGenerateDataProps,
+  postCommand: (command: IResultsWorkerCommands) => void
+): IResultsRow[] => {
   try {
-    const scoredArtifacts: ScoredArtifact[] = [];
-    const hasBanner = champion.Accessories === Slots.Banner;
-    const hasAmulet = hasBanner || champion.Accessories === Slots.Amulet;
-    const hasRing = hasAmulet || champion.Accessories === Slots.Ring;
+    const scoredArtifacts: IScoredArtifact[] = [];
+    const hasBanner = championConfiguration.Accessories === "Banner";
+    const hasAmulet =
+      hasBanner || championConfiguration.Accessories === "Amulet";
+    const hasRing = hasAmulet || championConfiguration.Accessories === "Ring";
 
     artifacts.forEach((artifact) => {
       let score = 0;
-      if (generationMethod === GenerationMethod.Easy) {
-        score = calculateScoreEasyMode(artifact, champion);
-      } else if (generationMethod === GenerationMethod.RealValue) {
-        score = calculateScoreRealStats(artifact, champion);
+      if (generationMethod === "Easy") {
+        score = calculateScoreEasyMode(artifact, championConfiguration);
+      } else if (generationMethod === "RealValue") {
+        score = calculateScoreRealStats(artifact, championConfiguration);
+      } else if (generationMethod === "TheoricalValue") {
+        score = calculateScoreTheoricalStats(artifact, championConfiguration);
       }
 
       scoredArtifacts.push({ ...artifact, score });
@@ -41,30 +58,30 @@ const generateData = (
 
     const rings = hasRing
       ? scoredArtifacts.filter(
-          (i) => i.Slot === Slots.Ring && i.Clan === champion.Clan
+          (i) => i.Slot === "Ring" && i.Clan === champion.Clan
         )
       : [];
     const amulets = hasAmulet
       ? scoredArtifacts.filter(
-          (i) => i.Slot === Slots.Amulet && i.Clan === champion.Clan
+          (i) => i.Slot === "Amulet" && i.Clan === champion.Clan
         )
       : [];
     const banners = hasBanner
       ? scoredArtifacts.filter(
-          (i) => i.Slot === Slots.Banner && i.Clan === champion.Clan
+          (i) => i.Slot === "Banner" && i.Clan === champion.Clan
         )
       : [];
 
     if (rings.length === 0) {
-      rings.push(getEmtyItem(Slots.Ring));
+      rings.push(getEmtyItem("Ring"));
     }
 
     if (amulets.length === 0) {
-      amulets.push(getEmtyItem(Slots.Amulet));
+      amulets.push(getEmtyItem("Amulet"));
     }
 
     if (banners.length === 0) {
-      banners.push(getEmtyItem(Slots.Banner));
+      banners.push(getEmtyItem("Banner"));
     }
 
     rings.sort((a, b) => b.score - a.score);
@@ -76,7 +93,7 @@ const generateData = (
     let maxScore = 0;
     let index = 0;
 
-    const result: ResultsRow[] = [];
+    const result: IResultsRow[] = [];
 
     let artifactYield = iterator.next();
 
@@ -91,7 +108,7 @@ const generateData = (
           (acc, artifact) => acc + artifact.score,
           0
         );
-        if (generationMethod === GenerationMethod.Easy && bonus.complete) {
+        if (generationMethod === "Easy" && bonus.complete) {
           score += 2;
         }
 
@@ -100,8 +117,8 @@ const generateData = (
             command: "progress",
             current: index + nbChampion * max,
             max: max * maxChampions,
-            champion: champion.Champion,
-            task: "taskGenerateTable",
+            champion: championConfiguration.SourceChampion,
+            task: "generateTable",
           });
         }
 
@@ -110,15 +127,9 @@ const generateData = (
         }
 
         result.push({
-          artifacts: [
-            ...artifactList,
-            rings[0],
-            amulets[0],
-            banners[0],
-          ] as ListOfArtifacts,
+          artifacts: [...artifactList, rings[0], amulets[0], banners[0]],
           score,
           maxScore: 0,
-          id: index,
           bonus: bonus.sets,
           bonusComplete: bonus.complete,
         });

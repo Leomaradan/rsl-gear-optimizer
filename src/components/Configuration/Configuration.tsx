@@ -1,33 +1,25 @@
-import SelectArtifactDisplay from "./SelectArtifactDisplay";
-import ImportExport from "./ImportExport";
-import ImportRaidExtract from "./ImportRaidExtract";
+import { FormRow, FormInput, FormLabel } from "./Layout";
+
 import LanguageSelector from "components/UI/LanguageSelector";
 import RadioButtons from "components/UI/RadioButtons";
 import { useLanguage } from "lang/LanguageContext";
 import { setOption } from "redux/configurationSlice";
-import { State } from "redux/reducers";
+import type { IState } from "redux/reducers";
 import Toggle from "components/UI/Toggle";
-import { GenerationMethod } from "models";
+import type { IArtifactsDisplayMode, IGenerationMethod } from "models";
 import Popover from "components/UI/Popover";
-import Stack from "components/UI/Stack";
-import styled from "styled-components";
+
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 
-const FormRow = styled.div.attrs(() => ({ className: "form-group row" }))``;
-const FormLabel = styled.label.attrs(() => ({
-  className: "col-sm-4 col-form-label",
-}))``;
-const FormInput = styled.div.attrs(() => ({ className: "col-sm-8" }))``;
-
-export default (): JSX.Element => {
+const Configuration = (): JSX.Element => {
   const lang = useLanguage();
 
-  const configuration = useSelector((state: State) => state.configuration);
+  const configuration = useSelector((state: IState) => state.configuration);
 
   const dispatch = useDispatch();
 
-  const handleChangeGenerationMethod = (value: GenerationMethod) => {
+  const handleChangeGenerationMethod = (value: IGenerationMethod) => {
     dispatch(setOption({ option: "generationMethod", value }));
   };
 
@@ -35,18 +27,39 @@ export default (): JSX.Element => {
     dispatch(setOption({ option: "excludeWornArtifact", value }));
   };
 
+  const handleChangeArtifactDisplay = (value: IArtifactsDisplayMode) => {
+    switch (value) {
+      case "Grid":
+        dispatch(
+          setOption({
+            option: "artifactsDisplay",
+            value: "Grid",
+          })
+        );
+        break;
+      case "Table":
+      default:
+        dispatch(
+          setOption({
+            option: "artifactsDisplay",
+            value: "Table",
+          })
+        );
+    }
+  };
+
   return (
     <>
-      <h1>{lang.titleConfig}</h1>
+      <h1>{lang.ui.title.config}</h1>
       <form>
         <FormRow>
-          <FormLabel>{lang.optionLanguage}</FormLabel>
+          <FormLabel>{lang.ui.title.language}</FormLabel>
           <FormInput>
             <LanguageSelector />
           </FormInput>
         </FormRow>
         <FormRow>
-          <FormLabel>{lang.optionExcludeWornArtifacts}</FormLabel>
+          <FormLabel>{lang.ui.option.excludeWornArtifacts}</FormLabel>
           <FormInput>
             <Toggle
               currentState={configuration.excludeWornArtifact}
@@ -56,7 +69,7 @@ export default (): JSX.Element => {
           </FormInput>
         </FormRow>
         <FormRow>
-          <FormLabel>{lang.optionGenerationMethods}</FormLabel>
+          <FormLabel>{lang.ui.title.generationMethods}</FormLabel>
           <FormInput>
             <RadioButtons
               name="selectGenerationMethods"
@@ -66,63 +79,70 @@ export default (): JSX.Element => {
                 {
                   text: (
                     <>
-                      {lang.optionGenerationEasyMode}{" "}
+                      {lang.ui.option.generationEasyMode}{" "}
                       <Popover
                         id="optionGenerationEasyMode"
-                        title={lang.optionGenerationEasyMode}
-                        content={lang.optionGenerationEasyModeHelper}
+                        title={lang.ui.option.generationEasyMode}
+                        content={lang.ui.option.generationEasyModeHelper}
                       />
                     </>
                   ),
-                  value: GenerationMethod.Easy,
+                  value: "Easy",
                 },
                 {
                   text: (
                     <>
-                      {lang.optionGenerationRealValues}{" "}
+                      {lang.ui.option.generationRealValues}{" "}
                       <Popover
                         id="optionGenerationRealValues"
-                        title={lang.optionGenerationRealValues}
-                        content={lang.optionGenerationRealValuesHelper}
+                        title={lang.ui.option.generationRealValues}
+                        content={lang.ui.option.generationRealValuesHelper}
                       />
                     </>
                   ),
-                  value: GenerationMethod.RealValue,
+                  value: "RealValue",
                 },
                 {
                   text: (
                     <>
-                      {lang.optionGenerationTheoricalValues}{" "}
+                      {lang.ui.option.generationTheoricalValues}{" "}
                       <Popover
                         id="optionGenerationEasyMode"
-                        title={lang.optionGenerationTheoricalValues}
-                        content={lang.optionGenerationTheoricalValuesHelper}
+                        title={lang.ui.option.generationTheoricalValues}
+                        content={lang.ui.option.generationTheoricalValuesHelper}
                       />
                     </>
                   ),
-                  value: GenerationMethod.TheoricalValue,
-                  disabled: true,
+                  value: "TheoricalValue",
                 },
               ]}
             />
           </FormInput>
         </FormRow>
         <FormRow>
-          <FormLabel>{lang.optionArtifactsDisplayMode}</FormLabel>
+          <FormLabel>{lang.ui.title.artifactsDisplayMode}</FormLabel>
           <FormInput>
-            <SelectArtifactDisplay />
-          </FormInput>
-        </FormRow>
-        <FormRow>
-          <FormLabel>{lang.optionImportExport}</FormLabel>
-          <FormInput>
-            <Stack style={{ width: "300px" }}>
-              <ImportExport />
-              <ImportRaidExtract />
-            </Stack>
+            <RadioButtons
+              name="selectArtifactDisplayMode"
+              onChange={handleChangeArtifactDisplay}
+              selectedOption={configuration.artifactsDisplay}
+              inline
+              options={[
+                {
+                  text: lang.ui.option.artifactsDisplayAsTable,
+                  value: "Table",
+                },
+                {
+                  text: lang.ui.option.artifactsDisplayAsGrid,
+                  value: "Grid",
+                },
+              ]}
+            />
           </FormInput>
         </FormRow>
       </form>
     </>
   );
 };
+
+export default Configuration;

@@ -1,70 +1,66 @@
-import {
-  Clans,
-  ExistingSlotsAccessories,
-  ScoredArtifact,
-  Sets,
-  Slots,
-  Stat,
-} from "models";
+import { ExistingSlotsAccessories } from "data";
+import type { IScoredArtifact, ISlots } from "models";
+
 import { v4 as uuidv4 } from "uuid";
 
-type ListOfScoredArtifacts = [
-  ScoredArtifact,
-  ScoredArtifact,
-  ScoredArtifact,
-  ScoredArtifact,
-  ScoredArtifact,
-  ScoredArtifact
+type IListOfScoredArtifacts = [
+  IScoredArtifact,
+  IScoredArtifact,
+  IScoredArtifact,
+  IScoredArtifact,
+  IScoredArtifact,
+  IScoredArtifact
 ];
 
-export const getEmtyItem = (Slot: Slots): ScoredArtifact =>
+export const getEmtyItem = (Slot: ISlots): IScoredArtifact =>
   ({
     Guid: `fake${uuidv4()}`,
-    MainStats: Stat.None,
+    MainStats: "",
     MainStatsValue: 0,
     Slot,
-    Set: Sets.Null,
-    Clan: Clans.Null,
-    Rarity: -1,
+    Set: "",
+    Clan: "",
+    Rarity: "",
     isAccessory: ExistingSlotsAccessories.includes(Slot),
     Level: 0,
     Quality: 1,
     SubStats: [],
     score: 0,
-  } as ScoredArtifact);
+    Power: 0,
+  } as IScoredArtifact);
 
 function* generateTable(
-  entryArtifacts: ScoredArtifact[]
-): Generator<{ artifacts: ListOfScoredArtifacts; max: number }> {
-  let weapons = entryArtifacts.filter((i) => i.Slot === Slots.Weapon);
-  let helmets = entryArtifacts.filter((i) => i.Slot === Slots.Helmet);
-  let shields = entryArtifacts.filter((i) => i.Slot === Slots.Shield);
-  let gauntlets = entryArtifacts.filter((i) => i.Slot === Slots.Gauntlets);
-  let chestplates = entryArtifacts.filter((i) => i.Slot === Slots.Chestplate);
-  let boots = entryArtifacts.filter((i) => i.Slot === Slots.Boots);
+  entryArtifacts: IScoredArtifact[]
+): Generator<{ artifacts: IListOfScoredArtifacts; max: number }> {
+  let weapons = entryArtifacts.filter((i) => i.Slot === "Weapon");
+  let helmets = entryArtifacts.filter((i) => i.Slot === "Helmet");
+  let shields = entryArtifacts.filter((i) => i.Slot === "Shield");
+  let gauntlets = entryArtifacts.filter((i) => i.Slot === "Gauntlets");
+  let chestplates = entryArtifacts.filter((i) => i.Slot === "Chestplate");
+  let boots = entryArtifacts.filter((i) => i.Slot === "Boots");
 
   if (weapons.length === 0) {
-    weapons.push(getEmtyItem(Slots.Weapon));
+    weapons.push(getEmtyItem("Weapon"));
   }
 
   if (helmets.length === 0) {
-    helmets.push(getEmtyItem(Slots.Helmet));
+    helmets.push(getEmtyItem("Helmet"));
   }
 
   if (shields.length === 0) {
-    shields.push(getEmtyItem(Slots.Shield));
+    shields.push(getEmtyItem("Shield"));
   }
 
   if (gauntlets.length === 0) {
-    gauntlets.push(getEmtyItem(Slots.Gauntlets));
+    gauntlets.push(getEmtyItem("Gauntlets"));
   }
 
   if (chestplates.length === 0) {
-    chestplates.push(getEmtyItem(Slots.Chestplate));
+    chestplates.push(getEmtyItem("Chestplate"));
   }
 
   if (boots.length === 0) {
-    boots.push(getEmtyItem(Slots.Boots));
+    boots.push(getEmtyItem("Boots"));
   }
 
   weapons = weapons.sort((a, b) => b.score - a.score).slice(0, 10);
@@ -112,7 +108,7 @@ function* generateTable(
                 gauntlet,
                 chestplate,
                 boots[bootIndex],
-              ] as ListOfScoredArtifacts;
+              ] as IListOfScoredArtifacts;
 
               yield { artifacts, max };
             }

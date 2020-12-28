@@ -1,44 +1,39 @@
 import { useLanguage } from "lang/LanguageContext";
-import React, { useState } from "react";
 
-interface Toggle {
+import React from "react";
+import { Form } from "react-bootstrap";
+
+interface IToggleProps {
   currentState: boolean;
   name: string;
   label?: string;
+  disabled?: boolean;
   onToggle(newState: boolean): void;
 }
 
-export default ({
+const Toggle = ({
   currentState,
   name,
   onToggle,
   label,
-}: Toggle): JSX.Element => {
-  const [state, setState] = useState(currentState);
+  disabled,
+}: IToggleProps): JSX.Element => {
   const lang = useLanguage();
 
-  const onClick = () => setState(!state);
+  const textLabel = currentState ? lang.ui.common.on : lang.ui.common.off;
 
   return (
-    <div className="custom-control custom-switch">
-      <input
-        type="checkbox"
-        id={name}
-        className="custom-control-input"
-        checked={!!state}
-        onChange={() => {
-          onToggle(state);
-        }}
-      />
-      <label
-        role="presentation"
-        className="custom-control-label"
-        htmlFor={name}
-        onClick={onClick}
-        onKeyPress={onClick}
-      >
-        {label || currentState ? lang.commonOn : lang.commonOff}
-      </label>
-    </div>
+    <Form.Check
+      type="switch"
+      id={name}
+      checked={!!currentState}
+      disabled={disabled}
+      onChange={() => {
+        onToggle(!currentState);
+      }}
+      label={label ?? textLabel}
+    />
   );
 };
+
+export default Toggle;

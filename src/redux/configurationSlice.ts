@@ -1,16 +1,31 @@
-import { ArtifactsDisplayMode, GenerationMethod } from "models/Configuration";
+import type { IConfigurationOptions, IConfigurationState } from "models";
 
-import { ConfigurationOptions, ConfigurationState } from "models";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState: ConfigurationState = {
-  artifactsDisplay: ArtifactsDisplayMode.Table,
-  excludeWornArtifact: true,
-  generationMethod: GenerationMethod.Easy,
+const greatHallBonusAffinity = {
+  "ATK%": 0,
+  "C.DMG": 0,
+  "DEF%": 0,
+  "HP%": 0,
+  ACC: 0,
+  RESI: 0,
 };
 
-type ConfigurationSetOptionAction = PayloadAction<{
-  option: ConfigurationOptions;
+const initialState: IConfigurationState = {
+  artifactsDisplay: "Table",
+  excludeWornArtifact: true,
+  generationMethod: "RealValue",
+  arenaRank: "B1",
+  greatHallBonus: {
+    Force: greatHallBonusAffinity,
+    Magic: greatHallBonusAffinity,
+    Spirit: greatHallBonusAffinity,
+    Void: greatHallBonusAffinity,
+  },
+};
+
+type IConfigurationSetOptionAction = PayloadAction<{
+  option: IConfigurationOptions;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
 }>;
@@ -19,7 +34,7 @@ const configurationSlice = createSlice({
   name: "configuration",
   initialState,
   reducers: {
-    setOption: (state, action: ConfigurationSetOptionAction) => {
+    setOption: (state, action: IConfigurationSetOptionAction) => {
       return { ...state, [action.payload.option]: action.payload.value };
     },
   },

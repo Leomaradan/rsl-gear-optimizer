@@ -1,13 +1,14 @@
-import { AdvancedSets, ListOfArtifacts, Sets } from "models";
+import { AdvancedSets } from "data";
+import type { IArtifact, ISets } from "models";
 
 const calculateBonus = (
-  artifacts: ListOfArtifacts
-): { sets: Sets[]; complete: boolean } => {
+  artifacts: IArtifact[]
+): { sets: ISets[]; complete: boolean } => {
   const sets = artifacts.map((i) => i.Set).filter((s) => s !== "");
-  const activated: Sets[] = [];
+  const activated: ISets[] = [];
   let pieces = 0;
 
-  const uniqueSets = Array.from(new Set<Sets>(sets));
+  const uniqueSets = Array.from(new Set<ISets>(sets));
 
   uniqueSets.forEach((uniqueSet) => {
     const nbSets = sets.filter((s) => s === uniqueSet).length;

@@ -1,43 +1,28 @@
 /* eslint-disable no-param-reassign */
 import StatsSelector from "./StatsSelector";
-import ArtifactDisplay from "components/UI/ArtifactDisplay";
+import type { IArtifactFormSubProps } from "./ArtifactForm";
+
 import DisplayError from "components/UI/DisplayError";
 import Wrapper from "components/UI/Wrapper";
-import { Language } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
+import type { IArtifact, IStatsFull, IStat } from "models";
+import type { ILanguageUiTitle } from "lang/language";
 import {
-  Artifact,
-  Errors,
   StatsBySlots,
-  StatsFull,
   ExistingStats,
-  Sets,
-  Stat,
-  Clans,
-  Slots,
   WeaponSubStats,
+  HelmetSubStats,
   ShieldSubStats,
+  RingSubStats,
   AmuletSubStats,
   BannerSubStats,
-  HelmetSubStats,
-  RingSubStats,
-} from "models";
-import produce from "immer";
-import Button from "react-bootstrap/Button";
+} from "data";
 
-import React, { Dispatch, SetStateAction } from "react";
+import produce from "immer";
+import { Button, Form, Row } from "react-bootstrap";
+import React from "react";
 import { DashCircle, PlusCircle } from "react-bootstrap-icons";
 import styled from "styled-components";
-
-interface ArtifactFormStatsProps {
-  state: Artifact;
-  setState: Dispatch<SetStateAction<Artifact>>;
-  errors: Errors;
-}
-
-const Input = styled.input`
-  width: 100%;
-`;
 
 const Rune = styled.img.attrs(() => ({ src: "assets/Misc/Stone.png" }))`
   height: 32px;
@@ -50,7 +35,7 @@ const Label = styled.label.attrs(() => ({
   className: "col-sm-2 col-form-label",
 }))``;
 
-const RuneCell = styled(MediumCell)`
+const RuneCell = styled.div`
   display: flex;
   gap: 5px;
 `;
@@ -59,14 +44,15 @@ export default ({
   state,
   setState,
   errors,
-}: ArtifactFormStatsProps): JSX.Element => {
+  lockedFields,
+}: IArtifactFormSubProps): JSX.Element => {
   const lang = useLanguage();
 
-  const availableStats: Stat[] = StatsBySlots[state.Slot];
+  const availableStats: IStat[] = StatsBySlots[state.Slot];
 
   const updateNewArtifact = (
-    key: keyof Artifact,
-    value: string | number | StatsFull[]
+    key: keyof IArtifact,
+    value: string | number | IStatsFull[]
   ) => {
     setState((current) => ({ ...current, [key]: value }));
   };
@@ -84,11 +70,11 @@ export default ({
     e: React.ChangeEvent<HTMLSelectElement>,
     index: number
   ) => {
-    const newStat = e.target.value as Stat;
+    const newStat = e.target.value as IStat;
 
-    const substats = produce(state.SubStats as StatsFull[], (draftState) => {
+    const substats = produce(state.SubStats as IStatsFull[], (draftState) => {
       if (!draftState[index]) {
-        draftState[index] = {} as StatsFull;
+        draftState[index] = {} as IStatsFull;
       }
       draftState[index].Stats = newStat;
       draftState[index].Value = 0;
@@ -103,7 +89,7 @@ export default ({
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const substats = produce(state.SubStats as StatsFull[], (draftState) => {
+    const substats = produce(state.SubStats as IStatsFull[], (draftState) => {
       draftState[index].Value = parseInt(e.target.value, 10);
     });
 
@@ -111,7 +97,7 @@ export default ({
   };
 
   const onChangeSubStatsRolls = (Roll: number, index: number) => {
-    const substats = produce(state.SubStats as StatsFull[], (draftState) => {
+    const substats = produce(state.SubStats as IStatsFull[], (draftState) => {
       draftState[index].Roll = Roll;
     });
     updateNewArtifact("SubStats", substats);
@@ -121,7 +107,7 @@ export default ({
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const substats = produce(state.SubStats as StatsFull[], (draftState) => {
+    const substats = produce(state.SubStats as IStatsFull[], (draftState) => {
       draftState[index].Rune = parseInt(e.target.value, 10);
     });
     updateNewArtifact("SubStats", substats);
@@ -129,17 +115,17 @@ export default ({
 
   let availableSlotSubStats = ExistingStats;
 
-  if (state.Slot === Slots.Weapon) {
+  if (state.Slot === "Weapon") {
     availableSlotSubStats = WeaponSubStats;
-  } else if (state.Slot === Slots.Helmet) {
+  } else if (state.Slot === "Helmet") {
     availableSlotSubStats = HelmetSubStats;
-  } else if (state.Slot === Slots.Shield) {
+  } else if (state.Slot === "Shield") {
     availableSlotSubStats = ShieldSubStats;
-  } else if (state.Slot === Slots.Ring) {
+  } else if (state.Slot === "Ring") {
     availableSlotSubStats = RingSubStats;
-  } else if (state.Slot === Slots.Amulet) {
+  } else if (state.Slot === "Amulet") {
     availableSlotSubStats = AmuletSubStats;
-  } else if (state.Slot === Slots.Banner) {
+  } else if (state.Slot === "Banner") {
     availableSlotSubStats = BannerSubStats;
   }
 
@@ -170,85 +156,95 @@ export default ({
 
   return (
     <>
-      <div className="form-group row">
-        <Label />
+      <Form.Group as={Row}>
+        <Label>{lang.ui.title.mainStats}</Label>
         <LargeCell>
-          <strong>{lang.titleStat}</strong>
-        </LargeCell>
-        <MediumCell>
-          <strong>{lang.titleStatValue}</strong>
-        </MediumCell>
-        <MediumCell>
-          <strong>{lang.titleRolls}</strong>
-        </MediumCell>
-        <MediumCell>
-          <strong>{lang.titleRunes}</strong>
-        </MediumCell>
-      </div>
-      <div className="form-group row">
-        <Label htmlFor="selectMainStat">{lang.titleMainStats}</Label>
-        <LargeCell>
-          <DisplayError slot="MainStats" errors={errors} />
           <StatsSelector
             availableStats={availableStats}
             currentStats={state.MainStats}
             onChange={onChangeMainStats}
+            disabled={lockedFields.includes("MainStats")}
           />
+          <DisplayError slot="MainStats" errors={errors} />
         </LargeCell>
-        <MediumCell>
-          <DisplayError slot="MainStatValue" errors={errors} />
-          <Input
-            className="form-control form-control-sm"
+
+        <Label>{lang.ui.title.mainStatsValue}</Label>
+        <LargeCell>
+          <Form.Control
+            size="sm"
             type="number"
-            disabled={state.MainStats === Stat.None}
+            disabled={
+              state.MainStats === "" || lockedFields.includes("MainStatValue")
+            }
             min={0}
             max={9999}
             value={state.MainStatsValue ?? 0}
             onChange={onChangeMainStatsValue}
           />
+          <DisplayError slot="MainStatValue" errors={errors} />
+        </LargeCell>
+      </Form.Group>
+      <Form.Row>
+        <Label />
+        <LargeCell>
+          <strong>{lang.ui.title.stat}</strong>
+        </LargeCell>
+        <MediumCell>
+          <strong>{lang.ui.title.statValue}</strong>
         </MediumCell>
-      </div>
-
+        <MediumCell>
+          <strong>{lang.ui.title.rolls}</strong>
+        </MediumCell>
+        <MediumCell>
+          <strong>{lang.ui.title.runes}</strong>
+        </MediumCell>
+      </Form.Row>
       {[0, 1, 2, 3].map((statIndex) => {
         const stat = state.SubStats[statIndex];
 
         const selectDisabled =
-          state.SubStats.filter((s) => s?.Stats !== Stat.None)?.length <
-          statIndex;
-        const valuesDisabled =
-          selectDisabled || !stat || stat?.Stats === Stat.None;
+          state.SubStats.filter((s) => s?.Stats !== "")?.length < statIndex;
+        const valuesDisabled = selectDisabled || !stat || stat?.Stats === "";
 
         return (
-          <div key={`sub-${statIndex}`} className="form-group row">
+          <Form.Row key={`sub-${statIndex}`}>
             <Label>
-              {lang[`titleStats${statIndex + 1}` as keyof Language]}
+              {lang.ui.title[`stats${statIndex + 1}` as keyof ILanguageUiTitle]}
             </Label>
+
             <LargeCell>
-              <DisplayError slot={`SubStat${statIndex + 1}`} errors={errors} />
               <StatsSelector
                 availableStats={availableSubStats[statIndex]}
-                disabled={selectDisabled}
+                disabled={
+                  selectDisabled ||
+                  lockedFields.includes(`SubStats${statIndex + 1}`)
+                }
                 currentStats={stat?.Stats}
                 onChange={(e) => {
                   onChangeSubStats(e, statIndex);
                 }}
               />
+              <DisplayError slot={`SubStat${statIndex + 1}`} errors={errors} />
             </LargeCell>
             <MediumCell>
-              <DisplayError
-                slot={`SubStatValue${statIndex + 1}`}
-                errors={errors}
-              />
-              <Input
-                className="form-control form-control-sm"
+              <Form.Control
                 type="number"
-                disabled={valuesDisabled}
+                size="sm"
+                disabled={
+                  valuesDisabled ||
+                  lockedFields.includes(`SubStatsValue${statIndex + 1}`)
+                }
                 min={0}
                 max={9999}
                 value={stat?.Value ?? 0}
                 onChange={(e) => {
-                  onChangeSubStatsValue(e, statIndex);
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onChangeSubStatsValue(e as any, statIndex);
                 }}
+              />
+              <DisplayError
+                slot={`SubStatValue${statIndex + 1}`}
+                errors={errors}
               />
             </MediumCell>
             <MediumCell>
@@ -256,7 +252,11 @@ export default ({
                 <Button
                   variant="primary"
                   size="sm"
-                  disabled={stat?.Roll === 0 || valuesDisabled}
+                  disabled={
+                    stat?.Roll === 0 ||
+                    valuesDisabled ||
+                    lockedFields.includes(`SubStatsRolls${statIndex + 1}`)
+                  }
                   onClick={() => {
                     onChangeSubStatsRolls((stat?.Roll ?? 0) - 1, statIndex);
                   }}
@@ -267,7 +267,10 @@ export default ({
                   variant="primary"
                   size="sm"
                   disabled={
-                    stat?.Roll === 4 || numberRolls === 4 || valuesDisabled
+                    stat?.Roll === 4 ||
+                    numberRolls === 4 ||
+                    valuesDisabled ||
+                    lockedFields.includes(`SubStatsRolls${statIndex + 1}`)
                   }
                   onClick={() => {
                     onChangeSubStatsRolls((stat?.Roll ?? 0) + 1, statIndex);
@@ -279,29 +282,28 @@ export default ({
               </Wrapper>
             </MediumCell>
             <RuneCell>
-              <Rune />
-              <Input
-                className="form-control form-control-sm"
-                type="number"
-                disabled={valuesDisabled}
-                min={0}
-                max={9999}
-                value={stat?.Rune ?? 0}
-                onChange={(e) => {
-                  onChangeSubStatsRune(e, statIndex);
-                }}
-              />
+              <RuneCell>
+                <Rune />
+                <Form.Control
+                  type="number"
+                  size="sm"
+                  disabled={
+                    valuesDisabled ||
+                    lockedFields.includes(`SubStatsRune${statIndex + 1}`)
+                  }
+                  min={0}
+                  max={9999}
+                  value={stat?.Rune ?? 0}
+                  onChange={(e) => {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChangeSubStatsRune(e as any, statIndex);
+                  }}
+                />
+              </RuneCell>
             </RuneCell>
-          </div>
+          </Form.Row>
         );
       })}
-      <div className="row justify-content-center">
-        <div className="col-sm-1">
-          {(state.Set !== Sets.Null || state.Clan !== Clans.Null) && (
-            <ArtifactDisplay artifact={state} size={120} />
-          )}
-        </div>
-      </div>
     </>
   );
 };

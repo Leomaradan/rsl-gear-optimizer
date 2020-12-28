@@ -1,8 +1,16 @@
-import { Stars, Champion, Stat, StatsFull, Artifact, Slots } from "models";
+import getStatPriority from "./getStatPriority";
 
-const statsWeight = (stats: Stat, quality: Stars) => {
+import type {
+  IStars,
+  IChampionConfiguration,
+  IStat,
+  IStatsFull,
+  IArtifact,
+} from "models";
+
+const statsWeight = (stats: IStat, quality: IStars) => {
   switch (stats) {
-    case Stat.Speed:
+    case "SPD":
       switch (quality) {
         case 4:
           return 0.437;
@@ -14,12 +22,12 @@ const statsWeight = (stats: Stat, quality: Stars) => {
           return 0.5;
       }
 
-    case Stat.HpPercent:
-    case Stat.AttackPercent:
-    case Stat.DefensePercent:
-    case Stat.CriticalRate:
+    case "HP%":
+    case "ATK%":
+    case "DEF%":
+    case "C.RATE":
       return 0.5;
-    case Stat.CriticalDamage:
+    case "C.DMG":
       switch (quality) {
         case 4:
           return 0.61;
@@ -29,8 +37,8 @@ const statsWeight = (stats: Stat, quality: Stars) => {
         default:
           return 0.665;
       }
-    case Stat.Accuracy:
-    case Stat.Resistance:
+    case "ACC":
+    case "RESI":
       switch (quality) {
         case 4:
         case 6:
@@ -41,8 +49,8 @@ const statsWeight = (stats: Stat, quality: Stars) => {
         default:
           return 0.815;
       }
-    case Stat.Attack:
-    case Stat.Defense:
+    case "ATK":
+    case "DEF":
       switch (quality) {
         case 4:
           return 2.37;
@@ -53,7 +61,7 @@ const statsWeight = (stats: Stat, quality: Stars) => {
         default:
           return 2.58;
       }
-    case Stat.HP:
+    case "HP":
       switch (quality) {
         case 4:
           return 35.5;
@@ -70,47 +78,78 @@ const statsWeight = (stats: Stat, quality: Stars) => {
 };
 
 const calculateScoreRealStats = (
-  artifact: Artifact,
-  champion: Champion
+  artifact: IArtifact,
+  championBase?: IChampionConfiguration
 ): number => {
+  if (artifact.MainStats === "") {
+    return 0;
+  }
+
+  const champion =
+    championBase ??
+    (({
+      BootsStats: [],
+      ChestplateStats: [],
+      GauntletStats: [],
+      AmuletsStats: [],
+      BannersStats: [],
+      RingsStats: [],
+      StatsPriority: {
+        "ATK%": 1,
+        "C.DMG": 1,
+        "C.RATE": 1,
+        "DEF%": 1,
+        "HP%": 1,
+        ACC: 1,
+        RESI: 1,
+        SPD: 1,
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any) as IChampionConfiguration);
+
   const gauntletStatsStatsScore =
-    artifact.Slot === Slots.Gauntlets &&
+    artifact.Slot === "Gauntlets" &&
     champion.GauntletStats.includes(artifact.MainStats)
       ? Math.round(
-          statsWeight(artifact.MainStats, artifact.Quality) *
-            (artifact.MainStatsValue ?? 0)
+          (artifact.MainStatsValue ?? 0) /
+            statsWeight(artifact.MainStats, artifact.Quality)
         )
       : 0;
 
   const chestplateStatsStatsScore =
-    artifact.Slot === Slots.Chestplate &&
+    artifact.Slot === "Chestplate" &&
     champion.ChestplateStats.includes(artifact.MainStats)
       ? Math.round(
-          statsWeight(artifact.MainStats, artifact.Quality) *
-            (artifact.MainStatsValue ?? 0)
+          (artifact.MainStatsValue ?? 0) /
+            statsWeight(artifact.MainStats, artifact.Quality)
         )
       : 0;
 
   const bootsStatsStatsScore =
-    artifact.Slot === Slots.Boots &&
+    artifact.Slot === "Boots" &&
     champion.BootsStats.includes(artifact.MainStats)
       ? Math.round(
-          statsWeight(artifact.MainStats, artifact.Quality) *
-            (artifact.MainStatsValue ?? 0)
+          (artifact.MainStatsValue ?? 0) /
+            statsWeight(artifact.MainStats, artifact.Quality)
         )
       : 0;
 
-  const artifactStats = artifact.SubStats as StatsFull[];
+  const artifactStats = artifact.SubStats as IStatsFull[];
 
   let statsScore = 0;
 
+  statsScore += Math.round(
+    getStatPriority(champion.StatsPriority, artifact.MainStats) *
+      ((artifact.MainStatsValue ?? 0) /
+        statsWeight(artifact.MainStats, artifact.Quality))
+  );
+
   artifactStats.forEach((artifactStat) => {
-    if (artifactStat && artifactStat.Stats !== Stat.None) {
-      const modifier =
-        (champion.StatsPriority[artifactStat.Stats] ?? 0) *
-        statsWeight(artifactStat.Stats, artifact.Quality);
+    if (artifactStat && artifactStat.Stats !== "") {
       statsScore += Math.round(
-        modifier * (artifactStat.Value + artifactStat.Rune)
+        getStatPriority(champion.StatsPriority, artifactStat.Stats) *
+          ((artifactStat.Value + artifactStat.Rune) /
+            statsWeight(artifactStat.Stats, artifact.Quality))
       );
     }
   });

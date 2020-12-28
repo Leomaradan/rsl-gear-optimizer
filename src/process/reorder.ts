@@ -1,6 +1,6 @@
-import { Orderable } from "models";
+import type { IOrderable } from "models";
 
-const reorder = <T extends Orderable>(
+const reorder = <T extends IOrderable>(
   list: T[],
   updatedItem: T,
   newPosition: number

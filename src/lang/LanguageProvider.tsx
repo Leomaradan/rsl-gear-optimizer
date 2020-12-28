@@ -1,13 +1,19 @@
 import { dictionaryList, languageOptions } from "./language";
-import LanguageContext, { LanguageContextDefinition } from "./LanguageContext";
-import React, { ReactNode, useState } from "react";
+import LanguageContext, { ILanguageContextDefinition } from "./LanguageContext";
 
+import React, { ReactNode, useState } from "react";
 import localforage from "localforage";
 
-export default ({ children }: { children: ReactNode }): JSX.Element => {
+interface ILanguageProviderProps {
+  children: ReactNode;
+}
+
+const LanguageProvider = ({
+  children,
+}: ILanguageProviderProps): JSX.Element => {
   const [userLanguage, setUserLanguage] = useState<string>("en");
 
-  const provider: LanguageContextDefinition = {
+  const provider: ILanguageContextDefinition = {
     userLanguage,
     dictionary: dictionaryList[userLanguage],
     userLanguageChange: (selected) => {
@@ -27,3 +33,5 @@ export default ({ children }: { children: ReactNode }): JSX.Element => {
     </LanguageContext.Provider>
   );
 };
+
+export default LanguageProvider;

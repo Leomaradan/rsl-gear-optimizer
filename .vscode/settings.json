@@ -1,0 +1,12 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["/lang/*.json"],
+      "url": "./config/lang-schema.json"
+    },
+    {
+      "fileMatch": ["raidextract.json"],
+      "url": "./config/raidextract-schema.json"
+    }
+  ]
+}

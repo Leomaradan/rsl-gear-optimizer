@@ -1,16 +1,18 @@
 import ArtifactsListGrid from "./ArtifactsListGrid";
 import ArtifactsListTable from "./ArtifactsListTable";
-import { State } from "redux/reducers";
-import { Artifact, Slots, Rarity, ArtifactsDisplayMode } from "models";
-import React from "react";
 
+import type { IState } from "redux/reducers";
+import type { IArtifact } from "models";
+
+import React from "react";
 import { useSelector } from "react-redux";
 
-interface ArtifactsListProps {
-  artifacts: Artifact[];
+interface IArtifactsListProps {
+  artifacts: IArtifact[];
+  readOnly?: boolean;
 }
 
-const sortScore = (artifact: Artifact) => {
+const sortScore = (artifact: IArtifact) => {
   let score = artifact.Level ?? 0;
 
   if (artifact.Champion) {
@@ -18,22 +20,22 @@ const sortScore = (artifact: Artifact) => {
   }
 
   switch (artifact.Slot) {
-    case Slots.Weapon:
+    case "Weapon":
       score += 60000;
       break;
-    case Slots.Helmet:
+    case "Helmet":
       score += 50000;
       break;
-    case Slots.Shield:
+    case "Shield":
       score += 40000;
       break;
-    case Slots.Gauntlets:
+    case "Gauntlets":
       score += 30000;
       break;
-    case Slots.Chestplate:
+    case "Chestplate":
       score += 20000;
       break;
-    case Slots.Boots:
+    case "Boots":
       score += 10000;
       break;
     default:
@@ -42,19 +44,19 @@ const sortScore = (artifact: Artifact) => {
   score += artifact.Quality * 1000;
 
   switch (artifact.Rarity) {
-    case Rarity.Legendary:
+    case "Legendary":
       score += 500;
       break;
-    case Rarity.Epic:
+    case "Epic":
       score += 400;
       break;
-    case Rarity.Rare:
+    case "Rare":
       score += 300;
       break;
-    case Rarity.Uncommon:
+    case "Uncommon":
       score += 200;
       break;
-    case Rarity.Common:
+    case "Common":
       score += 100;
       break;
     default:
@@ -63,10 +65,10 @@ const sortScore = (artifact: Artifact) => {
   return score;
 };
 
-export default (props: ArtifactsListProps): JSX.Element => {
-  const { artifacts } = props;
+const ArtifactsList = (props: IArtifactsListProps): JSX.Element => {
+  const { artifacts, readOnly } = props;
   const display = useSelector(
-    (state: State) => state.configuration.artifactsDisplay
+    (state: IState) => state.configuration.artifactsDisplay
   );
 
   const sorted = [...artifacts].sort((a, b) => {
@@ -76,9 +78,11 @@ export default (props: ArtifactsListProps): JSX.Element => {
     return scoreB - scoreA;
   });
 
-  return display === ArtifactsDisplayMode.Grid ? (
-    <ArtifactsListGrid artifacts={sorted} />
+  return display === "Grid" ? (
+    <ArtifactsListGrid artifacts={sorted} readOnly={readOnly} />
   ) : (
-    <ArtifactsListTable artifacts={sorted} />
+    <ArtifactsListTable artifacts={sorted} readOnly={readOnly} />
   );
 };
+
+export default ArtifactsList;

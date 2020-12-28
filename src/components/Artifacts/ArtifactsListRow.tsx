@@ -1,18 +1,20 @@
 import ArtifactEditTable from "./ArtifactEditTable";
-import { Artifact, Stat, StatsFull } from "models";
 
+import type { IArtifact, IStat, IStatsFull } from "models";
 import Wrapper from "components/UI/Wrapper";
-
 import { useLanguage } from "lang/LanguageContext";
-import { Language } from "lang/language";
-
 import ChampionPortrait from "components/UI/ChampionPortrait";
 import ArtifactDisplay from "components/UI/ArtifactDisplay";
+import type { IState } from "redux/reducers";
+import type { ILanguageStat } from "lang/language";
+
 import styled from "styled-components";
 import React from "react";
+import { useSelector } from "react-redux";
 
-interface ArtifactsListRowProps {
-  artifact: Artifact;
+interface IArtifactsListRowProps {
+  artifact: IArtifact;
+  readOnly?: boolean;
 }
 
 const Cell = styled.td``;
@@ -21,25 +23,23 @@ const Yellow = styled.span`
   color: yellowgreen;
 `;
 
-const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
-  const { artifact } = props;
+const ArtifactsListRow = (props: IArtifactsListRowProps): JSX.Element => {
+  const { artifact, readOnly } = props;
+
+  const champion = useSelector((state: IState) =>
+    state.champions.find((c) => c.Guid === artifact.Champion)
+  );
 
   const lang = useLanguage();
 
-  const statsDisplay = (stats: Stat, value: number) =>
-    [
-      Stat.AttackPercent,
-      Stat.CriticalDamage,
-      Stat.CriticalRate,
-      Stat.DefensePercent,
-      Stat.HpPercent,
-    ].includes(stats)
+  const statsDisplay = (stats: IStat, value: number) =>
+    ["ATK%", "C.DMG", "C.RATE", "DEF%", "HpPercent"].includes(stats)
       ? `${value}%`
       : value;
 
-  const subStatDisplay = (stat: StatsFull) => (
+  const subStatDisplay = (stat: IStatsFull) => (
     <>
-      {lang[`stat${stat.Stats}Short` as keyof Language]}
+      {lang.stat.short[stat.Stats as keyof ILanguageStat]}
       {stat.Roll !== undefined && stat.Roll !== 0 && `(${stat.Roll})`}{" "}
       {stat.Value && statsDisplay(stat.Stats, stat.Value)}
       {stat.Rune !== undefined && stat.Rune !== 0 && (
@@ -51,10 +51,11 @@ const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
   return (
     <tr>
       <Cell>
-        <ArtifactDisplay artifact={artifact} champion={false} size={50} />
+        <ArtifactDisplay artifact={artifact} showChampion={false} size={50} />(
+        {artifact.Power})
       </Cell>
       <Cell>
-        {lang[`stat${artifact.MainStats}Short` as keyof Language]}{" "}
+        {lang.stat.short[artifact.MainStats as keyof ILanguageStat]}{" "}
         {artifact.MainStatsValue &&
           statsDisplay(artifact.MainStats, artifact.MainStatsValue)}
       </Cell>
@@ -66,15 +67,15 @@ const ArtifactsListRow = (props: ArtifactsListRowProps): JSX.Element => {
         );
       })}
       <Cell>
-        {artifact.Champion && (
-          <ChampionPortrait champion={artifact.Champion} size={50} />
-        )}
+        {champion && <ChampionPortrait champion={champion} size={50} />}
       </Cell>
-      <Cell>
-        <Wrapper>
-          <ArtifactEditTable artifact={artifact} />
-        </Wrapper>
-      </Cell>
+      {!readOnly && (
+        <Cell>
+          <Wrapper>
+            <ArtifactEditTable artifact={artifact} />
+          </Wrapper>
+        </Cell>
+      )}
     </tr>
   );
 };

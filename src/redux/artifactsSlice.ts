@@ -1,36 +1,28 @@
-import { Artifact, ArtifactDraft, ArtifactsState } from "models";
+import type { IArtifact, IArtifactDraft, IArtifactsState } from "models";
+import calculateScoreRealStats from "process/calculateScoreRealStats";
+
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { v4 as uuidv4 } from "uuid";
+const initialState: IArtifactsState = [];
 
-const initialState: ArtifactsState = [];
-
-type ArtifactsLoadAction = PayloadAction<{
-  artifacts: ArtifactDraft[];
+type IArtifactsLoadAction = PayloadAction<{
+  artifacts: IArtifact[];
 }>;
-type ArtifactsUpdateAction = PayloadAction<{
+type IArtifactsUpdateAction = PayloadAction<{
   id: string;
-  artifact: Partial<Artifact>;
+  artifact: Partial<IArtifact>;
 }>;
-type ArtifactsDeleteAction = PayloadAction<{ id: string }>;
-type ArtifactsCreateAction = PayloadAction<Artifact>;
-type ArtifactsCreatePrepare = ArtifactDraft;
+type IArtifactsDeleteAction = PayloadAction<{ id: string }>;
+type IArtifactsCreateAction = PayloadAction<IArtifact>;
+type IArtifactsCreatePrepare = IArtifactDraft;
 
 const artifactsSlice = createSlice({
   name: "artifacts",
   initialState,
   reducers: {
-    loadArtifacts: (_state, action: ArtifactsLoadAction) => {
-      const state: ArtifactsState = [];
-
-      action.payload.artifacts.forEach((artifact) => {
-        const newArtifact = { ...artifact, Guid: uuidv4() } as Artifact;
-        state.push(newArtifact);
-      });
-
-      return state;
-    },
-    updateArtifacts: (state, action: ArtifactsUpdateAction) => {
+    loadArtifacts: (_state, action: IArtifactsLoadAction) =>
+      action.payload.artifacts,
+    updateArtifacts: (state, action: IArtifactsUpdateAction) => {
       const artifactIndex = state.findIndex(
         (i) => i.Guid === action.payload.id
       );
@@ -41,17 +33,18 @@ const artifactsSlice = createSlice({
         state[artifactIndex] = {
           ...artifact,
           ...action.payload.artifact,
-        } as Artifact;
+        } as IArtifact;
       }
     },
-    deleteArtifacts: (state, action: ArtifactsDeleteAction) =>
+    deleteArtifacts: (state, action: IArtifactsDeleteAction) =>
       state.filter((i) => i.Guid !== action.payload.id),
     createArtifacts: {
-      reducer: (state, action: ArtifactsCreateAction) => {
+      reducer: (state, action: IArtifactsCreateAction) => {
         state.push(action.payload);
       },
-      prepare: (artifact: ArtifactsCreatePrepare) => {
-        const newArtifact = { ...artifact, Guid: uuidv4() } as Artifact;
+      prepare: (artifact: IArtifactsCreatePrepare) => {
+        const Power = calculateScoreRealStats(artifact as IArtifact);
+        const newArtifact = { ...artifact, Power } as IArtifact;
         return { payload: newArtifact };
       },
     },

@@ -1,23 +1,24 @@
-import { Language } from "lang/language";
+import type { ILanguageStat } from "lang/language";
 import { useLanguage } from "lang/LanguageContext";
-import { Stat } from "models";
+import type { IStat } from "models";
+
 import React from "react";
 
-interface StatsSelectorProps {
-  availableStats: Stat[];
-  currentStats?: Stat;
+interface IStatsSelectorProps {
+  availableStats: IStat[];
+  currentStats?: IStat;
   disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   id?: string;
 }
 
-export default ({
+const StatsSelector = ({
   availableStats,
   currentStats,
   disabled,
   onChange,
   id,
-}: StatsSelectorProps): JSX.Element => {
+}: IStatsSelectorProps): JSX.Element => {
   const lang = useLanguage();
   return (
     <select
@@ -30,9 +31,11 @@ export default ({
       <option value="">---</option>
       {availableStats.map((stat) => (
         <option key={stat} value={stat}>
-          {lang[`stat${stat}` as keyof Language]}
+          {lang.stat[stat as keyof ILanguageStat]}
         </option>
       ))}
     </select>
   );
 };
+
+export default StatsSelector;

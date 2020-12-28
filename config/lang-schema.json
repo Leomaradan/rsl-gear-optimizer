@@ -1,0 +1,3422 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "ILangageArena": {
+            "additionalProperties": false,
+            "properties": {
+                "bronze1": {
+                    "type": "string"
+                },
+                "bronze2": {
+                    "type": "string"
+                },
+                "bronze3": {
+                    "type": "string"
+                },
+                "bronze4": {
+                    "type": "string"
+                },
+                "gold1": {
+                    "type": "string"
+                },
+                "gold2": {
+                    "type": "string"
+                },
+                "gold3": {
+                    "type": "string"
+                },
+                "gold4": {
+                    "type": "string"
+                },
+                "platinium": {
+                    "type": "string"
+                },
+                "silver1": {
+                    "type": "string"
+                },
+                "silver2": {
+                    "type": "string"
+                },
+                "silver3": {
+                    "type": "string"
+                },
+                "silver4": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "bronze1",
+                "bronze2",
+                "bronze3",
+                "bronze4",
+                "gold1",
+                "gold2",
+                "gold3",
+                "gold4",
+                "platinium",
+                "silver1",
+                "silver2",
+                "silver3",
+                "silver4"
+            ],
+            "type": "object"
+        },
+        "ILanguageAffinity": {
+            "additionalProperties": false,
+            "properties": {
+                "Force": {
+                    "type": "string"
+                },
+                "Magic": {
+                    "type": "string"
+                },
+                "Spirit": {
+                    "type": "string"
+                },
+                "Void": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Force",
+                "Magic",
+                "Spirit",
+                "Void"
+            ],
+            "type": "object"
+        },
+        "ILanguageChampion": {
+            "additionalProperties": false,
+            "properties": {
+                "Abbess": {
+                    "type": "string"
+                },
+                "Acolyte": {
+                    "type": "string"
+                },
+                "Adjudicator": {
+                    "type": "string"
+                },
+                "Admonitor": {
+                    "type": "string"
+                },
+                "Adriel": {
+                    "type": "string"
+                },
+                "Aina": {
+                    "type": "string"
+                },
+                "Alika": {
+                    "type": "string"
+                },
+                "Altan": {
+                    "type": "string"
+                },
+                "Alure": {
+                    "type": "string"
+                },
+                "Amarantine_Skeleton": {
+                    "type": "string"
+                },
+                "Angar": {
+                    "type": "string"
+                },
+                "Anointed": {
+                    "type": "string"
+                },
+                "Aothar": {
+                    "type": "string"
+                },
+                "Apothecary": {
+                    "type": "string"
+                },
+                "Arbalester": {
+                    "type": "string"
+                },
+                "Arbiter": {
+                    "type": "string"
+                },
+                "Arcanist": {
+                    "type": "string"
+                },
+                "Archer": {
+                    "type": "string"
+                },
+                "Aristocrat": {
+                    "type": "string"
+                },
+                "Armiger": {
+                    "type": "string"
+                },
+                "Astralith": {
+                    "type": "string"
+                },
+                "Athel": {
+                    "type": "string"
+                },
+                "Atur": {
+                    "type": "string"
+                },
+                "Avenger": {
+                    "type": "string"
+                },
+                "Avir_the_Alchemage": {
+                    "type": "string"
+                },
+                "Axeman": {
+                    "type": "string"
+                },
+                "Azure": {
+                    "type": "string"
+                },
+                "Bad_el_Kazar": {
+                    "type": "string"
+                },
+                "Baerdal_Fellhammer": {
+                    "type": "string"
+                },
+                "Bandit": {
+                    "type": "string"
+                },
+                "Banshee": {
+                    "type": "string"
+                },
+                "Baron": {
+                    "type": "string"
+                },
+                "Baroth_the_Bloodsoaked": {
+                    "type": "string"
+                },
+                "Basher": {
+                    "type": "string"
+                },
+                "Basileus_Roanas": {
+                    "type": "string"
+                },
+                "Basilisk": {
+                    "type": "string"
+                },
+                "Battle_Sister": {
+                    "type": "string"
+                },
+                "Battlesage": {
+                    "type": "string"
+                },
+                "Beast_Wrestler": {
+                    "type": "string"
+                },
+                "Belanor": {
+                    "type": "string"
+                },
+                "Bellower": {
+                    "type": "string"
+                },
+                "Berserker": {
+                    "type": "string"
+                },
+                "Big_Un": {
+                    "type": "string"
+                },
+                "Black_Knight": {
+                    "type": "string"
+                },
+                "Blind_Seer": {
+                    "type": "string"
+                },
+                "Bloodbraid": {
+                    "type": "string"
+                },
+                "Bloodfeather": {
+                    "type": "string"
+                },
+                "Bloodgorged": {
+                    "type": "string"
+                },
+                "Bloodhorn": {
+                    "type": "string"
+                },
+                "Bloodpainter": {
+                    "type": "string"
+                },
+                "Bogwalker": {
+                    "type": "string"
+                },
+                "Bombardier": {
+                    "type": "string"
+                },
+                "Bone_Knight": {
+                    "type": "string"
+                },
+                "Bonekeeper": {
+                    "type": "string"
+                },
+                "Brakus_the_Shifter": {
+                    "type": "string"
+                },
+                "Broadmaw": {
+                    "type": "string"
+                },
+                "Brute": {
+                    "type": "string"
+                },
+                "Bully": {
+                    "type": "string"
+                },
+                "Bulwark": {
+                    "type": "string"
+                },
+                "Bushi": {
+                    "type": "string"
+                },
+                "Bystophus": {
+                    "type": "string"
+                },
+                "Cagebreaker": {
+                    "type": "string"
+                },
+                "Candraphon": {
+                    "type": "string"
+                },
+                "Canoness": {
+                    "type": "string"
+                },
+                "Captain_Temila": {
+                    "type": "string"
+                },
+                "Cardinal": {
+                    "type": "string"
+                },
+                "Catacomb_Councilor": {
+                    "type": "string"
+                },
+                "Cataphract": {
+                    "type": "string"
+                },
+                "Centurion": {
+                    "type": "string"
+                },
+                "Channeler": {
+                    "type": "string"
+                },
+                "Chaplain": {
+                    "type": "string"
+                },
+                "Chemist": {
+                    "type": "string"
+                },
+                "Chevalier": {
+                    "type": "string"
+                },
+                "Chopper": {
+                    "type": "string"
+                },
+                "Cillian_the_Lucky": {
+                    "type": "string"
+                },
+                "Coffin_Smasher": {
+                    "type": "string"
+                },
+                "Coldheart": {
+                    "type": "string"
+                },
+                "Commander": {
+                    "type": "string"
+                },
+                "Confessor": {
+                    "type": "string"
+                },
+                "Conquerer": {
+                    "type": "string"
+                },
+                "Corpse_Collector": {
+                    "type": "string"
+                },
+                "Corpulent_Cadaver": {
+                    "type": "string"
+                },
+                "Courtier": {
+                    "type": "string"
+                },
+                "Crimson_Helm": {
+                    "type": "string"
+                },
+                "Crimson_Slayer": {
+                    "type": "string"
+                },
+                "Crossbowman": {
+                    "type": "string"
+                },
+                "Cruetraxa": {
+                    "type": "string"
+                },
+                "Crusader": {
+                    "type": "string"
+                },
+                "Crusher": {
+                    "type": "string"
+                },
+                "Crypt_King_Graal": {
+                    "type": "string"
+                },
+                "Crypt_Witch": {
+                    "type": "string"
+                },
+                "Cudgeler": {
+                    "type": "string"
+                },
+                "Cultist": {
+                    "type": "string"
+                },
+                "Cupidus": {
+                    "type": "string"
+                },
+                "Dark_Athel": {
+                    "type": "string"
+                },
+                "Dark_Elhain": {
+                    "type": "string"
+                },
+                "Daywalker": {
+                    "type": "string"
+                },
+                "Dead_Crusader": {
+                    "type": "string"
+                },
+                "Death_Hound": {
+                    "type": "string"
+                },
+                "Deathchanter": {
+                    "type": "string"
+                },
+                "Deathknight": {
+                    "type": "string"
+                },
+                "Deathless": {
+                    "type": "string"
+                },
+                "Defiled_Sinner": {
+                    "type": "string"
+                },
+                "Delver": {
+                    "type": "string"
+                },
+                "Dervish": {
+                    "type": "string"
+                },
+                "Dhampir": {
+                    "type": "string"
+                },
+                "Diabolist": {
+                    "type": "string"
+                },
+                "Dilgol": {
+                    "type": "string"
+                },
+                "Dolor_Lorekeeper": {
+                    "type": "string"
+                },
+                "Doompriest": {
+                    "type": "string"
+                },
+                "Doomscreech": {
+                    "type": "string"
+                },
+                "Dracomorph": {
+                    "type": "string"
+                },
+                "Draconis": {
+                    "type": "string"
+                },
+                "Drake": {
+                    "type": "string"
+                },
+                "Drexthar_Bloodtwin": {
+                    "type": "string"
+                },
+                "Drokgul_the_Gaunt": {
+                    "type": "string"
+                },
+                "Drowned_Bloatwraith": {
+                    "type": "string"
+                },
+                "Duchess_Lilitu": {
+                    "type": "string"
+                },
+                "Duelist": {
+                    "type": "string"
+                },
+                "Dunestrider": {
+                    "type": "string"
+                },
+                "Elder": {
+                    "type": "string"
+                },
+                "Elder_Skarg": {
+                    "type": "string"
+                },
+                "Elegaius": {
+                    "type": "string"
+                },
+                "Elenaril": {
+                    "type": "string"
+                },
+                "Elfguard": {
+                    "type": "string"
+                },
+                "Elhain": {
+                    "type": "string"
+                },
+                "Erinyes": {
+                    "type": "string"
+                },
+                "Errol": {
+                    "type": "string"
+                },
+                "Eviscerator": {
+                    "type": "string"
+                },
+                "Excruciator": {
+                    "type": "string"
+                },
+                "Executioner": {
+                    "type": "string"
+                },
+                "Exemplar": {
+                    "type": "string"
+                },
+                "Faceless": {
+                    "type": "string"
+                },
+                "Fang_Cleric": {
+                    "type": "string"
+                },
+                "Fayne": {
+                    "type": "string"
+                },
+                "Fellhound": {
+                    "type": "string"
+                },
+                "Fenax": {
+                    "type": "string"
+                },
+                "Fencer": {
+                    "type": "string"
+                },
+                "Fireblade": {
+                    "type": "string"
+                },
+                "Flesh_Tearer": {
+                    "type": "string"
+                },
+                "Flesheater": {
+                    "type": "string"
+                },
+                "Fleshmonger": {
+                    "type": "string"
+                },
+                "Flinger": {
+                    "type": "string"
+                },
+                "Foli": {
+                    "type": "string"
+                },
+                "Fortress_Goon": {
+                    "type": "string"
+                },
+                "Frontline_Warrior": {
+                    "type": "string"
+                },
+                "Frostbringer": {
+                    "type": "string"
+                },
+                "Frostskin": {
+                    "type": "string"
+                },
+                "Frozen_Banshee": {
+                    "type": "string"
+                },
+                "Fu_Shan": {
+                    "type": "string"
+                },
+                "Furystoker": {
+                    "type": "string"
+                },
+                "Gala_Longbraids": {
+                    "type": "string"
+                },
+                "Galek": {
+                    "type": "string"
+                },
+                "Galkut": {
+                    "type": "string"
+                },
+                "Gator": {
+                    "type": "string"
+                },
+                "Ghostborn": {
+                    "type": "string"
+                },
+                "Ghoulish_Ranger": {
+                    "type": "string"
+                },
+                "Ghrush_the_Manglet": {
+                    "type": "string"
+                },
+                "Gladiator": {
+                    "type": "string"
+                },
+                "Gloril_Brutebane": {
+                    "type": "string"
+                },
+                "Gnarlhorn": {
+                    "type": "string"
+                },
+                "Golden_Reaper": {
+                    "type": "string"
+                },
+                "Goremask": {
+                    "type": "string"
+                },
+                "Gorgorab": {
+                    "type": "string"
+                },
+                "Grandmaster": {
+                    "type": "string"
+                },
+                "Grappler": {
+                    "type": "string"
+                },
+                "Gravechill_Killer": {
+                    "type": "string"
+                },
+                "Graybeard": {
+                    "type": "string"
+                },
+                "Grimskin": {
+                    "type": "string"
+                },
+                "Grinner": {
+                    "type": "string"
+                },
+                "Grizzled_Jarl": {
+                    "type": "string"
+                },
+                "Grohak_the_Bloodied": {
+                    "type": "string"
+                },
+                "Grumbler": {
+                    "type": "string"
+                },
+                "Guardian": {
+                    "type": "string"
+                },
+                "Gurgoh_the_Augur": {
+                    "type": "string"
+                },
+                "Gurptuk_Moss_Beard": {
+                    "type": "string"
+                },
+                "Hakkorhn_Smashlord": {
+                    "type": "string"
+                },
+                "Halberdier": {
+                    "type": "string"
+                },
+                "Hardscale": {
+                    "type": "string"
+                },
+                "Harrier": {
+                    "type": "string"
+                },
+                "Haruspex": {
+                    "type": "string"
+                },
+                "Harvest_Jack": {
+                    "type": "string"
+                },
+                "Harvester": {
+                    "type": "string"
+                },
+                "Hatchet_Slinger": {
+                    "type": "string"
+                },
+                "Head_Taker": {
+                    "type": "string"
+                },
+                "Headsman": {
+                    "type": "string"
+                },
+                "Heartpiercer": {
+                    "type": "string"
+                },
+                "Hegemon": {
+                    "type": "string"
+                },
+                "Heiress": {
+                    "type": "string"
+                },
+                "Hellfang": {
+                    "type": "string"
+                },
+                "Hellgazer": {
+                    "type": "string"
+                },
+                "Hellhound": {
+                    "type": "string"
+                },
+                "Herald": {
+                    "type": "string"
+                },
+                "Hexia": {
+                    "type": "string"
+                },
+                "Hexweaver": {
+                    "type": "string"
+                },
+                "High_Khatun": {
+                    "type": "string"
+                },
+                "Hill_Nomad": {
+                    "type": "string"
+                },
+                "Hollow": {
+                    "type": "string"
+                },
+                "Honor_Guard": {
+                    "type": "string"
+                },
+                "Hope": {
+                    "type": "string"
+                },
+                "Hordin": {
+                    "type": "string"
+                },
+                "Hospitaller": {
+                    "type": "string"
+                },
+                "Hound_Spawn": {
+                    "type": "string"
+                },
+                "Hungerer": {
+                    "type": "string"
+                },
+                "Huntress": {
+                    "type": "string"
+                },
+                "Hurler": {
+                    "type": "string"
+                },
+                "Husk": {
+                    "type": "string"
+                },
+                "Hyria": {
+                    "type": "string"
+                },
+                "Ifrit": {
+                    "type": "string"
+                },
+                "Ignatius": {
+                    "type": "string"
+                },
+                "Incubus": {
+                    "type": "string"
+                },
+                "Infernal_Baroness": {
+                    "type": "string"
+                },
+                "Inithwe_Bloodtwin": {
+                    "type": "string"
+                },
+                "Interceptor": {
+                    "type": "string"
+                },
+                "Intercessor": {
+                    "type": "string"
+                },
+                "Ironclad": {
+                    "type": "string"
+                },
+                "Ithos": {
+                    "type": "string"
+                },
+                "Jaeger": {
+                    "type": "string"
+                },
+                "Jarang": {
+                    "type": "string"
+                },
+                "Jareg": {
+                    "type": "string"
+                },
+                "Jinglehunter": {
+                    "type": "string"
+                },
+                "Jizoh": {
+                    "type": "string"
+                },
+                "Jotun": {
+                    "type": "string"
+                },
+                "Judge": {
+                    "type": "string"
+                },
+                "Judicator": {
+                    "type": "string"
+                },
+                "Juliana": {
+                    "type": "string"
+                },
+                "Justiciar": {
+                    "type": "string"
+                },
+                "Kael": {
+                    "type": "string"
+                },
+                "Kaiden": {
+                    "type": "string"
+                },
+                "Kallia": {
+                    "type": "string"
+                },
+                "Kantra_the_Cyclone": {
+                    "type": "string"
+                },
+                "Karam": {
+                    "type": "string"
+                },
+                "Khoronar": {
+                    "type": "string"
+                },
+                "Knecht": {
+                    "type": "string"
+                },
+                "Knight_Errant": {
+                    "type": "string"
+                },
+                "Krisk_the_Ageless": {
+                    "type": "string"
+                },
+                "Kytis": {
+                    "type": "string"
+                },
+                "Lady_Etessa": {
+                    "type": "string"
+                },
+                "Lamellar": {
+                    "type": "string"
+                },
+                "Lanakis_the_Chosen": {
+                    "type": "string"
+                },
+                "Lemure": {
+                    "type": "string"
+                },
+                "Lich": {
+                    "type": "string"
+                },
+                "Lightsworn": {
+                    "type": "string"
+                },
+                "Line_Infantry": {
+                    "type": "string"
+                },
+                "Little_Miss_Annie": {
+                    "type": "string"
+                },
+                "Longbeard": {
+                    "type": "string"
+                },
+                "Lord_Champfort": {
+                    "type": "string"
+                },
+                "Lord_Shazar": {
+                    "type": "string"
+                },
+                "Lordly_Legionary": {
+                    "type": "string"
+                },
+                "Lua": {
+                    "type": "string"
+                },
+                "Lugan_the_Steadfast": {
+                    "type": "string"
+                },
+                "Luria": {
+                    "type": "string"
+                },
+                "Lurker": {
+                    "type": "string"
+                },
+                "Luthiea": {
+                    "type": "string"
+                },
+                "Lydia_the_Deathsiren": {
+                    "type": "string"
+                },
+                "Lyssandra": {
+                    "type": "string"
+                },
+                "MaShalled": {
+                    "type": "string"
+                },
+                "Madame_Serris": {
+                    "type": "string"
+                },
+                "Madman": {
+                    "type": "string"
+                },
+                "Maeve": {
+                    "type": "string"
+                },
+                "Magekiller": {
+                    "type": "string"
+                },
+                "Magister": {
+                    "type": "string"
+                },
+                "Magmablood": {
+                    "type": "string"
+                },
+                "Magus": {
+                    "type": "string"
+                },
+                "Maiden": {
+                    "type": "string"
+                },
+                "Malbranche": {
+                    "type": "string"
+                },
+                "Maneater": {
+                    "type": "string"
+                },
+                "Marked": {
+                    "type": "string"
+                },
+                "Marksman": {
+                    "type": "string"
+                },
+                "Marquess": {
+                    "type": "string"
+                },
+                "Marquis": {
+                    "type": "string"
+                },
+                "Martyr": {
+                    "type": "string"
+                },
+                "Masked_Fearmonger": {
+                    "type": "string"
+                },
+                "Master_Butcher": {
+                    "type": "string"
+                },
+                "Maulie_Tankard": {
+                    "type": "string"
+                },
+                "Mausoleum_Mage": {
+                    "type": "string"
+                },
+                "Metalshaper": {
+                    "type": "string"
+                },
+                "Militia": {
+                    "type": "string"
+                },
+                "Minaya": {
+                    "type": "string"
+                },
+                "Miscreated_Monster": {
+                    "type": "string"
+                },
+                "Missionary": {
+                    "type": "string"
+                },
+                "Mistress_of_Hymns": {
+                    "type": "string"
+                },
+                "Mortu_Macaab": {
+                    "type": "string"
+                },
+                "Mother_Superior": {
+                    "type": "string"
+                },
+                "Mountain_King": {
+                    "type": "string"
+                },
+                "Muckstalker": {
+                    "type": "string"
+                },
+                "Myrmidon": {
+                    "type": "string"
+                },
+                "Mystic_Hand": {
+                    "type": "string"
+                },
+                "Narma_the_Returned": {
+                    "type": "string"
+                },
+                "Nazana": {
+                    "type": "string"
+                },
+                "Necrohunter": {
+                    "type": "string"
+                },
+                "Nethril": {
+                    "type": "string"
+                },
+                "Norog": {
+                    "type": "string"
+                },
+                "Novitiate": {
+                    "type": "string"
+                },
+                "Oathbound": {
+                    "type": "string"
+                },
+                "Occult_Brawler": {
+                    "type": "string"
+                },
+                "Ogryn_Jailer": {
+                    "type": "string"
+                },
+                "Oldbeard": {
+                    "type": "string"
+                },
+                "Outlander": {
+                    "type": "string"
+                },
+                "Outlaw_Monk": {
+                    "type": "string"
+                },
+                "Outrider": {
+                    "type": "string"
+                },
+                "Ox": {
+                    "type": "string"
+                },
+                "Pain_Keeper": {
+                    "type": "string"
+                },
+                "Painsmith": {
+                    "type": "string"
+                },
+                "Paragon": {
+                    "type": "string"
+                },
+                "Penitent": {
+                    "type": "string"
+                },
+                "Perforator": {
+                    "type": "string"
+                },
+                "Peydma": {
+                    "type": "string"
+                },
+                "Pikeman": {
+                    "type": "string"
+                },
+                "Pilgrim": {
+                    "type": "string"
+                },
+                "Pit_Cur": {
+                    "type": "string"
+                },
+                "Pit_Fighter": {
+                    "type": "string"
+                },
+                "Pitiless_One": {
+                    "type": "string"
+                },
+                "Pitspawn": {
+                    "type": "string"
+                },
+                "Pounder": {
+                    "type": "string"
+                },
+                "Preacher": {
+                    "type": "string"
+                },
+                "Preserver": {
+                    "type": "string"
+                },
+                "Prince_Kymar": {
+                    "type": "string"
+                },
+                "Psylar": {
+                    "type": "string"
+                },
+                "Purgator": {
+                    "type": "string"
+                },
+                "Quaestor": {
+                    "type": "string"
+                },
+                "Queen_Eva": {
+                    "type": "string"
+                },
+                "Rae": {
+                    "type": "string"
+                },
+                "Ragemonger": {
+                    "type": "string"
+                },
+                "Raglin": {
+                    "type": "string"
+                },
+                "Raider": {
+                    "type": "string"
+                },
+                "Ranger": {
+                    "type": "string"
+                },
+                "Rearguard_Sergeant": {
+                    "type": "string"
+                },
+                "Redeemer": {
+                    "type": "string"
+                },
+                "Reinbeast": {
+                    "type": "string"
+                },
+                "Relickeeper": {
+                    "type": "string"
+                },
+                "Reliquary_Tender": {
+                    "type": "string"
+                },
+                "Renegade": {
+                    "type": "string"
+                },
+                "Renouncer": {
+                    "type": "string"
+                },
+                "Retainer": {
+                    "type": "string"
+                },
+                "Rhazin_Scarhide": {
+                    "type": "string"
+                },
+                "Richtoff_the_Bold": {
+                    "type": "string"
+                },
+                "Ripper": {
+                    "type": "string"
+                },
+                "Ripperfist": {
+                    "type": "string"
+                },
+                "Ritualist": {
+                    "type": "string"
+                },
+                "Robar": {
+                    "type": "string"
+                },
+                "Rock_Breaker": {
+                    "type": "string"
+                },
+                "Rocktooth": {
+                    "type": "string"
+                },
+                "Romero": {
+                    "type": "string"
+                },
+                "Roshcard_the_Tower": {
+                    "type": "string"
+                },
+                "Rotos_the_Lost_Groom": {
+                    "type": "string"
+                },
+                "Rotting_Mage": {
+                    "type": "string"
+                },
+                "Rowan": {
+                    "type": "string"
+                },
+                "Royal_Guard": {
+                    "type": "string"
+                },
+                "Royal_Huntsman": {
+                    "type": "string"
+                },
+                "Runic_Warder": {
+                    "type": "string"
+                },
+                "Saito": {
+                    "type": "string"
+                },
+                "Sanctum_Protector": {
+                    "type": "string"
+                },
+                "Sandlashed_Survivor": {
+                    "type": "string"
+                },
+                "Satyr": {
+                    "type": "string"
+                },
+                "Saurus": {
+                    "type": "string"
+                },
+                "Scyl_of_the_Drakes": {
+                    "type": "string"
+                },
+                "Seducer": {
+                    "type": "string"
+                },
+                "Seeker": {
+                    "type": "string"
+                },
+                "Seer": {
+                    "type": "string"
+                },
+                "Seneschal": {
+                    "type": "string"
+                },
+                "Sentinel": {
+                    "type": "string"
+                },
+                "Septimus": {
+                    "type": "string"
+                },
+                "Sepulcher_Sentinel": {
+                    "type": "string"
+                },
+                "Sergeant": {
+                    "type": "string"
+                },
+                "Sethallia": {
+                    "type": "string"
+                },
+                "Shaman": {
+                    "type": "string"
+                },
+                "Shamrock": {
+                    "type": "string"
+                },
+                "Sharpshooter": {
+                    "type": "string"
+                },
+                "Shatterbones": {
+                    "type": "string"
+                },
+                "Shieldguard": {
+                    "type": "string"
+                },
+                "Shirimani": {
+                    "type": "string"
+                },
+                "Siegebreaker": {
+                    "type": "string"
+                },
+                "Sikara": {
+                    "type": "string"
+                },
+                "Sinesha": {
+                    "type": "string"
+                },
+                "Siphi_the_Lost_Bride": {
+                    "type": "string"
+                },
+                "Sir_Nicholas": {
+                    "type": "string"
+                },
+                "Sister_Militant": {
+                    "type": "string"
+                },
+                "Skartorsis": {
+                    "type": "string"
+                },
+                "Skellag": {
+                    "type": "string"
+                },
+                "Skink": {
+                    "type": "string"
+                },
+                "Skinner": {
+                    "type": "string"
+                },
+                "Skirmisher": {
+                    "type": "string"
+                },
+                "Skull_Lord_Var_Gall": {
+                    "type": "string"
+                },
+                "Skullcrown": {
+                    "type": "string"
+                },
+                "Skullcrusher": {
+                    "type": "string"
+                },
+                "Skullsquire": {
+                    "type": "string"
+                },
+                "Skullsworn": {
+                    "type": "string"
+                },
+                "Skytouched_Shaman": {
+                    "type": "string"
+                },
+                "Slasher": {
+                    "type": "string"
+                },
+                "Slayer": {
+                    "type": "string"
+                },
+                "Slicer": {
+                    "type": "string"
+                },
+                "Slitherbrute": {
+                    "type": "string"
+                },
+                "Sniper": {
+                    "type": "string"
+                },
+                "Snorting_Thug": {
+                    "type": "string"
+                },
+                "Solaris": {
+                    "type": "string"
+                },
+                "Sorceress": {
+                    "type": "string"
+                },
+                "Soulbond_Bowyer": {
+                    "type": "string"
+                },
+                "Souldrinker": {
+                    "type": "string"
+                },
+                "Soulless": {
+                    "type": "string"
+                },
+                "Spider": {
+                    "type": "string"
+                },
+                "Spikehead": {
+                    "type": "string"
+                },
+                "Spirithost": {
+                    "type": "string"
+                },
+                "Spiritwalker": {
+                    "type": "string"
+                },
+                "Squire": {
+                    "type": "string"
+                },
+                "Stag_Knight": {
+                    "type": "string"
+                },
+                "Stalker": {
+                    "type": "string"
+                },
+                "Stalwart": {
+                    "type": "string"
+                },
+                "Steadfast_Marshal": {
+                    "type": "string"
+                },
+                "Steel_Bowyer": {
+                    "type": "string"
+                },
+                "Steelskull": {
+                    "type": "string"
+                },
+                "Stitched_Beast": {
+                    "type": "string"
+                },
+                "Stoneskin": {
+                    "type": "string"
+                },
+                "Stout_Axeman": {
+                    "type": "string"
+                },
+                "Suwai_Firstborn": {
+                    "type": "string"
+                },
+                "Suzerain_Katonn": {
+                    "type": "string"
+                },
+                "Swordsman": {
+                    "type": "string"
+                },
+                "Tainix_Hateflower": {
+                    "type": "string"
+                },
+                "Tallia": {
+                    "type": "string"
+                },
+                "Taurus": {
+                    "type": "string"
+                },
+                "Tayrel": {
+                    "type": "string"
+                },
+                "Teela_Goremane": {
+                    "type": "string"
+                },
+                "Templar": {
+                    "type": "string"
+                },
+                "Temptress": {
+                    "type": "string"
+                },
+                "Terrorbeast": {
+                    "type": "string"
+                },
+                "Teshada": {
+                    "type": "string"
+                },
+                "Thenasil": {
+                    "type": "string"
+                },
+                "Theurgist": {
+                    "type": "string"
+                },
+                "Thrall": {
+                    "type": "string"
+                },
+                "Thrasher": {
+                    "type": "string"
+                },
+                "Throatcutter": {
+                    "type": "string"
+                },
+                "Tomb_Lord": {
+                    "type": "string"
+                },
+                "Tormentor": {
+                    "type": "string"
+                },
+                "Tormin_the_Cold": {
+                    "type": "string"
+                },
+                "Torturehelm": {
+                    "type": "string"
+                },
+                "Totem": {
+                    "type": "string"
+                },
+                "Towering_Titan": {
+                    "type": "string"
+                },
+                "Tracker": {
+                    "type": "string"
+                },
+                "Treefeller": {
+                    "type": "string"
+                },
+                "Troglodyte": {
+                    "type": "string"
+                },
+                "Trunda_Giltmallet": {
+                    "type": "string"
+                },
+                "Tuhak_the_Wanderer": {
+                    "type": "string"
+                },
+                "Tunnel_Steward": {
+                    "type": "string"
+                },
+                "Turvold": {
+                    "type": "string"
+                },
+                "Twinclaw_Disciple": {
+                    "type": "string"
+                },
+                "Tyrant_Ixlimor": {
+                    "type": "string"
+                },
+                "Ultimate_Galek": {
+                    "type": "string"
+                },
+                "Umbral_Enchantress": {
+                    "type": "string"
+                },
+                "Ursine_Icecrusher": {
+                    "type": "string"
+                },
+                "Ursine_Ironhide": {
+                    "type": "string"
+                },
+                "Ursuga_Warcaller": {
+                    "type": "string"
+                },
+                "Valerie": {
+                    "type": "string"
+                },
+                "Valkyrie": {
+                    "type": "string"
+                },
+                "Valla": {
+                    "type": "string"
+                },
+                "Vanguard": {
+                    "type": "string"
+                },
+                "Venus": {
+                    "type": "string"
+                },
+                "Vergis": {
+                    "type": "string"
+                },
+                "Vergumkaar": {
+                    "type": "string"
+                },
+                "Veteran": {
+                    "type": "string"
+                },
+                "Vigilante": {
+                    "type": "string"
+                },
+                "Vilespawn": {
+                    "type": "string"
+                },
+                "Visix_the_Unbowed": {
+                    "type": "string"
+                },
+                "Vizier_Ovelis": {
+                    "type": "string"
+                },
+                "Vrask": {
+                    "type": "string"
+                },
+                "Vulpine": {
+                    "type": "string"
+                },
+                "Wagonbane": {
+                    "type": "string"
+                },
+                "Wanderer": {
+                    "type": "string"
+                },
+                "War_Mother": {
+                    "type": "string"
+                },
+                "Warboy": {
+                    "type": "string"
+                },
+                "Warcaster": {
+                    "type": "string"
+                },
+                "Warchanter": {
+                    "type": "string"
+                },
+                "Warchief": {
+                    "type": "string"
+                },
+                "Warden": {
+                    "type": "string"
+                },
+                "Warlord": {
+                    "type": "string"
+                },
+                "Warmaiden": {
+                    "type": "string"
+                },
+                "Warpriest": {
+                    "type": "string"
+                },
+                "Whisper": {
+                    "type": "string"
+                },
+                "Windtalker": {
+                    "type": "string"
+                },
+                "Witness": {
+                    "type": "string"
+                },
+                "Woad_Painted": {
+                    "type": "string"
+                },
+                "Word_Bearer": {
+                    "type": "string"
+                },
+                "Wretch": {
+                    "type": "string"
+                },
+                "Wurlim_Frostking": {
+                    "type": "string"
+                },
+                "Wyvernbane": {
+                    "type": "string"
+                },
+                "Yaga_the_Insatiable": {
+                    "type": "string"
+                },
+                "Yannica": {
+                    "type": "string"
+                },
+                "Yeoman": {
+                    "type": "string"
+                },
+                "Zargala": {
+                    "type": "string"
+                },
+                "Zavia": {
+                    "type": "string"
+                },
+                "Zelotah": {
+                    "type": "string"
+                },
+                "Zephyr_Sniper": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Abbess",
+                "Acolyte",
+                "Adjudicator",
+                "Admonitor",
+                "Adriel",
+                "Aina",
+                "Alika",
+                "Altan",
+                "Alure",
+                "Amarantine_Skeleton",
+                "Angar",
+                "Anointed",
+                "Aothar",
+                "Apothecary",
+                "Arbalester",
+                "Arbiter",
+                "Arcanist",
+                "Archer",
+                "Aristocrat",
+                "Armiger",
+                "Astralith",
+                "Athel",
+                "Atur",
+                "Avenger",
+                "Avir_the_Alchemage",
+                "Axeman",
+                "Azure",
+                "Bad_el_Kazar",
+                "Baerdal_Fellhammer",
+                "Bandit",
+                "Banshee",
+                "Baron",
+                "Baroth_the_Bloodsoaked",
+                "Basher",
+                "Basileus_Roanas",
+                "Basilisk",
+                "Battle_Sister",
+                "Battlesage",
+                "Beast_Wrestler",
+                "Belanor",
+                "Bellower",
+                "Berserker",
+                "Big_Un",
+                "Black_Knight",
+                "Blind_Seer",
+                "Bloodbraid",
+                "Bloodfeather",
+                "Bloodgorged",
+                "Bloodhorn",
+                "Bloodpainter",
+                "Bogwalker",
+                "Bombardier",
+                "Bone_Knight",
+                "Bonekeeper",
+                "Brakus_the_Shifter",
+                "Broadmaw",
+                "Brute",
+                "Bully",
+                "Bulwark",
+                "Bushi",
+                "Bystophus",
+                "Cagebreaker",
+                "Candraphon",
+                "Canoness",
+                "Captain_Temila",
+                "Cardinal",
+                "Catacomb_Councilor",
+                "Cataphract",
+                "Centurion",
+                "Channeler",
+                "Chaplain",
+                "Chemist",
+                "Chevalier",
+                "Chopper",
+                "Cillian_the_Lucky",
+                "Coffin_Smasher",
+                "Coldheart",
+                "Commander",
+                "Confessor",
+                "Conquerer",
+                "Corpse_Collector",
+                "Corpulent_Cadaver",
+                "Courtier",
+                "Crimson_Helm",
+                "Crimson_Slayer",
+                "Crossbowman",
+                "Cruetraxa",
+                "Crusader",
+                "Crusher",
+                "Crypt_King_Graal",
+                "Crypt_Witch",
+                "Cudgeler",
+                "Cultist",
+                "Cupidus",
+                "Dark_Athel",
+                "Dark_Elhain",
+                "Daywalker",
+                "Dead_Crusader",
+                "Death_Hound",
+                "Deathchanter",
+                "Deathknight",
+                "Deathless",
+                "Defiled_Sinner",
+                "Delver",
+                "Dervish",
+                "Dhampir",
+                "Diabolist",
+                "Dilgol",
+                "Dolor_Lorekeeper",
+                "Doompriest",
+                "Doomscreech",
+                "Dracomorph",
+                "Draconis",
+                "Drake",
+                "Drexthar_Bloodtwin",
+                "Drokgul_the_Gaunt",
+                "Drowned_Bloatwraith",
+                "Duchess_Lilitu",
+                "Duelist",
+                "Dunestrider",
+                "Elder",
+                "Elder_Skarg",
+                "Elegaius",
+                "Elenaril",
+                "Elfguard",
+                "Elhain",
+                "Erinyes",
+                "Errol",
+                "Eviscerator",
+                "Excruciator",
+                "Executioner",
+                "Exemplar",
+                "Faceless",
+                "Fang_Cleric",
+                "Fayne",
+                "Fellhound",
+                "Fenax",
+                "Fencer",
+                "Fireblade",
+                "Flesh_Tearer",
+                "Flesheater",
+                "Fleshmonger",
+                "Flinger",
+                "Foli",
+                "Fortress_Goon",
+                "Frontline_Warrior",
+                "Frostbringer",
+                "Frostskin",
+                "Frozen_Banshee",
+                "Fu_Shan",
+                "Furystoker",
+                "Gala_Longbraids",
+                "Galek",
+                "Galkut",
+                "Gator",
+                "Ghostborn",
+                "Ghoulish_Ranger",
+                "Ghrush_the_Manglet",
+                "Gladiator",
+                "Gloril_Brutebane",
+                "Gnarlhorn",
+                "Golden_Reaper",
+                "Goremask",
+                "Gorgorab",
+                "Grandmaster",
+                "Grappler",
+                "Gravechill_Killer",
+                "Graybeard",
+                "Grimskin",
+                "Grinner",
+                "Grizzled_Jarl",
+                "Grohak_the_Bloodied",
+                "Grumbler",
+                "Guardian",
+                "Gurgoh_the_Augur",
+                "Gurptuk_Moss_Beard",
+                "Hakkorhn_Smashlord",
+                "Halberdier",
+                "Hardscale",
+                "Harrier",
+                "Haruspex",
+                "Harvest_Jack",
+                "Harvester",
+                "Hatchet_Slinger",
+                "Head_Taker",
+                "Headsman",
+                "Heartpiercer",
+                "Hegemon",
+                "Heiress",
+                "Hellfang",
+                "Hellgazer",
+                "Hellhound",
+                "Herald",
+                "Hexia",
+                "Hexweaver",
+                "High_Khatun",
+                "Hill_Nomad",
+                "Hollow",
+                "Honor_Guard",
+                "Hope",
+                "Hordin",
+                "Hospitaller",
+                "Hound_Spawn",
+                "Hungerer",
+                "Huntress",
+                "Hurler",
+                "Husk",
+                "Hyria",
+                "Ifrit",
+                "Ignatius",
+                "Incubus",
+                "Infernal_Baroness",
+                "Inithwe_Bloodtwin",
+                "Interceptor",
+                "Intercessor",
+                "Ironclad",
+                "Ithos",
+                "Jaeger",
+                "Jarang",
+                "Jareg",
+                "Jinglehunter",
+                "Jizoh",
+                "Jotun",
+                "Judge",
+                "Judicator",
+                "Juliana",
+                "Justiciar",
+                "Kael",
+                "Kaiden",
+                "Kallia",
+                "Kantra_the_Cyclone",
+                "Karam",
+                "Khoronar",
+                "Knecht",
+                "Knight_Errant",
+                "Krisk_the_Ageless",
+                "Kytis",
+                "Lady_Etessa",
+                "Lamellar",
+                "Lanakis_the_Chosen",
+                "Lemure",
+                "Lich",
+                "Lightsworn",
+                "Line_Infantry",
+                "Little_Miss_Annie",
+                "Longbeard",
+                "Lord_Champfort",
+                "Lord_Shazar",
+                "Lordly_Legionary",
+                "Lua",
+                "Lugan_the_Steadfast",
+                "Luria",
+                "Lurker",
+                "Luthiea",
+                "Lydia_the_Deathsiren",
+                "Lyssandra",
+                "MaShalled",
+                "Madame_Serris",
+                "Madman",
+                "Maeve",
+                "Magekiller",
+                "Magister",
+                "Magmablood",
+                "Magus",
+                "Maiden",
+                "Malbranche",
+                "Maneater",
+                "Marked",
+                "Marksman",
+                "Marquess",
+                "Marquis",
+                "Martyr",
+                "Masked_Fearmonger",
+                "Master_Butcher",
+                "Maulie_Tankard",
+                "Mausoleum_Mage",
+                "Metalshaper",
+                "Militia",
+                "Minaya",
+                "Miscreated_Monster",
+                "Missionary",
+                "Mistress_of_Hymns",
+                "Mortu_Macaab",
+                "Mother_Superior",
+                "Mountain_King",
+                "Muckstalker",
+                "Myrmidon",
+                "Mystic_Hand",
+                "Narma_the_Returned",
+                "Nazana",
+                "Necrohunter",
+                "Nethril",
+                "Norog",
+                "Novitiate",
+                "Oathbound",
+                "Occult_Brawler",
+                "Ogryn_Jailer",
+                "Oldbeard",
+                "Outlander",
+                "Outlaw_Monk",
+                "Outrider",
+                "Ox",
+                "Pain_Keeper",
+                "Painsmith",
+                "Paragon",
+                "Penitent",
+                "Perforator",
+                "Peydma",
+                "Pikeman",
+                "Pilgrim",
+                "Pit_Cur",
+                "Pit_Fighter",
+                "Pitiless_One",
+                "Pitspawn",
+                "Pounder",
+                "Preacher",
+                "Preserver",
+                "Prince_Kymar",
+                "Psylar",
+                "Purgator",
+                "Quaestor",
+                "Queen_Eva",
+                "Rae",
+                "Ragemonger",
+                "Raglin",
+                "Raider",
+                "Ranger",
+                "Rearguard_Sergeant",
+                "Redeemer",
+                "Reinbeast",
+                "Relickeeper",
+                "Reliquary_Tender",
+                "Renegade",
+                "Renouncer",
+                "Retainer",
+                "Rhazin_Scarhide",
+                "Richtoff_the_Bold",
+                "Ripper",
+                "Ripperfist",
+                "Ritualist",
+                "Robar",
+                "Rock_Breaker",
+                "Rocktooth",
+                "Romero",
+                "Roshcard_the_Tower",
+                "Rotos_the_Lost_Groom",
+                "Rotting_Mage",
+                "Rowan",
+                "Royal_Guard",
+                "Royal_Huntsman",
+                "Runic_Warder",
+                "Saito",
+                "Sanctum_Protector",
+                "Sandlashed_Survivor",
+                "Satyr",
+                "Saurus",
+                "Scyl_of_the_Drakes",
+                "Seducer",
+                "Seeker",
+                "Seer",
+                "Seneschal",
+                "Sentinel",
+                "Septimus",
+                "Sepulcher_Sentinel",
+                "Sergeant",
+                "Sethallia",
+                "Shaman",
+                "Shamrock",
+                "Sharpshooter",
+                "Shatterbones",
+                "Shieldguard",
+                "Shirimani",
+                "Siegebreaker",
+                "Sikara",
+                "Sinesha",
+                "Siphi_the_Lost_Bride",
+                "Sir_Nicholas",
+                "Sister_Militant",
+                "Skartorsis",
+                "Skellag",
+                "Skink",
+                "Skinner",
+                "Skirmisher",
+                "Skull_Lord_Var_Gall",
+                "Skullcrown",
+                "Skullcrusher",
+                "Skullsquire",
+                "Skullsworn",
+                "Skytouched_Shaman",
+                "Slasher",
+                "Slayer",
+                "Slicer",
+                "Slitherbrute",
+                "Sniper",
+                "Snorting_Thug",
+                "Solaris",
+                "Sorceress",
+                "Soulbond_Bowyer",
+                "Souldrinker",
+                "Soulless",
+                "Spider",
+                "Spikehead",
+                "Spirithost",
+                "Spiritwalker",
+                "Squire",
+                "Stag_Knight",
+                "Stalker",
+                "Stalwart",
+                "Steadfast_Marshal",
+                "Steel_Bowyer",
+                "Steelskull",
+                "Stitched_Beast",
+                "Stoneskin",
+                "Stout_Axeman",
+                "Suwai_Firstborn",
+                "Suzerain_Katonn",
+                "Swordsman",
+                "Tainix_Hateflower",
+                "Tallia",
+                "Taurus",
+                "Tayrel",
+                "Teela_Goremane",
+                "Templar",
+                "Temptress",
+                "Terrorbeast",
+                "Teshada",
+                "Thenasil",
+                "Theurgist",
+                "Thrall",
+                "Thrasher",
+                "Throatcutter",
+                "Tomb_Lord",
+                "Tormentor",
+                "Tormin_the_Cold",
+                "Torturehelm",
+                "Totem",
+                "Towering_Titan",
+                "Tracker",
+                "Treefeller",
+                "Troglodyte",
+                "Trunda_Giltmallet",
+                "Tuhak_the_Wanderer",
+                "Tunnel_Steward",
+                "Turvold",
+                "Twinclaw_Disciple",
+                "Tyrant_Ixlimor",
+                "Ultimate_Galek",
+                "Umbral_Enchantress",
+                "Ursine_Icecrusher",
+                "Ursine_Ironhide",
+                "Ursuga_Warcaller",
+                "Valerie",
+                "Valkyrie",
+                "Valla",
+                "Vanguard",
+                "Venus",
+                "Vergis",
+                "Vergumkaar",
+                "Veteran",
+                "Vigilante",
+                "Vilespawn",
+                "Visix_the_Unbowed",
+                "Vizier_Ovelis",
+                "Vrask",
+                "Vulpine",
+                "Wagonbane",
+                "Wanderer",
+                "War_Mother",
+                "Warboy",
+                "Warcaster",
+                "Warchanter",
+                "Warchief",
+                "Warden",
+                "Warlord",
+                "Warmaiden",
+                "Warpriest",
+                "Whisper",
+                "Windtalker",
+                "Witness",
+                "Woad_Painted",
+                "Word_Bearer",
+                "Wretch",
+                "Wurlim_Frostking",
+                "Wyvernbane",
+                "Yaga_the_Insatiable",
+                "Yannica",
+                "Yeoman",
+                "Zargala",
+                "Zavia",
+                "Zelotah",
+                "Zephyr_Sniper"
+            ],
+            "type": "object"
+        },
+        "ILanguageClan": {
+            "additionalProperties": false,
+            "properties": {
+                "BannerLords": {
+                    "type": "string"
+                },
+                "Barbarians": {
+                    "type": "string"
+                },
+                "DarkElves": {
+                    "type": "string"
+                },
+                "Demonspawn": {
+                    "type": "string"
+                },
+                "Dwarves": {
+                    "type": "string"
+                },
+                "HighElves": {
+                    "type": "string"
+                },
+                "KnightsRevenant": {
+                    "type": "string"
+                },
+                "LizardMen": {
+                    "type": "string"
+                },
+                "OgrynTribes": {
+                    "type": "string"
+                },
+                "Orcs": {
+                    "type": "string"
+                },
+                "SacredOrder": {
+                    "type": "string"
+                },
+                "Skinwalkers": {
+                    "type": "string"
+                },
+                "UndeadHordes": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "BannerLords",
+                "Barbarians",
+                "DarkElves",
+                "Demonspawn",
+                "Dwarves",
+                "HighElves",
+                "KnightsRevenant",
+                "LizardMen",
+                "OgrynTribes",
+                "Orcs",
+                "SacredOrder",
+                "Skinwalkers",
+                "UndeadHordes"
+            ],
+            "type": "object"
+        },
+        "ILanguageMastery": {
+            "additionalProperties": false,
+            "properties": {
+                "ArcaneCelerity": {
+                    "type": "string"
+                },
+                "BladeDisciple": {
+                    "type": "string"
+                },
+                "Blastproof": {
+                    "type": "string"
+                },
+                "BloodShield": {
+                    "type": "string"
+                },
+                "Bloodthirst": {
+                    "type": "string"
+                },
+                "BringItDown": {
+                    "type": "string"
+                },
+                "Bulwark": {
+                    "type": "string"
+                },
+                "ChargedFocus": {
+                    "type": "string"
+                },
+                "CycleOfMagic": {
+                    "type": "string"
+                },
+                "CycleOfRevenge": {
+                    "type": "string"
+                },
+                "CycleOfViolence": {
+                    "type": "string"
+                },
+                "DeadlyPrecision": {
+                    "type": "string"
+                },
+                "Defiant": {
+                    "type": "string"
+                },
+                "DelayDeath": {
+                    "type": "string"
+                },
+                "Deterrence": {
+                    "type": "string"
+                },
+                "EagleEye": {
+                    "type": "string"
+                },
+                "ElixirOfLife": {
+                    "type": "string"
+                },
+                "EvilEye": {
+                    "type": "string"
+                },
+                "ExaltInDeath": {
+                    "type": "string"
+                },
+                "FearsomePresence": {
+                    "type": "string"
+                },
+                "FlawlessExecution": {
+                    "type": "string"
+                },
+                "GiantSlayer": {
+                    "type": "string"
+                },
+                "GrimResolve": {
+                    "type": "string"
+                },
+                "HarvestDespair": {
+                    "type": "string"
+                },
+                "HealingSavior": {
+                    "type": "string"
+                },
+                "HeartOfGlory": {
+                    "type": "string"
+                },
+                "Helmsmasher": {
+                    "type": "string"
+                },
+                "ImprovedParry": {
+                    "type": "string"
+                },
+                "IronSkin": {
+                    "type": "string"
+                },
+                "KeenStrike": {
+                    "type": "string"
+                },
+                "KillStreak": {
+                    "type": "string"
+                },
+                "LastingGifts": {
+                    "type": "string"
+                },
+                "LayOnHands": {
+                    "type": "string"
+                },
+                "LifeDrinker": {
+                    "type": "string"
+                },
+                "LoreOfSteel": {
+                    "type": "string"
+                },
+                "MasterHexer": {
+                    "type": "string"
+                },
+                "MercifulAid": {
+                    "type": "string"
+                },
+                "Methodical": {
+                    "type": "string"
+                },
+                "MightyEndurance": {
+                    "type": "string"
+                },
+                "Opportunist": {
+                    "type": "string"
+                },
+                "Oppressor": {
+                    "type": "string"
+                },
+                "PinpointAccuracy": {
+                    "type": "string"
+                },
+                "RapidResponse": {
+                    "type": "string"
+                },
+                "Rejuvenation": {
+                    "type": "string"
+                },
+                "Resurgent": {
+                    "type": "string"
+                },
+                "Retribution": {
+                    "type": "string"
+                },
+                "RuthlessAmbush": {
+                    "type": "string"
+                },
+                "SelflessDefender": {
+                    "type": "string"
+                },
+                "ShadowHeal": {
+                    "type": "string"
+                },
+                "ShieldBreaker": {
+                    "type": "string"
+                },
+                "Shieldbearer": {
+                    "type": "string"
+                },
+                "SingleOut": {
+                    "type": "string"
+                },
+                "Sniper": {
+                    "type": "string"
+                },
+                "Solidarity": {
+                    "type": "string"
+                },
+                "SpiritHaste": {
+                    "type": "string"
+                },
+                "Steadfast": {
+                    "type": "string"
+                },
+                "StokedToFury": {
+                    "type": "string"
+                },
+                "Stubbornness": {
+                    "type": "string"
+                },
+                "SwarmSmiter": {
+                    "type": "string"
+                },
+                "TimelyIntervention": {
+                    "type": "string"
+                },
+                "ToughSkin": {
+                    "type": "string"
+                },
+                "Unshakeable": {
+                    "type": "string"
+                },
+                "Warmaster": {
+                    "type": "string"
+                },
+                "WhirlwindOfDeath": {
+                    "type": "string"
+                },
+                "WisdomOfBattle": {
+                    "type": "string"
+                },
+                "WrathOfTheSlain": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ArcaneCelerity",
+                "BladeDisciple",
+                "Blastproof",
+                "BloodShield",
+                "Bloodthirst",
+                "BringItDown",
+                "Bulwark",
+                "ChargedFocus",
+                "CycleOfMagic",
+                "CycleOfRevenge",
+                "CycleOfViolence",
+                "DeadlyPrecision",
+                "Defiant",
+                "DelayDeath",
+                "Deterrence",
+                "EagleEye",
+                "ElixirOfLife",
+                "EvilEye",
+                "ExaltInDeath",
+                "FearsomePresence",
+                "FlawlessExecution",
+                "GiantSlayer",
+                "GrimResolve",
+                "HarvestDespair",
+                "HealingSavior",
+                "HeartOfGlory",
+                "Helmsmasher",
+                "ImprovedParry",
+                "IronSkin",
+                "KeenStrike",
+                "KillStreak",
+                "LastingGifts",
+                "LayOnHands",
+                "LifeDrinker",
+                "LoreOfSteel",
+                "MasterHexer",
+                "MercifulAid",
+                "Methodical",
+                "MightyEndurance",
+                "Opportunist",
+                "Oppressor",
+                "PinpointAccuracy",
+                "RapidResponse",
+                "Rejuvenation",
+                "Resurgent",
+                "Retribution",
+                "RuthlessAmbush",
+                "SelflessDefender",
+                "ShadowHeal",
+                "ShieldBreaker",
+                "Shieldbearer",
+                "SingleOut",
+                "Sniper",
+                "Solidarity",
+                "SpiritHaste",
+                "Steadfast",
+                "StokedToFury",
+                "Stubbornness",
+                "SwarmSmiter",
+                "TimelyIntervention",
+                "ToughSkin",
+                "Unshakeable",
+                "Warmaster",
+                "WhirlwindOfDeath",
+                "WisdomOfBattle",
+                "WrathOfTheSlain"
+            ],
+            "type": "object"
+        },
+        "ILanguageRarity": {
+            "additionalProperties": false,
+            "properties": {
+                "Common": {
+                    "type": "string"
+                },
+                "Epic": {
+                    "type": "string"
+                },
+                "Legendary": {
+                    "type": "string"
+                },
+                "Rare": {
+                    "type": "string"
+                },
+                "Uncommon": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Common",
+                "Epic",
+                "Legendary",
+                "Rare",
+                "Uncommon"
+            ],
+            "type": "object"
+        },
+        "ILanguageRole": {
+            "additionalProperties": false,
+            "properties": {
+                "Attack": {
+                    "type": "string"
+                },
+                "Defense": {
+                    "type": "string"
+                },
+                "HP": {
+                    "type": "string"
+                },
+                "Support": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Attack",
+                "Defense",
+                "HP",
+                "Support"
+            ],
+            "type": "object"
+        },
+        "ILanguageSet": {
+            "additionalProperties": false,
+            "properties": {
+                "Accuracy": {
+                    "type": "string"
+                },
+                "Avenging": {
+                    "type": "string"
+                },
+                "CriticalDamage": {
+                    "type": "string"
+                },
+                "CriticalRate": {
+                    "type": "string"
+                },
+                "Cruel": {
+                    "type": "string"
+                },
+                "Curing": {
+                    "type": "string"
+                },
+                "Cursed": {
+                    "type": "string"
+                },
+                "Daze": {
+                    "type": "string"
+                },
+                "Defense": {
+                    "type": "string"
+                },
+                "Deflection": {
+                    "type": "string"
+                },
+                "Destroy": {
+                    "type": "string"
+                },
+                "DivineCriticalRate": {
+                    "type": "string"
+                },
+                "DivineLife": {
+                    "type": "string"
+                },
+                "DivineOffense": {
+                    "type": "string"
+                },
+                "DivineSpeed": {
+                    "type": "string"
+                },
+                "Frenzy": {
+                    "type": "string"
+                },
+                "Frost": {
+                    "type": "string"
+                },
+                "Fury": {
+                    "type": "string"
+                },
+                "Immortal": {
+                    "type": "string"
+                },
+                "Immunity": {
+                    "type": "string"
+                },
+                "Life": {
+                    "type": "string"
+                },
+                "Lifesteal": {
+                    "type": "string"
+                },
+                "Offense": {
+                    "type": "string"
+                },
+                "Perception": {
+                    "type": "string"
+                },
+                "Reflex": {
+                    "type": "string"
+                },
+                "Regeneration": {
+                    "type": "string"
+                },
+                "Relentless": {
+                    "type": "string"
+                },
+                "Resilience": {
+                    "type": "string"
+                },
+                "Resistance": {
+                    "type": "string"
+                },
+                "Retaliation": {
+                    "type": "string"
+                },
+                "Savage": {
+                    "type": "string"
+                },
+                "Shield": {
+                    "type": "string"
+                },
+                "Speed": {
+                    "type": "string"
+                },
+                "Stalwart": {
+                    "type": "string"
+                },
+                "Stun": {
+                    "type": "string"
+                },
+                "SwiftParry": {
+                    "type": "string"
+                },
+                "Taunting": {
+                    "type": "string"
+                },
+                "Toxic": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Accuracy",
+                "Avenging",
+                "CriticalDamage",
+                "CriticalRate",
+                "Cruel",
+                "Curing",
+                "Cursed",
+                "Daze",
+                "Defense",
+                "Deflection",
+                "Destroy",
+                "DivineCriticalRate",
+                "DivineLife",
+                "DivineOffense",
+                "DivineSpeed",
+                "Frenzy",
+                "Frost",
+                "Fury",
+                "Immortal",
+                "Immunity",
+                "Life",
+                "Lifesteal",
+                "Offense",
+                "Perception",
+                "Reflex",
+                "Regeneration",
+                "Relentless",
+                "Resilience",
+                "Resistance",
+                "Retaliation",
+                "Savage",
+                "Shield",
+                "Speed",
+                "Stalwart",
+                "Stun",
+                "SwiftParry",
+                "Taunting",
+                "Toxic"
+            ],
+            "type": "object"
+        },
+        "ILanguageSlot": {
+            "additionalProperties": false,
+            "properties": {
+                "Amulet": {
+                    "type": "string"
+                },
+                "Banner": {
+                    "type": "string"
+                },
+                "Boots": {
+                    "type": "string"
+                },
+                "Chestplate": {
+                    "type": "string"
+                },
+                "Gauntlets": {
+                    "type": "string"
+                },
+                "Helmet": {
+                    "type": "string"
+                },
+                "Ring": {
+                    "type": "string"
+                },
+                "Shield": {
+                    "type": "string"
+                },
+                "Weapon": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Amulet",
+                "Banner",
+                "Boots",
+                "Chestplate",
+                "Gauntlets",
+                "Helmet",
+                "Ring",
+                "Shield",
+                "Weapon"
+            ],
+            "type": "object"
+        },
+        "ILanguageStat": {
+            "additionalProperties": false,
+            "properties": {
+                "ACC": {
+                    "type": "string"
+                },
+                "ATK": {
+                    "type": "string"
+                },
+                "ATK%": {
+                    "type": "string"
+                },
+                "C.DMG": {
+                    "type": "string"
+                },
+                "C.RATE": {
+                    "type": "string"
+                },
+                "DEF": {
+                    "type": "string"
+                },
+                "DEF%": {
+                    "type": "string"
+                },
+                "HP": {
+                    "type": "string"
+                },
+                "HP%": {
+                    "type": "string"
+                },
+                "RESI": {
+                    "type": "string"
+                },
+                "SPD": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ACC",
+                "ATK",
+                "ATK%",
+                "C.DMG",
+                "C.RATE",
+                "DEF",
+                "DEF%",
+                "HP",
+                "HP%",
+                "RESI",
+                "SPD"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiButton": {
+            "additionalProperties": false,
+            "properties": {
+                "exportBackup": {
+                    "type": "string"
+                },
+                "generateCombination": {
+                    "type": "string"
+                },
+                "importBackup": {
+                    "type": "string"
+                },
+                "importRaidExtract": {
+                    "type": "string"
+                },
+                "login": {
+                    "type": "string"
+                },
+                "signup": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "exportBackup",
+                "generateCombination",
+                "importBackup",
+                "importRaidExtract",
+                "login",
+                "signup"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiCommon": {
+            "additionalProperties": false,
+            "properties": {
+                "addNew": {
+                    "type": "string"
+                },
+                "adding": {
+                    "type": "string"
+                },
+                "browse": {
+                    "type": "string"
+                },
+                "close": {
+                    "type": "string"
+                },
+                "editing": {
+                    "type": "string"
+                },
+                "no": {
+                    "type": "string"
+                },
+                "off": {
+                    "type": "string"
+                },
+                "on": {
+                    "type": "string"
+                },
+                "optional": {
+                    "type": "string"
+                },
+                "save": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "string"
+                },
+                "warning": {
+                    "type": "string"
+                },
+                "yes": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "addNew",
+                "adding",
+                "browse",
+                "close",
+                "editing",
+                "no",
+                "off",
+                "on",
+                "optional",
+                "save",
+                "total",
+                "warning",
+                "yes"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiMessage": {
+            "additionalProperties": false,
+            "properties": {
+                "accountExist": {
+                    "type": "string"
+                },
+                "greatHallBonus": {
+                    "type": "string"
+                },
+                "homeContribute": {
+                    "type": "string"
+                },
+                "homeWarning": {
+                    "type": "string"
+                },
+                "importOverrideData": {
+                    "type": "string"
+                },
+                "loading": {
+                    "type": "string"
+                },
+                "needAccount": {
+                    "type": "string"
+                },
+                "raidExtractHelp": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "accountExist",
+                "greatHallBonus",
+                "homeContribute",
+                "homeWarning",
+                "importOverrideData",
+                "loading",
+                "needAccount",
+                "raidExtractHelp"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiOption": {
+            "additionalProperties": false,
+            "properties": {
+                "artifactsDisplayAsGrid": {
+                    "type": "string"
+                },
+                "artifactsDisplayAsTable": {
+                    "type": "string"
+                },
+                "chooseBackupFile": {
+                    "type": "string"
+                },
+                "chooseJSONFile": {
+                    "type": "string"
+                },
+                "excludeWornArtifacts": {
+                    "type": "string"
+                },
+                "generationEasyMode": {
+                    "type": "string"
+                },
+                "generationEasyModeHelper": {
+                    "type": "string"
+                },
+                "generationRealValues": {
+                    "type": "string"
+                },
+                "generationRealValuesHelper": {
+                    "type": "string"
+                },
+                "generationTheoricalValues": {
+                    "type": "string"
+                },
+                "generationTheoricalValuesHelper": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "groupAllChampions": {
+                    "type": "string"
+                },
+                "methodNoSets": {
+                    "type": "string"
+                },
+                "methodOptionalSets": {
+                    "type": "string"
+                },
+                "methodRequiredSet": {
+                    "type": "string"
+                },
+                "orderByAccuracy": {
+                    "type": "string"
+                },
+                "orderByAffinity": {
+                    "type": "string"
+                },
+                "orderByAttack": {
+                    "type": "string"
+                },
+                "orderByCriticalDamage": {
+                    "type": "string"
+                },
+                "orderByCriticalRate": {
+                    "type": "string"
+                },
+                "orderByDefense": {
+                    "type": "string"
+                },
+                "orderByFaction": {
+                    "type": "string"
+                },
+                "orderByHP": {
+                    "type": "string"
+                },
+                "orderByLevel": {
+                    "type": "string"
+                },
+                "orderByPower": {
+                    "type": "string"
+                },
+                "orderByRank": {
+                    "type": "string"
+                },
+                "orderByResistance": {
+                    "type": "string"
+                },
+                "orderByRole": {
+                    "type": "string"
+                },
+                "orderBySpeed": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "artifactsDisplayAsGrid",
+                "artifactsDisplayAsTable",
+                "chooseBackupFile",
+                "chooseJSONFile",
+                "excludeWornArtifacts",
+                "generationEasyMode",
+                "generationEasyModeHelper",
+                "generationRealValues",
+                "generationRealValuesHelper",
+                "generationTheoricalValues",
+                "generationTheoricalValuesHelper",
+                "group",
+                "groupAllChampions",
+                "methodNoSets",
+                "methodOptionalSets",
+                "methodRequiredSet",
+                "orderByAccuracy",
+                "orderByAffinity",
+                "orderByAttack",
+                "orderByCriticalDamage",
+                "orderByCriticalRate",
+                "orderByDefense",
+                "orderByFaction",
+                "orderByHP",
+                "orderByLevel",
+                "orderByPower",
+                "orderByRank",
+                "orderByResistance",
+                "orderByRole",
+                "orderBySpeed"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiTask": {
+            "additionalProperties": false,
+            "properties": {
+                "generateTable": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "generateTable"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiTitle": {
+            "additionalProperties": false,
+            "properties": {
+                "accessories": {
+                    "type": "string"
+                },
+                "actions": {
+                    "type": "string"
+                },
+                "activeSets": {
+                    "type": "string"
+                },
+                "arenaRank": {
+                    "type": "string"
+                },
+                "artifacts": {
+                    "type": "string"
+                },
+                "artifactsDisplayMode": {
+                    "type": "string"
+                },
+                "availableAccessories": {
+                    "type": "string"
+                },
+                "baseInfo": {
+                    "type": "string"
+                },
+                "bonus": {
+                    "type": "string"
+                },
+                "champion": {
+                    "type": "string"
+                },
+                "champions": {
+                    "type": "string"
+                },
+                "championsList": {
+                    "type": "string"
+                },
+                "clan": {
+                    "type": "string"
+                },
+                "config": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "emailConfirmation": {
+                    "type": "string"
+                },
+                "gameProgression": {
+                    "type": "string"
+                },
+                "generationMethods": {
+                    "type": "string"
+                },
+                "generationOptions": {
+                    "type": "string"
+                },
+                "greatHall": {
+                    "type": "string"
+                },
+                "importBackup": {
+                    "type": "string"
+                },
+                "importExport": {
+                    "type": "string"
+                },
+                "importJSON": {
+                    "type": "string"
+                },
+                "isActivated": {
+                    "type": "string"
+                },
+                "isLocked": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "string"
+                },
+                "login": {
+                    "type": "string"
+                },
+                "logout": {
+                    "type": "string"
+                },
+                "mainStats": {
+                    "type": "string"
+                },
+                "mainStatsValue": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "newStats": {
+                    "type": "string"
+                },
+                "numberOfArtifacts": {
+                    "type": "string"
+                },
+                "numberOfChampions": {
+                    "type": "string"
+                },
+                "oldStats": {
+                    "type": "string"
+                },
+                "optimizer": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "passwordConfirmation": {
+                    "type": "string"
+                },
+                "power": {
+                    "type": "string"
+                },
+                "powerHelper": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                },
+                "profileOptions": {
+                    "type": "string"
+                },
+                "quality": {
+                    "type": "string"
+                },
+                "rarity": {
+                    "type": "string"
+                },
+                "results": {
+                    "type": "string"
+                },
+                "rolls": {
+                    "type": "string"
+                },
+                "runes": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "string"
+                },
+                "sellList": {
+                    "type": "string"
+                },
+                "set": {
+                    "type": "string"
+                },
+                "signup": {
+                    "type": "string"
+                },
+                "siteDescription": {
+                    "type": "string"
+                },
+                "siteTitle": {
+                    "type": "string"
+                },
+                "slot": {
+                    "type": "string"
+                },
+                "stat": {
+                    "type": "string"
+                },
+                "statValue": {
+                    "type": "string"
+                },
+                "stats1": {
+                    "type": "string"
+                },
+                "stats2": {
+                    "type": "string"
+                },
+                "stats3": {
+                    "type": "string"
+                },
+                "stats4": {
+                    "type": "string"
+                },
+                "statsPriority": {
+                    "type": "string"
+                },
+                "teams": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "accessories",
+                "actions",
+                "activeSets",
+                "arenaRank",
+                "artifacts",
+                "artifactsDisplayMode",
+                "availableAccessories",
+                "baseInfo",
+                "bonus",
+                "champion",
+                "champions",
+                "championsList",
+                "clan",
+                "config",
+                "email",
+                "emailConfirmation",
+                "gameProgression",
+                "generationMethods",
+                "generationOptions",
+                "greatHall",
+                "importBackup",
+                "importExport",
+                "importJSON",
+                "isActivated",
+                "isLocked",
+                "language",
+                "level",
+                "login",
+                "logout",
+                "mainStats",
+                "mainStatsValue",
+                "method",
+                "newStats",
+                "numberOfArtifacts",
+                "numberOfChampions",
+                "oldStats",
+                "optimizer",
+                "password",
+                "passwordConfirmation",
+                "power",
+                "powerHelper",
+                "profile",
+                "profileOptions",
+                "quality",
+                "rarity",
+                "results",
+                "rolls",
+                "runes",
+                "score",
+                "sellList",
+                "set",
+                "signup",
+                "siteDescription",
+                "siteTitle",
+                "slot",
+                "stat",
+                "statValue",
+                "stats1",
+                "stats2",
+                "stats3",
+                "stats4",
+                "statsPriority",
+                "teams",
+                "username"
+            ],
+            "type": "object"
+        },
+        "ILanguageUiValidation": {
+            "additionalProperties": false,
+            "properties": {
+                "correctErrorBeforeSaving": {
+                    "type": "string"
+                },
+                "invalidLoginCredential": {
+                    "type": "string"
+                },
+                "networkError": {
+                    "type": "string"
+                },
+                "selectChampion": {
+                    "type": "string"
+                },
+                "selectMethod": {
+                    "type": "string"
+                },
+                "selectSets": {
+                    "type": "string"
+                },
+                "selectStats": {
+                    "type": "string"
+                },
+                "selectStatsBoots": {
+                    "type": "string"
+                },
+                "selectStatsChestplate": {
+                    "type": "string"
+                },
+                "selectStatsGauntlets": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "correctErrorBeforeSaving",
+                "invalidLoginCredential",
+                "networkError",
+                "selectChampion",
+                "selectMethod",
+                "selectSets",
+                "selectStats",
+                "selectStatsBoots",
+                "selectStatsChestplate",
+                "selectStatsGauntlets"
+            ],
+            "type": "object"
+        }
+    },
+    "properties": {
+        "affinity": {
+            "$ref": "#/definitions/ILanguageAffinity"
+        },
+        "arena": {
+            "$ref": "#/definitions/ILangageArena"
+        },
+        "champion": {
+            "$ref": "#/definitions/ILanguageChampion"
+        },
+        "clan": {
+            "$ref": "#/definitions/ILanguageClan"
+        },
+        "masteries": {
+            "$ref": "#/definitions/ILanguageMastery"
+        },
+        "rarity": {
+            "$ref": "#/definitions/ILanguageRarity"
+        },
+        "role": {
+            "$ref": "#/definitions/ILanguageRole"
+        },
+        "set": {
+            "$ref": "#/definitions/ILanguageSet"
+        },
+        "slot": {
+            "$ref": "#/definitions/ILanguageSlot"
+        },
+        "stat": {
+            "additionalProperties": false,
+            "properties": {
+                "ACC": {
+                    "type": "string"
+                },
+                "ATK": {
+                    "type": "string"
+                },
+                "ATK%": {
+                    "type": "string"
+                },
+                "C.DMG": {
+                    "type": "string"
+                },
+                "C.RATE": {
+                    "type": "string"
+                },
+                "DEF": {
+                    "type": "string"
+                },
+                "DEF%": {
+                    "type": "string"
+                },
+                "HP": {
+                    "type": "string"
+                },
+                "HP%": {
+                    "type": "string"
+                },
+                "RESI": {
+                    "type": "string"
+                },
+                "SPD": {
+                    "type": "string"
+                },
+                "short": {
+                    "$ref": "#/definitions/ILanguageStat"
+                }
+            },
+            "required": [
+                "ACC",
+                "ATK",
+                "ATK%",
+                "C.DMG",
+                "C.RATE",
+                "DEF",
+                "DEF%",
+                "HP",
+                "HP%",
+                "RESI",
+                "SPD",
+                "short"
+            ],
+            "type": "object"
+        },
+        "ui": {
+            "additionalProperties": false,
+            "properties": {
+                "button": {
+                    "$ref": "#/definitions/ILanguageUiButton"
+                },
+                "common": {
+                    "$ref": "#/definitions/ILanguageUiCommon"
+                },
+                "message": {
+                    "$ref": "#/definitions/ILanguageUiMessage"
+                },
+                "option": {
+                    "$ref": "#/definitions/ILanguageUiOption"
+                },
+                "task": {
+                    "$ref": "#/definitions/ILanguageUiTask"
+                },
+                "title": {
+                    "$ref": "#/definitions/ILanguageUiTitle"
+                },
+                "validation": {
+                    "$ref": "#/definitions/ILanguageUiValidation"
+                }
+            },
+            "required": [
+                "button",
+                "common",
+                "message",
+                "option",
+                "task",
+                "title",
+                "validation"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "affinity",
+        "arena",
+        "champion",
+        "clan",
+        "masteries",
+        "rarity",
+        "role",
+        "set",
+        "slot",
+        "stat",
+        "ui"
+    ],
+    "type": "object"
+}
+

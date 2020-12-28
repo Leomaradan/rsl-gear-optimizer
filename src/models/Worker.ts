@@ -1,57 +1,63 @@
-import { Champion } from "./Champion";
-import { Artifact } from "./Artifact";
-import { Results } from "./Results";
-import { GenerationMethod } from "./Configuration";
+import type { IChampionConfiguration } from "./ChampionConfiguration";
+import type { IArtifact } from "./Artifact";
+import type { IResults } from "./Results";
+import type { IGenerationMethod } from "./Configuration";
+import type { IChampion } from "./Champion";
 
-type WorkerCommand<T> = {
+import type { ILanguageUiTask } from "lang/language";
+
+type IWorkerCommand<T> = {
   data: T;
 };
 
-interface ResultsWorkerCommandGenerate {
-  champions: Champion[];
-  artifacts: Artifact[];
-  generationMethod: GenerationMethod;
+export interface IResultsWorkerCommandGenerate {
+  championConfigurations: IChampionConfiguration[];
+  champions: IChampion[];
+  artifacts: IArtifact[];
+  generationMethod: IGenerationMethod;
   excludeWornArtifacts: boolean;
   command: "generate";
 }
 
-interface ResultsWorkerCommandDone {
-  results: Results[];
+interface IResultsWorkerCommandDone {
+  results: IResults[];
   items: number;
   command: "done";
 }
 
-interface ResultsWorkerCommandMessage {
+interface IResultsWorkerCommandMessage {
   message: string;
   command: "message";
 }
 
-interface ResultsWorkerCommandProgress {
+interface IResultsWorkerCommandProgress {
   current: number;
   max?: number;
-  task: string;
+  task: keyof ILanguageUiTask;
   champion: string;
   command: "progress";
 }
 
-export type ResultsWorkerEventGenerate = WorkerCommand<
-  ResultsWorkerCommandGenerate
+export type IResultsWorkerEventGenerate = IWorkerCommand<
+  IResultsWorkerCommandGenerate
 >;
 
-type ResultsWorkerEventDone = WorkerCommand<ResultsWorkerCommandDone>;
+type IResultsWorkerEventDone = IWorkerCommand<IResultsWorkerCommandDone>;
 
-type ResultsWorkerEventMessage = WorkerCommand<ResultsWorkerCommandMessage>;
+type IResultsWorkerEventMessage = IWorkerCommand<IResultsWorkerCommandMessage>;
 
-type ResultsWorkerEventProgress = WorkerCommand<ResultsWorkerCommandProgress>;
+type IResultsWorkerEventProgress = IWorkerCommand<
+  IResultsWorkerCommandProgress
+>;
 
-export type ResultsWorkerCommands =
-  | ResultsWorkerCommandGenerate
-  | ResultsWorkerCommandDone
-  | ResultsWorkerCommandMessage
-  | ResultsWorkerCommandProgress;
+export type IResultsWorkerCommands =
+  | IResultsWorkerCommandGenerate
+  | IResultsWorkerCommandDone
+  | IResultsWorkerCommandMessage
+  | IResultsWorkerCommandProgress;
 
-export type ResultsWorkerEvents =
-  | ResultsWorkerEventGenerate
-  | ResultsWorkerEventDone
-  | ResultsWorkerEventMessage
-  | ResultsWorkerEventProgress;
+export type IResultsWorkerEvents =
+  | IResultsWorkerEventGenerate
+  | IResultsWorkerEventDone
+  | IResultsWorkerEventMessage
+  | IResultsWorkerEventProgress;

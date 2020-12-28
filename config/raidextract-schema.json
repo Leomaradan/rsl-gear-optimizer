@@ -1,0 +1,284 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "IArtifactJsonSet": {
+            "enum": [
+                "Accuracy",
+                "AccuracyAndSpeed",
+                "AoeDamageDecrease",
+                "AttackPower",
+                "AttackPowerAndIgnoreDefense",
+                "AttackSpeed",
+                "BlockDebuff",
+                "BlockHealChance",
+                "BlockReflectDebuffAndHpAndDef",
+                "CooldownReductionChance",
+                "Counterattack",
+                "CounterattackOnCrit",
+                "CriticalChance",
+                "CriticalDamage",
+                "CriticalHealMultiplier",
+                "DamageIncreaseOnHpDecrease",
+                "DecreaseMaxHp",
+                "Defense",
+                "DotRate",
+                "FreezeRateOnDamageReceived",
+                "GetExtraTurn",
+                "Heal",
+                "Hp",
+                "HpAndDefence",
+                "HpAndHeal",
+                "IgnoreDefense",
+                "LifeDrain",
+                "None",
+                "ProvokeChance",
+                "Resistance",
+                "Shield",
+                "ShieldAndAttackPower",
+                "ShieldAndCriticalChance",
+                "ShieldAndHp",
+                "ShieldAndSpeed",
+                "SleepChance",
+                "Stamina",
+                "StunChance",
+                "UnkillableAndSpdAndCrDmg"
+            ],
+            "type": "string"
+        },
+        "IArtifactJsonStat": {
+            "enum": [
+                "Accuracy",
+                "Attack",
+                "CriticalChance",
+                "CriticalDamage",
+                "Defense",
+                "Health",
+                "Resistance",
+                "Speed"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "artifacts": {
+            "items": {
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "kind": {
+                        "enum": [
+                            "Banner",
+                            "Boots",
+                            "Chest",
+                            "Cloak",
+                            "Gloves",
+                            "Helmet",
+                            "Ring",
+                            "Shield",
+                            "Weapon"
+                        ],
+                        "type": "string"
+                    },
+                    "level": {
+                        "type": "number"
+                    },
+                    "primaryBonus": {
+                        "properties": {
+                            "isAbsolute": {
+                                "type": "boolean"
+                            },
+                            "kind": {
+                                "$ref": "#/definitions/IArtifactJsonStat"
+                            },
+                            "value": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "isAbsolute",
+                            "kind",
+                            "value"
+                        ],
+                        "type": "object"
+                    },
+                    "rank": {
+                        "enum": [
+                            "Five",
+                            "Four",
+                            "One",
+                            "Six",
+                            "Three",
+                            "Two"
+                        ],
+                        "type": "string"
+                    },
+                    "rarity": {
+                        "type": "string"
+                    },
+                    "requiredFraction": {
+                        "type": "string"
+                    },
+                    "secondaryBonuses": {
+                        "items": {
+                            "properties": {
+                                "enhancement": {
+                                    "type": "number"
+                                },
+                                "isAbsolute": {
+                                    "type": "boolean"
+                                },
+                                "kind": {
+                                    "$ref": "#/definitions/IArtifactJsonStat"
+                                },
+                                "level": {
+                                    "type": "number"
+                                },
+                                "value": {
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "enhancement",
+                                "isAbsolute",
+                                "kind",
+                                "level",
+                                "value"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "setKind": {
+                        "$ref": "#/definitions/IArtifactJsonSet"
+                    }
+                },
+                "required": [
+                    "id",
+                    "kind",
+                    "level",
+                    "primaryBonus",
+                    "rank",
+                    "rarity",
+                    "secondaryBonuses",
+                    "setKind"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "heroes": {
+            "items": {
+                "properties": {
+                    "accuracy": {
+                        "type": "number"
+                    },
+                    "artifacts": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "attack": {
+                        "type": "number"
+                    },
+                    "awakenLevel": {
+                        "type": "number"
+                    },
+                    "criticalChance": {
+                        "type": "number"
+                    },
+                    "criticalDamage": {
+                        "type": "number"
+                    },
+                    "criticalHeal": {
+                        "type": "number"
+                    },
+                    "defense": {
+                        "type": "number"
+                    },
+                    "element": {
+                        "type": "string"
+                    },
+                    "fraction": {
+                        "type": "string"
+                    },
+                    "grade": {
+                        "enum": [
+                            "Stars1",
+                            "Stars2",
+                            "Stars3",
+                            "Stars4",
+                            "Stars5",
+                            "Stars6"
+                        ],
+                        "type": "string"
+                    },
+                    "health": {
+                        "type": "number"
+                    },
+                    "inStorage": {
+                        "type": "boolean"
+                    },
+                    "level": {
+                        "type": "number"
+                    },
+                    "locked": {
+                        "type": "boolean"
+                    },
+                    "masteries": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "rarity": {
+                        "type": "string"
+                    },
+                    "resistance": {
+                        "type": "number"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "speed": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "accuracy",
+                    "attack",
+                    "awakenLevel",
+                    "criticalChance",
+                    "criticalDamage",
+                    "criticalHeal",
+                    "defense",
+                    "element",
+                    "fraction",
+                    "grade",
+                    "health",
+                    "inStorage",
+                    "level",
+                    "locked",
+                    "masteries",
+                    "name",
+                    "rarity",
+                    "resistance",
+                    "role",
+                    "speed"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "artifacts",
+        "heroes"
+    ],
+    "type": "object"
+}
+

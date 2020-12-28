@@ -1,7 +1,7 @@
-import classNames from "classnames";
 import React from "react";
+import { Form } from "react-bootstrap";
 
-interface RadioButtonsProps {
+interface IRadioButtonsProps {
   options: {
     value: string | number;
     text: string | JSX.Element;
@@ -13,41 +13,32 @@ interface RadioButtonsProps {
   inline?: boolean;
 }
 
-export default ({
+const RadioButtons = ({
   name,
   options,
   selectedOption,
   onChange,
   inline,
-}: RadioButtonsProps): JSX.Element => {
+}: IRadioButtonsProps): JSX.Element => {
   return (
     <>
       {options.map((option) => (
-        <div
-          key={option.value}
-          className={classNames("form-check custom-control custom-radio", {
-            "custom-control-inline": inline,
-          })}
-        >
-          <input
-            type="radio"
-            id={String(option.value)}
-            name={name}
-            className="custom-control-input"
-            onChange={() => {
-              onChange(option.value);
-            }}
-            checked={option.value === selectedOption}
-            disabled={option.disabled}
-          />
-          <label
-            className="custom-control-label"
-            htmlFor={String(option.value)}
-          >
-            {option.text}
-          </label>
-        </div>
+        <Form.Check
+          key={`${name}-${option.value}`}
+          custom
+          inline={inline}
+          id={`${name}-${option.value}`}
+          label={option.text}
+          type="radio"
+          onChange={() => {
+            onChange(option.value);
+          }}
+          checked={option.value === selectedOption}
+          disabled={option.disabled}
+        />
       ))}
     </>
   );
 };
+
+export default RadioButtons;

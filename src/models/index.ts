@@ -1,6 +1,6 @@
 export * from "./Artifact";
 export * from "./Champion";
-export * from "./ChampionsList";
+export * from "./ChampionConfiguration";
 export * from "./Clans";
 export * from "./Configuration";
 export * from "./Errors";
@@ -8,6 +8,7 @@ export * from "./Orderable";
 export * from "./Quality";
 export * from "./Redux";
 export * from "./Results";
+export * from "./Service";
 export * from "./Sets";
 export * from "./Slots";
 export * from "./Stat";

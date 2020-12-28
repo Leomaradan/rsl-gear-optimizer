@@ -1,21 +1,31 @@
-import { Champion } from "./Champion";
-import { Artifact } from "./Artifact";
-import { ArtifactsDisplayMode, GenerationMethod } from "./Configuration";
-import { Results, ResultsStatus } from "./Results";
+import type { IChampionConfiguration } from "./ChampionConfiguration";
+import type { IArtifact } from "./Artifact";
+import type {
+  IArenaRank,
+  IArtifactsDisplayMode,
+  IGenerationMethod,
+  IGreatHallBonus,
+} from "./Configuration";
+import type { IResults, IResultsStatus } from "./Results";
+import type { IChampion } from "./Champion";
 
-export interface ResultsState {
-  data: Results[];
-  status: ResultsStatus;
+export interface IResultsState {
+  data: IResults[];
+  status: IResultsStatus;
 }
 
-export interface ConfigurationState {
-  artifactsDisplay: ArtifactsDisplayMode;
+export interface IConfigurationState {
+  artifactsDisplay: IArtifactsDisplayMode;
   excludeWornArtifact: boolean;
-  generationMethod: GenerationMethod;
+  generationMethod: IGenerationMethod;
+  greatHallBonus: IGreatHallBonus;
+  arenaRank: IArenaRank;
 }
 
-export type ConfigurationOptions = keyof ConfigurationState;
+export type IConfigurationOptions = keyof IConfigurationState;
 
-export type ChampionsState = Champion[];
+export type IChampionConfigurationsState = IChampionConfiguration[];
 
-export type ArtifactsState = Artifact[];
+export type IChampionsState = IChampion[];
+
+export type IArtifactsState = IArtifact[];
