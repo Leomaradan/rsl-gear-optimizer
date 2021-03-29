@@ -6,7 +6,7 @@
     },
     {
       "fileMatch": ["raidextract.json"],
-      "url": "./config/raidextract-schema.json"
+      "url": "./src/process/raidextract-schema.json"
     }
   ]
 }

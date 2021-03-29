@@ -8,6 +8,7 @@ import { useLanguage } from "lang/LanguageContext";
 import { loadChampions } from "redux/championsSlice";
 import logger from "process/logger";
 import Backup1Schema from "process/backup-schema.json";
+import RaidExtractSchema from "process/raidextract-schema.json";
 import { RarityFromString, ExistingSlotsAccessories } from "data";
 import type {
   IChampionDraft,
@@ -62,45 +63,45 @@ type IArtifactJsonStat =
   | "Defense";
 
 type IArtifactJsonSet =
-  | "LifeDrain"
-  | "AttackPower"
-  | "Hp"
-  | "None"
-  | "AttackSpeed"
-  | "DotRate"
-  | "ShieldAndHp"
   | "Accuracy"
+  | "AccuracyAndSpeed"
   | "AoeDamageDecrease"
-  | "Counterattack"
-  | "SleepChance"
-  | "CounterattackOnCrit"
-  | "Defense"
-  | "Resistance"
-  | "CriticalChance"
-  | "ProvokeChance"
-  | "Heal"
+  | "AttackPower"
   | "AttackPowerAndIgnoreDefense"
-  | "DecreaseMaxHp"
-  | "Shield"
-  | "GetExtraTurn"
-  | "HpAndHeal"
+  | "AttackSpeed"
+  | "BlockDebuff"
   | "BlockHealChance"
-  | "StunChance"
-  | "DamageIncreaseOnHpDecrease"
-  | "IgnoreDefense"
+  | "BlockReflectDebuffAndHpAndDef"
+  | "CooldownReductionChance"
+  | "Counterattack"
+  | "CounterattackOnCrit"
+  | "CriticalChance"
   | "CriticalDamage"
   | "CriticalHealMultiplier"
-  | "CooldownReductionChance"
-  | "ShieldAndAttackPower"
-  | "BlockDebuff"
+  | "DamageIncreaseOnHpDecrease"
+  | "DecreaseMaxHp"
+  | "Defense"
+  | "DotRate"
   | "FreezeRateOnDamageReceived"
-  | "UnkillableAndSpdAndCrDmg"
+  | "GetExtraTurn"
+  | "Heal"
+  | "Hp"
   | "HpAndDefence"
-  | "AccuracyAndSpeed"
-  | "Stamina"
-  | "BlockReflectDebuffAndHpAndDef"
+  | "HpAndHeal"
+  | "IgnoreDefense"
+  | "LifeDrain"
+  | "None"
+  | "ProvokeChance"
+  | "Resistance"
+  | "Shield"
+  | "ShieldAndAttackPower"
+  | "ShieldAndCriticalChance"
+  | "ShieldAndHp"
   | "ShieldAndSpeed"
-  | "ShieldAndCriticalChance";
+  | "SleepChance"
+  | "Stamina"
+  | "StunChance"
+  | "UnkillableAndSpdAndCrDmg";
 
 type IWornList = { [key: number]: string };
 type IArtifactJson = {
@@ -552,12 +553,28 @@ const ImportExport = (): JSX.Element => {
     try {
       const json: IRaidExtractJson = JSON.parse(textareaRaidExtract);
 
+      const validate = validator.validate(json, RaidExtractSchema);
+
+      const errorArtifacts = validate.errors
+        .filter((error) => error.path[0] === "artifacts")
+        .map((error) => error.path[1] as number);
+      const errorChampions = validate.errors
+        .filter((error) => error.path[0] === "heroes")
+        .map((error) => error.path[1] as number);
+
+      const validArtifacts = json.artifacts.filter(
+        (_, index) => !errorArtifacts.includes(index)
+      );
+      const validChampions = json.heroes.filter(
+        (_, index) => !errorChampions.includes(index)
+      );
+
       const { champions: importedChampions, wornList } = importChampion(
-        json.heroes
+        validChampions
       );
 
       const newArtifacts: IArtifact[] = [];
-      json.artifacts.forEach((artifact: IArtifactJson) => {
+      validArtifacts.forEach((artifact: IArtifactJson) => {
         const newArtifact = generateArtifact(
           artifact as IArtifactJson,
           wornList
@@ -698,7 +715,7 @@ const ImportExport = (): JSX.Element => {
               <p>{lang.ui.message.raidExtractHelp}</p>
               <Button
                 variant="info"
-                href="https://github.com/Da-Teach/RaidExtractor/releases/latest"
+                href="https://github.com/LukeCroteau/RaidExtractor/releases/latest"
                 target="_blank"
               >
                 RaidExtract
