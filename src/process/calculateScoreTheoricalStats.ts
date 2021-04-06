@@ -1,7 +1,7 @@
 import calculateScoreRealStats from "./calculateScoreRealStats";
 import generateTheoricalArtifact from "./generateTheoricalArtifact";
 
-import type { IChampionConfiguration, IArtifact } from "models";
+import type { IArtifact, IChampionConfiguration } from "../models";
 
 const calculateScoreTheoricalStats = (
   baseArtifact: IArtifact,

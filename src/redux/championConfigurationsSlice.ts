@@ -1,8 +1,8 @@
 import type {
-  IChampionConfigurationsState,
   IChampionConfiguration,
-} from "models";
-import reorder from "process/reorder";
+  IChampionConfigurationsState,
+} from "../models";
+import reorder from "../process/reorder";
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
@@ -37,9 +37,23 @@ const getLastOrder = (state: IChampionConfigurationsState) =>
   }, 0);
 
 const championConfigurationsSlice = createSlice({
-  name: "championConfigurations",
   initialState,
+  name: "championConfigurations",
   reducers: {
+    createChampionConfigurations: (state, action: IChampionsCreateAction) => {
+      const lastOrder = getLastOrder(state);
+
+      const newChampion: IChampionConfiguration = {
+        ...action.payload.championConfiguration,
+        Activated: true,
+        Guid: uuidv4(),
+        order: lastOrder + 1,
+      };
+
+      state.push(newChampion);
+    },
+    deleteChampionConfigurations: (state, action: IChampionsDeleteAction) =>
+      state.filter((i) => i.Guid !== action.payload.id),
     loadChampionConfigurations: (_state, action: IChampionsLoadAction) => {
       const state: IChampionConfigurationsState = [];
 
@@ -55,19 +69,6 @@ const championConfigurationsSlice = createSlice({
       });
 
       return state;
-    },
-    updateChampionConfigurations: (state, action: IChampionsUpdateAction) => {
-      const championIndex = state.findIndex(
-        (i) => i.Guid === action.payload.id
-      );
-
-      if (championIndex !== -1) {
-        // eslint-disable-next-line no-param-reassign
-        state[championIndex] = {
-          ...state[championIndex],
-          ...action.payload.championConfiguration,
-        };
-      }
     },
     reorderChampionConfigurations: (state, action: IChampionsReorderAction) => {
       const flatState: IChampionConfiguration[] = JSON.parse(
@@ -88,19 +89,18 @@ const championConfigurationsSlice = createSlice({
       state.map((i) =>
         i.Guid === action.payload.id ? { ...i, Activated: !i.Activated } : i
       ),
-    deleteChampionConfigurations: (state, action: IChampionsDeleteAction) =>
-      state.filter((i) => i.Guid !== action.payload.id),
-    createChampionConfigurations: (state, action: IChampionsCreateAction) => {
-      const lastOrder = getLastOrder(state);
+    updateChampionConfigurations: (state, action: IChampionsUpdateAction) => {
+      const championIndex = state.findIndex(
+        (i) => i.Guid === action.payload.id
+      );
 
-      const newChampion: IChampionConfiguration = {
-        ...action.payload.championConfiguration,
-        Guid: uuidv4(),
-        order: lastOrder + 1,
-        Activated: true,
-      };
-
-      state.push(newChampion);
+      if (championIndex !== -1) {
+        // eslint-disable-next-line no-param-reassign
+        state[championIndex] = {
+          ...state[championIndex],
+          ...action.payload.championConfiguration,
+        };
+      }
     },
   },
 });
@@ -109,8 +109,8 @@ export const {
   createChampionConfigurations,
   deleteChampionConfigurations,
   loadChampionConfigurations,
-  updateChampionConfigurations,
   reorderChampionConfigurations,
+  updateChampionConfigurations,
 } = championConfigurationsSlice.actions;
 
 export default championConfigurationsSlice.reducer;

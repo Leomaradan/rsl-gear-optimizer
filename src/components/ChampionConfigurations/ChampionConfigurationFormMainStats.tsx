@@ -1,41 +1,40 @@
 import DisplayError from "../UI/DisplayError";
-
-import Stack from "components/UI/Stack";
-import Grid from "components/UI/Grid";
-import { useLanguage } from "lang/LanguageContext";
-import type { ILanguageStat } from "lang/language";
+import Grid from "../UI/Grid";
+import Stack from "../UI/Stack";
 import {
-  GauntletsStatsExeptFlat,
-  ChestplateStatsExeptFlat,
   BootsStatsExeptFlat,
+  ChestplateStatsExeptFlat,
+  GauntletsStatsExeptFlat,
   StatsBySlots,
-} from "data";
-import type { IChampionConfiguration, IErrors, IStat } from "models";
+} from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
+import type { IChampionConfiguration, IErrors, IStat } from "../../models";
 
-import React from "react";
+import type React from "react";
 
 interface IChampionFormMainStatsProps {
-  state: IChampionConfiguration;
-  setState: React.Dispatch<React.SetStateAction<IChampionConfiguration>>;
   errors: IErrors;
+  setState: React.Dispatch<React.SetStateAction<IChampionConfiguration>>;
+  state: IChampionConfiguration;
 }
 
 const ChampionConfigurationFormMainStats = ({
-  state,
-  setState,
   errors,
+  setState,
+  state,
 }: IChampionFormMainStatsProps): JSX.Element => {
   const lang = useLanguage();
 
   const updateMainStats = (
     event: React.ChangeEvent<HTMLInputElement>,
     slot:
-      | "GauntletStats"
-      | "ChestplateStats"
-      | "BootsStats"
-      | "RingsStats"
       | "AmuletsStats"
       | "BannersStats"
+      | "BootsStats"
+      | "ChestplateStats"
+      | "GauntletStats"
+      | "RingsStats"
   ) => {
     const stat = event?.target?.value as IStat;
 
@@ -82,18 +81,18 @@ const ChampionConfigurationFormMainStats = ({
   return (
     <Stack>
       <h2>{lang.slot.Gauntlets}</h2>
-      <DisplayError slot="gauntletStats" errors={errors} />
+      <DisplayError errors={errors} slot="gauntletStats" />
       <Grid columns={4}>
         {GauntletsStatsExeptFlat.map((stat) => {
           return (
             <div className="form-check" key={`gauntlet-${stat}`}>
               <input
+                checked={state.GauntletStats.includes(stat)}
                 className="form-check-input"
-                type="checkbox"
-                value={stat}
                 id={`checkGauntlets-${stat}`}
                 onChange={updateGauntletStats}
-                checked={state.GauntletStats.includes(stat)}
+                type="checkbox"
+                value={stat}
               />
               <label
                 className="form-check-label"
@@ -106,18 +105,18 @@ const ChampionConfigurationFormMainStats = ({
         })}
       </Grid>
       <h2>{lang.slot.Chestplate}</h2>
-      <DisplayError slot="chestplateStats" errors={errors} />
+      <DisplayError errors={errors} slot="chestplateStats" />
       <Grid columns={4}>
         {ChestplateStatsExeptFlat.map((stat) => {
           return (
             <div className="form-check" key={`chestplate-${stat}`}>
               <input
+                checked={state.ChestplateStats.includes(stat)}
                 className="form-check-input"
-                type="checkbox"
-                value={stat}
                 id={`checkChestplate-${stat}`}
                 onChange={updateChestplateStats}
-                checked={state.ChestplateStats.includes(stat)}
+                type="checkbox"
+                value={stat}
               />
               <label
                 className="form-check-label"
@@ -130,18 +129,18 @@ const ChampionConfigurationFormMainStats = ({
         })}
       </Grid>
       <h2>{lang.slot.Boots}</h2>
-      <DisplayError slot="bootsStats" errors={errors} />
+      <DisplayError errors={errors} slot="bootsStats" />
       <Grid columns={4}>
         {BootsStatsExeptFlat.map((stat) => {
           return (
             <div className="form-check" key={`boots-${stat}`}>
               <input
+                checked={state.BootsStats.includes(stat)}
                 className="form-check-input"
-                type="checkbox"
-                value={stat}
                 id={`checkBoots-${stat}`}
                 onChange={updateBootsStats}
-                checked={state.BootsStats.includes(stat)}
+                type="checkbox"
+                value={stat}
               />
               <label
                 className="form-check-label"
@@ -154,18 +153,18 @@ const ChampionConfigurationFormMainStats = ({
         })}
       </Grid>
       <h2>{lang.slot.Ring}</h2>
-      <DisplayError slot="ringsStats" errors={errors} />
+      <DisplayError errors={errors} slot="ringsStats" />
       <Grid columns={4}>
         {StatsBySlots.Ring.map((stat) => {
           return (
             <div className="form-check" key={`rings-${stat}`}>
               <input
+                checked={state.RingsStats && state.RingsStats.includes(stat)}
                 className="form-check-input"
-                type="checkbox"
-                value={stat}
                 id={`checkRings-${stat}`}
                 onChange={updateRingsStats}
-                checked={state.RingsStats && state.RingsStats.includes(stat)}
+                type="checkbox"
+                value={stat}
               />
               <label
                 className="form-check-label"
@@ -178,20 +177,20 @@ const ChampionConfigurationFormMainStats = ({
         })}
       </Grid>
       <h2>{lang.slot.Amulet}</h2>
-      <DisplayError slot="amuletsStats" errors={errors} />
+      <DisplayError errors={errors} slot="amuletsStats" />
       <Grid columns={4}>
         {StatsBySlots.Amulet.map((stat) => {
           return (
             <div className="form-check" key={`amulets-${stat}`}>
               <input
-                className="form-check-input"
-                type="checkbox"
-                value={stat}
-                id={`checkAmulets-${stat}`}
-                onChange={updateAmuletsStats}
                 checked={
                   state.AmuletsStats && state.AmuletsStats.includes(stat)
                 }
+                className="form-check-input"
+                id={`checkAmulets-${stat}`}
+                onChange={updateAmuletsStats}
+                type="checkbox"
+                value={stat}
               />
               <label
                 className="form-check-label"
@@ -204,20 +203,20 @@ const ChampionConfigurationFormMainStats = ({
         })}
       </Grid>
       <h2>{lang.slot.Banner}</h2>
-      <DisplayError slot="bannersStats" errors={errors} />
+      <DisplayError errors={errors} slot="bannersStats" />
       <Grid columns={4}>
         {StatsBySlots.Banner.map((stat) => {
           return (
             <div className="form-check" key={`banners-${stat}`}>
               <input
-                className="form-check-input"
-                type="checkbox"
-                value={stat}
-                id={`checkBanners-${stat}`}
-                onChange={updateBannersStats}
                 checked={
                   state.BannersStats && state.BannersStats.includes(stat)
                 }
+                className="form-check-input"
+                id={`checkBanners-${stat}`}
+                onChange={updateBannersStats}
+                type="checkbox"
+                value={stat}
               />
               <label
                 className="form-check-label"

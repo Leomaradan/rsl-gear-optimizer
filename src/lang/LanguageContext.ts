@@ -1,6 +1,6 @@
 import { ILanguage, dictionaryList } from "./language";
 
-import emptyFunction from "process/emptyFunction";
+import emptyFunction from "../process/emptyFunction";
 
 import { createContext, useContext } from "react";
 

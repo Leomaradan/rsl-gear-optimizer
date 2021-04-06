@@ -1,8 +1,8 @@
 import ArtifactsListGrid from "./ArtifactsListGrid";
 import ArtifactsListTable from "./ArtifactsListTable";
 
-import type { IState } from "redux/reducers";
-import type { IArtifact } from "models";
+import type { IArtifact } from "../../models";
+import type { IState } from "../../redux/reducers";
 
 import React from "react";
 import { useSelector } from "react-redux";
@@ -20,8 +20,14 @@ const sortScore = (artifact: IArtifact) => {
   }
 
   switch (artifact.Slot) {
-    case "Weapon":
-      score += 60000;
+    case "Boots":
+      score += 10000;
+      break;
+    case "Chestplate":
+      score += 20000;
+      break;
+    case "Gauntlets":
+      score += 30000;
       break;
     case "Helmet":
       score += 50000;
@@ -29,35 +35,29 @@ const sortScore = (artifact: IArtifact) => {
     case "Shield":
       score += 40000;
       break;
-    case "Gauntlets":
-      score += 30000;
-      break;
-    case "Chestplate":
-      score += 20000;
-      break;
-    case "Boots":
-      score += 10000;
+    case "Weapon":
+      score += 60000;
       break;
     default:
   }
 
-  score += artifact.Quality * 1000;
+  score += 1000 * artifact.Quality;
 
   switch (artifact.Rarity) {
-    case "Legendary":
-      score += 500;
+    case "Common":
+      score += 100;
       break;
     case "Epic":
       score += 400;
+      break;
+    case "Legendary":
+      score += 500;
       break;
     case "Rare":
       score += 300;
       break;
     case "Uncommon":
       score += 200;
-      break;
-    case "Common":
-      score += 100;
       break;
     default:
   }
@@ -83,6 +83,10 @@ const ArtifactsList = (props: IArtifactsListProps): JSX.Element => {
   ) : (
     <ArtifactsListTable artifacts={sorted} readOnly={readOnly} />
   );
+};
+
+ArtifactsList.defaultProps = {
+  readOnly: false,
 };
 
 export default ArtifactsList;

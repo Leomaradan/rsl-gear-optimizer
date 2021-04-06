@@ -1,23 +1,23 @@
-import StarDisplay from "./StarDisplay";
 import ChampionPortrait from "./ChampionPortrait";
+import StarDisplay from "./StarDisplay";
 import Tooltip from "./Tooltip";
 
-import getColour from "process/getColour";
-import { useLanguage } from "lang/LanguageContext";
-import type { IState } from "redux/reducers";
-import type { ILanguageStat } from "lang/language";
-import { SlotsIconName, SetsIconName } from "data";
-import type { IArtifact, IStat, IStatsFull } from "models";
+import { SetsIconName, SlotsIconName } from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
+import type { IArtifact, IStat, IStatsFull } from "../../models";
+import getColour from "../../process/getColour";
+import type { IState } from "../../redux/reducers";
 
 import React from "react";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 interface IArtifactDisplayProps {
   artifact?: IArtifact;
-  size?: number;
   faded?: boolean;
   showChampion?: false;
+  size?: number;
 }
 
 const ArtifactWrapper = styled.div<{
@@ -67,10 +67,10 @@ const Yellow = styled.span`
 
 const ArtifactDisplay = ({
   artifact,
-  size: baseSize,
   faded,
   showChampion,
-}: IArtifactDisplayProps): JSX.Element => {
+  size,
+}: Required<IArtifactDisplayProps>): JSX.Element => {
   const lang = useLanguage();
 
   const champion = useSelector((state: IState) =>
@@ -84,14 +84,13 @@ const ArtifactDisplay = ({
   const filename = artifact.isAccessory
     ? `FactionAccessories/${artifact.Clan}_${SlotsIconName[artifact.Slot]}`
     : `ItemSets/${SetsIconName[artifact.Set]}_${SlotsIconName[artifact.Slot]}`;
-  const size = baseSize ?? 100;
 
   if (artifact.Rarity === "") {
     return (
-      <ArtifactWrapper artifact={artifact} size={size} faded={!!faded}>
+      <ArtifactWrapper artifact={artifact} faded={!!faded} size={size}>
         <ArtifactImage
-          src="./assets/UnknownItem.jpg"
           alt={`${artifact.Set} ${artifact.Slot}`}
+          src="./assets/UnknownItem.jpg"
         />
       </ArtifactWrapper>
     );
@@ -132,14 +131,14 @@ const ArtifactDisplay = ({
 
   return (
     <Tooltip id={artifact.Guid} text={tooltipMessage}>
-      <ArtifactWrapper artifact={artifact} size={size} faded={!!faded}>
+      <ArtifactWrapper artifact={artifact} faded={!!faded} size={size}>
         <ArtifactImage
-          src={`assets/${filename}.png`}
           alt={`${artifact.Set} ${artifact.Slot}`}
+          src={`assets/${filename}.png`}
         />
         <StarContainer size={size}>
           <StarDisplay
-            size={size / 6 - Math.ceil(size / 20)}
+            width={size / 6 - Math.ceil(size / 20)}
             stars={artifact.Quality}
           />
         </StarContainer>
@@ -155,6 +154,13 @@ const ArtifactDisplay = ({
       </ArtifactWrapper>
     </Tooltip>
   );
+};
+
+ArtifactDisplay.defaultProps = {
+  artifact: undefined,
+  faded: false,
+  showChampion: undefined,
+  size: undefined,
 };
 
 export default ArtifactDisplay;

@@ -1,16 +1,16 @@
-import { FormRow, FormInput, FormLabel } from "./Layout";
+import { FormInput, FormLabel, FormRow } from "./Layout";
 
-import LanguageSelector from "components/UI/LanguageSelector";
-import RadioButtons from "components/UI/RadioButtons";
-import { useLanguage } from "lang/LanguageContext";
-import { setOption } from "redux/configurationSlice";
-import type { IState } from "redux/reducers";
-import Toggle from "components/UI/Toggle";
-import type { IArtifactsDisplayMode, IGenerationMethod } from "models";
-import Popover from "components/UI/Popover";
+import LanguageSelector from "../UI/LanguageSelector";
+import Popover from "../UI/Popover";
+import RadioButtons from "../UI/RadioButtons";
+import Toggle from "../UI/Toggle";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IArtifactsDisplayMode, IGenerationMethod } from "../../models";
+import { setOption } from "../../redux/configurationSlice";
+import type { IState } from "../../redux/reducers";
 
-import { useDispatch, useSelector } from "react-redux";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Configuration = (): JSX.Element => {
   const lang = useLanguage();
@@ -74,7 +74,6 @@ const Configuration = (): JSX.Element => {
             <RadioButtons
               name="selectGenerationMethods"
               onChange={handleChangeGenerationMethod}
-              selectedOption={configuration.generationMethod}
               options={[
                 {
                   text: (
@@ -116,6 +115,7 @@ const Configuration = (): JSX.Element => {
                   value: "TheoricalValue",
                 },
               ]}
+              selectedOption={configuration.generationMethod}
             />
           </FormInput>
         </FormRow>
@@ -123,10 +123,9 @@ const Configuration = (): JSX.Element => {
           <FormLabel>{lang.ui.title.artifactsDisplayMode}</FormLabel>
           <FormInput>
             <RadioButtons
+              inline
               name="selectArtifactDisplayMode"
               onChange={handleChangeArtifactDisplay}
-              selectedOption={configuration.artifactsDisplay}
-              inline
               options={[
                 {
                   text: lang.ui.option.artifactsDisplayAsTable,
@@ -137,6 +136,7 @@ const Configuration = (): JSX.Element => {
                   value: "Grid",
                 },
               ]}
+              selectedOption={configuration.artifactsDisplay}
             />
           </FormInput>
         </FormRow>

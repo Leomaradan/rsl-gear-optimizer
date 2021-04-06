@@ -1,12 +1,12 @@
 import getStatPriority from "./getStatPriority";
 
 import type {
-  IStars,
+  IArtifact,
   IChampionConfiguration,
+  IStars,
   IStat,
   IStatsFull,
-  IArtifact,
-} from "models";
+} from "../models";
 
 const statsWeight = (stats: IStat, quality: IStars) => {
   switch (stats) {
@@ -22,21 +22,6 @@ const statsWeight = (stats: IStat, quality: IStars) => {
           return 0.5;
       }
 
-    case "HP%":
-    case "ATK%":
-    case "DEF%":
-    case "C.RATE":
-      return 0.5;
-    case "C.DMG":
-      switch (quality) {
-        case 4:
-          return 0.61;
-        case 5:
-          return 0.65;
-        case 6:
-        default:
-          return 0.665;
-      }
     case "ACC":
     case "RESI":
       switch (quality) {
@@ -60,6 +45,21 @@ const statsWeight = (stats: IStat, quality: IStars) => {
           return 2.2;
         default:
           return 2.58;
+      }
+    case "ATK%":
+    case "C.RATE":
+    case "DEF%":
+    case "HP%":
+      return 0.5;
+    case "C.DMG":
+      switch (quality) {
+        case 4:
+          return 0.61;
+        case 5:
+          return 0.65;
+        case 6:
+        default:
+          return 0.665;
       }
     case "HP":
       switch (quality) {

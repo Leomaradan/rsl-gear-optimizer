@@ -1,16 +1,16 @@
-import { useLanguage } from "lang/LanguageContext";
+import { useLanguage } from "../../lang/LanguageContext";
 
 import React from "react";
+import { Button, Modal as BtModal } from "react-bootstrap";
 import styled from "styled-components";
-import { Modal as BtModal, Button } from "react-bootstrap";
 
 interface IModalProps {
-  title: JSX.Element | string;
   content: JSX.Element;
-  show: boolean;
-  onSave?(): void;
-  onClose(): void;
   moreButtons?: { title: string; variant?: string; action: () => void }[];
+  show: boolean;
+  title: JSX.Element | string;
+  onClose(): void;
+  onSave?(): void;
 }
 
 const ModalBody = styled(BtModal.Body)`
@@ -18,28 +18,28 @@ const ModalBody = styled(BtModal.Body)`
 `;
 
 const Modal = ({
-  title,
   content,
-  show,
+  moreButtons,
   onClose,
   onSave,
-  moreButtons,
+  show,
+  title,
 }: IModalProps): JSX.Element => {
   const lang = useLanguage();
 
   return (
-    <BtModal size="xl" show={show} onHide={onClose}>
+    <BtModal onHide={onClose} show={show} size="xl">
       <BtModal.Header>
         <BtModal.Title>{title}</BtModal.Title>
       </BtModal.Header>
 
       <ModalBody>{content}</ModalBody>
       <BtModal.Footer className="modal-footer">
-        <Button variant="secondary" onClick={onClose}>
+        <Button onClick={onClose} variant="secondary">
           {lang.ui.common.close}
         </Button>
         {onSave && (
-          <Button variant="primary" onClick={onSave}>
+          <Button onClick={onSave} variant="primary">
             {lang.ui.common.save}
           </Button>
         )}
@@ -47,8 +47,8 @@ const Modal = ({
           moreButtons.map((button) => (
             <Button
               key={button.title}
-              variant={button.variant ?? "primary"}
               onClick={button.action}
+              variant={button.variant ?? "primary"}
             >
               {button.title}
             </Button>
@@ -56,6 +56,11 @@ const Modal = ({
       </BtModal.Footer>
     </BtModal>
   );
+};
+
+Modal.defaultProps = {
+  moreButtons: [],
+  onSave: undefined,
 };
 
 export default Modal;

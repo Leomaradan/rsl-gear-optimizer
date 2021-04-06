@@ -1,22 +1,22 @@
-import { FormRow, FormInput, FormLabel } from "./Layout";
+import { FormInput, FormLabel, FormRow } from "./Layout";
 
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
+import Wrapper from "../UI/Wrapper";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageAffinity } from "../../lang/language";
 import type {
   IChampionAffinity,
   IGreatHallBonus,
   IGreatHallBonusAffinity,
-} from "models";
-import { setOption } from "redux/configurationSlice";
-import type { IState } from "redux/reducers";
-import Modal from "components/UI/Modal";
-import Stack from "components/UI/Stack";
-import Wrapper from "components/UI/Wrapper";
-import { useLanguage } from "lang/LanguageContext";
-import type { ILanguageAffinity } from "lang/language";
+} from "../../models";
+import { setOption } from "../../redux/configurationSlice";
+import type { IState } from "../../redux/reducers";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Button, Table } from "react-bootstrap";
 import { Dash, Plus } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
 
 const GameProgression = (): JSX.Element => {
   const configuration = useSelector((state: IState) => state.configuration);
@@ -87,9 +87,9 @@ const GameProgression = (): JSX.Element => {
           <FormLabel>{lang.ui.title.arenaRank}</FormLabel>
           <FormInput>
             <select
+              className="custom-select"
               onChange={handleChangeArenaRank}
               value={configuration.arenaRank}
-              className="custom-select"
             >
               <option value="B1">{lang.arena.bronze1}</option>
               <option value="B2">{lang.arena.bronze2}</option>
@@ -110,11 +110,10 @@ const GameProgression = (): JSX.Element => {
         <FormRow>
           <FormLabel>{lang.ui.title.greatHall}</FormLabel>
           <FormInput>
-            <Button variant="success" onClick={handleShow}>
+            <Button onClick={handleShow} variant="success">
               {lang.ui.message.greatHallBonus} {greatHallLevel}
             </Button>
             <Modal
-              title={`${lang.ui.message.greatHallBonus} ${greatHallLevel}`}
               content={
                 <Table variant="dark" striped bordered hover>
                   <thead>
@@ -187,9 +186,10 @@ const GameProgression = (): JSX.Element => {
                   </tbody>
                 </Table>
               }
-              show={showModal}
-              onSave={handleChangeGreatHall}
               onClose={handleClose}
+              onSave={handleChangeGreatHall}
+              show={showModal}
+              title={`${lang.ui.message.greatHallBonus} ${greatHallLevel}`}
             />
           </FormInput>
         </FormRow>

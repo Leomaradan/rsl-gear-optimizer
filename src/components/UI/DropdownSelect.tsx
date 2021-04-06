@@ -1,53 +1,53 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React from "react";
 import Downshift from "downshift";
+import React from "react";
 import { Dropdown } from "react-bootstrap";
 
 export interface IDropdownSelectItem {
-  value: string;
   text: string;
+  value: string;
 }
 
 type IGetClearCallback = (clear: () => void) => void;
 interface IDropdownSelectProps {
-  items: IDropdownSelectItem[];
-  value?: string;
-  onChange(value: IDropdownSelectItem | null): void;
+  disabled?: boolean;
   getClear?: IGetClearCallback;
   id?: string;
-  disabled?: boolean;
+  items: IDropdownSelectItem[];
   required?: boolean;
+  value?: string;
+  onChange(value: null | IDropdownSelectItem): void;
 }
 
 const DropdownSelect = ({
+  disabled,
+  getClear,
+  id,
   items,
   onChange,
-  getClear,
-  value,
-  id,
-  disabled,
   required,
+  value,
 }: IDropdownSelectProps): JSX.Element => {
   const initialSelectedItem = items.find((i) => i.value === value);
 
   return (
     <Downshift
       id={id}
+      initialSelectedItem={initialSelectedItem}
+      itemToString={(item) => (item ? item.text : "")}
       onChange={(selection: IDropdownSelectItem | null) =>
         onChange(selection ?? null)
       }
-      itemToString={(item) => (item ? item.text : "")}
-      initialSelectedItem={initialSelectedItem}
     >
       {({
+        clearSelection,
         getInputProps,
         getItemProps,
-        isOpen,
-        inputValue,
-        selectedItem,
         getRootProps,
-        clearSelection,
+        inputValue,
+        isOpen,
+        selectedItem,
       }) => {
         if (getClear) {
           getClear(() => {
@@ -72,20 +72,21 @@ const DropdownSelect = ({
             </div>
             <div className="btn-group">
               {isOpen ? (
-                <div style={{ display: "block" }} className="dropdown-menu">
+                <div className="dropdown-menu" style={{ display: "block" }}>
                   {items
-                    .filter(
-                      (item) =>
+                    .filter((item) => {
+                      return (
                         !inputValue ||
                         item.text
                           .toLowerCase()
                           .includes(inputValue.toLowerCase())
-                    )
+                      );
+                    })
                     .slice(0, 5)
                     .map((item, index) => (
                       <Dropdown.Item
-                        key={item.value}
                         active={selectedItem === item}
+                        key={item.value}
                         {...getItemProps({
                           key: item.value,
                           index,
@@ -103,6 +104,14 @@ const DropdownSelect = ({
       }}
     </Downshift>
   );
+};
+
+DropdownSelect.defaultProps = {
+  disabled: false,
+  getClear: undefined,
+  id: undefined,
+  required: false,
+  value: "",
 };
 
 export default DropdownSelect;

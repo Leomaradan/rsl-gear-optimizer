@@ -1,16 +1,17 @@
 import LanguageContext, {
   ILanguageContextDefinition,
-} from "lang/LanguageContext";
-import { languageOptions } from "lang/language";
+} from "../../lang/LanguageContext";
+import { languageOptions } from "../../lang/language";
 
-import React, { ChangeEvent, useContext, useEffect } from "react";
 import localforage from "localforage";
+import React, { ChangeEvent, useContext, useEffect } from "react";
 import { Form } from "react-bootstrap";
 
 const LanguageSelector = (): JSX.Element => {
-  const { userLanguage, userLanguageChange } = useContext<
-    ILanguageContextDefinition
-  >(LanguageContext);
+  const {
+    userLanguage,
+    userLanguageChange,
+  } = useContext<ILanguageContextDefinition>(LanguageContext);
 
   const handleLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,16 +1,16 @@
 import ArtifactEditTable from "./ArtifactEditTable";
 
-import type { IArtifact, IStat, IStatsFull } from "models";
-import Wrapper from "components/UI/Wrapper";
-import { useLanguage } from "lang/LanguageContext";
-import ChampionPortrait from "components/UI/ChampionPortrait";
-import ArtifactDisplay from "components/UI/ArtifactDisplay";
-import type { IState } from "redux/reducers";
-import type { ILanguageStat } from "lang/language";
+import ArtifactDisplay from "../UI/ArtifactDisplay";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import Wrapper from "../UI/Wrapper";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
+import type { IArtifact, IStat, IStatsFull } from "../../models";
+import type { IState } from "../../redux/reducers";
 
-import styled from "styled-components";
 import React from "react";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 interface IArtifactsListRowProps {
   artifact: IArtifact;
@@ -78,6 +78,10 @@ const ArtifactsListRow = (props: IArtifactsListRowProps): JSX.Element => {
       )}
     </tr>
   );
+};
+
+ArtifactsListRow.defaultProps = {
+  readOnly: false,
 };
 
 export default ArtifactsListRow;

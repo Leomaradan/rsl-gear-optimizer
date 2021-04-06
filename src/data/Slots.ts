@@ -1,4 +1,4 @@
-import type { ISlots } from "models";
+import type { ISlots } from "../models";
 
 export const ExistingSlotsAccessories: ISlots[] = ["Ring", "Amulet", "Banner"];
 

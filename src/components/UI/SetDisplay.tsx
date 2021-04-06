@@ -1,9 +1,9 @@
 import Tooltip from "./Tooltip";
 
-import { useLanguage } from "lang/LanguageContext";
-import type { ISets } from "models";
-import type { ILanguageSet } from "lang/language";
-import { SetsIconName } from "data";
+import { SetsIconName } from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageSet } from "../../lang/language";
+import type { ISets } from "../../models";
 
 import React from "react";
 import styled from "styled-components";
@@ -22,12 +22,16 @@ const SetDisplay = ({ set, size }: ISetDisplayProps): JSX.Element => {
   return (
     <Tooltip id={set} text={lang.set[set as keyof ILanguageSet]}>
       <Image
+        alt={`${set}`}
         size={size}
         src={`assets/ItemSetIcons/${SetsIconName[set]}.png`}
-        alt={`${set}`}
       />
     </Tooltip>
   );
+};
+
+SetDisplay.defaultProps = {
+  size: undefined,
 };
 
 export default SetDisplay;

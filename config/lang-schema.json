@@ -3066,6 +3066,9 @@
                 "mainStatsValue": {
                     "type": "string"
                 },
+                "masteries": {
+                    "type": "string"
+                },
                 "method": {
                     "type": "string"
                 },
@@ -3198,6 +3201,7 @@
                 "logout",
                 "mainStats",
                 "mainStatsValue",
+                "masteries",
                 "method",
                 "newStats",
                 "numberOfArtifacts",

@@ -2,43 +2,47 @@ import React from "react";
 import { Form } from "react-bootstrap";
 
 interface IRadioButtonsProps {
+  inline?: boolean;
+  name: string;
   options: {
     value: string | number;
     text: string | JSX.Element;
     disabled?: boolean;
   }[];
-  selectedOption: string | number;
-  name: string;
-  onChange(newValue: string | number): void;
-  inline?: boolean;
+  selectedOption: number | string;
+  onChange(newValue: number | string): void;
 }
 
 const RadioButtons = ({
+  inline,
   name,
+  onChange,
   options,
   selectedOption,
-  onChange,
-  inline,
 }: IRadioButtonsProps): JSX.Element => {
   return (
     <>
       {options.map((option) => (
         <Form.Check
-          key={`${name}-${option.value}`}
+          checked={option.value === selectedOption}
           custom
-          inline={inline}
+          disabled={option.disabled}
           id={`${name}-${option.value}`}
+          inline={inline}
+          key={`${name}-${option.value}`}
           label={option.text}
-          type="radio"
           onChange={() => {
             onChange(option.value);
           }}
-          checked={option.value === selectedOption}
-          disabled={option.disabled}
+          type="radio"
         />
       ))}
     </>
   );
+};
+
+RadioButtons.defaultProps = {
+  inline: false,
 };
 
 export default RadioButtons;

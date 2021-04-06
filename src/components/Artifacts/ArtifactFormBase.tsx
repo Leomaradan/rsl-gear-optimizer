@@ -1,33 +1,31 @@
-import QualitySelector from "./QualitySelector";
 import type { IArtifactFormSubProps } from "./ArtifactForm";
+import QualitySelector from "./QualitySelector";
 
-import DisplayError from "components/UI/DisplayError";
-import DropdownSelect, {
-  IDropdownSelectItem,
-} from "components/UI/DropdownSelect";
+import DisplayError from "../UI/DisplayError";
+import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
+import Wrapper from "../UI/Wrapper";
+import {
+  ExistingSlotsAccessories,
+  ExistingSlotsArtifacts,
+  SortedExistingClans,
+  SortedExistingSets,
+  StatsBySlots,
+} from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
 import type {
   ILanguageChampion,
   ILanguageClan,
   ILanguageSet,
   ILanguageSlot,
-} from "lang/language";
-import { useLanguage } from "lang/LanguageContext";
-import type { IArtifact, ISlots, IStars } from "models";
-import type { IState } from "redux/reducers";
-import {
-  StatsBySlots,
-  SortedExistingSets,
-  SortedExistingClans,
-  ExistingSlotsAccessories,
-  ExistingSlotsArtifacts,
-} from "data";
-import Wrapper from "components/UI/Wrapper";
+} from "../../lang/language";
+import type { IArtifact, ISlots, IStars } from "../../models";
+import type { IState } from "../../redux/reducers";
 
 import { useDebounceCallback } from "@react-hook/debounce";
 import React, { useMemo } from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import { Button, Form, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 const ChampionWrapper = styled(Wrapper)`
   & > div {
@@ -46,16 +44,16 @@ const Label = styled.label.attrs(() => ({
 }))``;
 
 const ArtifactFormBase = ({
-  state,
-  setState,
   errors,
   lockedFields,
+  setState,
+  state,
 }: IArtifactFormSubProps): JSX.Element => {
   const lang = useLanguage();
 
   const champions = useSelector((redux: IState) => redux.champions);
 
-  const updateNewArtifact = (key: keyof IArtifact, value: string | number) => {
+  const updateNewArtifact = (key: keyof IArtifact, value: number | string) => {
     setState((current) => ({ ...current, [key]: value }));
   };
 
@@ -106,8 +104,8 @@ const ArtifactFormBase = ({
   const selectList = useMemo(
     () =>
       champions.map((c) => ({
-        value: c.Guid,
         text: lang.champion[c.Name as keyof ILanguageChampion],
+        value: c.Guid,
       })),
     [lang, champions]
   );
@@ -152,11 +150,11 @@ const ArtifactFormBase = ({
         <LargeCell>
           <Form.Control
             as="select"
-            size="sm"
             custom
-            onChange={onChangeSlot}
             disabled={lockedFields.includes("Slot")}
+            onChange={onChangeSlot}
             required
+            size="sm"
             value={state.Slot}
           >
             {AvailableSlots.map((slot) => (
@@ -165,7 +163,7 @@ const ArtifactFormBase = ({
               </option>
             ))}
           </Form.Control>
-          <DisplayError slot="Slot" errors={errors} />
+          <DisplayError errors={errors} slot="Slot" />
         </LargeCell>
         <Label>
           {lang.ui.title.champion} ({lang.ui.common.optional})
@@ -173,22 +171,22 @@ const ArtifactFormBase = ({
         <LargeCell>
           <ChampionWrapper>
             <DropdownSelect
-              items={selectList}
-              value={state.Champion ?? ""}
-              getClear={getClearDownshift}
-              onChange={onChangeChampion}
               disabled={lockedFields.includes("Champion")}
+              getClear={getClearDownshift}
+              items={selectList}
+              onChange={onChangeChampion}
+              value={state.Champion ?? ""}
             />
             <Button
-              size="sm"
-              onClick={onEmptyChampion}
               disabled={lockedFields.includes("Champion")}
+              onClick={onEmptyChampion}
+              size="sm"
               // eslint-disable-next-line react/jsx-no-literals
             >
               X
             </Button>
           </ChampionWrapper>
-          <DisplayError slot="Champion" errors={errors} />
+          <DisplayError errors={errors} slot="Champion" />
         </LargeCell>
       </Form.Group>
 
@@ -197,11 +195,11 @@ const ArtifactFormBase = ({
         <LargeCell>
           <Form.Control
             as="select"
-            size="sm"
             custom
-            required
-            onChange={onChangeRarity}
             disabled={lockedFields.includes("Rarity")}
+            onChange={onChangeRarity}
+            required
+            size="sm"
             value={state.Rarity}
           >
             <option value="Common">{lang.rarity.Common}</option>
@@ -210,16 +208,16 @@ const ArtifactFormBase = ({
             <option value="Epic">{lang.rarity.Epic}</option>
             <option value="Legendary">{lang.rarity.Legendary}</option>
           </Form.Control>
-          <DisplayError slot="Rarity" errors={errors} />
+          <DisplayError errors={errors} slot="Rarity" />
         </LargeCell>
         <Label>{lang.ui.title.quality}</Label>
         <LargeCell>
           <QualitySelector
-            onChange={onChangeQuality}
             currentQuality={state.Quality}
             disabled={lockedFields.includes("Quality")}
+            onChange={onChangeQuality}
           />
-          <DisplayError slot="Quality" errors={errors} />
+          <DisplayError errors={errors} slot="Quality" />
         </LargeCell>
       </Form.Group>
 
@@ -229,14 +227,14 @@ const ArtifactFormBase = ({
             <Label>{lang.ui.title.clan}</Label>
             <LargeCell>
               <DropdownSelect
+                disabled={lockedFields.includes("Clan")}
                 id="selectClan"
                 items={listClans}
                 onChange={onChangeClan}
-                value={state.Clan}
                 required
-                disabled={lockedFields.includes("Clan")}
+                value={state.Clan}
               />
-              <DisplayError slot="Clan" errors={errors} />
+              <DisplayError errors={errors} slot="Clan" />
             </LargeCell>
           </>
         ) : (
@@ -244,14 +242,14 @@ const ArtifactFormBase = ({
             <Label>{lang.ui.title.set}</Label>
             <LargeCell>
               <DropdownSelect
+                disabled={lockedFields.includes("Set")}
                 id="selectSet"
                 items={listSets}
                 onChange={onChangeSets}
-                value={state.Set}
                 required
-                disabled={lockedFields.includes("Set")}
+                value={state.Set}
               />
-              <DisplayError slot="Set" errors={errors} />
+              <DisplayError errors={errors} slot="Set" />
             </LargeCell>
           </>
         )}
@@ -259,16 +257,16 @@ const ArtifactFormBase = ({
         <Label>{lang.ui.title.level}</Label>
         <LargeCell>
           <Form.Control
-            type="number"
-            size="sm"
-            min={0}
-            max={16}
-            value={level}
-            required
-            onChange={onChangeLevel}
             disabled={lockedFields.includes("Level")}
+            max={16}
+            min={0}
+            onChange={onChangeLevel}
+            required
+            size="sm"
+            type="number"
+            value={level}
           />
-          <DisplayError slot="Level" errors={errors} />
+          <DisplayError errors={errors} slot="Level" />
         </LargeCell>
       </Form.Group>
     </>

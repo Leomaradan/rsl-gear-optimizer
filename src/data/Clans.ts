@@ -1,4 +1,4 @@
-import type { IClans } from "models";
+import type { IClans } from "../models";
 
 export const ExistingClans: IClans[] = [
   "BannerLords",

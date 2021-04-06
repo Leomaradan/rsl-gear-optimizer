@@ -1,25 +1,26 @@
+import Menu from "./Menu";
+import Routes from "./Routes";
+import AuthContext, { IAuthContextDefinition } from "./auth/AuthContext";
 import LanguageContext, {
   ILanguageContextDefinition,
-} from "lang/LanguageContext";
-import AuthContext, { IAuthContextDefinition } from "auth/AuthContext";
-import Menu from "Menu";
-import Routes from "Routes";
+} from "./lang/LanguageContext";
 
 import localforage from "localforage";
-import { Helmet } from "react-helmet-async";
-import styled from "styled-components";
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { Helmet } from "react-helmet-async";
+import { BrowserRouter as Router } from "react-router-dom";
+import styled from "styled-components";
 
 const Main = styled.main`
   padding-top: 100px;
 `;
 
 const App = (): JSX.Element => {
-  const { userLanguageChange, dictionary: lang } = useContext<
-    ILanguageContextDefinition
-  >(LanguageContext);
+  const {
+    dictionary: lang,
+    userLanguageChange,
+  } = useContext<ILanguageContextDefinition>(LanguageContext);
 
   const { setAuthToken } = useContext<IAuthContextDefinition>(AuthContext);
 
@@ -45,8 +46,8 @@ const App = (): JSX.Element => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>{lang.ui.title.siteTitle}</title>
-        <meta name="description" content={lang.ui.title.siteDescription} />
-        <link rel="canonical" href="https://raid-gear-optimizer.com" />
+        <meta content={lang.ui.title.siteDescription} name="description" />
+        <link href="https://raid-gear-optimizer.com" rel="canonical" />
       </Helmet>
       <Router basename={process.env.PUBLIC_URL}>
         <Menu />

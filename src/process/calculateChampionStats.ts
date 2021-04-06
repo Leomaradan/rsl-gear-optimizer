@@ -1,12 +1,12 @@
+import calculateBonus from "./calculateBonus";
+
 import type {
   IArtifact,
   IChampion,
   IGameProgression,
   IGreatHallBonusAffinity,
-  IProfile,
   IStat,
-} from "models";
-import calculateBonus from "process/calculateBonus";
+} from "../models";
 
 const calculateGreatHallStatsPercent = (
   hall: IGreatHallBonusAffinity,
@@ -17,9 +17,9 @@ const calculateGreatHallStatsPercent = (
 
   const bonusRank = hall[stat];
   switch (stat) {
-    case "HP%":
     case "ATK%":
     case "DEF%":
+    case "HP%":
       bonusScale = [0, 2, 3, 4, 6, 8, 10, 12, 14, 17, 20];
       break;
     case "C.DMG":
@@ -92,23 +92,23 @@ const calculateSetBonus = (
 
   sets.forEach((set) => {
     switch (set) {
-      case "Life":
+      case "Cruel":
+      case "DivineOffense":
+      case "Offense":
+        attack += 0.15 * (champion.BaseAttack * multiplier);
+        break;
       case "DivineLife":
       case "Immortal":
-        hp += champion.BaseHP * (0.15 * multiplier);
-        break;
-      case "Offense":
-      case "DivineOffense":
-      case "Cruel":
-        attack += champion.BaseAttack * (0.15 * multiplier);
+      case "Life":
+        hp += 0.15 * (champion.BaseHP * multiplier);
         break;
 
       case "Defense":
-        defense += champion.BaseDefense * (0.15 * multiplier);
+        defense += 0.15 * (champion.BaseDefense * multiplier);
         break;
-      case "Speed":
       case "DivineSpeed":
-        speed += champion.BaseSpeed * (0.12 * multiplier);
+      case "Speed":
+        speed += 0.12 * (champion.BaseSpeed * multiplier);
         break;
 
       case "CriticalRate":
@@ -116,45 +116,45 @@ const calculateSetBonus = (
         criticalRate += 12 * multiplier;
         break;
 
+      case "Accuracy":
+        accuracy += 40 * multiplier;
+        break;
       case "CriticalDamage":
         criticalDamage += 20 * multiplier;
         break;
-      case "Accuracy":
+      case "Deflection":
+        hp += 0.2 * (champion.BaseHP * multiplier);
+        defense += 0.2 * (champion.BaseDefense * multiplier);
+
+        break;
+      case "Perception":
         accuracy += 40 * multiplier;
+        speed += 0.05 * (champion.BaseSpeed * multiplier);
+        break;
+      case "Resilience":
+        hp += 0.1 * (champion.BaseHP * multiplier);
+        defense += 0.1 * champion.BaseDefense * multiplier;
         break;
       case "Resistance":
         resistance += 40 * multiplier;
         break;
       case "SwiftParry":
-        speed += champion.BaseSpeed * (0.18 * multiplier);
+        speed += 0.18 * (champion.BaseSpeed * multiplier);
         criticalDamage += 30 * multiplier;
-        break;
-      case "Deflection":
-        hp += champion.BaseHP * (0.2 * multiplier);
-        defense += champion.BaseDefense * (0.2 * multiplier);
-
-        break;
-      case "Resilience":
-        hp += champion.BaseHP * (0.1 * multiplier);
-        defense += champion.BaseDefense * 0.1 * multiplier;
-        break;
-      case "Perception":
-        accuracy += 40 * multiplier;
-        speed += champion.BaseSpeed * (0.05 * multiplier);
         break;
       default:
     }
   });
 
   return {
-    hp,
-    attack,
-    defense,
-    speed,
-    criticalRate,
-    criticalDamage,
-    resistance,
     accuracy,
+    attack,
+    criticalDamage,
+    criticalRate,
+    defense,
+    hp,
+    resistance,
+    speed,
   };
 };
 
@@ -190,18 +190,6 @@ const calculateChampionStats = (
     case "B4":
       arenaBonus = 4;
       break;
-    case "S1":
-      arenaBonus = 6;
-      break;
-    case "S2":
-      arenaBonus = 8;
-      break;
-    case "S3":
-      arenaBonus = 10;
-      break;
-    case "S4":
-      arenaBonus = 12;
-      break;
     case "G1":
       arenaBonus = 14;
       break;
@@ -216,6 +204,18 @@ const calculateChampionStats = (
       break;
     case "P":
       arenaBonus = 25;
+      break;
+    case "S1":
+      arenaBonus = 6;
+      break;
+    case "S2":
+      arenaBonus = 8;
+      break;
+    case "S3":
+      arenaBonus = 10;
+      break;
+    case "S4":
+      arenaBonus = 12;
       break;
     default:
   }
@@ -366,61 +366,61 @@ const calculateChampionStats = (
     masteryAccuracy;
 
   return {
-    HP: {
-      base: champion.BaseHP,
-      artifacts: artifactHP + setBonus.hp,
-      hall: hallHP,
-      arena: arenaHP,
-      mastery: masteryHP,
-      total: totalHp,
+    ACC: {
+      artifacts: artifactAccuracy + setBonus.accuracy,
+      base: champion.BaseAccuracy,
+      hall: hallAccuracy,
+      mastery: masteryAccuracy,
+      total: totalAccuracy,
     },
     ATK: {
-      base: champion.BaseAttack,
-      artifacts: artifactAttack + setBonus.attack,
-      hall: hallAttack,
       arena: arenaAttack,
+      artifacts: artifactAttack + setBonus.attack,
+      base: champion.BaseAttack,
+      hall: hallAttack,
       mastery: masteryAttack,
       total: totalAttack,
     },
-    DEF: {
-      base: champion.BaseDefense,
-      artifacts: artifactDefense + setBonus.defense,
-      hall: hallDefense,
-      arena: arenaDefense,
-      mastery: masteryDefense,
-      total: totalDefense,
-    },
-    SPD: {
-      base: champion.BaseSpeed,
-      artifacts: artifactSpeed + setBonus.speed,
-      total: totalSpeed,
-    },
-    "C.RATE": {
-      base: champion.BaseCriticalRate,
-      artifacts: artifactCriticalRate + setBonus.criticalRate,
-      mastery: masteryCRate,
-      total: totalCRate,
-    },
     "C.DMG": {
-      base: champion.BaseCriticalDamage,
       artifacts: artifactCriticalDamage + setBonus.criticalDamage,
+      base: champion.BaseCriticalDamage,
       hall: hallCriticalDamage,
       mastery: masteryCDamage,
       total: totalCDamage,
     },
+    "C.RATE": {
+      artifacts: artifactCriticalRate + setBonus.criticalRate,
+      base: champion.BaseCriticalRate,
+      mastery: masteryCRate,
+      total: totalCRate,
+    },
+    DEF: {
+      arena: arenaDefense,
+      artifacts: artifactDefense + setBonus.defense,
+      base: champion.BaseDefense,
+      hall: hallDefense,
+      mastery: masteryDefense,
+      total: totalDefense,
+    },
+    HP: {
+      arena: arenaHP,
+      artifacts: artifactHP + setBonus.hp,
+      base: champion.BaseHP,
+      hall: hallHP,
+      mastery: masteryHP,
+      total: totalHp,
+    },
     RESI: {
-      base: champion.BaseResistance,
       artifacts: artifactResistance + setBonus.resistance,
+      base: champion.BaseResistance,
       hall: hallResistance,
       mastery: masteryResistance,
       total: totalResi,
     },
-    ACC: {
-      base: champion.BaseAccuracy,
-      artifacts: artifactAccuracy + setBonus.accuracy,
-      hall: hallAccuracy,
-      mastery: masteryAccuracy,
-      total: totalAccuracy,
+    SPD: {
+      artifacts: artifactSpeed + setBonus.speed,
+      base: champion.BaseSpeed,
+      total: totalSpeed,
     },
   };
 };

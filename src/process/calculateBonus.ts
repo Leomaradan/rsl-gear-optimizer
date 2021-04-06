@@ -1,5 +1,5 @@
-import { AdvancedSets } from "data";
-import type { IArtifact, ISets } from "models";
+import { AdvancedSets } from "../data";
+import type { IArtifact, ISets } from "../models";
 
 const calculateBonus = (
   artifacts: IArtifact[]
@@ -33,7 +33,7 @@ const calculateBonus = (
     }
   });
 
-  return { sets: activated, complete: pieces === 6 };
+  return { complete: pieces === 6, sets: activated };
 };
 
 export default calculateBonus;

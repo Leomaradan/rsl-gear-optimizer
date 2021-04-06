@@ -1,5 +1,5 @@
-import type { ILanguage } from "lang/language";
-import type { IChampionSetMethod } from "models";
+import type { ILanguage } from "../lang/language";
+import type { IChampionSetMethod } from "../models";
 
 const methodDisplay = (lang: ILanguage, method: IChampionSetMethod): string => {
   if (method === "ListSets") {

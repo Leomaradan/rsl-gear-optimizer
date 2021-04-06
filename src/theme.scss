@@ -2,15 +2,15 @@
 @import url(https://fonts.googleapis.com/css?family=Comfortaa:200,300,400,700);
 $headings-font-family: Comfortaa;
 
+$danger: #ff304f;
+$dark: #000000;
 $enable-grid-classes: true;
+$info: #0f81c7;
+$light: #e8e8e8;
 $primary: #ff550b;
 $secondary: #303030;
 $success: #015668;
-$danger: #ff304f;
-$info: #0f81c7;
 $warning: #0de2ea;
-$light: #e8e8e8;
-$dark: #000000;
 
 /*! Import Bootstrap 4 variables */
 @import "../node_modules/bootstrap/scss/functions";
@@ -90,9 +90,9 @@ html {
 
 /* hidden spacer before sections for proper offset */
 section:before {
-  height: 56px;
   content: "";
   display: block;
+  height: 56px;
 }
 
 /* helpers */

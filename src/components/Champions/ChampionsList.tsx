@@ -1,25 +1,24 @@
 import ChampionDetails from "../ChampionDetails/ChampionDetails";
+import ChampionDisplay from "../UI/ChampionDisplay";
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
+import Toggle from "../UI/Toggle";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguage, ILanguageChampion } from "../../lang/language";
+import type { IChampion, IProfile } from "../../models";
 
-import type { IChampion, IProfile, IStat } from "models";
-import ChampionDisplay from "components/UI/ChampionDisplay";
-import Toggle from "components/UI/Toggle";
-import Modal from "components/UI/Modal";
-import { useLanguage } from "lang/LanguageContext";
-import type { ILanguage, ILanguageChampion } from "lang/language";
-import Stack from "components/UI/Stack";
-
-import styled from "styled-components";
-import { Link, useParams, useHistory } from "react-router-dom";
 import React, { useMemo, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
+import styled from "styled-components";
 
 const getWeightAffinity = (champion: IChampion): number => {
   switch (champion.Affinity) {
+    case "Force":
+      return 200000;
     case "Magic":
       return 400000;
     case "Spirit":
       return 300000;
-    case "Force":
-      return 200000;
     default:
       return 100000;
   }
@@ -42,28 +41,28 @@ const getWeightFaction = (champion: IChampion): number => {
   switch (champion.Clan) {
     case "BannerLords":
       return 1300000;
-    case "HighElves":
-      return 1200000;
-    case "SacredOrder":
-      return 1100000;
     case "Barbarians":
       return 1000000;
-    case "OgrynTribes":
-      return 900000;
-    case "LizardMen":
-      return 800000;
-    case "Skinwalkers":
-      return 700000;
-    case "Orcs":
-      return 600000;
-    case "Demonspawn":
-      return 500000;
-    case "UndeadHordes":
-      return 400000;
     case "DarkElves":
       return 300000;
+    case "Demonspawn":
+      return 500000;
+    case "HighElves":
+      return 1200000;
     case "KnightsRevenant":
       return 200000;
+    case "LizardMen":
+      return 800000;
+    case "OgrynTribes":
+      return 900000;
+    case "Orcs":
+      return 600000;
+    case "SacredOrder":
+      return 1100000;
+    case "Skinwalkers":
+      return 700000;
+    case "UndeadHordes":
+      return 400000;
 
     default:
       return 100000;
@@ -74,11 +73,6 @@ const rankSort = (champion: IChampion, criteria?: ISortMethods) => {
   let score = champion.Level ?? 0;
 
   switch (criteria) {
-    case "level":
-      // in Level sorting, sort only by level and ignore other criteria
-      return champion.Level ?? 0;
-    case "power":
-      return champion.Power;
     case "ACC":
       return champion.CurrentAccuracy;
     case "ATK":
@@ -101,6 +95,11 @@ const rankSort = (champion: IChampion, criteria?: ISortMethods) => {
     case "faction":
       score += getWeightFaction(champion);
       break;
+    case "level":
+      // in Level sorting, sort only by level and ignore other criteria
+      return champion.Level ?? 0;
+    case "power":
+      return champion.Power;
     case "role":
       score += getWeightRole(champion);
       break;
@@ -109,11 +108,11 @@ const rankSort = (champion: IChampion, criteria?: ISortMethods) => {
   }
 
   switch (champion.Rarity) {
-    case "Legendary":
-      score += 600;
-      break;
     case "Epic":
       score += 500;
+      break;
+    case "Legendary":
+      score += 600;
       break;
     case "Rare":
       score += 400;
@@ -159,26 +158,27 @@ const Col = styled.div.attrs(() => ({ className: "col" }))`
   }
 `;
 
-type IBaseOptions = "rank" | "affinity" | "role" | "faction";
-type IFilters = "sets" | "tags" | IBaseOptions;
+type IBaseOptions = "affinity" | "faction" | "rank" | "role";
+type IFilters = IBaseOptions | "sets" | "tags";
 type ISortMethods =
-  | "level"
-  | "power"
-  | "HP"
-  | "ATK"
-  | "DEF"
-  | "SPD"
-  | "C.RATE"
-  | "C.DMG"
-  | "RESI"
+  | IBaseOptions
   | "ACC"
-  | IBaseOptions;
+  | "ATK"
+  | "C.DMG"
+  | "C.RATE"
+  | "DEF"
+  | "HP"
+  | "RESI"
+  | "SPD"
+  | "level"
+  | "power";
 
 const grouping: ISortMethods[] = ["affinity", "faction", "role"];
 
 const ChampionsList = (profile: IProfile): JSX.Element => {
   const { slug } = useParams<{ slug?: string }>();
   const history = useHistory();
+  const { champions } = profile;
 
   const [sortMethod, updateSortMethod] = useState<ISortMethods>("rank");
   const [group, setGroup] = useState(false);
@@ -191,7 +191,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
 
   const lang = useLanguage();
 
-  const selectedChampion = profile.champions.find((c) => c.Slug === slug);
+  const selectedChampion = champions.find((c) => c.Slug === slug);
 
   const selectedName =
     selectedChampion !== undefined
@@ -199,7 +199,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
       : "";
 
   const sorted = useMemo(() => {
-    const championsToSort = [...profile.champions];
+    const championsToSort = [...champions];
 
     return championsToSort.sort((a, b) => {
       const scoreA = rankSort(a, sortMethod);
@@ -207,7 +207,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
 
       return scoreB - scoreA;
     });
-  }, [profile.champions, sortMethod]);
+  }, [champions, sortMethod]);
 
   const sortedGrouped = useMemo(() => {
     let field: keyof IChampion | "" = "";
@@ -230,7 +230,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
     }
 
     if (!group || field === "") {
-      return [{ text: lang.ui.option.groupAllChampions, champions: sorted }];
+      return [{ champions: sorted, text: lang.ui.option.groupAllChampions }];
     }
 
     const grouped: Record<
@@ -248,7 +248,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
       }
 
       if (!grouped[category]) {
-        grouped[category] = { text, champions: [] };
+        grouped[category] = { champions: [], text };
       }
 
       grouped[category].champions.push(champion);
@@ -288,10 +288,10 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
         </select>
         <Toggle
           currentState={group}
+          disabled={!grouping.includes(sortMethod)}
+          label={lang.ui.option.group}
           name="mustGroup"
           onToggle={setGroup}
-          label={lang.ui.option.group}
-          disabled={!grouping.includes(sortMethod)}
         />
       </Col>
 
@@ -309,7 +309,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
                 const active = selected ? "active" : "";
 
                 return (
-                  <Link key={champion.Guid} to={to} className={active}>
+                  <Link className={active} key={champion.Guid} to={to}>
                     <div>
                       <ChampionDisplay champion={champion} />
                     </div>
@@ -321,7 +321,6 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
         ))}
 
         <Modal
-          title={selectedName}
           content={
             <>
               {selectedChampion && (
@@ -336,6 +335,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
             history.goBack();
           }}
           show={!!selectedChampion}
+          title={selectedName}
         />
       </div>
     </>

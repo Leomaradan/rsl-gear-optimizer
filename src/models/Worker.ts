@@ -1,10 +1,10 @@
 import type { IChampionConfiguration } from "./ChampionConfiguration";
 import type { IArtifact } from "./Artifact";
 import type { IResults } from "./Results";
-import type { IGenerationMethod } from "./Configuration";
+import type { IGameProgression, IGenerationMethod } from "./Configuration";
 import type { IChampion } from "./Champion";
 
-import type { ILanguageUiTask } from "lang/language";
+import type { ILanguageUiTask } from "../lang/language";
 
 type IWorkerCommand<T> = {
   data: T;
@@ -16,6 +16,7 @@ export interface IResultsWorkerCommandGenerate {
   artifacts: IArtifact[];
   generationMethod: IGenerationMethod;
   excludeWornArtifacts: boolean;
+  gameProgression: IGameProgression;
   command: "generate";
 }
 
@@ -38,17 +39,13 @@ interface IResultsWorkerCommandProgress {
   command: "progress";
 }
 
-export type IResultsWorkerEventGenerate = IWorkerCommand<
-  IResultsWorkerCommandGenerate
->;
+export type IResultsWorkerEventGenerate = IWorkerCommand<IResultsWorkerCommandGenerate>;
 
 type IResultsWorkerEventDone = IWorkerCommand<IResultsWorkerCommandDone>;
 
 type IResultsWorkerEventMessage = IWorkerCommand<IResultsWorkerCommandMessage>;
 
-type IResultsWorkerEventProgress = IWorkerCommand<
-  IResultsWorkerCommandProgress
->;
+type IResultsWorkerEventProgress = IWorkerCommand<IResultsWorkerCommandProgress>;
 
 export type IResultsWorkerCommands =
   | IResultsWorkerCommandGenerate

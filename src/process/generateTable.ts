@@ -1,5 +1,5 @@
-import { ExistingSlotsAccessories } from "data";
-import type { IScoredArtifact, ISlots } from "models";
+import { ExistingSlotsAccessories } from "../data";
+import type { IScoredArtifact, ISlots } from "../models";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -29,6 +29,10 @@ export const getEmtyItem = (Slot: ISlots): IScoredArtifact =>
     Power: 0,
   } as IScoredArtifact);
 
+/**
+ * Generate all possible artifacts combinations from a list of artifacts
+ * @param entryArtifacts
+ */
 function* generateTable(
   entryArtifacts: IScoredArtifact[]
 ): Generator<{ artifacts: IListOfScoredArtifacts; max: number }> {
@@ -71,12 +75,12 @@ function* generateTable(
   boots = boots.sort((a, b) => b.score - a.score).slice(0, 10);
 
   const max =
-    weapons.length *
+    boots.length *
+    chestplates.length *
+    gauntlets.length *
     helmets.length *
     shields.length *
-    gauntlets.length *
-    chestplates.length *
-    boots.length;
+    weapons.length;
 
   for (let weaponIndex = 0; weaponIndex < weapons.length; weaponIndex += 1) {
     const weapon = weapons[weaponIndex];

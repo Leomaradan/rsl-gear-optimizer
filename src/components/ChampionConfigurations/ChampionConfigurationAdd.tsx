@@ -1,7 +1,7 @@
 import ChampionForm from "./ChampionConfigurationForm";
 
-import type { IChampionConfiguration } from "models";
-import { useLanguage } from "lang/LanguageContext";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IChampionConfiguration } from "../../models";
 
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
@@ -30,7 +30,7 @@ const ChampionAdd = (): JSX.Element => {
 
   return (
     <>
-      <Button variant="primary" size="sm" onClick={handleShow}>
+      <Button onClick={handleShow} size="sm" variant="primary">
         {lang.ui.common.addNew}
       </Button>
       <ChampionForm

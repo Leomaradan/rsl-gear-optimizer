@@ -1,22 +1,21 @@
-import { useLanguage } from "lang/LanguageContext";
+import { useLanguage } from "../../lang/LanguageContext";
 
-import React from "react";
 import { Form } from "react-bootstrap";
 
 interface IToggleProps {
   currentState: boolean;
-  name: string;
-  label?: string;
   disabled?: boolean;
+  label?: string;
+  name: string;
   onToggle(newState: boolean): void;
 }
 
 const Toggle = ({
   currentState,
+  disabled,
+  label,
   name,
   onToggle,
-  label,
-  disabled,
 }: IToggleProps): JSX.Element => {
   const lang = useLanguage();
 
@@ -24,16 +23,21 @@ const Toggle = ({
 
   return (
     <Form.Check
-      type="switch"
-      id={name}
       checked={!!currentState}
       disabled={disabled}
+      id={name}
+      label={label ?? textLabel}
       onChange={() => {
         onToggle(!currentState);
       }}
-      label={label ?? textLabel}
+      type="switch"
     />
   );
+};
+
+Toggle.defaultProps = {
+  disabled: false,
+  label: undefined,
 };
 
 export default Toggle;

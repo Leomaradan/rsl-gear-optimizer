@@ -1,11 +1,11 @@
-import type { IErrors } from "models";
+import type { IErrors } from "../../models";
 
 import React from "react";
 import styled from "styled-components";
 
 interface IDisplayErrorProps {
-  slot: string;
   errors: IErrors;
+  slot: string;
 }
 
 const Danger = styled.span`
@@ -13,7 +13,7 @@ const Danger = styled.span`
   color: red;
 `;
 
-const DisplayError = ({ slot, errors }: IDisplayErrorProps): JSX.Element => {
+const DisplayError = ({ errors, slot }: IDisplayErrorProps): JSX.Element => {
   const error = errors.find((e) => e.slot === slot);
 
   if (error) {

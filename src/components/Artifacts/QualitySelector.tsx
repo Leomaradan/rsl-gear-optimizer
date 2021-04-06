@@ -1,12 +1,12 @@
-import type { IStars } from "models";
+import type { IStars } from "../../models";
 
-import React from "react";
+import type React from "react";
 import styled from "styled-components";
 
 interface IStatsSelectorProps {
-  maxQuality?: IStars;
   currentQuality?: IStars;
   disabled?: boolean;
+  maxQuality?: IStars;
   onChange: (quality: IStars) => void;
 }
 
@@ -24,10 +24,10 @@ const Wrapper = styled.div`
 `;
 
 const QualitySelector = ({
-  maxQuality,
   currentQuality,
-  onChange,
   disabled,
+  maxQuality,
+  onChange,
 }: IStatsSelectorProps): JSX.Element => {
   const styleInactive: React.CSSProperties = {
     filter: "grayscale(100%)",
@@ -41,20 +41,26 @@ const QualitySelector = ({
     <Wrapper id="selectQuality">
       {stars.map((star) => (
         <Image
+          alt={`${star} Star`}
           disabled={disabled ?? false}
           key={star}
-          src="assets/Misc/regular_star.png"
-          style={star <= (currentQuality ?? 1) ? {} : styleInactive}
-          alt={`${star} Star`}
           onClick={() => {
             if (!disabled) {
               onChange(star);
             }
           }}
+          src="assets/Misc/regular_star.png"
+          style={star <= (currentQuality ?? 1) ? {} : styleInactive}
         />
       ))}
     </Wrapper>
   );
+};
+
+QualitySelector.defaultProps = {
+  currentQuality: 1,
+  disabled: false,
+  maxQuality: 6,
 };
 
 export default QualitySelector;

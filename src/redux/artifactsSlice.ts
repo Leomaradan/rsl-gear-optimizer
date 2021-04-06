@@ -1,5 +1,5 @@
-import type { IArtifact, IArtifactDraft, IArtifactsState } from "models";
-import calculateScoreRealStats from "process/calculateScoreRealStats";
+import type { IArtifact, IArtifactDraft, IArtifactsState } from "../models";
+import calculateScoreRealStats from "../process/calculateScoreRealStats";
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
@@ -17,9 +17,21 @@ type IArtifactsCreateAction = PayloadAction<IArtifact>;
 type IArtifactsCreatePrepare = IArtifactDraft;
 
 const artifactsSlice = createSlice({
-  name: "artifacts",
   initialState,
+  name: "artifacts",
   reducers: {
+    createArtifacts: {
+      prepare: (artifact: IArtifactsCreatePrepare) => {
+        const Power = calculateScoreRealStats(artifact as IArtifact);
+        const newArtifact = { ...artifact, Power } as IArtifact;
+        return { payload: newArtifact };
+      },
+      reducer: (state, action: IArtifactsCreateAction) => {
+        state.push(action.payload);
+      },
+    },
+    deleteArtifacts: (state, action: IArtifactsDeleteAction) =>
+      state.filter((i) => i.Guid !== action.payload.id),
     loadArtifacts: (_state, action: IArtifactsLoadAction) =>
       action.payload.artifacts,
     updateArtifacts: (state, action: IArtifactsUpdateAction) => {
@@ -35,18 +47,6 @@ const artifactsSlice = createSlice({
           ...action.payload.artifact,
         } as IArtifact;
       }
-    },
-    deleteArtifacts: (state, action: IArtifactsDeleteAction) =>
-      state.filter((i) => i.Guid !== action.payload.id),
-    createArtifacts: {
-      reducer: (state, action: IArtifactsCreateAction) => {
-        state.push(action.payload);
-      },
-      prepare: (artifact: IArtifactsCreatePrepare) => {
-        const Power = calculateScoreRealStats(artifact as IArtifact);
-        const newArtifact = { ...artifact, Power } as IArtifact;
-        return { payload: newArtifact };
-      },
     },
   },
 });

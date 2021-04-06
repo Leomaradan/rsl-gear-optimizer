@@ -1,8 +1,8 @@
-import ChampionsList from "components/Champions/ChampionsList";
-import getProfile from "service/getProfileChampions";
-import type { IProfile, IServiceStatus } from "models";
-import type { ILanguageUiValidation } from "lang/language";
-import { useLanguage } from "lang/LanguageContext";
+import ChampionsList from "../components/Champions/ChampionsList";
+import getProfile from "../service/getProfileChampions";
+import type { IProfile, IServiceStatus } from "../models";
+import type { ILanguageUiValidation } from "../lang/language";
+import { useLanguage } from "../lang/LanguageContext";
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

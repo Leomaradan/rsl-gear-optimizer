@@ -1,11 +1,11 @@
-import type { IRarity } from "models";
+import type { IRarity } from "../models";
 
 const getColour = (rarity: IRarity): string => {
   switch (rarity) {
-    case "Legendary":
-      return "#c67b23";
     case "Epic":
       return "#cb5cea";
+    case "Legendary":
+      return "#c67b23";
     case "Rare":
       return "#2d92e9";
     case "Uncommon":

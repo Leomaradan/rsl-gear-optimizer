@@ -1,24 +1,24 @@
 import ArtifactForm from "./ArtifactForm";
 
-import { useLanguage } from "lang/LanguageContext";
-import type { IArtifactDraft, ISets, IArtifact, IClans } from "models";
-import { StatsBySlots } from "data";
+import { StatsBySlots } from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IArtifact, IArtifactDraft, IClans, ISets } from "../../models";
 
-import { Button } from "react-bootstrap";
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
 interface IArtifactAddProps {
-  isAccessory?: boolean;
-  set?: ISets;
   clan?: IClans;
-  label?: string | JSX.Element;
+  isAccessory?: boolean;
+  label?: JSX.Element | string;
+  set?: ISets;
 }
 
 const ArtifactAdd = ({
-  isAccessory,
   clan,
-  set,
+  isAccessory,
   label,
+  set,
 }: IArtifactAddProps): JSX.Element => {
   const [show, setShow] = useState(false);
   const lang = useLanguage();
@@ -27,21 +27,21 @@ const ArtifactAdd = ({
   const handleShow = () => setShow(true);
 
   const emptyArtifact: IArtifactDraft = {
+    Clan: clan ?? "",
     Level: 0,
     MainStats: isAccessory ? StatsBySlots.Ring[0] : StatsBySlots.Weapon[0],
+    Power: 0,
     Quality: 1,
     Rarity: "Common",
-    Slot: isAccessory ? "Ring" : "Weapon",
     Set: set ?? "",
-    Clan: clan ?? "",
+    Slot: isAccessory ? "Ring" : "Weapon",
     SubStats: [],
     isAccessory: !!isAccessory,
-    Power: 0,
   };
 
   return (
     <>
-      <Button variant="info" size="sm" onClick={handleShow}>
+      <Button onClick={handleShow} size="sm" variant="info">
         {label || lang.ui.common.addNew}
       </Button>
       <ArtifactForm
@@ -51,6 +51,13 @@ const ArtifactAdd = ({
       />
     </>
   );
+};
+
+ArtifactAdd.defaultProps = {
+  clan: "",
+  isAccessory: false,
+  label: "",
+  set: "",
 };
 
 export default ArtifactAdd;

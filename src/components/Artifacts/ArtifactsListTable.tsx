@@ -1,7 +1,7 @@
 import ArtifactsListRow from "./ArtifactsListRow";
 
-import { useLanguage } from "lang/LanguageContext";
-import type { IArtifact } from "models";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IArtifact } from "../../models";
 
 import React from "react";
 import { Table } from "react-bootstrap";
@@ -16,7 +16,7 @@ const ArtifactsListTable = (props: IArtifactsListTableProps): JSX.Element => {
   const lang = useLanguage();
 
   return (
-    <Table variant="dark" striped bordered hover>
+    <Table bordered hover striped variant="dark">
       <thead>
         <tr>
           <th>{lang.ui.title.artifacts}</th>
@@ -39,14 +39,18 @@ const ArtifactsListTable = (props: IArtifactsListTableProps): JSX.Element => {
       <tbody>
         {artifacts.map((artifact) => (
           <ArtifactsListRow
-            key={artifact.Guid}
             artifact={artifact}
+            key={artifact.Guid}
             readOnly={readOnly}
           />
         ))}
       </tbody>
     </Table>
   );
+};
+
+ArtifactsListTable.defaultProps = {
+  readOnly: false,
 };
 
 export default ArtifactsListTable;

@@ -1,30 +1,30 @@
-import type { ILanguageStat } from "lang/language";
-import { useLanguage } from "lang/LanguageContext";
-import type { IStat } from "models";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
+import type { IStat } from "../../models";
 
-import React from "react";
+import type React from "react";
 
 interface IStatsSelectorProps {
   availableStats: IStat[];
   currentStats?: IStat;
   disabled?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   id?: string;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const StatsSelector = ({
   availableStats,
   currentStats,
   disabled,
-  onChange,
   id,
+  onChange,
 }: IStatsSelectorProps): JSX.Element => {
   const lang = useLanguage();
   return (
     <select
-      id={id}
       className="custom-select custom-select-sm"
       disabled={disabled || availableStats.length === 1}
+      id={id}
       onChange={onChange}
       value={currentStats}
     >
@@ -36,6 +36,12 @@ const StatsSelector = ({
       ))}
     </select>
   );
+};
+
+StatsSelector.defaultProps = {
+  currentStats: "",
+  disabled: false,
+  id: undefined,
 };
 
 export default StatsSelector;

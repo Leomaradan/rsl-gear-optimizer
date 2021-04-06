@@ -1,16 +1,16 @@
-import type { IChampion, IChampionMastery } from "models";
-import DisplayMastery from "components/UI/MasteryDisplay";
+import DisplayMastery from "../UI/MasteryDisplay";
+import WrapperCenter from "../UI/WrapperCenter";
 import {
   DefenseMasteries,
   OffenseMasteries,
   SupportMasteries,
-} from "data/Masteries";
-import { updateChampion } from "redux/championsSlice";
-import WrapperCenter from "components/UI/WrapperCenter";
+} from "../../data/Masteries";
+import type { IChampion, IChampionMastery } from "../../models";
+import { updateChampion } from "../../redux/championsSlice";
 
-import styled from "styled-components";
-import { useDispatch } from "react-redux";
 import React from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
 
 const Table = styled.table.attrs(() => ({ className: "table" }))<{
   color1: string;
@@ -41,8 +41,8 @@ const ChampionDetailsMasteries = ({
       const newMasteries = [...champion.Masteries].filter((m) => m !== mastery);
       dispatch(
         updateChampion({
-          id: champion.Guid,
           champion: { Masteries: newMasteries },
+          id: champion.Guid,
         })
       );
     } else {
@@ -50,8 +50,8 @@ const ChampionDetailsMasteries = ({
 
       dispatch(
         updateChampion({
-          id: champion.Guid,
           champion: { Masteries: newMasteries },
+          id: champion.Guid,
         })
       );
     }
@@ -59,22 +59,22 @@ const ChampionDetailsMasteries = ({
 
   const masteries = [
     {
-      title: "Offense",
-      data: OffenseMasteries,
       color1: "#321311",
       color2: "#211111",
+      data: OffenseMasteries,
+      title: "Offense",
     },
     {
-      title: "Defense",
-      data: DefenseMasteries,
       color1: "#103312",
       color2: "#142211",
+      data: DefenseMasteries,
+      title: "Defense",
     },
     {
-      title: "Support",
-      data: SupportMasteries,
       color1: "#121332",
       color2: "#101221",
+      data: SupportMasteries,
+      title: "Support",
     },
   ];
 
@@ -82,10 +82,10 @@ const ChampionDetailsMasteries = ({
     <WrapperCenter>
       {masteries.map((table) => (
         <Table
-          style={{ width: "300px" }}
-          key={table.title}
           color1={table.color1}
           color2={table.color2}
+          key={table.title}
+          style={{ width: "300px" }}
         >
           <caption>{table.title}</caption>
           <tbody>
@@ -97,15 +97,15 @@ const ChampionDetailsMasteries = ({
                     <td key={mastery}>
                       <div>
                         <DisplayMastery
-                          size={50}
-                          mastery={mastery}
+                          activated={champion.Masteries.includes(mastery)}
                           disabled={false}
+                          mastery={mastery}
                           onClick={() => {
                             if (!readOnly) {
                               handleOnChange(mastery);
                             }
                           }}
-                          activated={champion.Masteries.includes(mastery)}
+                          size={50}
                         />
                       </div>
                     </td>

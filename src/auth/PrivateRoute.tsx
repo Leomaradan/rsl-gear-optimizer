@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { useAuth } from "./AuthContext";
 
-import React, { ComponentType } from "react";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import type { ComponentType } from "react";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 
 interface IPrivateRouteProps extends RouteProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,9 +16,11 @@ const PrivateRoute = ({
 
   return (
     <Route
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
       render={(props) =>
         isAuth ? (
+          // eslint-disable-next-line react/jsx-props-no-spreading
           <Component {...props} />
         ) : (
           <Redirect

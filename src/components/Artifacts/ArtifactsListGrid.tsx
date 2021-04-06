@@ -1,12 +1,12 @@
 import ArtifactEditGrid from "./ArtifactEditGrid";
 
-import ArtifactDisplay from "components/UI/ArtifactDisplay";
-import Stack from "components/UI/Stack";
-import Wrapper from "components/UI/Wrapper";
-import type { IArtifact } from "models";
+import ArtifactDisplay from "../UI/ArtifactDisplay";
+import Stack from "../UI/Stack";
+import Wrapper from "../UI/Wrapper";
+import type { IArtifact } from "../../models";
 
-import styled from "styled-components";
 import React from "react";
+import styled from "styled-components";
 
 interface IArtifactsListGridProps {
   artifacts: IArtifact[];
@@ -26,7 +26,7 @@ const ArtifactsListGrid = (props: IArtifactsListGridProps): JSX.Element => {
     <Grid>
       {artifacts.map((artifact) => (
         <Stack key={artifact.Guid}>
-          <ArtifactDisplay size={120} artifact={artifact} />
+          <ArtifactDisplay artifact={artifact} size={120} />
           {!readOnly && (
             <Wrapper>
               <ArtifactEditGrid artifact={artifact} />
@@ -36,6 +36,10 @@ const ArtifactsListGrid = (props: IArtifactsListGridProps): JSX.Element => {
       ))}
     </Grid>
   );
+};
+
+ArtifactsListGrid.defaultProps = {
+  readOnly: false,
 };
 
 export default ArtifactsListGrid;

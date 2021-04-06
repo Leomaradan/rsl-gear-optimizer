@@ -3,20 +3,24 @@ import { ProgressBar as BtProgressBar } from "react-bootstrap";
 
 interface IProgressBarProps {
   current: number;
-  max: number;
   label?: string;
+  max: number;
 }
 
 const ProgressBar = ({
   current,
-  max,
   label,
+  max,
 }: IProgressBarProps): JSX.Element => {
   const percent = current === 0 ? 0 : Math.round((current / max) * 100);
 
   return (
-    <BtProgressBar max={max} now={current} label={label || `${percent}%`} />
+    <BtProgressBar label={label || `${percent}%`} max={max} now={current} />
   );
+};
+
+ProgressBar.defaultProps = {
+  label: undefined,
 };
 
 export default ProgressBar;

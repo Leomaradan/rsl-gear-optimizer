@@ -1,5 +1,5 @@
-import { ChampionsDetailsList } from "data";
-import type { IChampionsState, IChampionDraft, IChampion } from "models";
+import { ChampionsDetailsList } from "../data";
+import type { IChampion, IChampionDraft, IChampionsState } from "../models";
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
@@ -19,9 +19,29 @@ type IChampionsCreateAction = PayloadAction<{
 }>;
 
 const championsSlice = createSlice({
-  name: "champions",
   initialState,
+  name: "champions",
   reducers: {
+    createChampion: (state, action: IChampionsCreateAction) => {
+      const count = state.filter((c) => c.Name === action.payload.champion.Name)
+        .length;
+
+      let Slug = action.payload.champion.Name.replace("_", "-");
+
+      if (count > 0) {
+        Slug += `-${count + 1}`;
+      }
+
+      const newChampion: IChampion = {
+        ...action.payload.champion,
+        Slug,
+        ...ChampionsDetailsList[action.payload.champion.Name],
+      };
+
+      state.push(newChampion);
+    },
+    deleteChampion: (state, action: IChampionsDeleteAction) =>
+      state.filter((i) => i.Guid !== action.payload.id),
     loadChampions: (_state, action: IChampionsLoadAction) => {
       const state: IChampionsState = [];
 
@@ -63,26 +83,6 @@ const championsSlice = createSlice({
           ...ChampionsDetailsList[state[championIndex].Name],
         };
       }
-    },
-    deleteChampion: (state, action: IChampionsDeleteAction) =>
-      state.filter((i) => i.Guid !== action.payload.id),
-    createChampion: (state, action: IChampionsCreateAction) => {
-      const count = state.filter((c) => c.Name === action.payload.champion.Name)
-        .length;
-
-      let Slug = action.payload.champion.Name.replace("_", "-");
-
-      if (count > 0) {
-        Slug += `-${count + 1}`;
-      }
-
-      const newChampion: IChampion = {
-        ...action.payload.champion,
-        Slug,
-        ...ChampionsDetailsList[action.payload.champion.Name],
-      };
-
-      state.push(newChampion);
     },
   },
 });

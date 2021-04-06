@@ -2,28 +2,28 @@
 import ArtifactFormBase from "./ArtifactFormBase";
 import ArtifactFormStats from "./ArtifactFormStats";
 
-import { createArtifacts, updateArtifacts } from "redux/artifactsSlice";
-import { useLanguage } from "lang/LanguageContext";
-import Stack from "components/UI/Stack";
-import Modal from "components/UI/Modal";
-import type { IArtifact, IErrors, IRarity } from "models";
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IArtifact, IErrors, IRarity } from "../../models";
+import { createArtifacts, updateArtifacts } from "../../redux/artifactsSlice";
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface IArtifactFormProps {
   artifact: IArtifact;
-  show: boolean;
-  moreButtons?: { title: string; variant?: string; action: () => void }[];
   lockedFields?: string[];
+  moreButtons?: { title: string; variant?: string; action: () => void }[];
+  show: boolean;
   handleClose(): void;
 }
 
 export interface IArtifactFormSubProps {
-  state: IArtifact;
-  setState: Dispatch<SetStateAction<IArtifact>>;
   errors: IErrors;
   lockedFields: string[];
+  setState: Dispatch<SetStateAction<IArtifact>>;
+  state: IArtifact;
 }
 
 const validateArtifact = (artifact: IArtifact): Record<string, string> => {
@@ -102,11 +102,11 @@ const validateArtifact = (artifact: IArtifact): Record<string, string> => {
 
 const ArtifactForm = (props: IArtifactFormProps): JSX.Element => {
   const {
-    show,
-    handleClose,
     artifact,
-    moreButtons,
+    handleClose,
     lockedFields: baseLockedFields,
+    moreButtons,
+    show,
   } = props;
 
   const lockedFields = baseLockedFields ?? [];
@@ -130,8 +130,8 @@ const ArtifactForm = (props: IArtifactFormProps): JSX.Element => {
       if (state.Guid !== undefined) {
         dispatch(
           updateArtifacts({
-            id: state.Guid as string,
             artifact: state as IArtifact,
+            id: state.Guid as string,
           })
         );
       } else {
@@ -169,15 +169,20 @@ const ArtifactForm = (props: IArtifactFormProps): JSX.Element => {
   return (
     <>
       <Modal
-        title={lang.ui.title.artifacts}
         content={content}
+        moreButtons={moreButtons}
         onClose={handleClose}
         onSave={save}
-        moreButtons={moreButtons}
         show={show}
+        title={lang.ui.title.artifacts}
       />
     </>
   );
+};
+
+ArtifactForm.defaultProps = {
+  lockedFields: [],
+  moreButtons: [],
 };
 
 export default ArtifactForm;

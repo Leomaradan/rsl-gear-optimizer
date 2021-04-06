@@ -1,14 +1,13 @@
 import ArtifactsList from "../components/Artifacts/ArtifactsList";
-
-import type { IState } from "redux/reducers";
-import Accordion, { IAccordionSection } from "components/UI/Accordion";
-import { useLanguage } from "lang/LanguageContext";
-import BaseWrapper from "components/UI/Wrapper";
-import Stack from "components/UI/Stack";
-import calculateScoreEasyMode from "process/calculateScoreEasyMode";
-import type { ILanguageSlot } from "lang/language";
-import { ExistingSlots } from "data";
-import type { IScoredArtifact, IChampionConfiguration } from "models";
+import type { IState } from "../redux/reducers";
+import Accordion, { IAccordionSection } from "../components/UI/Accordion";
+import { useLanguage } from "../lang/LanguageContext";
+import BaseWrapper from "../components/UI/Wrapper";
+import Stack from "../components/UI/Stack";
+import calculateScoreEasyMode from "../process/calculateScoreEasyMode";
+import type { ILanguageSlot } from "../lang/language";
+import { ExistingSlots } from "../data";
+import type { IScoredArtifact, IChampionConfiguration, ISets } from "../models";
 
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -17,6 +16,51 @@ import React from "react";
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
 `;
+
+const setsNeutral: ISets[] = [
+  "Speed",
+  "Accuracy",
+  "Daze",
+  "Cursed",
+  "Immunity",
+  "Relentless",
+  "Stun",
+  "Toxic",
+  "Stalwart",
+  "Reflex",
+  "DivineSpeed",
+];
+
+const setsDef: ISets[] = [
+  "Life",
+  "Defense",
+  "Resistance",
+  "Lifesteal",
+  "Fury",
+  "Frost",
+  "Frenzy",
+  "Regeneration",
+  "Shield",
+  "Taunting",
+  "Retaliation",
+  "Avenging",
+  "Curing",
+  "Immortal",
+  "DivineLife",
+  "Deflection",
+];
+
+const setsAtk: ISets[] = [
+  "Offense",
+  "CriticalRate",
+  "CriticalDamage",
+  "Savage",
+  "Destroy",
+  "Cruel",
+  "DivineOffense",
+  "DivineCriticalRate",
+  "SwiftParry",
+];
 
 const SellList = (): JSX.Element => {
   const artifacts = useSelector((state: IState) => state.artifacts);
@@ -42,41 +86,51 @@ const SellList = (): JSX.Element => {
     (a) => !a.Champion && !selectedItems.includes(a.Guid)
   );
 
-  const ChampionA = {
+  const ChampionDef = {
     StatsPriority: {
       "DEF%": 3,
       "HP%": 3,
-      SPD: 2,
+      SPD: 3,
       ACC: 2,
+      RESI: 2,
     },
     GauntletStats: ["DEF%", "HP%"],
     ChestplateStats: ["DEF%", "HP%"],
     BootsStats: ["SPD"],
   } as IChampionConfiguration;
 
-  const ChampionB = {
+  const ChampionAtk = {
     StatsPriority: {
       "ATK%": 3,
       "C.DMG": 3,
-      "C.RATE": 2,
-      SPD: 2,
-      ACC: 1,
+      "C.RATE": 3,
+      SPD: 3,
+      ACC: 2,
+      RESI: 2,
     },
     GauntletStats: ["C.DMG", "C.RATE"],
-    ChestplateStats: ["ATK"],
+    ChestplateStats: ["ATK%"],
     BootsStats: ["SPD"],
   } as IChampionConfiguration;
 
   filterArtifacts.forEach((artifact) => {
-    const scoreA = calculateScoreEasyMode(artifact, ChampionA);
-    const scoreB = calculateScoreEasyMode(artifact, ChampionB);
-    const score = Math.max(scoreA, scoreB);
+    const isDefSet = [...setsNeutral, ...setsDef].includes(artifact.Set);
+    const isAtkSet = [...setsNeutral, ...setsAtk].includes(artifact.Set);
+
+    const scoreDef =
+      calculateScoreEasyMode(artifact, ChampionDef) + (isDefSet ? 3 : 0);
+    const scoreAtk =
+      calculateScoreEasyMode(artifact, ChampionAtk) + (isAtkSet ? 3 : 0);
+    let score = Math.max(scoreDef, scoreAtk);
 
     if (artifact.isAccessory) {
       weightedAccessories.push({ ...artifact, score });
     } else if (["Weapon", "Helmet", "Shield"].includes(artifact.Slot)) {
       weightedArtifacts1.push({ ...artifact, score });
     } else {
+      if (!["ATK", "DEF", "HP"].includes(artifact.MainStats)) {
+        score += 3;
+      }
       weightedArtifacts2.push({ ...artifact, score });
     }
   });

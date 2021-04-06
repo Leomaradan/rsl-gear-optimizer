@@ -1,4 +1,4 @@
-import type { IChampion } from "models";
+import type { IChampion } from "../../models";
 
 import React from "react";
 import styled from "styled-components";
@@ -9,22 +9,27 @@ const Image = styled.img<{ size?: number; autoWidth?: boolean }>`
 `;
 
 interface IChampionPortraitProps {
+  autoWidth?: boolean;
   champion: IChampion;
   size?: number;
-  autoWidth?: boolean;
 }
 
 const ChampionPortrait = ({
+  autoWidth,
   champion,
   size,
-  autoWidth,
 }: IChampionPortraitProps): JSX.Element => (
   <Image
-    size={size}
-    autoWidth={autoWidth}
-    src={`assets/avatar/${champion.Name}.png`}
     alt={champion.Name}
+    autoWidth={autoWidth}
+    size={size}
+    src={`assets/avatar/${champion.Name}.png`}
   />
 );
+
+ChampionPortrait.defaultProps = {
+  autoWidth: false,
+  size: undefined,
+};
 
 export default ChampionPortrait;

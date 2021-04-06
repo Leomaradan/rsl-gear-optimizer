@@ -1,44 +1,48 @@
-import { FormRow, FormInput, Textarea, FormLabel } from "./Layout";
+import { FormInput, FormLabel, FormRow, Textarea } from "./Layout";
 
-import Stack from "components/UI/Stack";
-import Modal from "components/UI/Modal";
-import type { IState } from "redux/reducers";
-import { loadArtifacts } from "redux/artifactsSlice";
-import { useLanguage } from "lang/LanguageContext";
-import { loadChampions } from "redux/championsSlice";
-import logger from "process/logger";
-import Backup1Schema from "process/backup-schema.json";
-import RaidExtractSchema from "process/raidextract-schema.json";
-import { RarityFromString, ExistingSlotsAccessories } from "data";
-import type {
-  IChampionDraft,
-  IStars,
-  IStat,
-  ISlots,
-  ISets,
-  IClans,
-  IBackup,
-  IBackupPrepare,
-  IBackupV1,
-  IArtifact,
-  IChampionMastery,
-  IChampion,
-  IChampionAffinity,
-} from "models";
-import { loadChampionConfigurations } from "redux/championConfigurationsSlice";
-import calculateScoreRealStats from "process/calculateScoreRealStats";
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
+import {
+  ExistingSlotsAccessories,
+  RarityFromString,
+  ChampionsDetailsList,
+} from "../../data";
 import {
   DefenseMasteries,
   OffenseMasteries,
   SupportMasteries,
-} from "data/Masteries";
+} from "../../data/Masteries";
+import { useLanguage } from "../../lang/LanguageContext";
+import type {
+  IArtifact,
+  IBackup,
+  IBackupPrepare,
+  IBackupV1,
+  IChampion,
+  IChampionAffinity,
+  IChampionDraft,
+  IChampionMastery,
+  IClans,
+  ISets,
+  ISlots,
+  IStars,
+  IStat,
+} from "../../models";
+import Backup1Schema from "../../process/backup-schema.json";
+import calculateScoreRealStats from "../../process/calculateScoreRealStats";
+import logger from "../../process/logger";
+import RaidExtractSchema from "../../process/raidextract-schema.json";
+import { loadArtifacts } from "../../redux/artifactsSlice";
+import { loadChampionConfigurations } from "../../redux/championConfigurationsSlice";
+import { loadChampions } from "../../redux/championsSlice";
+import type { IState } from "../../redux/reducers";
+import calculateChampionStats from "../../process/calculateChampionStats";
 
-import { useDispatch, useSelector } from "react-redux";
+import { Validator } from "jsonschema";
 import React, { ChangeEvent, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { Validator } from "jsonschema";
-import calculateChampionStats from "process/calculateChampionStats";
 
 const validator = new Validator();
 
@@ -53,14 +57,14 @@ const exportJSON = (json: string, filename: string) => {
 };
 
 type IArtifactJsonStat =
-  | "Speed"
+  | "Accuracy"
   | "Attack"
-  | "Health"
   | "CriticalChance"
   | "CriticalDamage"
+  | "Defense"
+  | "Health"
   | "Resistance"
-  | "Accuracy"
-  | "Defense";
+  | "Speed";
 
 type IArtifactJsonSet =
   | "Accuracy"
@@ -106,25 +110,25 @@ type IArtifactJsonSet =
 type IWornList = { [key: number]: string };
 type IArtifactJson = {
   id: number;
-  level: number;
   kind:
+    | "Banner"
     | "Boots"
-    | "Weapon"
-    | "Helmet"
     | "Chest"
-    | "Gloves"
-    | "Shield"
-    | "Ring"
     | "Cloak"
-    | "Banner";
-  rank: "One" | "Two" | "Three" | "Four" | "Five" | "Six";
-  rarity: string;
-  setKind: IArtifactJsonSet;
+    | "Gloves"
+    | "Helmet"
+    | "Ring"
+    | "Shield"
+    | "Weapon";
+  level: number;
   primaryBonus: {
-    kind: IArtifactJsonStat;
     isAbsolute: boolean;
+    kind: IArtifactJsonStat;
     value: number;
   };
+  rank: "Five" | "Four" | "One" | "Six" | "Three" | "Two";
+  rarity: string;
+  requiredFraction?: string;
   secondaryBonuses: {
     kind: IArtifactJsonStat;
     isAbsolute: boolean;
@@ -132,31 +136,31 @@ type IArtifactJson = {
     enhancement: number;
     level: number;
   }[];
-  requiredFraction?: string;
+  setKind: IArtifactJsonSet;
 };
 
 type IChampionJson = {
-  grade: "Stars1" | "Stars2" | "Stars3" | "Stars4" | "Stars5" | "Stars6";
-  level: number;
-  locked: boolean;
-  inStorage: boolean;
-  artifacts?: number[];
-  fraction: string;
-  rarity: string;
-  role: string;
-  element: string;
-  awakenLevel: number;
-  name: string;
-  health: number;
   accuracy: number;
+  artifacts?: number[];
   attack: number;
-  defense: number;
+  awakenLevel: number;
   criticalChance: number;
   criticalDamage: number;
   criticalHeal: number;
-  resistance: number;
-  speed: number;
+  defense: number;
+  element: string;
+  fraction: string;
+  grade: "Stars1" | "Stars2" | "Stars3" | "Stars4" | "Stars5" | "Stars6";
+  health: number;
+  inStorage: boolean;
+  level: number;
+  locked: boolean;
   masteries: number[];
+  name: string;
+  rarity: string;
+  resistance: number;
+  role: string;
+  speed: number;
 };
 
 type IRaidExtractJson = {
@@ -174,20 +178,20 @@ const importChampion = (
     let Quality: IStars;
 
     switch (hero.grade) {
-      case "Stars6":
-        Quality = 6;
-        break;
-      case "Stars5":
-        Quality = 5;
-        break;
-      case "Stars4":
-        Quality = 4;
+      case "Stars2":
+        Quality = 2;
         break;
       case "Stars3":
         Quality = 3;
         break;
-      case "Stars2":
-        Quality = 2;
+      case "Stars4":
+        Quality = 4;
+        break;
+      case "Stars5":
+        Quality = 5;
+        break;
+      case "Stars6":
+        Quality = 6;
         break;
       default:
         Quality = 1;
@@ -225,31 +229,37 @@ const importChampion = (
       Masteries.push(table[row][cell]);
     });
 
+    const Name = hero.name.replace(/[^a-z -]+/gi, "").replace(/[ -]+/gi, "_");
+
+    const { Aura } = ChampionsDetailsList[Name] ?? { Aura: undefined };
+
     champions.push({
-      Guid,
+      Affinity: hero.element as IChampionAffinity,
+      Awaken: hero.awakenLevel as IStars,
       BaseAccuracy: hero.accuracy,
       BaseAttack: hero.attack,
-      Awaken: hero.awakenLevel as IStars,
-      Name: hero.name.replace(/[^a-z -]+/gi, "").replace(/[ -]+/gi, "_"),
-      BaseCriticalRate: hero.criticalChance,
       BaseCriticalDamage: hero.criticalDamage,
+      BaseCriticalRate: hero.criticalChance,
       BaseDefense: hero.defense,
       BaseHP: hero.health,
-      Level: hero.level,
-      Affinity: hero.element as IChampionAffinity,
-      Quality,
       BaseResistance: hero.resistance,
       BaseSpeed: hero.speed,
-      Masteries,
-      Power: 0,
       CurrentAccuracy: hero.accuracy,
       CurrentAttack: hero.attack,
-      CurrentCriticalRate: hero.criticalChance,
       CurrentCriticalDamage: hero.criticalDamage,
+      CurrentCriticalRate: hero.criticalChance,
       CurrentDefense: hero.defense,
       CurrentHP: hero.health,
       CurrentResistance: hero.resistance,
       CurrentSpeed: hero.speed,
+      Aura,
+      InVault: hero.inStorage,
+      Guid,
+      Level: hero.level,
+      Masteries,
+      Name,
+      Power: 0,
+      Quality,
     });
   });
 
@@ -257,72 +267,72 @@ const importChampion = (
 };
 
 interface IGetStatProps {
-  kind: IArtifactJsonStat;
-  isAbsolute: boolean;
-  value: number;
   enhancement?: number;
+  isAbsolute: boolean;
+  kind: IArtifactJsonStat;
+  value: number;
 }
 
 const getStat = ({
-  kind,
-  isAbsolute,
-  value,
   enhancement: enhancementBase,
+  isAbsolute,
+  kind,
+  value,
 }: IGetStatProps): { Stats: IStat; Value: number; Rune: number } => {
   const enhancement = enhancementBase ?? 0;
   switch (kind) {
     case "Accuracy":
-      return { Stats: "ACC", Value: value, Rune: enhancement };
+      return { Rune: enhancement, Stats: "ACC", Value: value };
     case "Attack":
       if (isAbsolute) {
-        return { Stats: "ATK", Value: value, Rune: enhancement };
+        return { Rune: enhancement, Stats: "ATK", Value: value };
       }
       return {
+        Rune: Math.round(100 * enhancement),
         Stats: "ATK%",
-        Value: Math.round(value * 100),
-        Rune: Math.round(enhancement * 100),
+        Value: Math.round(100 * value),
       };
     case "CriticalChance":
-      return { Stats: "C.RATE", Value: Math.round(value * 100), Rune: 0 };
+      return { Rune: 0, Stats: "C.RATE", Value: Math.round(100 * value) };
     case "CriticalDamage":
-      return { Stats: "C.DMG", Value: Math.round(value * 100), Rune: 0 };
+      return { Rune: 0, Stats: "C.DMG", Value: Math.round(100 * value) };
     case "Defense":
       if (isAbsolute) {
-        return { Stats: "DEF", Value: value, Rune: enhancement };
+        return { Rune: enhancement, Stats: "DEF", Value: value };
       }
       return {
+        Rune: Math.round(100 * enhancement),
         Stats: "DEF%",
-        Value: Math.round(value * 100),
-        Rune: Math.round(enhancement * 100),
+        Value: Math.round(100 * value),
       };
     case "Health":
       if (isAbsolute) {
-        return { Stats: "HP", Value: value, Rune: enhancement };
+        return { Rune: enhancement, Stats: "HP", Value: value };
       }
       return {
+        Rune: Math.round(100 * enhancement),
         Stats: "HP%",
-        Value: Math.round(value * 100),
-        Rune: Math.round(enhancement * 100),
+        Value: Math.round(100 * value),
       };
     case "Resistance":
-      return { Stats: "RESI", Value: value, Rune: enhancement };
+      return { Rune: enhancement, Stats: "RESI", Value: value };
     case "Speed":
-      return { Stats: "SPD", Value: value, Rune: enhancement };
+      return { Rune: enhancement, Stats: "SPD", Value: value };
     default:
-      return { Stats: "", Value: 0, Rune: 0 };
+      return { Rune: 0, Stats: "", Value: 0 };
   }
 };
 
 const getQuality = (
-  rank: "One" | "Two" | "Three" | "Four" | "Five" | "Six"
+  rank: "Five" | "Four" | "One" | "Six" | "Three" | "Two"
 ): IStars => {
   switch (rank) {
-    case "Six":
-      return 6;
     case "Five":
       return 5;
     case "Four":
       return 4;
+    case "Six":
+      return 6;
     case "Three":
       return 3;
     case "Two":
@@ -335,15 +345,15 @@ const getQuality = (
 
 const getSlot = (
   kind:
-    | "Boots"
-    | "Weapon"
-    | "Helmet"
-    | "Chest"
-    | "Gloves"
-    | "Shield"
-    | "Ring"
-    | "Cloak"
     | "Banner"
+    | "Boots"
+    | "Chest"
+    | "Cloak"
+    | "Gloves"
+    | "Helmet"
+    | "Ring"
+    | "Shield"
+    | "Weapon"
 ): ISlots => {
   switch (kind) {
     case "Banner":
@@ -370,66 +380,66 @@ const getSlot = (
 
 const getSet = (kind: IArtifactJsonSet): ISets => {
   switch (kind) {
-    case "Hp":
-      return "Life";
-    case "AttackPower":
-      return "Offense";
-    case "Defense":
-      return "Defense";
-    case "AttackSpeed":
-      return "Speed";
-    case "CriticalChance":
-      return "CriticalRate";
-    case "CriticalDamage":
-      return "CriticalDamage";
     case "Accuracy":
       return "Accuracy";
-    case "Resistance":
-      return "Resistance";
-    case "LifeDrain":
-      return "Lifesteal";
-    case "DamageIncreaseOnHpDecrease":
-      return "Fury";
-    case "SleepChance":
-      return "Daze";
-    case "BlockHealChance":
-      return "Cursed";
-    case "FreezeRateOnDamageReceived":
-      return "Frost";
-    case "Stamina":
-      return "Frenzy";
-    case "Heal":
-      return "Regeneration";
+    case "AccuracyAndSpeed":
+      return "Perception";
+    case "AoeDamageDecrease":
+      return "Stalwart";
+    case "AttackPower":
+      return "Offense";
+    case "AttackPowerAndIgnoreDefense":
+      return "Cruel";
+    case "AttackSpeed":
+      return "Speed";
     case "BlockDebuff":
       return "Immunity";
-    case "Shield":
-      return "Shield";
-    case "GetExtraTurn":
-      return "Relentless";
-    case "IgnoreDefense":
-      return "Savage";
-    case "DecreaseMaxHp":
-      return "Destroy";
-    case "StunChance":
-      return "Stun";
-    case "DotRate":
-      return "Toxic";
-    case "ProvokeChance":
-      return "Taunting";
+    case "BlockHealChance":
+      return "Cursed";
+    case "BlockReflectDebuffAndHpAndDef":
+      return "Deflection";
+    case "CooldownReductionChance":
+      return "Reflex";
     case "Counterattack":
       return "Retaliation";
     case "CounterattackOnCrit":
       return "Avenging";
-    case "AoeDamageDecrease":
-      return "Stalwart";
-    case "CooldownReductionChance":
-      return "Reflex";
+    case "CriticalChance":
+      return "CriticalRate";
+    case "CriticalDamage":
+      return "CriticalDamage";
     case "CriticalHealMultiplier":
       return "Curing";
-    case "AttackPowerAndIgnoreDefense":
-      return "Cruel";
+    case "DamageIncreaseOnHpDecrease":
+      return "Fury";
+    case "DecreaseMaxHp":
+      return "Destroy";
+    case "Defense":
+      return "Defense";
+    case "DotRate":
+      return "Toxic";
+    case "FreezeRateOnDamageReceived":
+      return "Frost";
+    case "GetExtraTurn":
+      return "Relentless";
+    case "Heal":
+      return "Regeneration";
+    case "Hp":
+      return "Life";
+    case "HpAndDefence":
+      return "Resilience";
     case "HpAndHeal":
       return "Immortal";
+    case "IgnoreDefense":
+      return "Savage";
+    case "LifeDrain":
+      return "Lifesteal";
+    case "ProvokeChance":
+      return "Taunting";
+    case "Resistance":
+      return "Resistance";
+    case "Shield":
+      return "Shield";
     case "ShieldAndAttackPower":
       return "DivineOffense";
     case "ShieldAndCriticalChance":
@@ -438,14 +448,14 @@ const getSet = (kind: IArtifactJsonSet): ISets => {
       return "DivineLife";
     case "ShieldAndSpeed":
       return "DivineSpeed";
+    case "SleepChance":
+      return "Daze";
+    case "Stamina":
+      return "Frenzy";
+    case "StunChance":
+      return "Stun";
     case "UnkillableAndSpdAndCrDmg":
       return "SwiftParry";
-    case "BlockReflectDebuffAndHpAndDef":
-      return "Deflection";
-    case "HpAndDefence":
-      return "Resilience";
-    case "AccuracyAndSpeed":
-      return "Perception";
     case "None":
     default:
       return "";
@@ -625,10 +635,10 @@ const ImportExport = (): JSX.Element => {
 
   const exportBackup = () => {
     const backup: IBackup = {
-      version: "1",
       artifacts,
       championConfig: championConfigurations,
       champions,
+      version: "1",
     };
 
     exportJSON(
@@ -665,14 +675,13 @@ const ImportExport = (): JSX.Element => {
           <FormLabel>{lang.ui.title.importExport}</FormLabel>
           <FormInput>
             <Stack style={{ width: "300px" }}>
-              <Button variant="danger" onClick={handleShowBackup}>
+              <Button onClick={handleShowBackup} variant="danger">
                 {lang.ui.button.importBackup}
               </Button>
-              <Button variant="success" onClick={exportBackup}>
+              <Button onClick={exportBackup} variant="success">
                 {lang.ui.button.exportBackup}
               </Button>
               <Modal
-                title={lang.ui.title.importBackup}
                 content={
                   <Stack>
                     <span className="badge badge-danger">
@@ -698,9 +707,10 @@ const ImportExport = (): JSX.Element => {
                     <Textarea value={textareaBackup} readOnly />
                   </Stack>
                 }
-                show={showModalBackup}
-                onSave={onImportBackup}
                 onClose={handleCloseBackup}
+                onSave={onImportBackup}
+                show={showModalBackup}
+                title={lang.ui.title.importBackup}
               />
             </Stack>
           </FormInput>
@@ -709,19 +719,18 @@ const ImportExport = (): JSX.Element => {
           <FormLabel>RaidExtract</FormLabel>
           <FormInput>
             <Stack style={{ width: "300px" }}>
-              <Button variant="danger" onClick={handleShowRaidExtract}>
+              <Button onClick={handleShowRaidExtract} variant="danger">
                 {lang.ui.button.importRaidExtract}
               </Button>
               <p>{lang.ui.message.raidExtractHelp}</p>
               <Button
-                variant="info"
                 href="https://github.com/LukeCroteau/RaidExtractor/releases/latest"
                 target="_blank"
+                variant="info"
               >
                 RaidExtract
               </Button>
               <Modal
-                title={lang.ui.title.importJSON}
                 content={
                   <Stack>
                     <span className="badge badge-danger">
@@ -747,9 +756,10 @@ const ImportExport = (): JSX.Element => {
                     <Textarea value={textareaRaidExtract} readOnly />
                   </Stack>
                 }
-                show={showModalRaidExtract}
-                onSave={onImportRaidExtract}
                 onClose={handleCloseRaidExtract}
+                onSave={onImportRaidExtract}
+                show={showModalRaidExtract}
+                title={lang.ui.title.importJSON}
               />
             </Stack>
           </FormInput>

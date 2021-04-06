@@ -1,4 +1,4 @@
-import type { IOrderable } from "models";
+import type { IOrderable } from "../models";
 
 const reorder = <T extends IOrderable>(
   list: T[],

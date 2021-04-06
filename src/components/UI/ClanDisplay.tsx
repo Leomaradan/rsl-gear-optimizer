@@ -1,5 +1,5 @@
-import { ClansIconName } from "data";
-import type { IClans } from "models";
+import { ClansIconName } from "../../data";
+import type { IClans } from "../../models";
 
 import React from "react";
 import styled from "styled-components";
@@ -15,10 +15,14 @@ interface IClanDisplayProps {
 
 const ClanDisplay = ({ clan, size }: IClanDisplayProps): JSX.Element => (
   <Image
+    alt={`${clan}`}
     size={size}
     src={`assets/Factions/${ClansIconName[clan]}.png`}
-    alt={`${clan}`}
   />
 );
+
+ClanDisplay.defaultProps = {
+  size: undefined,
+};
 
 export default ClanDisplay;

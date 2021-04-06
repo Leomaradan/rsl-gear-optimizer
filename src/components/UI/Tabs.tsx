@@ -1,24 +1,24 @@
 import React from "react";
-import { Tabs as BtTabs, Tab, Form } from "react-bootstrap";
+import { Form, Tab, Tabs as BtTabs } from "react-bootstrap";
 
 export interface ITabProps {
-  id: string;
-  title: string;
-  page: JSX.Element;
   disable?: boolean;
+  id: string;
+  page: JSX.Element;
+  title: string;
 }
 
 interface ITabsProps {
-  tabs: ITabProps[];
   defaultTabs?: string;
+  tabs: ITabProps[];
   widget?: JSX.Element;
   onChange?(id: string): void;
 }
 
 const Tabs = (props: ITabsProps): JSX.Element => {
-  const { tabs, defaultTabs, widget, onChange } = props;
+  const { defaultTabs, onChange, tabs, widget } = props;
 
-  const onSelect = (key: string | null) => {
+  const onSelect = (key: null | string) => {
     if (key && onChange) {
       onChange(key);
     }
@@ -27,15 +27,21 @@ const Tabs = (props: ITabsProps): JSX.Element => {
   return (
     <BtTabs defaultActiveKey={defaultTabs} onSelect={onSelect}>
       {tabs.map((tab) => (
-        <Tab key={tab.id} eventKey={tab.id} title={tab.title}>
+        <Tab eventKey={tab.id} key={tab.id} title={tab.title}>
           {tab.page}
         </Tab>
       ))}
-      <Form inline className="my-2 my-lg-0">
+      <Form className="my-2 my-lg-0" inline>
         {widget}
       </Form>
     </BtTabs>
   );
+};
+
+Tabs.defaultProps = {
+  defaultTabs: undefined,
+  widget: undefined,
+  onChange: undefined,
 };
 
 export default Tabs;

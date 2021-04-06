@@ -1,12 +1,12 @@
 import { useAuth } from "./AuthContext";
 
-import { useLanguage } from "lang/LanguageContext";
-import logger from "process/logger";
+import { useLanguage } from "../lang/LanguageContext";
+import logger from "../process/logger";
 
-import React, { FormEvent, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import React, { FormEvent, useState } from "react";
 import { Alert, Button } from "react-bootstrap";
+import { Link, Redirect } from "react-router-dom";
 
 interface ILoginProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,8 +29,8 @@ const Login = ({ location }: ILoginProps): JSX.Element => {
 
     axios
       .post(`${process.env.REACT_APP_END_POINT}/auth/login`, {
-        userName: email,
         password,
+        userName: email,
       })
       .then((result) => {
         if (result.status === 200) {
@@ -66,30 +66,30 @@ const Login = ({ location }: ILoginProps): JSX.Element => {
         </Alert>
       )}
       <div className="form-group row">
-        <label htmlFor="inputEmail" className="col-sm-2 col-form-label">
+        <label className="col-sm-2 col-form-label" htmlFor="inputEmail">
           {lang.ui.title.email}
         </label>
         <div className="col-sm-10">
           <input
-            type="email"
             className="form-control"
             id="inputEmail"
             onChange={handleChangeEmail}
             required
+            type="email"
           />
         </div>
       </div>
       <div className="form-group row">
-        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
+        <label className="col-sm-2 col-form-label" htmlFor="inputPassword">
           {lang.ui.title.password}
         </label>
         <div className="col-sm-10">
           <input
-            type="password"
             className="form-control"
             id="inputPassword"
             onChange={handleChangePassword}
             required
+            type="password"
           />
         </div>
       </div>

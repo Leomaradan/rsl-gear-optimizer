@@ -1,12 +1,12 @@
 import ChampionForm from "./ChampionConfigurationForm";
 
-import type { IChampionConfiguration } from "models";
-import { deleteChampionConfigurations } from "redux/championConfigurationsSlice";
+import type { IChampionConfiguration } from "../../models";
+import { deleteChampionConfigurations } from "../../redux/championConfigurationsSlice";
 
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
-import { Button } from "react-bootstrap";
 
 interface IChampionEditProps {
   champion: IChampionConfiguration;
@@ -28,10 +28,10 @@ const ChampionEdit = (props: IChampionEditProps): JSX.Element => {
 
   return (
     <>
-      <Button variant="primary" size="sm" onClick={handleShow}>
+      <Button onClick={handleShow} size="sm" variant="primary">
         <Pencil />
       </Button>
-      <Button variant="danger" size="sm" onClick={dispatchDeleteChampion}>
+      <Button onClick={dispatchDeleteChampion} size="sm" variant="danger">
         <Trash />
       </Button>
       <ChampionForm champion={champion} handleClose={handleClose} show={show} />

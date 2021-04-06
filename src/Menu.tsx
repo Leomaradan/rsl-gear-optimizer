@@ -1,25 +1,25 @@
-import { useLanguage } from "lang/LanguageContext";
-import { useAuth } from "auth/AuthContext";
+import { useAuth } from "./auth/AuthContext";
+import { useLanguage } from "./lang/LanguageContext";
 
 import React from "react";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 interface IMenuConfigLink {
-  to: string;
-  text: string;
   needAuth?: boolean;
+  text: string;
+  to: string;
 }
 
 interface IMenuConfigDropDown {
-  text: string;
   links: Array<IMenuConfigLink | "separator">;
   needAuth?: boolean;
+  text: string;
 }
 
 const isLink = (
-  item: IMenuConfigLink | IMenuConfigDropDown | "separator"
+  item: IMenuConfigDropDown | IMenuConfigLink | "separator"
 ): item is IMenuConfigLink => {
   return (item as IMenuConfigLink).to !== undefined;
 };
@@ -46,8 +46,9 @@ const getMenu = (
     }
 
     const firstItem = item.links[0] as IMenuConfigLink;
+
     return (
-      <NavDropdown key={firstItem.to} title={item.text} id={firstItem.to}>
+      <NavDropdown id={firstItem.to} key={firstItem.to} title={item.text}>
         {item.links.map((subitem, index) => {
           if (subitem === "separator") {
             // eslint-disable-next-line react/no-array-index-key
@@ -78,98 +79,98 @@ export default (): JSX.Element => {
 
   const leftMenu: Array<IMenuConfigLink | IMenuConfigDropDown> = [
     {
-      text: lang.ui.title.champions,
       links: [
         {
-          to: "/champions",
           text: lang.ui.title.championsList,
+          to: "/champions",
         },
         {
-          to: "/teams",
           text: lang.ui.title.teams,
+          to: "/teams",
         },
       ],
+      text: lang.ui.title.champions,
     },
     {
-      text: lang.ui.title.artifacts,
       links: [
         {
-          to: "/artifacts",
           text: lang.ui.title.artifacts,
+          to: "/artifacts",
         },
         {
-          to: "/artifacts/accessories",
           text: lang.ui.title.accessories,
+          to: "/artifacts/accessories",
         },
         {
-          to: "/artifacts/sell-list",
           text: lang.ui.title.sellList,
+          to: "/artifacts/sell-list",
         },
       ],
+      text: lang.ui.title.artifacts,
     },
     {
-      text: lang.ui.title.optimizer,
       links: [
         {
-          to: "/champions/configurations",
           text: lang.ui.title.champions,
+          to: "/champions/configurations",
         },
-        { to: "/results", text: lang.ui.title.results },
+        { text: lang.ui.title.results, to: "/results" },
       ],
+      text: lang.ui.title.optimizer,
     },
   ];
   const rightMenu: Array<IMenuConfigLink | IMenuConfigDropDown> = [
     {
-      text: username ?? lang.ui.title.profile,
       links: [
         {
-          to: "/config",
           text: lang.ui.title.config,
+          to: "/config",
         },
         {
-          to: "/config/import",
           text: lang.ui.title.importExport,
+          to: "/config/import",
         },
         "separator",
         {
-          to: "/config/game",
           text: lang.ui.title.gameProgression,
+          to: "/config/game",
         },
         {
-          to: "/config/profile",
-          text: lang.ui.title.profileOptions,
           needAuth: true,
+          text: lang.ui.title.profileOptions,
+          to: "/config/profile",
         },
         "separator",
         {
-          to: "/auth/sign-up",
+          needAuth: false,
           text: lang.ui.title.signup,
-          needAuth: false,
+          to: "/auth/sign-up",
         },
         {
-          to: "/auth/sign-in",
+          needAuth: false,
           text: lang.ui.title.login,
-          needAuth: false,
+          to: "/auth/sign-in",
         },
         {
-          to: "/auth/sign-out",
-          text: lang.ui.title.logout,
           needAuth: true,
+          text: lang.ui.title.logout,
+          to: "/auth/sign-out",
         },
       ],
+      text: username ?? lang.ui.title.profile,
     },
   ];
 
   return (
-    <Navbar bg="primary" expand="lg" variant="dark" fixed="top">
+    <Navbar bg="primary" expand="lg" fixed="top" variant="dark">
       <Container>
-        <Link to="/" className="navbar-brand">
+        <Link className="navbar-brand" to="/">
           <img
             alt=""
+            className="d-inline-block align-top"
+            height="30"
             src="./android-chrome-192x192.png"
             width="30"
-            height="30"
-            className="d-inline-block align-top"
           />
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

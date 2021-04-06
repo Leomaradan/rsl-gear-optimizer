@@ -1,3 +1,5 @@
+import type { IChampionAffinity } from "./Champion";
+
 export type IStat =
   | ""
   | "HP"
@@ -18,3 +20,11 @@ export interface IStatsFull {
   Rune: number;
   Roll: number;
 }
+
+export type IAuraType = "ATK" | "C.RATE" | "DEF" | "HP" | "RESI" | "SPD";
+export type IAura = {
+  type: IAuraType;
+  value?: number;
+  domain?: "Arena" | "Doom Tower" | "Dungeons" | "Faction Crypts" | "Campaign";
+  affinity?: IChampionAffinity;
+};

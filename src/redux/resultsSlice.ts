@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import type { IResults, IResultsState } from "models";
+import type { IResults, IResultsState } from "../models";
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
@@ -11,16 +11,16 @@ const initialState: IResultsState = {
 type IResultsGenerateAction = PayloadAction<IResults[]>;
 
 const resultsSlice = createSlice({
-  name: "results",
   initialState,
+  name: "results",
   reducers: {
-    resultsStartGeneration: (state) => {
-      state.status = "Processing";
-      state.data = [];
-    },
     resultsDoneGeneration: (state, action: IResultsGenerateAction) => {
       state.data = action.payload;
       state.status = "Done";
+    },
+    resultsStartGeneration: (state) => {
+      state.status = "Processing";
+      state.data = [];
     },
   },
 });

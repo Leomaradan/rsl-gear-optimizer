@@ -1,41 +1,39 @@
 /* eslint-disable react/no-array-index-key */
-import Stack from "components/UI/Stack";
-import SetDisplay from "components/UI/SetDisplay";
-import Grid from "components/UI/Grid";
-import DropdownSelect, {
-  IDropdownSelectItem,
-} from "components/UI/DropdownSelect";
-import { useLanguage } from "lang/LanguageContext";
-import RadioButtons from "components/UI/RadioButtons";
-import DisplayError from "components/UI/DisplayError";
-import Toggle from "components/UI/Toggle";
-import type { IState } from "redux/reducers";
-import type { ILanguageChampion, ILanguageSet } from "lang/language";
-import { AdvancedSets, ExistingSets, SortedExistingSets } from "data";
+import DisplayError from "../UI/DisplayError";
+import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
+import Grid from "../UI/Grid";
+import RadioButtons from "../UI/RadioButtons";
+import SetDisplay from "../UI/SetDisplay";
+import Stack from "../UI/Stack";
+import Toggle from "../UI/Toggle";
+import { AdvancedSets, ExistingSets, SortedExistingSets } from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageChampion, ILanguageSet } from "../../lang/language";
 import type {
+  IAccessoriesSlots,
   IChampionConfiguration,
+  IChampionSetMethod,
   IErrors,
   ISets,
-  IChampionSetMethod,
-  IAccessoriesSlots,
-} from "models";
+} from "../../models";
+import type { IState } from "../../redux/reducers";
 
+import produce from "immer";
 import React, { useEffect, useMemo, useState } from "react";
-import { ButtonGroup, Button } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import { Trash } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
-import produce from "immer";
 
 interface IChampionFormBasicInfoProps {
-  state: IChampionConfiguration;
-  setState: React.Dispatch<React.SetStateAction<IChampionConfiguration>>;
   errors: IErrors;
+  setState: React.Dispatch<React.SetStateAction<IChampionConfiguration>>;
+  state: IChampionConfiguration;
 }
 
 const ChampionConfigurationFormBasicInfo = ({
-  state,
-  setState,
   errors,
+  setState,
+  state,
 }: IChampionFormBasicInfoProps): JSX.Element => {
   const lang = useLanguage();
 
@@ -67,8 +65,8 @@ const ChampionConfigurationFormBasicInfo = ({
   const AllSets: IDropdownSelectItem[] = useMemo(
     () =>
       ExistingSets.map((s) => ({
-        value: s,
         text: lang.set[s as keyof ILanguageSet],
+        value: s,
       })),
     [lang]
   );
@@ -90,8 +88,8 @@ const ChampionConfigurationFormBasicInfo = ({
   const selectList = useMemo(
     () =>
       champions.map((c) => ({
+        text: lang.champion[c.Name as keyof ILanguageChampion] ?? c.Name,
         value: c.Guid,
-        text: lang.champion[c.Name as keyof ILanguageChampion],
       })),
     [lang, champions]
   );
@@ -113,7 +111,7 @@ const ChampionConfigurationFormBasicInfo = ({
     }
   };
 
-  const updateSetsAdd = (value: IDropdownSelectItem | null) => {
+  const updateSetsAdd = (value: null | IDropdownSelectItem) => {
     clearDownshift();
 
     setState((current) => {
@@ -189,16 +187,16 @@ const ChampionConfigurationFormBasicInfo = ({
 
   return (
     <Stack>
-      <DisplayError slot="champion" errors={errors} />
+      <DisplayError errors={errors} slot="champion" />
       <div className="form-group row">
-        <label htmlFor="inputName" className="col-sm-2 col-form-label">
+        <label className="col-sm-2 col-form-label" htmlFor="inputName">
           {lang.ui.title.champion}
         </label>
         <div className="col-sm-10">
           <DropdownSelect
             items={selectList}
-            value={state.SourceChampion}
             onChange={updateChampion}
+            value={state.SourceChampion}
           />
         </div>
       </div>
@@ -230,7 +228,7 @@ const ChampionConfigurationFormBasicInfo = ({
           </div>
         </div>
       </fieldset>
-      <DisplayError slot="accessories" errors={errors} />
+      <DisplayError errors={errors} slot="accessories" />
       <fieldset className="form-group">
         <div className="row">
           <legend className="col-form-label col-sm-2 pt-0">
@@ -240,7 +238,7 @@ const ChampionConfigurationFormBasicInfo = ({
             <RadioButtons
               inline
               name="accessoriesRadio"
-              selectedOption={state.Accessories ?? ""}
+              onChange={updateAccessories}
               options={[
                 {
                   text: lang.ui.common.no,
@@ -259,12 +257,12 @@ const ChampionConfigurationFormBasicInfo = ({
                   value: "Banner",
                 },
               ]}
-              onChange={updateAccessories}
+              selectedOption={state.Accessories ?? ""}
             />
           </div>
         </div>
       </fieldset>
-      <DisplayError slot="methods" errors={errors} />
+      <DisplayError errors={errors} slot="methods" />
       <fieldset className="form-group">
         <div className="row">
           <legend className="col-form-label col-sm-2 pt-0">
@@ -274,7 +272,7 @@ const ChampionConfigurationFormBasicInfo = ({
             <RadioButtons
               inline
               name="methodRadio"
-              selectedOption={state.Methods}
+              onChange={updateMethod}
               options={[
                 {
                   text: "specific",
@@ -293,12 +291,12 @@ const ChampionConfigurationFormBasicInfo = ({
                   value: "AllSets",
                 },
               ]}
-              onChange={updateMethod}
+              selectedOption={state.Methods}
             />
           </div>
         </div>
       </fieldset>
-      <DisplayError slot="sets" errors={errors} />
+      <DisplayError errors={errors} slot="sets" />
       <Grid columns={4}>
         {state.Methods === "SpecificSets" && (
           <Stack>
@@ -312,11 +310,11 @@ const ChampionConfigurationFormBasicInfo = ({
                       return (
                         <Button
                           key={`${set}-${index}`}
-                          variant="secondary"
-                          style={{ width: "50px", height: "40px" }}
                           onClick={() => {
                             updateSetsRemoveSet(indexRow, index);
                           }}
+                          style={{ width: "50px", height: "40px" }}
+                          variant="secondary"
                         >
                           <SetDisplay set={set} size={15} />
                           <Trash />
@@ -332,10 +330,10 @@ const ChampionConfigurationFormBasicInfo = ({
                   {sets.map((set) => {
                     return (
                       <Button
-                        key={`${set}-empty`}
-                        variant="secondary"
-                        style={{ width: "50px", height: "40px" }}
                         disabled
+                        key={`${set}-empty`}
+                        style={{ width: "50px", height: "40px" }}
+                        variant="secondary"
                       >
                         <SetDisplay set={set} size={15} />
                       </Button>
@@ -343,11 +341,11 @@ const ChampionConfigurationFormBasicInfo = ({
                   })}
                   {sets.length !== 0 && (
                     <Button
-                      variant="secondary"
                       onClick={() => {
                         updateSetsRemoveRow(indexRow);
                       }}
                       style={{ width: "50px", height: "40px" }}
+                      variant="secondary"
                     >
                       <Trash />
                     </Button>
@@ -356,8 +354,8 @@ const ChampionConfigurationFormBasicInfo = ({
               );
             })}
             <DropdownSelect
-              id="selectSet"
               getClear={getClearDownshift}
+              id="selectSet"
               items={currentSetsCount === 4 ? Only2pSets : AllSets}
               onChange={updateSetsAdd}
             />
@@ -375,15 +373,15 @@ const ChampionConfigurationFormBasicInfo = ({
 
             return (
               <div
-                key={`sets-${set}`}
                 className="form-check custom-control custom-checkbox custom-control-inline"
+                key={`sets-${set}`}
               >
                 <input
-                  className="custom-control-input"
-                  type="checkbox"
-                  id={`sets-${set}`}
                   checked={state.Sets[0].includes(set)}
+                  className="custom-control-input"
+                  id={`sets-${set}`}
                   onChange={updateSetsAll}
+                  type="checkbox"
                   value={set}
                 />
                 <label className="custom-control-label" htmlFor={`sets-${set}`}>

@@ -1,21 +1,21 @@
-import type { IConfigurationOptions, IConfigurationState } from "models";
+import type { IConfigurationOptions, IConfigurationState } from "../models";
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const greatHallBonusAffinity = {
+  ACC: 0,
   "ATK%": 0,
   "C.DMG": 0,
   "DEF%": 0,
   "HP%": 0,
-  ACC: 0,
   RESI: 0,
 };
 
 const initialState: IConfigurationState = {
+  arenaRank: "B1",
   artifactsDisplay: "Table",
   excludeWornArtifact: true,
   generationMethod: "RealValue",
-  arenaRank: "B1",
   greatHallBonus: {
     Force: greatHallBonusAffinity,
     Magic: greatHallBonusAffinity,
@@ -31,8 +31,8 @@ type IConfigurationSetOptionAction = PayloadAction<{
 }>;
 
 const configurationSlice = createSlice({
-  name: "configuration",
   initialState,
+  name: "configuration",
   reducers: {
     setOption: (state, action: IConfigurationSetOptionAction) => {
       return { ...state, [action.payload.option]: action.payload.value };

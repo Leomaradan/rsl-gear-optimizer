@@ -1,14 +1,13 @@
 import ArtifactsList from "../components/Artifacts/ArtifactsList";
 import ArtifactAdd from "../components/Artifacts/ArtifactAdd";
-
-import type { IState } from "redux/reducers";
-import Accordion, { IAccordionSection } from "components/UI/Accordion";
-import { useLanguage } from "lang/LanguageContext";
-import BaseWrapper from "components/UI/Wrapper";
-import Stack from "components/UI/Stack";
-import ClanDisplay from "components/UI/ClanDisplay";
-import type { ILanguageClan } from "lang/language";
-import { SortedExistingClans } from "data";
+import type { IState } from "../redux/reducers";
+import Accordion, { IAccordionSection } from "../components/UI/Accordion";
+import { useLanguage } from "../lang/LanguageContext";
+import BaseWrapper from "../components/UI/Wrapper";
+import Stack from "../components/UI/Stack";
+import ClanDisplay from "../components/UI/ClanDisplay";
+import type { ILanguageClan } from "../lang/language";
+import { SortedExistingClans } from "../data";
 
 import styled from "styled-components";
 import { useSelector } from "react-redux";

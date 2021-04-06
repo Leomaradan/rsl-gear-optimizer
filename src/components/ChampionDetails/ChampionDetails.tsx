@@ -1,20 +1,20 @@
-import ChampionDetailsStats from "./ChampionDetailsStats";
-import ChampionDetailsMasteries from "./ChampionDetailsMasteries";
 import ChampionDetailsArtifacts from "./ChampionDetailsArtifacts";
+import ChampionDetailsMasteries from "./ChampionDetailsMasteries";
+import ChampionDetailsStats from "./ChampionDetailsStats";
 
-import type { IChampion, IProfile } from "models";
-import Tabs from "components/UI/Tabs";
-import ChampionPortrait from "components/UI/ChampionPortrait";
-import { useLanguage } from "lang/LanguageContext";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import StarDisplay from "../UI/StarDisplay";
+import Tabs from "../UI/Tabs";
+import { useLanguage } from "../../lang/LanguageContext";
 import type {
   ILanguageAffinity,
   ILanguageRarity,
   ILanguageRole,
-} from "lang/language";
-import StarDisplay from "components/UI/StarDisplay";
+} from "../../lang/language";
+import type { IChampion, IProfile } from "../../models";
 
-import styled from "styled-components";
 import React from "react";
+import styled from "styled-components";
 
 export interface IChampionDetailsProps {
   champion: IChampion;
@@ -41,8 +41,8 @@ const TabsContainer = styled.div`
 `;
 
 const ChampionDetails = ({
-  profile,
   champion,
+  profile,
 }: IChampionDetailsProps): JSX.Element => {
   const artifacts = profile.artifacts.filter(
     (a) => a.Champion === champion.Guid
@@ -60,7 +60,7 @@ const ChampionDetails = ({
         {lang.ui.title.level}: {champion.Level}
       </div>
       <div>
-        <StarDisplay stars={champion.Quality} awaken={champion.Awaken} />
+        <StarDisplay awaken={champion.Awaken} stars={champion.Quality} />
       </div>
       <div>{lang.affinity[champion.Affinity as keyof ILanguageAffinity]}</div>
       <div>{lang.role[champion.Role as keyof ILanguageRole]}</div>
@@ -69,6 +69,7 @@ const ChampionDetails = ({
       </div>
       <TabsContainer>
         <Tabs
+          defaultTabs="stats"
           tabs={[
             {
               id: "stats",
@@ -102,7 +103,6 @@ const ChampionDetails = ({
               title: "Masteries",
             },
           ]}
-          defaultTabs="stats"
         />
       </TabsContainer>
     </Container>

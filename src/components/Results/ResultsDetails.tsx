@@ -1,20 +1,20 @@
 import ResultsModal from "./ResultsModal";
 
-import ProgressBar from "components/UI/ProgressBar";
-import { useLanguage } from "lang/LanguageContext";
-import type { IState } from "redux/reducers";
-import methodDisplay from "process/methodDisplay";
-import ArtifactDisplay from "components/UI/ArtifactDisplay";
-import ChampionPortrait from "components/UI/ChampionPortrait";
-import SetDisplay from "components/UI/SetDisplay";
-import type { IChampion } from "models";
-import Wrapper from "components/UI/Wrapper";
-import type { ILanguageChampion } from "lang/language";
+import ArtifactDisplay from "../UI/ArtifactDisplay";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import ProgressBar from "../UI/ProgressBar";
+import SetDisplay from "../UI/SetDisplay";
+import Wrapper from "../UI/Wrapper";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageChampion } from "../../lang/language";
+import type { IChampion } from "../../models";
+import methodDisplay from "../../process/methodDisplay";
+import type { IState } from "../../redux/reducers";
 
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import React from "react";
 import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 const NameContainer = styled.div`
   padding: 0.75rem;
@@ -37,7 +37,7 @@ const ResultsDetails = (): JSX.Element => {
   }
 
   return (
-    <Table variant="dark" striped bordered hover>
+    <Table bordered hover striped variant="dark">
       <thead>
         <tr>
           <th>{lang.ui.title.champion}</th>
@@ -74,47 +74,47 @@ const ResultsDetails = (): JSX.Element => {
                 </ChampionContainer>
                 <td>
                   <ArtifactDisplay
-                    size={60}
                     artifact={result.artifacts.find((a) => a.Slot === "Weapon")}
+                    size={60}
                   />
                 </td>
                 <td>
                   <ArtifactDisplay
-                    size={60}
                     artifact={result.artifacts.find((a) => a.Slot === "Helmet")}
+                    size={60}
                   />
                 </td>
                 <td>
                   <ArtifactDisplay
-                    size={60}
                     artifact={result.artifacts.find((a) => a.Slot === "Shield")}
+                    size={60}
                   />
                 </td>
                 <td rowSpan={2}>
                   <Wrapper>
                     <ArtifactDisplay
-                      size={60}
                       artifact={result.artifacts.find((a) => a.Slot === "Ring")}
+                      size={60}
                     />
                     <ArtifactDisplay
-                      size={60}
                       artifact={result.artifacts.find(
                         (a) => a.Slot === "Amulet"
                       )}
+                      size={60}
                     />
                     <ArtifactDisplay
-                      size={60}
                       artifact={result.artifacts.find(
                         (a) => a.Slot === "Banner"
                       )}
+                      size={60}
                     />
                   </Wrapper>
                 </td>
                 <td>
                   <ProgressBar
                     current={result.score}
-                    max={result.maxScore}
                     label={`${lang.ui.title.score}: ${result.score}`}
+                    max={result.maxScore}
                   />
                   {result.bonus.map((set, index) => (
                     <SetDisplay
@@ -135,28 +135,28 @@ const ResultsDetails = (): JSX.Element => {
                 <td>{methodDisplay(lang, result.champion.Methods)}</td>
                 <td>
                   <ArtifactDisplay
-                    size={60}
                     artifact={result.artifacts.find(
                       (a) => a.Slot === "Gauntlets"
                     )}
+                    size={60}
                   />
                 </td>
                 <td>
                   <ArtifactDisplay
-                    size={60}
                     artifact={result.artifacts.find(
                       (a) => a.Slot === "Chestplate"
                     )}
+                    size={60}
                   />
                 </td>
                 <td>
                   <ArtifactDisplay
-                    size={60}
                     artifact={result.artifacts.find((a) => a.Slot === "Boots")}
+                    size={60}
                   />
                 </td>
                 <td>
-                  <ResultsModal result={result} champion={sourceChampion} />
+                  <ResultsModal champion={sourceChampion} result={result} />
                 </td>
               </tr>
             </React.Fragment>

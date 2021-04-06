@@ -1,21 +1,11 @@
 import rootReducer from "./reducers";
 
 import { EnhancedStore, configureStore } from "@reduxjs/toolkit";
-import { Persistor, persistReducer, persistStore } from "redux-persist";
-import localforage from "localforage";
 import logger from "redux-logger";
 
-const persistConfig = {
-  key: "root",
-  storage: localforage,
-  blacklist: ["results"],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export default (): { store: EnhancedStore; persistor: Persistor } => {
-  const store = configureStore({
-    reducer: persistedReducer,
+export default (): EnhancedStore =>
+  configureStore({
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) => {
       const middlewares = getDefaultMiddleware({
         serializableCheck: {
@@ -29,6 +19,3 @@ export default (): { store: EnhancedStore; persistor: Persistor } => {
       return middlewares;
     },
   });
-  const persistor = persistStore(store);
-  return { store, persistor };
-};

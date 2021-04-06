@@ -1,17 +1,17 @@
 import ResultsDetailsStats from "./ResultsDetailsStats";
 
-import Modal from "components/UI/Modal";
-import { useLanguage } from "lang/LanguageContext";
-import type { IChampion, IResults } from "models";
-import type { ILanguageChampion } from "lang/language";
+import Modal from "../UI/Modal";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageChampion } from "../../lang/language";
+import type { IChampion, IResults } from "../../models";
 
-import { Button } from "react-bootstrap";
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { ZoomIn } from "react-bootstrap-icons";
 
 interface IResultsModalProps {
-  result: IResults;
   champion: IChampion;
+  result: IResults;
 }
 
 const ResultsModal = (props: IResultsModalProps): JSX.Element => {
@@ -20,18 +20,18 @@ const ResultsModal = (props: IResultsModalProps): JSX.Element => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { result, champion } = props;
+  const { champion, result } = props;
 
   return (
     <>
-      <Button variant="success" size="sm" onClick={handleShow}>
+      <Button onClick={handleShow} size="sm" variant="success">
         <ZoomIn />
       </Button>
       <Modal
-        title={lang.champion[champion.Name as keyof ILanguageChampion]}
         content={<ResultsDetailsStats result={result} champion={champion} />}
         onClose={handleClose}
         show={show}
+        title={lang.champion[champion.Name as keyof ILanguageChampion]}
       />
     </>
   );

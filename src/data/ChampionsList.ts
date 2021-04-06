@@ -1,5 +1,14 @@
-import type { IRarity, IClans, IChampionRole, IChampionAffinity } from "models";
+import type {
+  IRarity,
+  IClans,
+  IChampionRole,
+  IChampionAffinity,
+  IAura,
+  IChampion,
+  IAuraType,
+} from "../models";
 
+import { v4 as uuidv4 } from "uuid";
 import Champions from "raid-data/champions-base-info.json";
 
 export const ChampionsList: string[] = [];
@@ -9,8 +18,12 @@ export const ChampionsDetailsList: {
     Clan: IClans;
     Role: IChampionRole;
     Affinity: IChampionAffinity;
+    Aura?: IAura;
   };
 } = {};
+
+export const ChampionsListFull: Partial<IChampion>[] = [];
+
 if (ChampionsList.length === 0) {
   ChampionsList.push(
     ...Object.keys(Champions).map((c) => {
@@ -22,6 +35,7 @@ if (ChampionsList.length === 0) {
         role: string;
         avatarUrl?: string;
         detailsUrl: string;
+        aura?: string;
       };
       const name = c.replace(/[^a-z -]+/gi, "").replace(/[ -]+/gi, "_");
       let clan: IClans;
@@ -127,12 +141,56 @@ if (ChampionsList.length === 0) {
           break;
       }
 
+      let aura: IAura | undefined;
+
+      if (championDef.aura) {
+        const [auraStat, auraDomainAffinity] = championDef.aura
+          .split(" - ")
+          .map((t) => t.trim());
+
+        const [auraDomain, auraAffinity] = auraDomainAffinity
+          .split("(")
+          .map((t) => t.trim());
+
+        aura = {
+          type: auraStat as IAuraType,
+        };
+
+        if (auraDomain !== "All") {
+          aura.domain = auraDomain as
+            | "Arena"
+            | "Doom Tower"
+            | "Dungeons"
+            | "Faction Crypts"
+            | "Campaign";
+        }
+
+        if (auraAffinity) {
+          const auraAffinityFormated = auraAffinity.replace(")", "");
+
+          aura.affinity = (auraAffinityFormated[0].toUpperCase() +
+            auraAffinityFormated.slice(1)) as IChampionAffinity;
+        }
+      }
+
       ChampionsDetailsList[name] = {
         Clan: clan,
         Affinity: element,
         Rarity: rarity,
         Role: role,
+        Aura: aura,
       };
+
+      ChampionsListFull.push({
+        Affinity: element,
+        Clan: clan,
+        Guid: uuidv4(),
+        Aura: aura,
+        Name: name,
+        Role: role,
+        Rarity: rarity,
+      });
+
       return name;
     })
   );

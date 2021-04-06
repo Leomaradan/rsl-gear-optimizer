@@ -1,4 +1,4 @@
-import type { IChampionStatsPriority, IStat } from "models";
+import type { IChampionStatsPriority, IStat } from "../models";
 
 const getStatPriority = (
   priority: IChampionStatsPriority,

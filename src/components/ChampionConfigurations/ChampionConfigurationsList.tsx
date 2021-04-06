@@ -1,14 +1,14 @@
 import ChampionAdd from "./ChampionConfigurationAdd";
 import ChampionsListRow from "./ChampionConfigurationsListRow";
 
-import BaseWrapper from "components/UI/Wrapper";
-import type { IState } from "redux/reducers";
-import { useLanguage } from "lang/LanguageContext";
+import BaseWrapper from "../UI/Wrapper";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IState } from "../../redux/reducers";
 
 import React from "react";
+import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { Table } from "react-bootstrap";
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
@@ -36,7 +36,7 @@ const ChampionsList = (): JSX.Element => {
           <ChampionAdd />
         </InnerWrapper>
       </Wrapper>
-      <Table variant="dark" striped bordered hover>
+      <Table bordered hover striped variant="dark">
         <thead>
           <tr>
             <th>{lang.ui.title.champion}</th>
@@ -49,9 +49,9 @@ const ChampionsList = (): JSX.Element => {
         <tbody>
           {championConfigurations.map((champion, index) => (
             <ChampionsListRow
-              key={champion.Guid}
               champion={champion}
               index={index}
+              key={champion.Guid}
               lengthIndex={lengthIndex}
             />
           ))}

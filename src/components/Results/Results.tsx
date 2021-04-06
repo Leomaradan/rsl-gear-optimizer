@@ -1,13 +1,13 @@
 import ResultsDetails from "./ResultsDetails";
 
-import { useLanguage } from "lang/LanguageContext";
-import type { IClans, ISets } from "models";
-import generateCombination from "process/runWorker";
-import type { IState } from "redux/reducers";
-import ProgressBar from "components/UI/ProgressBar";
-import ClanDisplay from "components/UI/ClanDisplay";
-import SetDisplay from "components/UI/SetDisplay";
-import type { ILanguageUiTask } from "lang/language";
+import ClanDisplay from "../UI/ClanDisplay";
+import ProgressBar from "../UI/ProgressBar";
+import SetDisplay from "../UI/SetDisplay";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageUiTask } from "../../lang/language";
+import type { IClans, ISets } from "../../models";
+import generateCombination from "../../process/runWorker";
+import type { IState } from "../../redux/reducers";
 
 import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
@@ -25,8 +25,8 @@ const Results = (): JSX.Element => {
   const results = useSelector((state: IState) => state.results);
 
   const [progress, updateProgress] = useState({
-    label: "",
     current: 0,
+    label: "",
     max: 0,
   });
 
@@ -60,7 +60,7 @@ const Results = (): JSX.Element => {
         ? `${lang.ui.task[task as keyof ILanguageUiTask]} : ${value} / ${max}`
         : `${lang.ui.task[task as keyof ILanguageUiTask]} : ${value}`;
     const current = max ? value : 100;
-    updateProgress({ label, current, max });
+    updateProgress({ current, label, max });
   };
 
   const generate = () => {
@@ -71,6 +71,10 @@ const Results = (): JSX.Element => {
       artifacts,
       configuration.generationMethod,
       configuration.excludeWornArtifact,
+      {
+        arenaRank: configuration.arenaRank,
+        greatHallBonus: configuration.greatHallBonus,
+      },
       updateProgressMessage
     );
   };
@@ -80,7 +84,7 @@ const Results = (): JSX.Element => {
       <h1>{lang.ui.title.results}</h1>
       <ResultsDetails />
       <h2>{lang.ui.title.generationOptions}</h2>
-      <Table variant="dark" striped bordered hover>
+      <Table bordered hover striped variant="dark">
         <tbody>
           <tr>
             <td>{lang.ui.option.excludeWornArtifacts}</td>
@@ -133,7 +137,7 @@ const Results = (): JSX.Element => {
             <td>{lang.ui.title.clan}</td>
             <td>
               {Array.from(activesClans).map((clan) => (
-                <ClanDisplay key={clan} clan={clan} size={30} />
+                <ClanDisplay clan={clan} key={clan} size={30} />
               ))}
             </td>
           </tr>
@@ -142,14 +146,14 @@ const Results = (): JSX.Element => {
       {results.status === "Processing" && (
         <ProgressBar
           current={progress.current}
-          max={progress.max}
           label={progress.label}
+          max={progress.max}
         />
       )}
       <Button
         className="btn btn-primary"
-        onClick={generate}
         disabled={results.status === "Processing"}
+        onClick={generate}
       >
         {lang.ui.button.generateCombination}
       </Button>

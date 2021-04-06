@@ -1,4 +1,4 @@
-import type { ISets } from "models";
+import type { ISets } from "../models";
 
 export const ExistingSets: ISets[] = [
   "Life",

@@ -1,4 +1,4 @@
-import logger from "process/logger";
+import logger from "../process/logger";
 
 import axios from "axios";
 

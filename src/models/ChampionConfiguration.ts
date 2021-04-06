@@ -10,13 +10,21 @@ export type IChampionSetMethod =
 
 export interface IChampionStatsPriority {
   ACC?: number;
+  ACC_Max?: number;
   "ATK%"?: number;
+  "ATK%_Max"?: number;
   "C.DMG"?: number;
+  "C.DMG_Max"?: number;
   "C.RATE"?: number;
+  "C.RATE_Max"?: number;
   "DEF%"?: number;
+  "DEF%_Max"?: number;
   "HP%"?: number;
+  "HP%_Max"?: number;
   RESI?: number;
+  RESI_Max?: number;
   SPD?: number;
+  SPD_Max?: number;
 }
 
 export interface IChampionConfiguration extends IOrderable {

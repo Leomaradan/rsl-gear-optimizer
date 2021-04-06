@@ -1,20 +1,20 @@
-import { useLanguage } from "lang/LanguageContext";
-import type { IChampion, IResults, IStat } from "models";
-import type { ILanguageStat } from "lang/language";
-import type { IState } from "redux/reducers";
-import Stack from "components/UI/Stack";
-import calculateChampionStats from "process/calculateChampionStats";
-import generateTheoricalArtifact from "process/generateTheoricalArtifact";
-import calculateScoreRealStats from "process/calculateScoreRealStats";
+import Stack from "../UI/Stack";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
+import type { IChampion, IResults, IStat } from "../../models";
+import calculateChampionStats from "../../process/calculateChampionStats";
+import calculateScoreRealStats from "../../process/calculateScoreRealStats";
+import generateTheoricalArtifact from "../../process/generateTheoricalArtifact";
+import type { IState } from "../../redux/reducers";
 
-import { Table } from "react-bootstrap";
 import React from "react";
+import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 interface IResultsDetailsStatsProps {
-  result: IResults;
   champion: IChampion;
+  result: IResults;
   theoricalArtifacts?: boolean;
 }
 
@@ -39,7 +39,7 @@ const Red = styled.span`
 `;
 
 const ResultsDetailsStats = (props: IResultsDetailsStatsProps): JSX.Element => {
-  const { result, champion, theoricalArtifacts } = props;
+  const { champion, result, theoricalArtifacts } = props;
   const lang = useLanguage();
 
   const artifacts = useSelector((state: IState) =>
@@ -70,7 +70,7 @@ const ResultsDetailsStats = (props: IResultsDetailsStatsProps): JSX.Element => {
   // table table-dark table-striped table-bordered table-hover
   return (
     <Stack>
-      <Table variant="dark" striped bordered hover>
+      <Table bordered hover striped variant="dark">
         <thead>
           <tr>
             <th colSpan={2}>{lang.ui.title.stat}</th>
@@ -141,6 +141,10 @@ const ResultsDetailsStats = (props: IResultsDetailsStatsProps): JSX.Element => {
       </Table>
     </Stack>
   );
+};
+
+ResultsDetailsStats.defaultProps = {
+  theoricalArtifacts: false,
 };
 
 export default ResultsDetailsStats;

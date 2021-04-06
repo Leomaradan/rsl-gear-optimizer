@@ -1,12 +1,12 @@
 import ArtifactForm from "./ArtifactForm";
 
-import type { IArtifact } from "models";
-import { deleteArtifacts } from "redux/artifactsSlice";
+import type { IArtifact } from "../../models";
+import { deleteArtifacts } from "../../redux/artifactsSlice";
 
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
-import { Button } from "react-bootstrap";
 
 interface IArtifactEditGridProps {
   artifact: IArtifact;
@@ -28,10 +28,10 @@ const ArtifactEditGrid = (props: IArtifactEditGridProps): JSX.Element => {
 
   return (
     <>
-      <Button variant="success" onClick={handleShow}>
+      <Button onClick={handleShow} variant="success">
         <Pencil />
       </Button>
-      <Button variant="danger" onClick={dispatchDeleteArtifact}>
+      <Button onClick={dispatchDeleteArtifact} variant="danger">
         <Trash />
       </Button>
       <ArtifactForm artifact={artifact} handleClose={handleClose} show={show} />

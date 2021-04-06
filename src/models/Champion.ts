@@ -2,6 +2,7 @@ import type { IArtifact } from "./Artifact";
 import type { IClans } from "./Clans";
 import type { IGameProgression } from "./Configuration";
 import type { IRarity, IStars } from "./Quality";
+import type { IAura } from "./Stat";
 
 export type IChampionRole = "Attack" | "Defense" | "HP" | "Support";
 
@@ -86,6 +87,8 @@ export interface IChampion {
   Rarity: IRarity;
   Role: IChampionRole;
   Affinity: IChampionAffinity;
+  Aura?: IAura;
+  InVault: boolean;
   BaseHP: number;
   BaseAccuracy: number;
   BaseAttack: number;

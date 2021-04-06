@@ -1,29 +1,29 @@
 import ChampionEdit from "./ChampionConfigurationEdit";
 
-import ChampionPortrait from "components/UI/ChampionPortrait";
-import Wrapper from "components/UI/Wrapper";
-import SetDisplay from "components/UI/SetDisplay";
-import { useLanguage } from "lang/LanguageContext";
-import { reorderChampionConfigurations } from "redux/championConfigurationsSlice";
-import methodDisplay from "process/methodDisplay";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import SetDisplay from "../UI/SetDisplay";
+import Wrapper from "../UI/Wrapper";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
 import type {
   IChampion,
   IChampionConfiguration,
   IChampionStatsPriority,
-} from "models";
-import type { IState } from "redux/reducers";
-import type { ILanguageStat } from "lang/language";
+} from "../../models";
+import methodDisplay from "../../process/methodDisplay";
+import { reorderChampionConfigurations } from "../../redux/championConfigurationsSlice";
+import type { IState } from "../../redux/reducers";
 
-import { Button } from "react-bootstrap";
 import React from "react";
+import { Button } from "react-bootstrap";
 import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 interface IChampionsListRowProps {
-  lengthIndex: number;
-  index: number;
   champion: IChampionConfiguration;
+  index: number;
+  lengthIndex: number;
 }
 
 const Row = styled.tr<{ activated: boolean }>`
@@ -63,7 +63,7 @@ const ChampionConfigurationListRow = ({
   };
 
   return (
-    <Row key={champion.Guid} activated={champion.Activated}>
+    <Row activated={champion.Activated} key={champion.Guid}>
       <FlatCell>
         <ChampionPortrait champion={sourceChampion} size={100} />
       </FlatCell>
@@ -104,23 +104,23 @@ const ChampionConfigurationListRow = ({
           <ChampionEdit champion={champion} />
           {index !== 0 && (
             <Button
-              variant="link"
-              size="sm"
               onClick={() => {
                 updateOrder(champion.Guid, index - 1);
               }}
+              size="sm"
+              variant="link"
             >
               <ArrowUp />
             </Button>
           )}
           {index !== lengthIndex && (
             <Button
-              variant="link"
-              size="sm"
               onClick={() => {
                 // We need to "push" the index to two position
                 updateOrder(champion.Guid, index + 2);
               }}
+              size="sm"
+              variant="link"
             >
               <ArrowDown />
             </Button>

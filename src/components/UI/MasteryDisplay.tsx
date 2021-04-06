@@ -1,17 +1,17 @@
 import Tooltip from "./Tooltip";
 
-import { MasteryIconName } from "data/Masteries";
-import type { ILanguageMastery } from "lang/language";
-import { useLanguage } from "lang/LanguageContext";
-import type { IChampionMastery } from "models";
+import { MasteryIconName } from "../../data/Masteries";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageMastery } from "../../lang/language";
+import type { IChampionMastery } from "../../models";
 
 import React from "react";
 import styled from "styled-components";
 
 interface IDisplayMasteryProps {
-  mastery: IChampionMastery;
   activated: boolean;
   disabled: boolean;
+  mastery: IChampionMastery;
   size: number;
   onClick?(): void;
 }
@@ -23,9 +23,9 @@ const Image = styled.img<Partial<IDisplayMasteryProps>>`
 `;
 
 const DisplayMastery = ({
-  mastery,
   activated,
   disabled,
+  mastery,
   onClick,
   size,
 }: IDisplayMasteryProps): JSX.Element => {
@@ -37,15 +37,19 @@ const DisplayMastery = ({
       text={lang.masteries[mastery as keyof ILanguageMastery]}
     >
       <Image
-        size={size}
         activated={activated}
-        disabled={disabled}
-        src={`assets/Masteries/${MasteryIconName[mastery]}.png`}
         alt={`${mastery}`}
+        disabled={disabled}
         onClick={onClick}
+        size={size}
+        src={`assets/Masteries/${MasteryIconName[mastery]}.png`}
       />
     </Tooltip>
   );
+};
+
+DisplayMastery.defaultProps = {
+  onClick: undefined,
 };
 
 export default DisplayMastery;

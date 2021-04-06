@@ -1,18 +1,16 @@
 import App from "./App";
-import { unregister } from "./serviceWorker";
 import configureStore from "./redux/configureStore";
-
-import LanguageProvider from "lang/LanguageProvider";
-import AuthProvider from "auth/AuthProvider";
+import { unregister } from "./serviceWorker";
+import AuthProvider from "./auth/AuthProvider";
+import LanguageProvider from "./lang/LanguageProvider";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { PersistGate } from "redux-persist/integration/react";
 import { HelmetProvider } from "react-helmet-async";
-import "./theme.scss";
 import { Provider as ReduxProvider } from "react-redux";
+import "./theme.scss";
 
-const { store, persistor } = configureStore();
+const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,9 +18,7 @@ ReactDOM.render(
       <LanguageProvider>
         <HelmetProvider>
           <ReduxProvider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <App />
-            </PersistGate>
+            <App />
           </ReduxProvider>
         </HelmetProvider>
       </LanguageProvider>
@@ -31,6 +27,11 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
+/*
+            <PersistGate loading={null} persistor={persistor}>
+              <App />
+            </PersistGate>
+*/
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

@@ -1,26 +1,26 @@
 /* eslint-disable no-param-reassign */
-import StatsSelector from "./StatsSelector";
 import type { IArtifactFormSubProps } from "./ArtifactForm";
+import StatsSelector from "./StatsSelector";
 
-import DisplayError from "components/UI/DisplayError";
-import Wrapper from "components/UI/Wrapper";
-import { useLanguage } from "lang/LanguageContext";
-import type { IArtifact, IStatsFull, IStat } from "models";
-import type { ILanguageUiTitle } from "lang/language";
+import DisplayError from "../UI/DisplayError";
+import Wrapper from "../UI/Wrapper";
 import {
-  StatsBySlots,
-  ExistingStats,
-  WeaponSubStats,
-  HelmetSubStats,
-  ShieldSubStats,
-  RingSubStats,
   AmuletSubStats,
   BannerSubStats,
-} from "data";
+  ExistingStats,
+  HelmetSubStats,
+  RingSubStats,
+  ShieldSubStats,
+  StatsBySlots,
+  WeaponSubStats,
+} from "../../data";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageUiTitle } from "../../lang/language";
+import type { IArtifact, IStat, IStatsFull } from "../../models";
 
 import produce from "immer";
+import type React from "react";
 import { Button, Form, Row } from "react-bootstrap";
-import React from "react";
 import { DashCircle, PlusCircle } from "react-bootstrap-icons";
 import styled from "styled-components";
 
@@ -41,10 +41,10 @@ const RuneCell = styled.div`
 `;
 
 export default ({
-  state,
-  setState,
   errors,
   lockedFields,
+  setState,
+  state,
 }: IArtifactFormSubProps): JSX.Element => {
   const lang = useLanguage();
 
@@ -52,7 +52,7 @@ export default ({
 
   const updateNewArtifact = (
     key: keyof IArtifact,
-    value: string | number | IStatsFull[]
+    value: IStatsFull[] | number | string
   ) => {
     setState((current) => ({ ...current, [key]: value }));
   };
@@ -162,26 +162,26 @@ export default ({
           <StatsSelector
             availableStats={availableStats}
             currentStats={state.MainStats}
-            onChange={onChangeMainStats}
             disabled={lockedFields.includes("MainStats")}
+            onChange={onChangeMainStats}
           />
-          <DisplayError slot="MainStats" errors={errors} />
+          <DisplayError errors={errors} slot="MainStats" />
         </LargeCell>
 
         <Label>{lang.ui.title.mainStatsValue}</Label>
         <LargeCell>
           <Form.Control
-            size="sm"
-            type="number"
             disabled={
               state.MainStats === "" || lockedFields.includes("MainStatValue")
             }
-            min={0}
             max={9999}
-            value={state.MainStatsValue ?? 0}
+            min={0}
             onChange={onChangeMainStatsValue}
+            size="sm"
+            type="number"
+            value={state.MainStatsValue ?? 0}
           />
-          <DisplayError slot="MainStatValue" errors={errors} />
+          <DisplayError errors={errors} slot="MainStatValue" />
         </LargeCell>
       </Form.Group>
       <Form.Row>
@@ -215,43 +215,41 @@ export default ({
             <LargeCell>
               <StatsSelector
                 availableStats={availableSubStats[statIndex]}
+                currentStats={stat?.Stats}
                 disabled={
                   selectDisabled ||
                   lockedFields.includes(`SubStats${statIndex + 1}`)
                 }
-                currentStats={stat?.Stats}
                 onChange={(e) => {
                   onChangeSubStats(e, statIndex);
                 }}
               />
-              <DisplayError slot={`SubStat${statIndex + 1}`} errors={errors} />
+              <DisplayError errors={errors} slot={`SubStat${statIndex + 1}`} />
             </LargeCell>
             <MediumCell>
               <Form.Control
-                type="number"
-                size="sm"
                 disabled={
                   valuesDisabled ||
                   lockedFields.includes(`SubStatsValue${statIndex + 1}`)
                 }
-                min={0}
                 max={9999}
-                value={stat?.Value ?? 0}
+                min={0}
                 onChange={(e) => {
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChangeSubStatsValue(e as any, statIndex);
                 }}
+                size="sm"
+                type="number"
+                value={stat?.Value ?? 0}
               />
               <DisplayError
-                slot={`SubStatValue${statIndex + 1}`}
                 errors={errors}
+                slot={`SubStatValue${statIndex + 1}`}
               />
             </MediumCell>
             <MediumCell>
               <Wrapper>
                 <Button
-                  variant="primary"
-                  size="sm"
                   disabled={
                     stat?.Roll === 0 ||
                     valuesDisabled ||
@@ -260,12 +258,12 @@ export default ({
                   onClick={() => {
                     onChangeSubStatsRolls((stat?.Roll ?? 0) - 1, statIndex);
                   }}
+                  size="sm"
+                  variant="primary"
                 >
                   <DashCircle />
                 </Button>
                 <Button
-                  variant="primary"
-                  size="sm"
                   disabled={
                     stat?.Roll === 4 ||
                     numberRolls === 4 ||
@@ -275,6 +273,8 @@ export default ({
                   onClick={() => {
                     onChangeSubStatsRolls((stat?.Roll ?? 0) + 1, statIndex);
                   }}
+                  size="sm"
+                  variant="primary"
                 >
                   <PlusCircle />
                 </Button>
@@ -285,19 +285,19 @@ export default ({
               <RuneCell>
                 <Rune />
                 <Form.Control
-                  type="number"
-                  size="sm"
                   disabled={
                     valuesDisabled ||
                     lockedFields.includes(`SubStatsRune${statIndex + 1}`)
                   }
-                  min={0}
                   max={9999}
-                  value={stat?.Rune ?? 0}
+                  min={0}
                   onChange={(e) => {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChangeSubStatsRune(e as any, statIndex);
                   }}
+                  size="sm"
+                  type="number"
+                  value={stat?.Rune ?? 0}
                 />
               </RuneCell>
             </RuneCell>

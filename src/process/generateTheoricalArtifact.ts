@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import type { IStatsFull, IArtifact } from "models";
+import type { IArtifact, IStatsFull } from "../models";
 
 const RollCombinations = [
   [0, 0, 1, 3],
@@ -70,25 +70,25 @@ const generateTheoricalArtifact = (baseArtifact: IArtifact): IArtifact => {
   const newArtifact = baseArtifact;
 
   switch (newArtifact.MainStats) {
-    case "HP":
-      newArtifact.MainStatsValue = MaxStatsHP[newArtifact.Quality - 1];
+    case "ACC":
+    case "RESI":
+      newArtifact.MainStatsValue = MaxStatsResistAcc[newArtifact.Quality - 1];
       break;
     case "ATK":
     case "DEF":
       newArtifact.MainStatsValue = MaxStatsAtkDef[newArtifact.Quality - 1];
       break;
-    case "HP%":
     case "ATK%":
-    case "DEF%":
     case "C.RATE":
+    case "DEF%":
+    case "HP%":
       newArtifact.MainStatsValue = MaxStatsPercent[newArtifact.Quality - 1];
       break;
     case "C.DMG":
       newArtifact.MainStatsValue = MaxStatsCDamage[newArtifact.Quality - 1];
       break;
-    case "ACC":
-    case "RESI":
-      newArtifact.MainStatsValue = MaxStatsResistAcc[newArtifact.Quality - 1];
+    case "HP":
+      newArtifact.MainStatsValue = MaxStatsHP[newArtifact.Quality - 1];
       break;
     case "SPD":
       newArtifact.MainStatsValue = MaxStatsSpeed[newArtifact.Quality - 1];
@@ -161,7 +161,7 @@ const generateTheoricalArtifact = (baseArtifact: IArtifact): IArtifact => {
 
   baseArtifact.SubStats.forEach((baseStat, index) => {
     if (baseStat !== undefined) {
-      const newStat: IStatsFull = { ...baseStat, Value: 0, Roll: 0 };
+      const newStat: IStatsFull = { ...baseStat, Roll: 0, Value: 0 };
       let counter = 0;
       const sumStat = Array.from(artifacts).reduce((stat, artifactJson) => {
         const artifact: IArtifact = JSON.parse(artifactJson);

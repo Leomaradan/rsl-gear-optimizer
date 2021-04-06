@@ -1,11 +1,11 @@
-import type { IArtifact, IChampion, IProfile, IStat } from "models";
-import { useLanguage } from "lang/LanguageContext";
-import calculateChampionStats from "process/calculateChampionStats";
-import type { ILanguageStat } from "lang/language";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageStat } from "../../lang/language";
+import type { IArtifact, IChampion, IProfile, IStat } from "../../models";
+import calculateChampionStats from "../../process/calculateChampionStats";
 
 import React from "react";
-import styled from "styled-components";
 import { Table } from "react-bootstrap";
+import styled from "styled-components";
 
 const Yellow = styled.span`
   color: yellowgreen;
@@ -53,14 +53,14 @@ const returnRow = (
 );
 
 interface IChampionDetailsStatsProps {
-  champion: IChampion;
   artifacts: IArtifact[];
+  champion: IChampion;
   profile: IProfile;
 }
 
 const ChampionDetailsStats = ({
-  champion,
   artifacts,
+  champion,
   profile,
 }: IChampionDetailsStatsProps): JSX.Element => {
   const lang = useLanguage();
@@ -74,14 +74,14 @@ const ChampionDetailsStats = ({
   const statsPercent: IStat[] = ["C.RATE", "C.DMG"];
 
   return (
-    <Table variant="dark" striped bordered hover>
+    <Table bordered hover striped variant="dark">
       <thead>
         <tr>
           <th colSpan={2}>{lang.ui.title.stat}</th>
           <th>{lang.ui.title.artifacts}</th>
           <th>{lang.ui.title.greatHall}</th>
           <th>{lang.ui.title.arenaRank}</th>
-          <th>Masteries</th>
+          <th>{lang.ui.title.masteries}</th>
           <th>{lang.ui.common.total}</th>
         </tr>
       </thead>

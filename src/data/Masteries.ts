@@ -1,4 +1,4 @@
-import type { IChampionMastery } from "models";
+import type { IChampionMastery } from "../models";
 
 export const MasteryIconName: Record<IChampionMastery, string> = {
   ArcaneCelerity: "Arcane_Celerity",

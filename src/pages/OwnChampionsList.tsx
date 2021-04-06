@@ -1,5 +1,5 @@
-import type { IState } from "redux/reducers";
-import ChampionsList from "components/Champions/ChampionsList";
+import type { IState } from "../redux/reducers";
+import ChampionsList from "../components/Champions/ChampionsList";
 
 import { useSelector } from "react-redux";
 import React from "react";

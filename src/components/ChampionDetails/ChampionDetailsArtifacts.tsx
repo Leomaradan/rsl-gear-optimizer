@@ -1,11 +1,11 @@
-import type { IArtifact } from "models";
-import ArtifactDisplay from "components/UI/ArtifactDisplay";
-import { updateArtifacts } from "redux/artifactsSlice";
-import ArtifactForm from "components/Artifacts/ArtifactForm";
+import ArtifactForm from "../Artifacts/ArtifactForm";
+import ArtifactDisplay from "../UI/ArtifactDisplay";
+import type { IArtifact } from "../../models";
+import { updateArtifacts } from "../../redux/artifactsSlice";
 
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Table } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 
 interface IArtifactPopupProps {
   artifact?: IArtifact;
@@ -29,29 +29,34 @@ const ArtifactPopup = ({ artifact, readOnly }: IArtifactPopupProps) => {
   const unassign = () => {
     dispatch(
       updateArtifacts({
-        id: artifact.Guid,
         artifact: { ...artifact, Champion: undefined },
+        id: artifact.Guid,
       })
     );
   };
 
   return (
     <>
-      <div role="presentation" onClick={handleShow}>
+      <div onClick={handleShow} role="presentation">
         <ArtifactDisplay artifact={artifact} showChampion={false} />
       </div>
 
       <ArtifactForm
         artifact={artifact}
         handleClose={handleClose}
-        show={show}
         lockedFields={["Champion"]}
         moreButtons={[
           { action: unassign, title: "Unassign", variant: "danger" },
         ]}
+        show={show}
       />
     </>
   );
+};
+
+ArtifactPopup.defaultProps = {
+  artifact: null,
+  readOnly: false,
 };
 
 interface IChampionDetailsArtifactsProps {

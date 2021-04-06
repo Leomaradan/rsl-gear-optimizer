@@ -1,6 +1,6 @@
-import logger from "process/logger";
-import type { IProfile, IServiceProps } from "models";
-import emptyFunction from "process/emptyFunction";
+import type { IProfile, IServiceProps } from "../models";
+import emptyFunction from "../process/emptyFunction";
+import logger from "../process/logger";
 
 import axios from "axios";
 
@@ -9,9 +9,9 @@ interface IGetProfile extends IServiceProps<IProfile> {
 }
 
 const getProfile = ({
-  userName,
-  success,
   fail: failBase,
+  success,
+  userName,
 }: IGetProfile): void => {
   const fail = failBase ?? emptyFunction;
 

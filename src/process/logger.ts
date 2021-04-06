@@ -20,7 +20,7 @@ const error = (...optionalParams: any[]): void => {
 };
 
 export default {
+  error,
   info,
   warn,
-  error,
 };

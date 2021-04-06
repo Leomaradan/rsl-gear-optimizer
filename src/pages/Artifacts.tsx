@@ -1,14 +1,13 @@
 import ArtifactsList from "../components/Artifacts/ArtifactsList";
 import ArtifactAdd from "../components/Artifacts/ArtifactAdd";
-
-import type { IState } from "redux/reducers";
-import SetDisplay from "components/UI/SetDisplay";
-import Accordion, { IAccordionSection } from "components/UI/Accordion";
-import { useLanguage } from "lang/LanguageContext";
-import BaseWrapper from "components/UI/Wrapper";
-import Stack from "components/UI/Stack";
-import type { ILanguageSet } from "lang/language";
-import { SortedExistingSets, AdvancedSets } from "data";
+import type { IState } from "../redux/reducers";
+import SetDisplay from "../components/UI/SetDisplay";
+import Accordion, { IAccordionSection } from "../components/UI/Accordion";
+import { useLanguage } from "../lang/LanguageContext";
+import BaseWrapper from "../components/UI/Wrapper";
+import Stack from "../components/UI/Stack";
+import type { ILanguageSet } from "../lang/language";
+import { SortedExistingSets, AdvancedSets } from "../data";
 
 import styled from "styled-components";
 import { useSelector } from "react-redux";

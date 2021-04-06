@@ -1,4 +1,4 @@
-import { useLanguage } from "lang/LanguageContext";
+import { useLanguage } from "../lang/LanguageContext";
 
 import React from "react";
 import { Button, Jumbotron } from "react-bootstrap";

@@ -1,14 +1,14 @@
 import Stack from "./Stack";
 
 import React, { useState } from "react";
-import styled from "styled-components";
 import { Accordion as BtAccordion, Button, Card } from "react-bootstrap";
+import styled from "styled-components";
 
 export interface IAccordionSection {
-  key: string;
-  title: JSX.Element | string;
   content: JSX.Element | string;
   expanded?: boolean;
+  key: string;
+  title: JSX.Element | string;
   widget?: JSX.Element;
 }
 const CardHeader = styled(Card.Header)`
@@ -56,7 +56,7 @@ const Accordion = ({ section }: IAccordionProps): JSX.Element => {
       {listSection.map((key) => {
         const filterItems = section.find((i) => i.key === key);
         if (filterItems) {
-          return <InnerAccordion key={key} filterItems={filterItems} />;
+          return <InnerAccordion filterItems={filterItems} key={key} />;
         }
         return null;
       })}

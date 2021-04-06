@@ -1,38 +1,42 @@
 import calculateBonus from "./calculateBonus";
 import calculateScoreEasyMode from "./calculateScoreEasyMode";
-import generateTable, { getEmtyItem } from "./generateTable";
 import calculateScoreRealStats from "./calculateScoreRealStats";
 import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
+import generateTable, { getEmtyItem } from "./generateTable";
+import calculateChampionStats from "./calculateChampionStats";
 
 import type {
   IArtifact,
-  IChampionConfiguration,
-  IGenerationMethod,
-  IResultsWorkerCommands,
-  IResultsRow,
-  IScoredArtifact,
   IChampion,
-} from "models";
+  IChampionConfiguration,
+  IGameProgression,
+  IGenerationMethod,
+  IResultsRow,
+  IResultsWorkerCommands,
+  IScoredArtifact,
+} from "../models";
 
 interface IGenerateDataProps {
   artifacts: IArtifact[];
-  championConfiguration: IChampionConfiguration;
   champion: IChampion;
-  generationMethod: IGenerationMethod;
-  nbChampion: number;
-  maxChampions: number;
+  championConfiguration: IChampionConfiguration;
   forceComplete: boolean;
+  generationMethod: IGenerationMethod;
+  maxChampions: number;
+  nbChampion: number;
+  gameProgression: IGameProgression;
 }
 
 const generateData = (
   {
     artifacts,
-    championConfiguration,
     champion,
+    championConfiguration,
     forceComplete,
     generationMethod,
     maxChampions,
     nbChampion,
+    gameProgression,
   }: IGenerateDataProps,
   postCommand: (command: IResultsWorkerCommands) => void
 ): IResultsRow[] => {
@@ -42,6 +46,25 @@ const generateData = (
     const hasAmulet =
       hasBanner || championConfiguration.Accessories === "Amulet";
     const hasRing = hasAmulet || championConfiguration.Accessories === "Ring";
+
+    const maxAcc = championConfiguration.StatsPriority.ACC_Max;
+    const maxAtk = championConfiguration.StatsPriority["ATK%_Max"];
+    const maxDmg = championConfiguration.StatsPriority["C.DMG_Max"];
+    const maxCrate = championConfiguration.StatsPriority["C.RATE_Max"];
+    const maxDef = championConfiguration.StatsPriority["DEF%_Max"];
+    const maxHp = championConfiguration.StatsPriority["HP%_Max"];
+    const maxResi = championConfiguration.StatsPriority.RESI_Max;
+    const maxSpd = championConfiguration.StatsPriority.SPD_Max;
+
+    const hasMaxStat =
+      maxAcc ||
+      maxAtk ||
+      maxDmg ||
+      maxCrate ||
+      maxDef ||
+      maxHp ||
+      maxResi ||
+      maxSpd;
 
     artifacts.forEach((artifact) => {
       let score = 0;
@@ -112,12 +135,53 @@ const generateData = (
           score += 2;
         }
 
+        // If there is max stat cap, we need to calculate the real state of the champion
+        if (hasMaxStat) {
+          const calulatedStats = calculateChampionStats(
+            champion,
+            artifactList,
+            gameProgression
+          );
+
+          if (maxAcc && calulatedStats.ACC.total > maxAcc) {
+            score = 0;
+          }
+
+          if (maxAtk && calulatedStats.ATK.total > maxAtk) {
+            score = 0;
+          }
+
+          if (maxDmg && calulatedStats["C.DMG"].total > maxDmg) {
+            score = 0;
+          }
+
+          if (maxCrate && calulatedStats["C.RATE"].total > maxCrate) {
+            score = 0;
+          }
+
+          if (maxDef && calulatedStats.DEF.total > maxDef) {
+            score = 0;
+          }
+
+          if (maxHp && calulatedStats.HP.total > maxHp) {
+            score = 0;
+          }
+
+          if (maxResi && calulatedStats.RESI.total > maxResi) {
+            score = 0;
+          }
+
+          if (maxSpd && calulatedStats.SPD.total > maxSpd) {
+            score = 0;
+          }
+        }
+
         if (postCommand && index % 1500 === 0) {
           postCommand({
+            champion: championConfiguration.SourceChampion,
             command: "progress",
             current: index + nbChampion * max,
             max: max * maxChampions,
-            champion: championConfiguration.SourceChampion,
             task: "generateTable",
           });
         }
@@ -128,10 +192,10 @@ const generateData = (
 
         result.push({
           artifacts: [...artifactList, rings[0], amulets[0], banners[0]],
-          score,
-          maxScore: 0,
           bonus: bonus.sets,
           bonusComplete: bonus.complete,
+          maxScore: 0,
+          score,
         });
       }
       index += 1;

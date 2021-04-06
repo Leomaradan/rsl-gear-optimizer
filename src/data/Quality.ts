@@ -1,4 +1,4 @@
-import type { IRarity } from "models";
+import type { IRarity } from "../models";
 
 export const RarityString: Record<IRarity, string> = {
   "": "",

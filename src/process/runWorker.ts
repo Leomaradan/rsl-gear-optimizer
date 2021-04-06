@@ -1,22 +1,23 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import logger from "./logger";
 
-import {
-  resultsDoneGeneration,
-  resultsStartGeneration,
-} from "redux/resultsSlice";
 import type {
   IArtifact,
   IChampion,
   IChampionConfiguration,
+  IGameProgression,
   IGenerationMethod,
   IResultsWorkerCommandGenerate,
   IResultsWorkerEvents,
-} from "models";
+} from "../models";
+import {
+  resultsDoneGeneration,
+  resultsStartGeneration,
+} from "../redux/resultsSlice";
 
+import type { Dispatch } from "@reduxjs/toolkit";
 // eslint-disable-next-line import/no-unresolved
 import CombinationWorker from "worker-loader!process/combination.worker";
-import type { Dispatch } from "@reduxjs/toolkit";
 
 export default (
   dispatch: Dispatch,
@@ -25,6 +26,7 @@ export default (
   artifacts: IArtifact[],
   generationMethod: IGenerationMethod,
   excludeWornArtifacts: boolean,
+  gameProgression: IGameProgression,
   updateProgress: (task: string, value: number, max: number) => void
 ): void => {
   dispatch(resultsStartGeneration());
@@ -33,12 +35,13 @@ export default (
   const time = performance.now();
 
   const generateCommand: IResultsWorkerCommandGenerate = {
-    command: "generate",
-    championConfigurations,
     artifacts,
-    generationMethod,
+    championConfigurations,
     champions,
+    command: "generate",
     excludeWornArtifacts,
+    generationMethod,
+    gameProgression,
   };
 
   worker.postMessage(generateCommand);

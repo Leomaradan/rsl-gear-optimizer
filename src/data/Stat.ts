@@ -1,4 +1,4 @@
-import type { IStat } from "models";
+import type { IStat } from "../models";
 
 export const ExistingStats: IStat[] = [
   "HP",

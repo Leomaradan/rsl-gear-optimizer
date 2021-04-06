@@ -4,15 +4,16 @@
 import generateData from "./generateData";
 
 import type {
+  IArtifact,
+  IChampion,
+  IChampionConfiguration,
+  IGameProgression,
+  IGenerationMethod,
+  IResults,
+  IResultsRow,
   IResultsWorkerCommands,
   IResultsWorkerEventGenerate,
-  IResults,
-  IChampionConfiguration,
-  IArtifact,
-  IGenerationMethod,
-  IChampion,
-  IResultsRow,
-} from "models";
+} from "../models";
 
 const ctx: Worker = self as any;
 
@@ -22,11 +23,12 @@ const postCommand = (command: IResultsWorkerCommands) => {
 
 let items = 0;
 interface IGenerateProps {
+  artifacts: IArtifact[];
   championConfigurations: IChampionConfiguration[];
   champions: IChampion[];
-  artifacts: IArtifact[];
-  generationMethod: IGenerationMethod;
   excludeWornArtifacts: boolean;
+  generationMethod: IGenerationMethod;
+  gameProgression: IGameProgression;
 }
 class CombinationWorker {
   // eslint-disable-next-line class-methods-use-this
@@ -36,6 +38,7 @@ class CombinationWorker {
     champions,
     excludeWornArtifacts,
     generationMethod,
+    gameProgression,
   }: IGenerateProps): IResults[] {
     const results: IResults[] = [];
     const usedArtifacts: string[] = [];
@@ -49,8 +52,8 @@ class CombinationWorker {
       ) as IChampion;
 
       postCommand({
-        message: `Starting with champion ${championConfiguration.SourceChampion}`,
         command: "message",
+        message: `Starting with champion ${championConfiguration.SourceChampion}`,
       });
 
       if (
@@ -80,12 +83,13 @@ class CombinationWorker {
       let combinations = generateData(
         {
           artifacts: filtererdArtifacts,
-          championConfiguration,
-          generationMethod,
-          nbChampion,
-          maxChampions,
           champion,
+          championConfiguration,
           forceComplete: championConfiguration.Methods === "ListSets",
+          generationMethod,
+          maxChampions,
+          nbChampion,
+          gameProgression,
         },
         postCommand
       );
@@ -107,15 +111,15 @@ class CombinationWorker {
         selected = {
           artifacts: [],
           bonus: [],
+          bonusComplete: false,
           maxScore: 0,
           score: 0,
-          bonusComplete: false,
         };
       }
 
       postCommand({
-        message: `Ending with champion ${championConfiguration.SourceChampion}`,
         command: "message",
+        message: `Ending with champion ${championConfiguration.SourceChampion}`,
       });
 
       results.push({
@@ -133,9 +137,9 @@ const worker = new CombinationWorker();
 
 ctx.addEventListener("message", (event: IResultsWorkerEventGenerate) => {
   if (event.data.command === "generate") {
-    postCommand({ message: JSON.stringify(event.data), command: "message" });
+    postCommand({ command: "message", message: JSON.stringify(event.data) });
     const results = worker.generate(event.data);
 
-    postCommand({ command: "done", results, items });
+    postCommand({ command: "done", items, results });
   }
 });

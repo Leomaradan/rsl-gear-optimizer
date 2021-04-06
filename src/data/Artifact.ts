@@ -1,4 +1,4 @@
-import type { ISlots, IStat } from "models";
+import type { ISlots, IStat } from "../models";
 
 const WeaponStats: IStat[] = ["ATK"];
 export const WeaponSubStats: IStat[] = [

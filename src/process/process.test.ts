@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import calculateBonus from "./calculateBonus";
-import generateTable from "./generateTable";
-import reorder from "./reorder";
 import calculateScoreRealStats from "./calculateScoreRealStats";
 import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
+import generateTable from "./generateTable";
 import generateTheoricalArtifact from "./generateTheoricalArtifact";
+import reorder from "./reorder";
 
-import type { IArtifact, IOrderable, IScoredArtifact } from "models";
+import type { IArtifact, IOrderable, IScoredArtifact } from "../models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {
@@ -20,8 +20,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: ["Offense", "Offense", "Offense"],
       complete: true,
+      sets: ["Offense", "Offense", "Offense"],
     });
   });
 
@@ -36,8 +36,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: ["Lifesteal"],
       complete: false,
+      sets: ["Lifesteal"],
     });
   });
 
@@ -52,8 +52,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: [],
       complete: false,
+      sets: [],
     });
   });
 
@@ -68,8 +68,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: ["Speed", "Lifesteal"],
       complete: true,
+      sets: ["Speed", "Lifesteal"],
     });
   });
 
@@ -84,8 +84,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: ["Speed", "Offense"],
       complete: false,
+      sets: ["Speed", "Offense"],
     });
   });
 
@@ -100,8 +100,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: ["Speed", "Offense", "CriticalRate"],
       complete: true,
+      sets: ["Speed", "Offense", "CriticalRate"],
     });
   });
 
@@ -116,8 +116,8 @@ describe("Process >> Calculate Bonus", () => {
     ] as any);
 
     expect(result).toStrictEqual({
-      sets: ["Speed", "Offense"],
       complete: false,
+      sets: ["Speed", "Offense"],
     });
   });
 });
@@ -267,14 +267,14 @@ describe("Process >> Calculate Stats", () => {
       FiveStarHPArtifactWithSubStat
     );
 
-    expect(hp).toBe(120 * 0.2);
-    expect(atk).toBe(120 * 0.2);
+    expect(hp).toBe(0.2 * 120);
+    expect(atk).toBe(0.2 * 120);
     expect(defp).toBe(120);
     expect(cmdg).toBe(120);
     expect(resist).toBe(120);
     expect(spd).toBe(120);
 
-    expect(hpFive).toBe(100 * 0.2);
+    expect(hpFive).toBe(0.2 * 100);
     expect(hpFiveSubstat).toBe(100 * 0.2 + 100);
   });
 
@@ -302,14 +302,14 @@ describe("Process >> Calculate Stats", () => {
       ] as any,
     } as IArtifact);
 
-    expect(hp).toBe(120 * 0.2);
-    expect(atk).toBe(120 * 0.2);
+    expect(hp).toBe(0.2 * 120);
+    expect(atk).toBe(0.2 * 120);
     expect(defp).toBe(120);
     expect(cmdg).toBe(120);
     expect(resist).toBe(120);
     expect(spd).toBe(120);
 
-    expect(hpFive).toBe(100 * 0.2);
+    expect(hpFive).toBe(0.2 * 100);
     expect(hpFiveSubstat).toBe(hpFiveSubstatVerification);
   });
 });
@@ -380,23 +380,23 @@ describe("Process >> Generate Table", () => {
 
     expect(result.length).toBe(729); // 6 artifact, 3 possibility each : 3^6
     expect(result[0].artifacts.filter((f) => f.Rarity !== "")).toStrictEqual([
-      { Slot: "Weapon", Guid: "W1", score: 1 },
-      { Slot: "Helmet", Guid: "H1", score: 1 },
-      { Slot: "Shield", Guid: "S1", score: 1 },
-      { Slot: "Gauntlets", Guid: "G1", score: 1 },
-      { Slot: "Chestplate", Guid: "C1", score: 1 },
-      { Slot: "Boots", Guid: "B1", score: 1 },
+      { Guid: "W1", Slot: "Weapon", score: 1 },
+      { Guid: "H1", Slot: "Helmet", score: 1 },
+      { Guid: "S1", Slot: "Shield", score: 1 },
+      { Guid: "G1", Slot: "Gauntlets", score: 1 },
+      { Guid: "C1", Slot: "Chestplate", score: 1 },
+      { Guid: "B1", Slot: "Boots", score: 1 },
     ]);
 
     expect(
       result[result.length - 1].artifacts.filter((f) => f.Rarity !== "")
     ).toStrictEqual([
-      { Slot: "Weapon", Guid: "W3", score: 1 },
-      { Slot: "Helmet", Guid: "H3", score: 1 },
-      { Slot: "Shield", Guid: "S3", score: 1 },
-      { Slot: "Gauntlets", Guid: "G3", score: 1 },
-      { Slot: "Chestplate", Guid: "C3", score: 1 },
-      { Slot: "Boots", Guid: "B3", score: 1 },
+      { Guid: "W3", Slot: "Weapon", score: 1 },
+      { Guid: "H3", Slot: "Helmet", score: 1 },
+      { Guid: "S3", Slot: "Shield", score: 1 },
+      { Guid: "G3", Slot: "Gauntlets", score: 1 },
+      { Guid: "C3", Slot: "Chestplate", score: 1 },
+      { Guid: "B3", Slot: "Boots", score: 1 },
     ]);
   });
 });

@@ -1,6 +1,6 @@
 import getStatPriority from "./getStatPriority";
 
-import type { IChampionConfiguration, IStat, IArtifact } from "models";
+import type { IArtifact, IChampionConfiguration, IStat } from "../models";
 
 const calculateScoreEasyMode = (
   artifact: IArtifact,

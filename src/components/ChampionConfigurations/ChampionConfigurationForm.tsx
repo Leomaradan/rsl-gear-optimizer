@@ -2,19 +2,19 @@ import ChampionFormBasicInfo from "./ChampionConfigurationFormBasicInfo";
 import ChampionFormMainStats from "./ChampionConfigurationFormMainStats";
 import ChampionFormStatsPriority from "./ChampionConfigurationFormStatsPriority";
 
-import Tabs, { ITabProps } from "components/UI/Tabs";
-import Modal from "components/UI/Modal";
-import { useLanguage } from "lang/LanguageContext";
-import type { IChampionConfiguration, IErrors, IChampion } from "models";
+import Modal from "../UI/Modal";
+import Tabs, { ITabProps } from "../UI/Tabs";
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguage, ILanguageChampion } from "../../lang/language";
+import type { IChampion, IChampionConfiguration, IErrors } from "../../models";
 import {
   createChampionConfigurations,
   updateChampionConfigurations,
-} from "redux/championConfigurationsSlice";
-import type { IState } from "redux/reducers";
-import type { ILanguage, ILanguageChampion } from "lang/language";
+} from "../../redux/championConfigurationsSlice";
+import type { IState } from "../../redux/reducers";
 
-import { useDispatch, useSelector } from "react-redux";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface IChampionFormProps {
   champion: IChampionConfiguration;
@@ -85,7 +85,7 @@ const validate = (
 };
 
 const ChampionForm = (props: IChampionFormProps): JSX.Element => {
-  const { show, handleClose, champion } = props;
+  const { champion, handleClose, show } = props;
 
   const dispatch = useDispatch();
 
@@ -111,8 +111,8 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
       if (champion.order !== -1) {
         dispatch(
           updateChampionConfigurations({
-            id: champion.Guid as string,
             championConfiguration: championSaving,
+            id: champion.Guid as string,
           })
         );
       } else {
@@ -130,7 +130,6 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
   const tabs: ITabProps[] = [
     {
       id: "basic",
-      title: lang.ui.title.baseInfo,
       page: (
         <ChampionFormBasicInfo
           errors={errors}
@@ -138,10 +137,10 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
           state={state}
         />
       ),
+      title: lang.ui.title.baseInfo,
     },
     {
       id: "stats",
-      title: lang.ui.title.statsPriority,
       page: (
         <ChampionFormStatsPriority
           errors={errors}
@@ -149,10 +148,10 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
           state={state}
         />
       ),
+      title: lang.ui.title.statsPriority,
     },
     {
       id: "mainstats",
-      title: lang.ui.title.mainStats,
       page: (
         <ChampionFormMainStats
           errors={errors}
@@ -160,6 +159,7 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
           state={state}
         />
       ),
+      title: lang.ui.title.mainStats,
     },
   ];
 
@@ -170,6 +170,19 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
   return (
     <>
       <Modal
+        content={
+          <>
+            {errors.length > 0 && (
+              <div className="alert alert-danger" role="alert">
+                {lang.ui.validation.correctErrorBeforeSaving}
+              </div>
+            )}
+            <Tabs tabs={tabs} />
+          </>
+        }
+        onClose={handleClose}
+        onSave={save}
+        show={show}
         title={
           champion.order !== -1
             ? `${lang.ui.common.editing} ${
@@ -187,19 +200,6 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
                   : ""
               }`
         }
-        content={
-          <>
-            {errors.length > 0 && (
-              <div className="alert alert-danger" role="alert">
-                {lang.ui.validation.correctErrorBeforeSaving}
-              </div>
-            )}
-            <Tabs tabs={tabs} />
-          </>
-        }
-        onClose={handleClose}
-        onSave={save}
-        show={show}
       />
     </>
   );
