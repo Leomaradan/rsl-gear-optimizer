@@ -1,26 +1,22 @@
 {
-    "name": "rsl-gear-optimizer",
-    "private": true,
-    "homepage": "https://raid-gear-optimizer.com",
-    "workspaces": [
-      "packages/*"
-    ],
-    "engines": {
-      "node": ">=14.15.4"
-    },
-    "scripts": {
-      "backend": "yarn workspace rsl-backend",
-      "frontend": "yarn workspace rsl-frontend",
-      "build": "lerna run build --stream",
-      "serve": "lerna run serve --parallel",
-      "test": "lerna run test --stream"
-    },
-    "dependencies": {
-      "dotenv": "^8.2.0",
-      "lerna": "^3.22.1"
-    },
-    "resolutions": {
-      "typescript": "4.2.3"
-    }
+  "name": "rsl-gear-optimizer",
+  "private": true,
+  "homepage": "https://raid-gear-optimizer.com",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "backend": "yarn workspace rsl-backend",
+    "frontend": "yarn workspace rsl-frontend",
+    "build": "lerna run build --stream",
+    "serve": "lerna run serve --parallel",
+    "test": "lerna run test --stream"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "lerna": "^3.22.1"
+  },
+  "resolutions": {
+    "typescript": "4.2.3"
   }
-  
+}

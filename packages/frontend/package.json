@@ -49,6 +49,7 @@
     "start": "set BROWSER=none && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "lint": "eslint --report-unused-disable-directives src --ext .ts,.tsx",
     "lint:fix": "eslint --report-unused-disable-directives --fix src --ext .ts,.tsx",
     "pull-assets": "gulp copyRaidData",
