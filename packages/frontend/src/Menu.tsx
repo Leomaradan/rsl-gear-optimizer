@@ -73,7 +73,7 @@ const getMenu = (
     );
   });
 
-export default (): JSX.Element => {
+const Menu = (): JSX.Element => {
   const lang = useLanguage();
   const { isAuth, username } = useAuth();
 
@@ -182,3 +182,5 @@ export default (): JSX.Element => {
     </Navbar>
   );
 };
+
+export default Menu;

@@ -40,7 +40,7 @@ const RuneCell = styled.div`
   gap: 5px;
 `;
 
-export default ({
+const ArtifactFormStats = ({
   errors,
   lockedFields,
   setState,
@@ -307,3 +307,5 @@ export default ({
     </>
   );
 };
+
+export default ArtifactFormStats;

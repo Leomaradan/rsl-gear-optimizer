@@ -1,5 +1,4 @@
-import { AuraIconName } from "../../data";
-import type { IAura, IChampionAffinity } from "../../models";
+import type { IChampionAffinity } from "../../models";
 
 import styled from "styled-components";
 
