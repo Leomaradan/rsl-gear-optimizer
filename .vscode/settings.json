@@ -2,12 +2,8 @@
   "javascript.preferences.importModuleSpecifier": "relative",
   "json.schemas": [
     {
-      "fileMatch": ["/lang/*.json"],
-      "url": "./config/lang-schema.json"
-    },
-    {
-      "fileMatch": ["raidextract.json"],
-      "url": "./src/process/raidextract-schema.json"
+      "fileMatch": ["/frontend/src/lang/*.json"],
+      "url": "./packages/frontend/config/lang-schema.json"
     }
   ]
 }

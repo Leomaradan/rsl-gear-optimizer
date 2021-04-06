@@ -24,8 +24,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-src/raid-data
+packages/frontend/src/raid-data
 
-public/assets/*
-!public/assets/UnknownItem.jpg
-!public/assets/Masteries/
+lerna-debug.log
+
+packages/frontend/public/assets/*
+!packages/frontend/public/assets/UnknownItem.jpg
