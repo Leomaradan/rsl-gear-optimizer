@@ -1,5 +1,7 @@
-import DisplayMastery from "../UI/MasteryDisplay";
-import WrapperCenter from "../UI/WrapperCenter";
+import React from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+
 import {
   DefenseMasteries,
   OffenseMasteries,
@@ -7,10 +9,8 @@ import {
 } from "../../data/Masteries";
 import type { IChampion, IChampionMastery } from "../../models";
 import { updateChampion } from "../../redux/championsSlice";
-
-import React from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import DisplayMastery from "../UI/MasteryDisplay";
+import WrapperCenter from "../UI/WrapperCenter";
 
 const Table = styled.table.attrs(() => ({ className: "table" }))<{
   color1: string;

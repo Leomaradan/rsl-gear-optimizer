@@ -1,8 +1,8 @@
-import type { IStat, IStatsFull } from "./Stat";
+import type { IClans } from "./Clans";
 import type { IRarity, IStars } from "./Quality";
 import type { ISets } from "./Sets";
 import type { ISlots } from "./Slots";
-import type { IClans } from "./Clans";
+import type { IStat, IStatsFull } from "./Stat";
 
 interface IArtifactBase {
   Guid: string;

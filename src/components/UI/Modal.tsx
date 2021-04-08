@@ -1,8 +1,8 @@
-import { useLanguage } from "../../lang/LanguageContext";
-
 import React from "react";
 import { Button, Modal as BtModal } from "react-bootstrap";
 import styled from "styled-components";
+
+import { useLanguage } from "../../lang/LanguageContext";
 
 interface IModalProps {
   content: JSX.Element;

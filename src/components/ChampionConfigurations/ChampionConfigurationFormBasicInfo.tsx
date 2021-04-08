@@ -1,11 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import DisplayError from "../UI/DisplayError";
-import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
-import Grid from "../UI/Grid";
-import RadioButtons from "../UI/RadioButtons";
-import SetDisplay from "../UI/SetDisplay";
-import Stack from "../UI/Stack";
-import Toggle from "../UI/Toggle";
+import produce from "immer";
+import React, { useEffect, useMemo, useState } from "react";
+import { Button, ButtonGroup } from "react-bootstrap";
+import { Trash } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
+
 import { AdvancedSets, ExistingSets, SortedExistingSets } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion, ILanguageSet } from "../../lang/language";
@@ -17,12 +16,13 @@ import type {
   ISets,
 } from "../../models";
 import type { IState } from "../../redux/reducers";
-
-import produce from "immer";
-import React, { useEffect, useMemo, useState } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
-import { Trash } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+import DisplayError from "../UI/DisplayError";
+import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
+import Grid from "../UI/Grid";
+import RadioButtons from "../UI/RadioButtons";
+import SetDisplay from "../UI/SetDisplay";
+import Stack from "../UI/Stack";
+import Toggle from "../UI/Toggle";
 
 interface IChampionFormBasicInfoProps {
   errors: IErrors;

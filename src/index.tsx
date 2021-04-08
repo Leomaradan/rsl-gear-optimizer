@@ -1,13 +1,13 @@
-import App from "./App";
-import configureStore from "./redux/configureStore";
-import { unregister } from "./serviceWorker";
-import AuthProvider from "./auth/AuthProvider";
-import LanguageProvider from "./lang/LanguageProvider";
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider as ReduxProvider } from "react-redux";
+
+import App from "./App";
+import AuthProvider from "./auth/AuthProvider";
+import LanguageProvider from "./lang/LanguageProvider";
+import configureStore from "./redux/configureStore";
+import { unregister } from "./serviceWorker";
 import "./theme.scss";
 
 const store = configureStore();

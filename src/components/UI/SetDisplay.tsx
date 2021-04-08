@@ -1,12 +1,12 @@
-import Tooltip from "./Tooltip";
+import React from "react";
+import styled from "styled-components";
 
 import { SetsIconName } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageSet } from "../../lang/language";
 import type { ISets } from "../../models";
 
-import React from "react";
-import styled from "styled-components";
+import Tooltip from "./Tooltip";
 
 const Image = styled.img<{ size?: number }>`
   ${(props) => (props.size ? `width: ${props.size}px` : "")};

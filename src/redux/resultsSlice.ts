@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import type { IResults, IResultsState } from "../models";
-
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+import type { IResults, IResultsState } from "../models";
 
 const initialState: IResultsState = {
   data: [],

@@ -1,10 +1,6 @@
-import ChampionDetailsArtifacts from "./ChampionDetailsArtifacts";
-import ChampionDetailsMasteries from "./ChampionDetailsMasteries";
-import ChampionDetailsStats from "./ChampionDetailsStats";
+import React from "react";
+import styled from "styled-components";
 
-import ChampionPortrait from "../UI/ChampionPortrait";
-import StarDisplay from "../UI/StarDisplay";
-import Tabs from "../UI/Tabs";
 import { useLanguage } from "../../lang/LanguageContext";
 import type {
   ILanguageAffinity,
@@ -12,9 +8,13 @@ import type {
   ILanguageRole,
 } from "../../lang/language";
 import type { IChampion, IProfile } from "../../models";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import StarDisplay from "../UI/StarDisplay";
+import Tabs from "../UI/Tabs";
 
-import React from "react";
-import styled from "styled-components";
+import ChampionDetailsArtifacts from "./ChampionDetailsArtifacts";
+import ChampionDetailsMasteries from "./ChampionDetailsMasteries";
+import ChampionDetailsStats from "./ChampionDetailsStats";
 
 export interface IChampionDetailsProps {
   champion: IChampion;

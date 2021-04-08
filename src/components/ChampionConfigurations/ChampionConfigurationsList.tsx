@@ -1,14 +1,14 @@
-import ChampionAdd from "./ChampionConfigurationAdd";
-import ChampionsListRow from "./ChampionConfigurationsListRow";
-
-import BaseWrapper from "../UI/Wrapper";
-import { useLanguage } from "../../lang/LanguageContext";
-import type { IState } from "../../redux/reducers";
-
 import React from "react";
 import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IState } from "../../redux/reducers";
+import BaseWrapper from "../UI/Wrapper";
+
+import ChampionAdd from "./ChampionConfigurationAdd";
+import ChampionsListRow from "./ChampionConfigurationsListRow";
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;

@@ -30,6 +30,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -58,22 +61,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -88,6 +75,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -103,6 +91,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -141,6 +130,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -169,22 +161,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -199,6 +175,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -214,6 +191,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -257,6 +235,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -282,22 +263,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -312,6 +277,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -327,6 +293,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -371,6 +338,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -396,22 +366,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -426,6 +380,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -441,6 +396,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -485,6 +441,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -510,22 +469,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -540,6 +483,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -555,6 +499,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -592,6 +537,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -617,22 +565,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -647,6 +579,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -662,6 +595,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -698,6 +632,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -726,22 +663,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -756,6 +677,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -771,6 +693,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -808,6 +731,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -833,22 +759,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -863,6 +773,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -878,6 +789,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -915,6 +827,9 @@
                 "MainStatsValue": {
                     "type": "number"
                 },
+                "Power": {
+                    "type": "number"
+                },
                 "Quality": {
                     "enum": [
                         0,
@@ -940,22 +855,6 @@
                     "type": "string"
                 },
                 "SubStats": {
-                    "additionalItems": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            },
-                            {
-                                "$ref": "#/definitions/IStatsFull"
-                            }
-                        ]
-                    },
                     "items": [
                         {
                             "$ref": "#/definitions/IStatsFull"
@@ -970,6 +869,7 @@
                             "$ref": "#/definitions/IStatsFull"
                         }
                     ],
+                    "maxItems": 4,
                     "minItems": 0,
                     "type": "array"
                 },
@@ -985,6 +885,7 @@
                 "Guid",
                 "Level",
                 "MainStats",
+                "Power",
                 "Quality",
                 "Rarity",
                 "Set",
@@ -994,17 +895,56 @@
             ],
             "type": "object"
         },
+        "IAuraType": {
+            "enum": [
+                "ATK",
+                "C.RATE",
+                "DEF",
+                "HP",
+                "RESI",
+                "SPD"
+            ],
+            "type": "string"
+        },
         "IChampion": {
             "additionalProperties": false,
             "properties": {
-                "Accuracy": {
-                    "type": "number"
-                },
                 "Affinity": {
                     "$ref": "#/definitions/IChampionAffinity"
                 },
-                "Attack": {
-                    "type": "number"
+                "Aura": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "affinity": {
+                            "enum": [
+                                "Force",
+                                "Magic",
+                                "Spirit",
+                                "Void"
+                            ],
+                            "type": "string"
+                        },
+                        "domain": {
+                            "enum": [
+                                "Arena",
+                                "Campaign",
+                                "Doom Tower",
+                                "Dungeons",
+                                "Faction Crypts"
+                            ],
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/IAuraType"
+                        },
+                        "value": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "type": "object"
                 },
                 "Awaken": {
                     "enum": [
@@ -1018,32 +958,145 @@
                     ],
                     "type": "number"
                 },
+                "BaseAccuracy": {
+                    "type": "number"
+                },
+                "BaseAttack": {
+                    "type": "number"
+                },
+                "BaseCriticalDamage": {
+                    "type": "number"
+                },
+                "BaseCriticalRate": {
+                    "type": "number"
+                },
+                "BaseDefense": {
+                    "type": "number"
+                },
+                "BaseHP": {
+                    "type": "number"
+                },
+                "BaseResistance": {
+                    "type": "number"
+                },
+                "BaseSpeed": {
+                    "type": "number"
+                },
                 "Clan": {
                     "$ref": "#/definitions/IClans"
                 },
-                "CriticalChance": {
+                "CurrentAccuracy": {
                     "type": "number"
                 },
-                "CriticalDamage": {
+                "CurrentAttack": {
                     "type": "number"
                 },
-                "CriticalHeal": {
+                "CurrentCriticalDamage": {
                     "type": "number"
                 },
-                "Defense": {
+                "CurrentCriticalRate": {
+                    "type": "number"
+                },
+                "CurrentDefense": {
+                    "type": "number"
+                },
+                "CurrentHP": {
+                    "type": "number"
+                },
+                "CurrentResistance": {
+                    "type": "number"
+                },
+                "CurrentSpeed": {
                     "type": "number"
                 },
                 "Guid": {
                     "type": "string"
                 },
-                "Health": {
-                    "type": "number"
+                "InVault": {
+                    "type": "boolean"
                 },
                 "Level": {
                     "type": "number"
                 },
+                "Masteries": {
+                    "items": {
+                        "enum": [
+                            "ArcaneCelerity",
+                            "BladeDisciple",
+                            "Blastproof",
+                            "BloodShield",
+                            "Bloodthirst",
+                            "BringItDown",
+                            "Bulwark",
+                            "ChargedFocus",
+                            "CycleOfMagic",
+                            "CycleOfRevenge",
+                            "CycleOfViolence",
+                            "DeadlyPrecision",
+                            "Defiant",
+                            "DelayDeath",
+                            "Deterrence",
+                            "EagleEye",
+                            "ElixirOfLife",
+                            "EvilEye",
+                            "ExaltInDeath",
+                            "FearsomePresence",
+                            "FlawlessExecution",
+                            "GiantSlayer",
+                            "GrimResolve",
+                            "HarvestDespair",
+                            "HealingSavior",
+                            "HeartOfGlory",
+                            "Helmsmasher",
+                            "ImprovedParry",
+                            "IronSkin",
+                            "KeenStrike",
+                            "KillStreak",
+                            "LastingGifts",
+                            "LayOnHands",
+                            "LifeDrinker",
+                            "LoreOfSteel",
+                            "MasterHexer",
+                            "MercifulAid",
+                            "Methodical",
+                            "MightyEndurance",
+                            "Opportunist",
+                            "Oppressor",
+                            "PinpointAccuracy",
+                            "RapidResponse",
+                            "Rejuvenation",
+                            "Resurgent",
+                            "Retribution",
+                            "RuthlessAmbush",
+                            "SelflessDefender",
+                            "ShadowHeal",
+                            "ShieldBreaker",
+                            "Shieldbearer",
+                            "SingleOut",
+                            "Sniper",
+                            "Solidarity",
+                            "SpiritHaste",
+                            "Steadfast",
+                            "StokedToFury",
+                            "Stubbornness",
+                            "SwarmSmiter",
+                            "TimelyIntervention",
+                            "ToughSkin",
+                            "Unshakeable",
+                            "Warmaster",
+                            "WhirlwindOfDeath",
+                            "WisdomOfBattle",
+                            "WrathOfTheSlain"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "Name": {
                     "type": "string"
+                },
+                "Power": {
+                    "type": "number"
                 },
                 "Quality": {
                     "enum": [
@@ -1060,39 +1113,43 @@
                 "Rarity": {
                     "$ref": "#/definitions/IRarity"
                 },
-                "Resistance": {
-                    "type": "number"
-                },
                 "Role": {
                     "$ref": "#/definitions/IChampionRole"
                 },
                 "Slug": {
                     "type": "string"
-                },
-                "Speed": {
-                    "type": "number"
                 }
             },
             "required": [
-                "Accuracy",
                 "Affinity",
-                "Attack",
                 "Awaken",
+                "BaseAccuracy",
+                "BaseAttack",
+                "BaseCriticalDamage",
+                "BaseCriticalRate",
+                "BaseDefense",
+                "BaseHP",
+                "BaseResistance",
+                "BaseSpeed",
                 "Clan",
-                "CriticalChance",
-                "CriticalDamage",
-                "CriticalHeal",
-                "Defense",
+                "CurrentAccuracy",
+                "CurrentAttack",
+                "CurrentCriticalDamage",
+                "CurrentCriticalRate",
+                "CurrentDefense",
+                "CurrentHP",
+                "CurrentResistance",
+                "CurrentSpeed",
                 "Guid",
-                "Health",
+                "InVault",
                 "Level",
+                "Masteries",
                 "Name",
+                "Power",
                 "Quality",
                 "Rarity",
-                "Resistance",
                 "Role",
-                "Slug",
-                "Speed"
+                "Slug"
             ],
             "type": "object"
         },
@@ -1327,7 +1384,7 @@
         },
         "IChampionRole": {
             "enum": [
-                "ATK",
+                "Attack",
                 "Defense",
                 "HP",
                 "Support"
@@ -1349,25 +1406,49 @@
                 "ACC": {
                     "type": "number"
                 },
+                "ACC_Max": {
+                    "type": "number"
+                },
                 "ATK%": {
+                    "type": "number"
+                },
+                "ATK%_Max": {
                     "type": "number"
                 },
                 "C.DMG": {
                     "type": "number"
                 },
+                "C.DMG_Max": {
+                    "type": "number"
+                },
                 "C.RATE": {
+                    "type": "number"
+                },
+                "C.RATE_Max": {
                     "type": "number"
                 },
                 "DEF%": {
                     "type": "number"
                 },
+                "DEF%_Max": {
+                    "type": "number"
+                },
                 "HP%": {
+                    "type": "number"
+                },
+                "HP%_Max": {
                     "type": "number"
                 },
                 "RESI": {
                     "type": "number"
                 },
+                "RESI_Max": {
+                    "type": "number"
+                },
                 "SPD": {
+                    "type": "number"
+                },
+                "SPD_Max": {
                     "type": "number"
                 }
             },

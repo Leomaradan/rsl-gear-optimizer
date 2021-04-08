@@ -1,4 +1,8 @@
-import Stack from "../UI/Stack";
+import React from "react";
+import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IChampion, IResults, IStat } from "../../models";
@@ -6,11 +10,7 @@ import calculateChampionStats from "../../process/calculateChampionStats";
 import calculateScoreRealStats from "../../process/calculateScoreRealStats";
 import generateTheoricalArtifact from "../../process/generateTheoricalArtifact";
 import type { IState } from "../../redux/reducers";
-
-import React from "react";
-import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+import Stack from "../UI/Stack";
 
 interface IResultsDetailsStatsProps {
   champion: IChampion;

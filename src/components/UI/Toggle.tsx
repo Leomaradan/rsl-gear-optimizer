@@ -1,6 +1,6 @@
-import { useLanguage } from "../../lang/LanguageContext";
-
 import { Form } from "react-bootstrap";
+
+import { useLanguage } from "../../lang/LanguageContext";
 
 interface IToggleProps {
   currentState: boolean;

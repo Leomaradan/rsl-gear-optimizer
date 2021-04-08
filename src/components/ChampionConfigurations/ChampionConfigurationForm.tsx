@@ -1,9 +1,6 @@
-import ChampionFormBasicInfo from "./ChampionConfigurationFormBasicInfo";
-import ChampionFormMainStats from "./ChampionConfigurationFormMainStats";
-import ChampionFormStatsPriority from "./ChampionConfigurationFormStatsPriority";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Modal from "../UI/Modal";
-import Tabs, { ITabProps } from "../UI/Tabs";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguage, ILanguageChampion } from "../../lang/language";
 import type { IChampion, IChampionConfiguration, IErrors } from "../../models";
@@ -12,9 +9,12 @@ import {
   updateChampionConfigurations,
 } from "../../redux/championConfigurationsSlice";
 import type { IState } from "../../redux/reducers";
+import Modal from "../UI/Modal";
+import Tabs, { ITabProps } from "../UI/Tabs";
 
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import ChampionFormBasicInfo from "./ChampionConfigurationFormBasicInfo";
+import ChampionFormMainStats from "./ChampionConfigurationFormMainStats";
+import ChampionFormStatsPriority from "./ChampionConfigurationFormStatsPriority";
 
 interface IChampionFormProps {
   champion: IChampionConfiguration;

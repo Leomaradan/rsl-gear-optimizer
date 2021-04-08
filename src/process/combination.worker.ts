@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-restricted-globals */
 
-import generateData from "./generateData";
-
 import type {
   IArtifact,
   IChampion,
@@ -14,6 +12,8 @@ import type {
   IResultsWorkerCommands,
   IResultsWorkerEventGenerate,
 } from "../models";
+
+import generateData from "./generateData";
 
 const ctx: Worker = self as any;
 

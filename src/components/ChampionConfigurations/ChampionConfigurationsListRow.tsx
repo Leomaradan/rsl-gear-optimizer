@@ -1,8 +1,9 @@
-import ChampionEdit from "./ChampionConfigurationEdit";
+import React from "react";
+import { Button } from "react-bootstrap";
+import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
-import ChampionPortrait from "../UI/ChampionPortrait";
-import SetDisplay from "../UI/SetDisplay";
-import Wrapper from "../UI/Wrapper";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type {
@@ -13,12 +14,11 @@ import type {
 import methodDisplay from "../../process/methodDisplay";
 import { reorderChampionConfigurations } from "../../redux/championConfigurationsSlice";
 import type { IState } from "../../redux/reducers";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import SetDisplay from "../UI/SetDisplay";
+import Wrapper from "../UI/Wrapper";
 
-import React from "react";
-import { Button } from "react-bootstrap";
-import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import ChampionEdit from "./ChampionConfigurationEdit";
 
 interface IChampionsListRowProps {
   champion: IChampionConfiguration;

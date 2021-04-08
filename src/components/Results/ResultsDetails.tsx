@@ -1,20 +1,20 @@
-import ResultsModal from "./ResultsModal";
+import React from "react";
+import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageChampion } from "../../lang/language";
+import type { IChampion } from "../../models";
+import methodDisplay from "../../process/methodDisplay";
 import ArtifactDisplay from "../UI/ArtifactDisplay";
 import ChampionPortrait from "../UI/ChampionPortrait";
 import ProgressBar from "../UI/ProgressBar";
 import SetDisplay from "../UI/SetDisplay";
 import Wrapper from "../UI/Wrapper";
-import { useLanguage } from "../../lang/LanguageContext";
-import type { ILanguageChampion } from "../../lang/language";
-import type { IChampion } from "../../models";
-import methodDisplay from "../../process/methodDisplay";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+import ResultsModal from "./ResultsModal";
 
 const NameContainer = styled.div`
   padding: 0.75rem;

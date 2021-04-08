@@ -1,7 +1,7 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 import type { IArtifact, IArtifactDraft, IArtifactsState } from "../models";
 import calculateScoreRealStats from "../process/calculateScoreRealStats";
-
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: IArtifactsState = [];
 

@@ -1,11 +1,11 @@
-import ArtifactsListGrid from "./ArtifactsListGrid";
-import ArtifactsListTable from "./ArtifactsListTable";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import type { IArtifact } from "../../models";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { useSelector } from "react-redux";
+import ArtifactsListGrid from "./ArtifactsListGrid";
+import ArtifactsListTable from "./ArtifactsListTable";
 
 interface IArtifactsListProps {
   artifacts: IArtifact[];

@@ -1,5 +1,7 @@
 /* eslint-disable import/no-webpack-loader-syntax */
-import logger from "./logger";
+
+import type { Dispatch } from "@reduxjs/toolkit";
+import CombinationWorker from "worker-loader!process/combination.worker";
 
 import type {
   IArtifact,
@@ -15,9 +17,9 @@ import {
   resultsStartGeneration,
 } from "../redux/resultsSlice";
 
-import type { Dispatch } from "@reduxjs/toolkit";
 // eslint-disable-next-line import/no-unresolved
-import CombinationWorker from "worker-loader!process/combination.worker";
+
+import logger from "./logger";
 
 const runWorker = (
   dispatch: Dispatch,

@@ -1,8 +1,10 @@
-import ChampionConfigurationsList from "./components/ChampionConfigurations/ChampionConfigurationsList";
+import { Route, Switch } from "react-router-dom";
+
 import Login from "./auth/Login";
 import Logout from "./auth/Logout";
 import PrivateRoute from "./auth/PrivateRoute";
 import Signup from "./auth/Signup";
+import ChampionConfigurationsList from "./components/ChampionConfigurations/ChampionConfigurationsList";
 import Configuration from "./components/Configuration/Configuration";
 import GameProgression from "./components/Configuration/GameProgression";
 import ImportExport from "./components/Configuration/ImportExport";
@@ -13,8 +15,6 @@ import Home from "./pages/Home";
 import OwnChampionsList from "./pages/OwnChampionsList";
 import ProfileChampionsList from "./pages/ProfileChampionsList";
 import SellList from "./pages/SellList";
-
-import { Route, Switch } from "react-router-dom";
 
 const Routes = (): JSX.Element => (
   <Switch>

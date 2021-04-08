@@ -1,3 +1,6 @@
+import Champions from "raid-data/champions-base-info.json";
+import { v4 as uuidv4 } from "uuid";
+
 import type {
   IRarity,
   IClans,
@@ -7,9 +10,6 @@ import type {
   IChampion,
   IAuraType,
 } from "../models";
-
-import { v4 as uuidv4 } from "uuid";
-import Champions from "raid-data/champions-base-info.json";
 
 export const ChampionsList: string[] = [];
 export const ChampionsDetailsList: {

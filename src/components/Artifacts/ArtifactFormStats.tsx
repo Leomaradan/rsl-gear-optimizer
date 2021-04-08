@@ -1,9 +1,11 @@
 /* eslint-disable no-param-reassign */
-import type { IArtifactFormSubProps } from "./ArtifactForm";
-import StatsSelector from "./StatsSelector";
 
-import DisplayError from "../UI/DisplayError";
-import Wrapper from "../UI/Wrapper";
+import produce from "immer";
+import type React from "react";
+import { Button, Form, Row } from "react-bootstrap";
+import { DashCircle, PlusCircle } from "react-bootstrap-icons";
+import styled from "styled-components";
+
 import {
   AmuletSubStats,
   BannerSubStats,
@@ -17,12 +19,11 @@ import {
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageUiTitle } from "../../lang/language";
 import type { IArtifact, IStat, IStatsFull } from "../../models";
+import DisplayError from "../UI/DisplayError";
+import Wrapper from "../UI/Wrapper";
 
-import produce from "immer";
-import type React from "react";
-import { Button, Form, Row } from "react-bootstrap";
-import { DashCircle, PlusCircle } from "react-bootstrap-icons";
-import styled from "styled-components";
+import type { IArtifactFormSubProps } from "./ArtifactForm";
+import StatsSelector from "./StatsSelector";
 
 const Rune = styled.img.attrs(() => ({ src: "assets/Misc/Stone.png" }))`
   height: 32px;

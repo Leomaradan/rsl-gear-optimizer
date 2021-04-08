@@ -1,7 +1,7 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 import { ChampionsDetailsList } from "../data";
 import type { IChampion, IChampionDraft, IChampionsState } from "../models";
-
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: IChampionsState = [];
 

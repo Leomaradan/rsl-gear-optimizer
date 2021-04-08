@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { IArtifact, IOrderable, IScoredArtifact } from "../models";
+
 import calculateBonus from "./calculateBonus";
 import calculateScoreRealStats from "./calculateScoreRealStats";
 import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
 import generateTable from "./generateTable";
 import generateTheoricalArtifact from "./generateTheoricalArtifact";
 import reorder from "./reorder";
-
-import type { IArtifact, IOrderable, IScoredArtifact } from "../models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {

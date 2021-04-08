@@ -1,5 +1,3 @@
-import getStatPriority from "./getStatPriority";
-
 import type {
   IArtifact,
   IChampionConfiguration,
@@ -7,6 +5,8 @@ import type {
   IStat,
   IStatsFull,
 } from "../models";
+
+import getStatPriority from "./getStatPriority";
 
 const statsWeight = (stats: IStat, quality: IStars) => {
   switch (stats) {

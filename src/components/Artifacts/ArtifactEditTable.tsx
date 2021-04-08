@@ -1,12 +1,12 @@
-import ArtifactForm from "./ArtifactForm";
-
-import type { IArtifact } from "../../models";
-import { deleteArtifacts } from "../../redux/artifactsSlice";
-
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
+
+import type { IArtifact } from "../../models";
+import { deleteArtifacts } from "../../redux/artifactsSlice";
+
+import ArtifactForm from "./ArtifactForm";
 
 interface IArtifactEditTableProps {
   artifact: IArtifact;

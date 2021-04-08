@@ -1,15 +1,15 @@
+import React, { useMemo, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
+import styled from "styled-components";
+
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguage, ILanguageChampion } from "../../lang/language";
+import type { IChampion, IProfile } from "../../models";
 import ChampionDetails from "../ChampionDetails/ChampionDetails";
 import ChampionDisplay from "../UI/ChampionDisplay";
 import Modal from "../UI/Modal";
 import Stack from "../UI/Stack";
 import Toggle from "../UI/Toggle";
-import { useLanguage } from "../../lang/LanguageContext";
-import type { ILanguage, ILanguageChampion } from "../../lang/language";
-import type { IChampion, IProfile } from "../../models";
-
-import React, { useMemo, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import styled from "styled-components";
 
 const getWeightAffinity = (champion: IChampion): number => {
   switch (champion.Affinity) {

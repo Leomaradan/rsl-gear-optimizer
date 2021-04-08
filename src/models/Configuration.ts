@@ -8,21 +8,21 @@ export type IArtifactsDisplayMode = "Table" | "Grid";
 
 export type IGenerationMethod = "Easy" | "RealValue" | "TheoricalValue";
 
-export type IGreatHallBonusAffinity = {
+export interface IGreatHallBonusAffinity {
   "HP%": number;
   "ATK%": number;
   "DEF%": number;
   "C.DMG": number;
   RESI: number;
   ACC: number;
-};
+}
 
-export type IGreatHallBonus = {
+export interface IGreatHallBonus {
   Force: IGreatHallBonusAffinity;
   Magic: IGreatHallBonusAffinity;
   Spirit: IGreatHallBonusAffinity;
   Void: IGreatHallBonusAffinity;
-};
+}
 
 export type IArenaRank =
   | "B1"

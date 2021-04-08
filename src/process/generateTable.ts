@@ -1,7 +1,7 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { ExistingSlotsAccessories } from "../data";
 import type { IScoredArtifact, ISlots } from "../models";
-
-import { v4 as uuidv4 } from "uuid";
 
 type IListOfScoredArtifacts = [
   IScoredArtifact,

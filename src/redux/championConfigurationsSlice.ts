@@ -1,11 +1,11 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+
 import type {
   IChampionConfiguration,
   IChampionConfigurationsState,
 } from "../models";
 import reorder from "../process/reorder";
-
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 
 const initialState: IChampionConfigurationsState = [];
 

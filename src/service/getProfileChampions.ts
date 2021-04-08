@@ -1,8 +1,8 @@
+import axios from "axios";
+
 import type { IProfile, IServiceProps } from "../models";
 import emptyFunction from "../process/emptyFunction";
 import logger from "../process/logger";
-
-import axios from "axios";
 
 interface IGetProfile extends IServiceProps<IProfile> {
   userName: string;

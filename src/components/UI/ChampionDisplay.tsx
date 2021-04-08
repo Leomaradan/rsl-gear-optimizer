@@ -1,16 +1,16 @@
-import ChampionPortrait from "./ChampionPortrait";
-import StarDisplay from "./StarDisplay";
-import Tooltip from "./Tooltip";
-import AuraDisplay from "./AuraDisplay";
+import React from "react";
+import styled from "styled-components";
 
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion } from "../../lang/language";
 import type { IChampion } from "../../models";
 import getColour from "../../process/getColour";
 
-import React from "react";
-import styled from "styled-components";
 import AffinityDisplay from "./AffinityDisplay";
+import AuraDisplay from "./AuraDisplay";
+import ChampionPortrait from "./ChampionPortrait";
+import StarDisplay from "./StarDisplay";
+import Tooltip from "./Tooltip";
 
 interface IChampionDisplayProps {
   champion: IChampion;

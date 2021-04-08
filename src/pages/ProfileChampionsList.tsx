@@ -1,12 +1,12 @@
-import ChampionsList from "../components/Champions/ChampionsList";
-import getProfile from "../service/getProfileChampions";
-import type { IProfile, IServiceStatus } from "../models";
-import type { ILanguageUiValidation } from "../lang/language";
-import { useLanguage } from "../lang/LanguageContext";
-
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Alert } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+
+import ChampionsList from "../components/Champions/ChampionsList";
+import { useLanguage } from "../lang/LanguageContext";
+import type { ILanguageUiValidation } from "../lang/language";
+import type { IProfile, IServiceStatus } from "../models";
+import getProfile from "../service/getProfileChampions";
 
 const ProfileChampionsList = (): JSX.Element => {
   const [profile, updateProfile] = useState<IProfile>();

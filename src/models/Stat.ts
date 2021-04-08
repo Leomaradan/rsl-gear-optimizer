@@ -22,9 +22,9 @@ export interface IStatsFull {
 }
 
 export type IAuraType = "ATK" | "C.RATE" | "DEF" | "HP" | "RESI" | "SPD";
-export type IAura = {
+export interface IAura {
   type: IAuraType;
   value?: number;
   domain?: "Arena" | "Doom Tower" | "Dungeons" | "Faction Crypts" | "Campaign";
   affinity?: IChampionAffinity;
-};
+}

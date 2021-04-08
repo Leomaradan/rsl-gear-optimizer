@@ -1,5 +1,6 @@
-import type { IChampionConfiguration } from "./ChampionConfiguration";
 import type { IArtifact } from "./Artifact";
+import type { IChampion } from "./Champion";
+import type { IChampionConfiguration } from "./ChampionConfiguration";
 import type {
   IArenaRank,
   IArtifactsDisplayMode,
@@ -7,7 +8,6 @@ import type {
   IGreatHallBonus,
 } from "./Configuration";
 import type { IResults, IResultsStatus } from "./Results";
-import type { IChampion } from "./Champion";
 
 export interface IResultsState {
   data: IResults[];

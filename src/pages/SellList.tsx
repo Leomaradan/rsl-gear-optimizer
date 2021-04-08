@@ -1,17 +1,17 @@
-import ArtifactsList from "../components/Artifacts/ArtifactsList";
-import type { IState } from "../redux/reducers";
-import Accordion, { IAccordionSection } from "../components/UI/Accordion";
-import { useLanguage } from "../lang/LanguageContext";
-import BaseWrapper from "../components/UI/Wrapper";
-import Stack from "../components/UI/Stack";
-import calculateScoreEasyMode from "../process/calculateScoreEasyMode";
-import type { ILanguageSlot } from "../lang/language";
-import { ExistingSlots } from "../data";
-import type { IScoredArtifact, IChampionConfiguration, ISets } from "../models";
-
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
+import ArtifactsList from "../components/Artifacts/ArtifactsList";
+import Accordion, { IAccordionSection } from "../components/UI/Accordion";
+import Stack from "../components/UI/Stack";
+import BaseWrapper from "../components/UI/Wrapper";
+import { ExistingSlots } from "../data";
+import { useLanguage } from "../lang/LanguageContext";
+import type { ILanguageSlot } from "../lang/language";
+import type { IScoredArtifact, IChampionConfiguration, ISets } from "../models";
+import calculateScoreEasyMode from "../process/calculateScoreEasyMode";
+import type { IState } from "../redux/reducers";
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;

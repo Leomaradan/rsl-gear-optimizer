@@ -1,11 +1,11 @@
+import React from "react";
+import { Table } from "react-bootstrap";
+import styled from "styled-components";
+
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IArtifact, IChampion, IProfile, IStat } from "../../models";
 import calculateChampionStats from "../../process/calculateChampionStats";
-
-import React from "react";
-import { Table } from "react-bootstrap";
-import styled from "styled-components";
 
 const Yellow = styled.span`
   color: yellowgreen;

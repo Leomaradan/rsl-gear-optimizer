@@ -1,7 +1,7 @@
-import type { IErrors } from "../../models";
-
 import React from "react";
 import styled from "styled-components";
+
+import type { IErrors } from "../../models";
 
 interface IDisplayErrorProps {
   errors: IErrors;

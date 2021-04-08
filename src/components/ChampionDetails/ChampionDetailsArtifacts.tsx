@@ -1,11 +1,11 @@
-import ArtifactForm from "../Artifacts/ArtifactForm";
-import ArtifactDisplay from "../UI/ArtifactDisplay";
-import type { IArtifact } from "../../models";
-import { updateArtifacts } from "../../redux/artifactsSlice";
-
 import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+
+import type { IArtifact } from "../../models";
+import { updateArtifacts } from "../../redux/artifactsSlice";
+import ArtifactForm from "../Artifacts/ArtifactForm";
+import ArtifactDisplay from "../UI/ArtifactDisplay";
 
 interface IArtifactPopupProps {
   artifact?: IArtifact;

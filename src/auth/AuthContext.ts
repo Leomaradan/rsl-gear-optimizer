@@ -1,6 +1,6 @@
-import emptyFunction from "../process/emptyFunction";
-
 import { createContext, useContext } from "react";
+
+import emptyFunction from "../process/emptyFunction";
 
 export interface IAuthContextDefinition {
   authToken?: string;

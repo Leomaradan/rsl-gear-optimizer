@@ -1,14 +1,14 @@
-import type { IChampionConfiguration } from "./ChampionConfiguration";
-import type { IArtifact } from "./Artifact";
-import type { IResults } from "./Results";
-import type { IGameProgression, IGenerationMethod } from "./Configuration";
-import type { IChampion } from "./Champion";
-
 import type { ILanguageUiTask } from "../lang/language";
 
-type IWorkerCommand<T> = {
+import type { IArtifact } from "./Artifact";
+import type { IChampion } from "./Champion";
+import type { IChampionConfiguration } from "./ChampionConfiguration";
+import type { IGameProgression, IGenerationMethod } from "./Configuration";
+import type { IResults } from "./Results";
+
+interface IWorkerCommand<T> {
   data: T;
-};
+}
 
 export interface IResultsWorkerCommandGenerate {
   championConfigurations: IChampionConfiguration[];

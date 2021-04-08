@@ -1,8 +1,8 @@
-import Stack from "./Stack";
-
 import React, { useState } from "react";
 import { Accordion as BtAccordion, Button, Card } from "react-bootstrap";
 import styled from "styled-components";
+
+import Stack from "./Stack";
 
 export interface IAccordionSection {
   content: JSX.Element | string;

@@ -1,8 +1,8 @@
-import { ClansIconName } from "../../data";
-import type { IClans } from "../../models";
-
 import React from "react";
 import styled from "styled-components";
+
+import { ClansIconName } from "../../data";
+import type { IClans } from "../../models";
 
 const Image = styled.img<{ size?: number }>`
   ${(props) => (props.size ? `width: ${props.size}px` : "")};

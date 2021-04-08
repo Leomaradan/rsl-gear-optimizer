@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ArtifactFormBase from "./ArtifactFormBase";
-import ArtifactFormStats from "./ArtifactFormStats";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-import Modal from "../UI/Modal";
-import Stack from "../UI/Stack";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { IArtifact, IErrors, IRarity } from "../../models";
 import { createArtifacts, updateArtifacts } from "../../redux/artifactsSlice";
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
 
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import ArtifactFormBase from "./ArtifactFormBase";
+import ArtifactFormStats from "./ArtifactFormStats";
 
 interface IArtifactFormProps {
   artifact: IArtifact;

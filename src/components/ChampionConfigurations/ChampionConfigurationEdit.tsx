@@ -1,12 +1,12 @@
-import ChampionForm from "./ChampionConfigurationForm";
-
-import type { IChampionConfiguration } from "../../models";
-import { deleteChampionConfigurations } from "../../redux/championConfigurationsSlice";
-
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
+
+import type { IChampionConfiguration } from "../../models";
+import { deleteChampionConfigurations } from "../../redux/championConfigurationsSlice";
+
+import ChampionForm from "./ChampionConfigurationForm";
 
 interface IChampionEditProps {
   champion: IChampionConfiguration;

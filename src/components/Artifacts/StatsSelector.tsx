@@ -1,8 +1,8 @@
+import type React from "react";
+
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IStat } from "../../models";
-
-import type React from "react";
 
 interface IStatsSelectorProps {
   availableStats: IStat[];

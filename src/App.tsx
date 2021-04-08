@@ -1,16 +1,16 @@
-import Menu from "./Menu";
-import Routes from "./Routes";
-import AuthContext, { IAuthContextDefinition } from "./auth/AuthContext";
-import LanguageContext, {
-  ILanguageContextDefinition,
-} from "./lang/LanguageContext";
-
 import localforage from "localforage";
 import React, { useContext, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
+
+import Menu from "./Menu";
+import Routes from "./Routes";
+import AuthContext, { IAuthContextDefinition } from "./auth/AuthContext";
+import LanguageContext, {
+  ILanguageContextDefinition,
+} from "./lang/LanguageContext";
 
 const Main = styled.main`
   padding-top: 100px;

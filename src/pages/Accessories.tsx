@@ -1,18 +1,18 @@
-import ArtifactsList from "../components/Artifacts/ArtifactsList";
-import ArtifactAdd from "../components/Artifacts/ArtifactAdd";
-import type { IState } from "../redux/reducers";
-import Accordion, { IAccordionSection } from "../components/UI/Accordion";
-import { useLanguage } from "../lang/LanguageContext";
-import BaseWrapper from "../components/UI/Wrapper";
-import Stack from "../components/UI/Stack";
-import ClanDisplay from "../components/UI/ClanDisplay";
-import type { ILanguageClan } from "../lang/language";
-import { SortedExistingClans } from "../data";
-
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import React from "react";
 import { Plus } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
+import ArtifactAdd from "../components/Artifacts/ArtifactAdd";
+import ArtifactsList from "../components/Artifacts/ArtifactsList";
+import Accordion, { IAccordionSection } from "../components/UI/Accordion";
+import ClanDisplay from "../components/UI/ClanDisplay";
+import Stack from "../components/UI/Stack";
+import BaseWrapper from "../components/UI/Wrapper";
+import { SortedExistingClans } from "../data";
+import { useLanguage } from "../lang/LanguageContext";
+import type { ILanguageClan } from "../lang/language";
+import type { IState } from "../redux/reducers";
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;

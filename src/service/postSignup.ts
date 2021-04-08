@@ -1,6 +1,6 @@
-import logger from "../process/logger";
-
 import axios from "axios";
+
+import logger from "../process/logger";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const postSignup = <T extends any>(

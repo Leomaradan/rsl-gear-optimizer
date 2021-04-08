@@ -1,13 +1,13 @@
-import ResultsDetailsStats from "./ResultsDetailsStats";
-
-import Modal from "../UI/Modal";
-import { useLanguage } from "../../lang/LanguageContext";
-import type { ILanguageChampion } from "../../lang/language";
-import type { IChampion, IResults } from "../../models";
-
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { ZoomIn } from "react-bootstrap-icons";
+
+import { useLanguage } from "../../lang/LanguageContext";
+import type { ILanguageChampion } from "../../lang/language";
+import type { IChampion, IResults } from "../../models";
+import Modal from "../UI/Modal";
+
+import ResultsDetailsStats from "./ResultsDetailsStats";
 
 interface IResultsModalProps {
   champion: IChampion;

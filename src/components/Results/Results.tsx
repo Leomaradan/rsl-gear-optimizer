@@ -1,17 +1,17 @@
-import ResultsDetails from "./ResultsDetails";
+import React, { useState } from "react";
+import { Button, Table } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
-import ClanDisplay from "../UI/ClanDisplay";
-import ProgressBar from "../UI/ProgressBar";
-import SetDisplay from "../UI/SetDisplay";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageUiTask } from "../../lang/language";
 import type { IClans, ISets } from "../../models";
 import generateCombination from "../../process/runWorker";
 import type { IState } from "../../redux/reducers";
+import ClanDisplay from "../UI/ClanDisplay";
+import ProgressBar from "../UI/ProgressBar";
+import SetDisplay from "../UI/SetDisplay";
 
-import React, { useState } from "react";
-import { Button, Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import ResultsDetails from "./ResultsDetails";
 
 const Results = (): JSX.Element => {
   const lang = useLanguage();

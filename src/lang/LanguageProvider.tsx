@@ -1,8 +1,8 @@
-import { dictionaryList, languageOptions } from "./language";
-import LanguageContext, { ILanguageContextDefinition } from "./LanguageContext";
-
-import React, { ReactNode, useState } from "react";
 import localforage from "localforage";
+import React, { ReactNode, useState } from "react";
+
+import LanguageContext, { ILanguageContextDefinition } from "./LanguageContext";
+import { dictionaryList, languageOptions } from "./language";
 
 interface ILanguageProviderProps {
   children: ReactNode;

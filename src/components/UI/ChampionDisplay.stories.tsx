@@ -1,5 +1,7 @@
-import ChampionDisplay from "./ChampionDisplay";
+import type { Meta, Story } from "@storybook/react";
 
+import { SortedExistingClans } from "../../data/Clans";
+import { ILanguageClan, dictionaryList } from "../../lang/language";
 import type {
   IAura,
   IChampion,
@@ -9,10 +11,8 @@ import type {
   IRarity,
   IStars,
 } from "../../models";
-import { SortedExistingClans } from "../../data/Clans";
-import { ILanguageClan, dictionaryList } from "../../lang/language";
 
-import type { Meta, Story } from "@storybook/react";
+import ChampionDisplay from "./ChampionDisplay";
 
 const listClans = SortedExistingClans.map((s) => ({
   text: dictionaryList.en.clan[s as keyof ILanguageClan],

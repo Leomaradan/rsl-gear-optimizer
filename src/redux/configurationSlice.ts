@@ -1,6 +1,6 @@
-import type { IConfigurationOptions, IConfigurationState } from "../models";
-
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+import type { IConfigurationOptions, IConfigurationState } from "../models";
 
 const greatHallBonusAffinity = {
   ACC: 0,

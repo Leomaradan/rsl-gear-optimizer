@@ -1,6 +1,5 @@
-import DisplayError from "../UI/DisplayError";
-import Grid from "../UI/Grid";
-import Stack from "../UI/Stack";
+import type React from "react";
+
 import {
   BootsStatsExeptFlat,
   ChestplateStatsExeptFlat,
@@ -10,8 +9,9 @@ import {
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IChampionConfiguration, IErrors, IStat } from "../../models";
-
-import type React from "react";
+import DisplayError from "../UI/DisplayError";
+import Grid from "../UI/Grid";
+import Stack from "../UI/Stack";
 
 interface IChampionFormMainStatsProps {
   errors: IErrors;

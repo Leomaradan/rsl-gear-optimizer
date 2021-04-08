@@ -1,6 +1,6 @@
-import type { IChampionAffinity } from "../../models";
-
 import styled from "styled-components";
+
+import type { IChampionAffinity } from "../../models";
 
 const Image = styled.img<{ width?: number }>`
   width: ${(p) => (p.width ? `${p.width}px` : "100%")};

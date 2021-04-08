@@ -1,9 +1,9 @@
-import type { IArtifactFormSubProps } from "./ArtifactForm";
-import QualitySelector from "./QualitySelector";
+import { useDebounceCallback } from "@react-hook/debounce";
+import React, { useMemo } from "react";
+import { Button, Form, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-import DisplayError from "../UI/DisplayError";
-import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
-import Wrapper from "../UI/Wrapper";
+import styled from "styled-components";
 import {
   ExistingSlotsAccessories,
   ExistingSlotsArtifacts,
@@ -21,11 +21,13 @@ import type {
 import type { IArtifact, ISlots, IStars } from "../../models";
 import type { IState } from "../../redux/reducers";
 
-import { useDebounceCallback } from "@react-hook/debounce";
-import React, { useMemo } from "react";
-import { Button, Form, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+
+import DisplayError from "../UI/DisplayError";
+import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
+import Wrapper from "../UI/Wrapper";
+
+import type { IArtifactFormSubProps } from "./ArtifactForm";
+import QualitySelector from "./QualitySelector";
 
 const ChampionWrapper = styled(Wrapper)`
   & > div {

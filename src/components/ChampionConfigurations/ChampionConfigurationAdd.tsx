@@ -1,10 +1,10 @@
-import ChampionForm from "./ChampionConfigurationForm";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
 import { useLanguage } from "../../lang/LanguageContext";
 import type { IChampionConfiguration } from "../../models";
 
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import ChampionForm from "./ChampionConfigurationForm";
 
 const ChampionAdd = (): JSX.Element => {
   const [show, setShow] = useState(false);

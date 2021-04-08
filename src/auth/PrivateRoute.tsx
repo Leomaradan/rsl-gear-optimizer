@@ -1,7 +1,7 @@
-import { useAuth } from "./AuthContext";
-
 import type { ComponentType } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
+
+import { useAuth } from "./AuthContext";
 
 interface IPrivateRouteProps extends RouteProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

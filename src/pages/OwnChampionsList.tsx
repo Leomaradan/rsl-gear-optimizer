@@ -1,8 +1,8 @@
-import type { IState } from "../redux/reducers";
-import ChampionsList from "../components/Champions/ChampionsList";
-
-import { useSelector } from "react-redux";
 import React from "react";
+import { useSelector } from "react-redux";
+
+import ChampionsList from "../components/Champions/ChampionsList";
+import type { IState } from "../redux/reducers";
 
 const OwnChampionsList = (): JSX.Element => {
   const champions = useSelector((state: IState) => state.champions);

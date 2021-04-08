@@ -1,7 +1,9 @@
-import { FormInput, FormLabel, FormRow, Textarea } from "./Layout";
+import { Validator } from "jsonschema";
+import React, { ChangeEvent, useState } from "react";
+import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
-import Modal from "../UI/Modal";
-import Stack from "../UI/Stack";
 import {
   ExistingSlotsAccessories,
   RarityFromString,
@@ -29,6 +31,7 @@ import type {
   IStat,
 } from "../../models";
 import Backup1Schema from "../../process/backup-schema.json";
+import calculateChampionStats from "../../process/calculateChampionStats";
 import calculateScoreRealStats from "../../process/calculateScoreRealStats";
 import logger from "../../process/logger";
 import RaidExtractSchema from "../../process/raidextract-schema.json";
@@ -36,13 +39,10 @@ import { loadArtifacts } from "../../redux/artifactsSlice";
 import { loadChampionConfigurations } from "../../redux/championConfigurationsSlice";
 import { loadChampions } from "../../redux/championsSlice";
 import type { IState } from "../../redux/reducers";
-import calculateChampionStats from "../../process/calculateChampionStats";
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
 
-import { Validator } from "jsonschema";
-import React, { ChangeEvent, useState } from "react";
-import { Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { FormInput, FormLabel, FormRow, Textarea } from "./Layout";
 
 const validator = new Validator();
 
@@ -107,8 +107,10 @@ type IArtifactJsonSet =
   | "StunChance"
   | "UnkillableAndSpdAndCrDmg";
 
-type IWornList = { [key: number]: string };
-type IArtifactJson = {
+interface IWornList {
+  [key: number]: string;
+}
+interface IArtifactJson {
   id: number;
   kind:
     | "Banner"
@@ -137,9 +139,9 @@ type IArtifactJson = {
     level: number;
   }[];
   setKind: IArtifactJsonSet;
-};
+}
 
-type IChampionJson = {
+interface IChampionJson {
   accuracy: number;
   artifacts?: number[];
   attack: number;
@@ -161,12 +163,12 @@ type IChampionJson = {
   resistance: number;
   role: string;
   speed: number;
-};
+}
 
-type IRaidExtractJson = {
+interface IRaidExtractJson {
   artifacts: IArtifactJson[];
   heroes: IChampionJson[];
-};
+}
 
 const importChampion = (
   heroes: IChampionJson[]

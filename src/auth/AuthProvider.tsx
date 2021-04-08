@@ -1,7 +1,7 @@
-import AuthContext, { IAuthContextDefinition } from "./AuthContext";
-
 import localforage from "localforage";
 import React, { ReactNode, useState } from "react";
+
+import AuthContext, { IAuthContextDefinition } from "./AuthContext";
 
 interface IAuthProviderProps {
   children: ReactNode;

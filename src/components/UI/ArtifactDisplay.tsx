@@ -1,6 +1,6 @@
-import ChampionPortrait from "./ChampionPortrait";
-import StarDisplay from "./StarDisplay";
-import Tooltip from "./Tooltip";
+import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 import { SetsIconName, SlotsIconName } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
@@ -9,9 +9,9 @@ import type { IArtifact, IStat, IStatsFull } from "../../models";
 import getColour from "../../process/getColour";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+import ChampionPortrait from "./ChampionPortrait";
+import StarDisplay from "./StarDisplay";
+import Tooltip from "./Tooltip";
 
 interface IArtifactDisplayProps {
   artifact?: IArtifact;

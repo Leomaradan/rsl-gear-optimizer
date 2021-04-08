@@ -1,12 +1,12 @@
-import Tooltip from "./Tooltip";
+import React from "react";
+import styled from "styled-components";
 
 import { MasteryIconName } from "../../data/Masteries";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageMastery } from "../../lang/language";
 import type { IChampionMastery } from "../../models";
 
-import React from "react";
-import styled from "styled-components";
+import Tooltip from "./Tooltip";
 
 interface IDisplayMasteryProps {
   activated: boolean;
