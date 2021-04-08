@@ -19,7 +19,7 @@ import type { Dispatch } from "@reduxjs/toolkit";
 // eslint-disable-next-line import/no-unresolved
 import CombinationWorker from "worker-loader!process/combination.worker";
 
-export default (
+const runWorker = (
   dispatch: Dispatch,
   champions: IChampion[],
   championConfigurations: IChampionConfiguration[],
@@ -69,3 +69,5 @@ export default (
     }
   };
 };
+
+export default runWorker;

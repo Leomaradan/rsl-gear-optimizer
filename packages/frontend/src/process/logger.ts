@@ -19,8 +19,10 @@ const error = (...optionalParams: any[]): void => {
   }
 };
 
-export default {
+const logger = {
   error,
   info,
   warn,
 };
+
+export default logger;
