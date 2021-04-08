@@ -1,7 +1,8 @@
-import mergeDeep from "../process/mergeDeep";
-import baseMap from "./base.json";
 import en from "./en-us.json";
 import fr from "./fr-fr.json";
+import baseMap from "./base.json";
+
+import mergeDeep from "../process/mergeDeep";
 
 export interface ILanguageAffinity {
   Force: string;
