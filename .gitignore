@@ -9,7 +9,7 @@ node_modules
 /coverage
 
 # production
-packages/frontend/build
+build
 
 # temp
 /temp
@@ -29,3 +29,4 @@ src/raid-data
 public/assets/*
 !public/assets/UnknownItem.jpg
 !public/assets/Masteries/
+.env.production
