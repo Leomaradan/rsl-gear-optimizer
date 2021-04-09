@@ -12,4 +12,5 @@ export type IClans =
   | "DarkElves"
   | "KnightsRevenant"
   | "Barbarians"
-  | "Dwarves";
+  | "Dwarves"
+  | "Shadowkin";

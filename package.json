@@ -59,7 +59,7 @@
     "lang:generate": "node ./scripts/generateBase.js",
     "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook -s ./public",
-    "backend-server": "php -S localhost:8080 -t backend/"
+    "backend-server": "php -S localhost:8080 -t backend/ -d display_errors=1 -d error_reporting=32767"
   },
   "eslintConfig": {
     "extends": "react-app"

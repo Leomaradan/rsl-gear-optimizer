@@ -6,9 +6,4 @@ const copyRaidData = () => {
   );
 };
 
-const copyBackend = () => {
-  return src("backend/index.php").pipe(dest("build/"));
-};
-
 exports.copyRaidData = copyRaidData;
-exports.copyBackend = copyBackend;
