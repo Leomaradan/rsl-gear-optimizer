@@ -1,51 +1,30 @@
--- phpMyAdmin SQL Dump
--- version 5.1.0
--- https://www.phpmyadmin.net/
---
--- Hôte : localhost
--- Généré le : ven. 09 avr. 2021 à 12:21
--- Version du serveur :  10.3.25-MariaDB-0ubuntu0.20.04.1
--- Version de PHP : 7.4.3
-
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
---
--- Base de données : rsl
---
-
--- --------------------------------------------------------
-
---
--- Structure de la table artifact
---
-
-DROP TABLE IF EXISTS artifact;
-CREATE TABLE artifact (
+DROP TABLE IF EXISTS artifacts;
+CREATE TABLE artifacts (
   id int(10) UNSIGNED NOT NULL,
   user_id int(10) UNSIGNED NOT NULL,
   champion_id int(10) UNSIGNED DEFAULT NULL,
   slot enum('Weapon','Helmet','Shield','Gauntlets','Chestplate','Boots','Ring','Amulet','Banner') NOT NULL,
-  sets enum('Life','Offense','Defense','Speed','CriticalRate','CriticalDamage','Accuracy','Resistance','Lifesteal','Fury','Daze','Cursed','Frost','Frenzy','Regeneration','Immunity','Shield','Relentless','Savage','Destroy','Stun','Toxic','Taunting','Retaliation','Avenging','Stalwart','Reflex','Curing','Cruel','Immortal','DivineOffense','DivineCriticalRate','DivineLife','DivineSpeed','SwiftParry','Deflection','Resilience','Perception') NOT NULL,
-  clan enum('BannerLords','HighElves','SacredOrder','OgrynTribes','LizardMen','Skinwalkers','Orcs','Demonspawn','UndeadHordes','DarkElves','KnightsRevenant','Barbarians','Dwarves','Shadowkin') NOT NULL,
+  sets enum('Life','Offense','Defense','Speed','CriticalRate','CriticalDamage','Accuracy','Resistance','Lifesteal','Fury','Daze','Cursed','Frost','Frenzy','Regeneration','Immunity','Shield','Relentless','Savage','Destroy','Stun','Toxic','Taunting','Retaliation','Avenging','Stalwart','Reflex','Curing','Cruel','Immortal','DivineOffense','DivineCriticalRate','DivineLife','DivineSpeed','SwiftParry','Deflection','Resilience','Perception') DEFAULT NULL,
+  clan enum('BannerLords','HighElves','SacredOrder','OgrynTribes','LizardMen','Skinwalkers','Orcs','Demonspawn','UndeadHordes','DarkElves','KnightsRevenant','Barbarians','Dwarves','Shadowkin') DEFAULT NULL,
   rarity enum('Common','Uncommon','Rare','Epic','Legendary') NOT NULL DEFAULT 'Common',
   quality tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   level tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   main_stat enum('HP','HP%','ATK','ATK%','DEF','DEF%','SPD','C.RATE','C.DMG','RESI','ACC') NOT NULL,
   main_value smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   sub_stats longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  power smallint(5) UNSIGNED NOT NULL DEFAULT 0
+  power smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  deleted_at timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Structure de la table champion
---
-
-DROP TABLE IF EXISTS champion;
-CREATE TABLE champion (
+DROP TABLE IF EXISTS champions;
+CREATE TABLE champions (
   id int(10) UNSIGNED NOT NULL,
   user_id int(10) UNSIGNED NOT NULL,
   champion_ref smallint(5) UNSIGNED NOT NULL COMMENT 'champion id according to raid-data',
@@ -70,17 +49,14 @@ CREATE TABLE champion (
   res smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   spd smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   masteries longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'array of masteries id',
-  power smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'custom power calculation'
+  power smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'custom power calculation',
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  deleted_at timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Structure de la table configuration
---
-
-DROP TABLE IF EXISTS configuration;
-CREATE TABLE configuration (
+DROP TABLE IF EXISTS configurations;
+CREATE TABLE configurations (
   id int(10) UNSIGNED NOT NULL,
   user_id int(10) UNSIGNED NOT NULL,
   champion_id int(10) UNSIGNED NOT NULL,
@@ -88,163 +64,104 @@ CREATE TABLE configuration (
   method enum('SpecificSets','ListSets','ListSetsNoBonus','AllSets') NOT NULL DEFAULT 'ListSets',
   activated tinyint(1) NOT NULL DEFAULT 1,
   locked tinyint(1) NOT NULL DEFAULT 0,
-  accessories enum('','Ring','Amulet','Banner') NOT NULL DEFAULT ''
+  accessories enum('','Ring','Amulet','Banner') NOT NULL DEFAULT '',
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  deleted_at timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Structure de la table game
---
-
-DROP TABLE IF EXISTS game;
-CREATE TABLE game (
+DROP TABLE IF EXISTS options;
+CREATE TABLE `options` (
   user_id int(10) UNSIGNED NOT NULL,
   artifacts_display tinyint(1) NOT NULL DEFAULT 0 COMMENT 'display mode. 0 = table, 1 = grid',
   exclude_worn_artifact tinyint(1) NOT NULL DEFAULT 1 COMMENT '0 to allow permutation',
   generation_method enum('easy','real','theorical') NOT NULL DEFAULT 'real',
   arena_rank tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'index of arena rank list',
-  great_hall longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
+  great_hall longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  deleted_at timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Structure de la table result
---
-
-DROP TABLE IF EXISTS result;
-CREATE TABLE result (
+DROP TABLE IF EXISTS results;
+CREATE TABLE results (
   user_id int(10) UNSIGNED NOT NULL,
-  data longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
+  data longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  deleted_at timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
---
--- Structure de la table user
---
-
-DROP TABLE IF EXISTS user;
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
   id int(10) UNSIGNED NOT NULL,
   username varchar(50) NOT NULL COMMENT 'unique username',
   email varchar(100) NOT NULL COMMENT 'unique email',
   password varchar(64) NOT NULL COMMENT 'sha256 hashed password',
   token varchar(32) DEFAULT NULL COMMENT 'login token',
   verify_token varchar(32) DEFAULT NULL COMMENT 'verify token. Is set, the account must be validated',
-  language enum('en','fr') NOT NULL DEFAULT 'en'
+  language enum('en','fr') NOT NULL DEFAULT 'en',
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  deleted_at timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Index pour les tables déchargées
---
 
---
--- Index pour la table artifact
---
-ALTER TABLE artifact
+ALTER TABLE artifacts
   ADD PRIMARY KEY (id),
   ADD KEY user_id (user_id),
   ADD KEY champion_id (champion_id);
 
---
--- Index pour la table champion
---
-ALTER TABLE champion
+ALTER TABLE champions
   ADD PRIMARY KEY (id),
   ADD KEY user_id (user_id),
   ADD KEY champion_ref (champion_ref);
 
---
--- Index pour la table configuration
---
-ALTER TABLE configuration
+ALTER TABLE configurations
   ADD PRIMARY KEY (id),
   ADD KEY user_id (user_id),
   ADD KEY champion_id (champion_id);
 
---
--- Index pour la table game
---
-ALTER TABLE game
+ALTER TABLE options
   ADD PRIMARY KEY (user_id);
 
---
--- Index pour la table result
---
-ALTER TABLE result
+ALTER TABLE results
   ADD PRIMARY KEY (user_id);
 
---
--- Index pour la table user
---
-ALTER TABLE user
+ALTER TABLE users
   ADD PRIMARY KEY (id),
   ADD UNIQUE KEY email (email),
   ADD UNIQUE KEY username (username);
 
---
--- AUTO_INCREMENT pour les tables déchargées
---
 
---
--- AUTO_INCREMENT pour la table artifact
---
-ALTER TABLE artifact
+ALTER TABLE artifacts
   MODIFY id int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT pour la table champion
---
-ALTER TABLE champion
+ALTER TABLE champions
   MODIFY id int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT pour la table configuration
---
-ALTER TABLE configuration
+ALTER TABLE configurations
   MODIFY id int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT pour la table user
---
-ALTER TABLE user
+ALTER TABLE users
   MODIFY id int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
---
--- Contraintes pour les tables déchargées
---
 
---
--- Contraintes pour la table artifact
---
-ALTER TABLE artifact
-  ADD CONSTRAINT artifact_champion FOREIGN KEY (champion_id) REFERENCES champion (id),
-  ADD CONSTRAINT artifact_user FOREIGN KEY (user_id) REFERENCES `user` (id);
+ALTER TABLE artifacts
+  ADD CONSTRAINT artifact_champion FOREIGN KEY (champion_id) REFERENCES champions (id),
+  ADD CONSTRAINT artifact_user FOREIGN KEY (user_id) REFERENCES `users` (id);
 
---
--- Contraintes pour la table champion
---
-ALTER TABLE champion
-  ADD CONSTRAINT champion_user FOREIGN KEY (user_id) REFERENCES `user` (id);
+ALTER TABLE champions
+  ADD CONSTRAINT champion_user FOREIGN KEY (user_id) REFERENCES `users` (id);
 
---
--- Contraintes pour la table configuration
---
-ALTER TABLE configuration
-  ADD CONSTRAINT configuration_champion FOREIGN KEY (champion_id) REFERENCES champion (id),
-  ADD CONSTRAINT configuration_user FOREIGN KEY (user_id) REFERENCES `user` (id);
+ALTER TABLE configurations
+  ADD CONSTRAINT configuration_champion FOREIGN KEY (champion_id) REFERENCES champions (id),
+  ADD CONSTRAINT configuration_user FOREIGN KEY (user_id) REFERENCES `users` (id);
 
---
--- Contraintes pour la table game
---
-ALTER TABLE game
-  ADD CONSTRAINT game_user FOREIGN KEY (user_id) REFERENCES `user` (id);
+ALTER TABLE options
+  ADD CONSTRAINT game_user FOREIGN KEY (user_id) REFERENCES `users` (id);
 
---
--- Contraintes pour la table result
---
-ALTER TABLE result
-  ADD CONSTRAINT result_user FOREIGN KEY (user_id) REFERENCES `user` (id);
+ALTER TABLE results
+  ADD CONSTRAINT result_user FOREIGN KEY (user_id) REFERENCES `users` (id);
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;

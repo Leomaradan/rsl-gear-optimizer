@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-namespace Backend;
+namespace Backend\Middleware;
 
 use PDO;
 use Psr\Container\ContainerInterface;
@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
+use Backend\Models\User;
 
 class TokenAuth
 {
@@ -27,15 +28,15 @@ class TokenAuth
      */
     public function authenticate($token)
     {
-        $service = $this->container->get('Service');
-        $instance = $service->instance();
+        $user = User::where('token', $token)->first();
 
-        $sql = 'SELECT id, username, email, token FROM user WHERE token = ?';
+        if(!$user) {
+            return null;
+        }
 
-        $sth = $instance->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute([$token]);
-
-        $user = $sth->fetch();
+        if($user->verify_token) {
+            return null;
+        }
 
         return $user;
     }
@@ -60,6 +61,7 @@ class TokenAuth
     private function reject()
     {
         $response = new Response();
+        $response->getBody()->write(json_encode([['message' => 'Unauthorized']]));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
     }
 
@@ -85,7 +87,7 @@ class TokenAuth
 
         if (isset($_SESSION['user'])) {
             if ($_SESSION['user']['token'] === $token) {
-                $needUser = false;
+                //$needUser = false;
             }
         }
 
@@ -95,6 +97,7 @@ class TokenAuth
             if (!$user) {
                 return $this->reject();
             }
+
 
             $_SESSION['user'] = $user;
         }

@@ -1,10 +1,10 @@
 <?php
 declare (strict_types = 1);
 
-namespace Backend;
+namespace Backend\Controller;
 
 use json_decode;
-use PDO;
+use GUMP;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -13,50 +13,9 @@ class ConfigController extends Controller
 
     function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 
-        $pdo = $this->service()->instance();
-        $sql = 'SELECT * FROM configuration WHERE user_id = ? ORDER BY id;';
+        $payload = Configuration::where('user_id', $this->userId())->get()->toJson(JSON_PRETTY_PRINT);
 
-        $sth = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute([$this->userId()]);
-
-        $data = [];
-
-        while ($row = $sth->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) {
-
-            $config = [];
-
-            foreach ($row as $key => $value) {
-                if ($key === "user_id") {
-                    continue;
-                }
-
-                if ($key === "configuration") {
-                    $config[$key] = json_decode($value);
-                    continue;
-                }
-
-                if ($key === "champion_id" || $key === "id") {
-                    $config[$key] = (int) $value;
-                    continue;
-                }
-
-                if ($key === "activated" || $key === "locked") {
-                    $config[$key] = (bool) $value;
-                    continue;
-                }
-
-                $config[$key] = $value;
-            }
-
-            $data[] = $config;
-
-        }
-
-        $payload = json_encode($data);
-
-        $response->getBody()->write($payload);
-        return $response
-            ->withHeader('Content-Type', 'application/json');
+        return $this->json($response, $payload);
     }
 
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -104,15 +63,32 @@ class ConfigController extends Controller
 
     public function resultList(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write('Result List');
+        $payload = Result::where('user_id', $this->userId())->get()->toJson(JSON_PRETTY_PRINT);
 
-        return $response;
+        return $this->json($response, $payload);
     }
 
     public function resultUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write('Result Update');
+        $is_valid = GUMP::is_valid($args, RESULT_VALIDATION);
 
-        return $response;
+
+        $isValidArtifact = GUMP::is_valid($args, ARTIFACT_VALIDATION);
+
+        var_dump($is_valid);
+
+        if ($is_valid === true) {
+
+            $user = User::where('verify_token', $args['id'])->first();
+
+            if ($user) {
+                $user->verify_token = null;
+                $user->save();
+
+                return $this->json($response);
+            }
+        }
+
+        return $this->invalidQuery($response);
     }
 }

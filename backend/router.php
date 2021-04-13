@@ -1,11 +1,11 @@
 <?php
 declare (strict_types = 1);
 
-use Backend\AccountController;
-use Backend\ArtifactController;
-use Backend\ChampionController;
-use Backend\ConfigController;
-use Backend\TokenAuth;
+use Backend\Controller\AccountController;
+use Backend\Controller\ArtifactController;
+use Backend\Controller\ChampionController;
+use Backend\Controller\ConfigController;
+use Backend\Middleware\TokenAuth;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
