@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06a2a7ba7e706d69866f12a76001436f",
+    "content-hash": "711a96af8f81a089fd3b388c3aa3fea6",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -703,16 +703,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.6.1",
+            "version": "3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5"
+                "reference": "06e2ebd25f2869e54a306dda991f7db58066f7f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
-                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
+                "url": "https://api.github.com/repos/opis/closure/zipball/06e2ebd25f2869e54a306dda991f7db58066f7f6",
+                "reference": "06e2ebd25f2869e54a306dda991f7db58066f7f6",
                 "shasum": ""
             },
             "require": {
@@ -762,9 +762,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.1"
+                "source": "https://github.com/opis/closure/tree/3.6.2"
             },
-            "time": "2020-11-07T02:01:34+00:00"
+            "time": "2021-04-09T13:42:10+00:00"
         },
         {
             "name": "php-di/invoker",
@@ -2690,16 +2690,16 @@
         },
         {
             "name": "wixel/gump",
-            "version": "v1.12.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Wixel/GUMP.git",
-                "reference": "e8416a3942f8e868c930e3577e12ba23ef02e8fe"
+                "url": "https://github.com/philsbury/GUMP.git",
+                "reference": "ff6fa1c1f20819e7095711d67b75ff33f3244e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wixel/GUMP/zipball/e8416a3942f8e868c930e3577e12ba23ef02e8fe",
-                "reference": "e8416a3942f8e868c930e3577e12ba23ef02e8fe",
+                "url": "https://api.github.com/repos/philsbury/GUMP/zipball/ff6fa1c1f20819e7095711d67b75ff33f3244e7e",
+                "reference": "ff6fa1c1f20819e7095711d67b75ff33f3244e7e",
                 "shasum": ""
             },
             "require": {
@@ -2717,6 +2717,7 @@
                 "php-coveralls/php-coveralls": "^2.2",
                 "phpunit/phpunit": "^6"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -2726,7 +2727,22 @@
                     "GUMP\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "php ./vendor/bin/phpunit"
+                ],
+                "dump": [
+                    "php ./ci/dump_filters_docs.php && php ./ci/dump_validators_docs.php"
+                ],
+                "check": [
+                    "php ./ci/check_filters_docs.php && php ./ci/check_validators_docs.php && php ./ci/check_validators_translations.php"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -2748,16 +2764,17 @@
                 "validator"
             ],
             "support": {
-                "issues": "https://github.com/Wixel/GUMP/issues",
-                "source": "https://github.com/Wixel/GUMP/tree/v1.12.1"
+                "source": "https://github.com/philsbury/GUMP/tree/master"
             },
-            "time": "2020-12-13T17:54:26+00:00"
+            "time": "2021-03-03T20:12:49+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "wixel/gump": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
