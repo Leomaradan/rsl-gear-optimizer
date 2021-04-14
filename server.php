@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 use Backend\Container\EloquentContainer;
 use DI\Container;
@@ -7,8 +8,9 @@ use Dotenv\Dotenv;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Factory\AppFactory;
 
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/backend/validation.php';
+require __DIR__.'/vendor/autoload.php';
+
+require __DIR__.'/backend/validation.php';
 
 session_start();
 
@@ -29,7 +31,7 @@ $container->set('Service', function () {
 //AppFactory::setContainer($container);
 $app = AppFactory::createFromContainer($container);
 
-$routes = require __DIR__ . '/backend/router.php';
+$routes = require __DIR__.'/backend/router.php';
 $routes($app);
 
 $container->get('Service');
@@ -54,7 +56,6 @@ $customErrorHandler = function (
 
     return $response;
 };
-
 
 $app->addBodyParsingMiddleware();
 

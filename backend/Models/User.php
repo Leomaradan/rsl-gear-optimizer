@@ -1,8 +1,10 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Backend\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,5 +39,10 @@ class User extends Model
     public function configurations()
     {
         return $this->hasMany(Configuration::class);
+    }
+
+    public function scopeOwned(Builder $query, $user_id)
+    {
+        return $query->where('id', $user_id);
     }
 }

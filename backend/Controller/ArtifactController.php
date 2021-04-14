@@ -1,25 +1,30 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Backend\Controller;
 
-use in_array;
-use json_decode;
-use PDO;
+use Backend\Models\Artifact;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ArtifactController extends Controller
 {
-
     private $integerProperties = ['id', 'quality', 'level', 'main_value', 'power'];
 
-    function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-        $payload = Artifact::where('user_id', $this->userId())->get()->toJson(JSON_PRETTY_PRINT);
+    /**
+     * GET /artifact.
+     */
+    public function list(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $payload = Artifact::owned($this->userId())->get();
 
         return $this->json($response, $payload);
     }
 
+    /**
+     * PUT /artifact/:id.
+     */
     public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->getBody()->write('Update');
@@ -27,6 +32,9 @@ class ArtifactController extends Controller
         return $response;
     }
 
+    /**
+     * POST /artifact.
+     */
     public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->getBody()->write('Create');
@@ -34,31 +42,21 @@ class ArtifactController extends Controller
         return $response;
     }
 
+    /**
+     * DELETE /artifact/:id.
+     */
     public function remove(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = (int) $args['id'];
 
-        $pdo = $this->service()->instance();
+        $artifact = Artifact::findOwned($this->userId(), $id)->first();
 
-        $pdo->beginTransaction();
+        if ($artifact) {
+            $artifact->delete();
 
-        $data = [];
+            return $this->json($response, ['deleted_id' => $id]);
+        }
 
-        $param = [
-            ':artifact_id' => $id,
-            ':user_id' => $this->userId(),
-        ];
-
-        $sth = $pdo->prepare('DELETE FROM `artifact` WHERE `id` = :artifact_id AND `user_id` = :user_id');
-        $sth->execute($param);
-        $data['artifactDeleted'] = $sth->rowCount();
-
-        $pdo->rollback();
-
-        $payload = json_encode($data);
-
-        $response->getBody()->write($payload);
-        return $response
-            ->withHeader('Content-Type', 'application/json');
+        return $this->invalidQuery($response);
     }
 }

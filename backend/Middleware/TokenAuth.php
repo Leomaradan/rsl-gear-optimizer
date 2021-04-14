@@ -1,19 +1,18 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Backend\Middleware;
 
-use PDO;
+use Backend\Models\User;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
-use Backend\Models\User;
 
 class TokenAuth
 {
-
     protected $container;
 
     public function __construct(ContainerInterface $container)
@@ -21,8 +20,13 @@ class TokenAuth
         $this->container = $container;
     }
 
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        return $this->process($request, $handler);
+    }
+
     /**
-     * Check against the DB if the token is valid
+     * Check against the DB if the token is valid.
      *
      * @param string $token
      */
@@ -30,11 +34,11 @@ class TokenAuth
     {
         $user = User::where('token', $token)->first();
 
-        if(!$user) {
+        if (!$user) {
             return null;
         }
 
-        if($user->verify_token) {
+        if ($user->verify_token) {
             return null;
         }
 
@@ -45,35 +49,22 @@ class TokenAuth
     {
         $format = preg_match_all('/Bearer\s+([a-f0-9]{32})$/i', $tokenHeader, $matches, PREG_SET_ORDER, 0);
 
-        if ($format === 0) {
+        if (0 === $format) {
             return false;
         }
 
         return $matches[0][1];
-
-    }
-
-    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-        return $this->process($request, $handler);
-    }
-
-    private function reject()
-    {
-        $response = new Response();
-        $response->getBody()->write(json_encode([['message' => 'Unauthorized']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
     }
 
     /**
-     * Call
+     * Call.
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
         //Get the token sent from jquery
         $tokenRequest = $request->getHeader('Authorization');
 
-        if (count($tokenRequest) === 0) {
+        if (0 === count($tokenRequest)) {
             return $this->reject();
         }
 
@@ -98,11 +89,17 @@ class TokenAuth
                 return $this->reject();
             }
 
-
             $_SESSION['user'] = $user;
         }
 
         return $handler->handle($request);
     }
 
+    private function reject()
+    {
+        $response = new Response();
+        $response->getBody()->write(json_encode(['message' => 'Unauthorized']));
+
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
+    }
 }
