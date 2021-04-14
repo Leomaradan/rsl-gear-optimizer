@@ -1,0 +1,2033 @@
+{
+  "user1": {
+    "account": {
+      "id": 1,
+      "username": "user1",
+      "email": "user1@localhost.local",
+      "token": "2a511bc19f133cd39cac88881dfcc374",
+      "language": "en",
+      "option": {
+        "artifacts_display": 0,
+        "exclude_worn_artifact": 1,
+        "generation_method": "real",
+        "arena_rank": 0,
+        "great_hall": {
+          "Force": {
+            "ACC": 0,
+            "ATK": 0,
+            "CDMG": 0,
+            "DEF": 0,
+            "HP": 0,
+            "RESI": 0
+          },
+          "Magic": {
+            "ACC": 0,
+            "ATK": 0,
+            "CDMG": 0,
+            "DEF": 0,
+            "HP": 0,
+            "RESI": 0
+          },
+          "Spirit": {
+            "ACC": 0,
+            "ATK": 0,
+            "CDMG": 0,
+            "DEF": 0,
+            "HP": 0,
+            "RESI": 0
+          },
+          "Void": {
+            "ACC": 0,
+            "ATK": 0,
+            "CDMG": 0,
+            "DEF": 0,
+            "HP": 0,
+            "RESI": 0
+          }
+        }
+      }
+    },
+    "champion": [
+      {
+        "id": 0,
+        "champion_ref": 450,
+        "quality": 4,
+        "awaken": 4,
+        "level": 40,
+        "vault": 1,
+        "base_hp": 8115,
+        "base_acc": 0,
+        "base_atk": 500,
+        "base_def": 529,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 93,
+        "hp": 9006,
+        "acc": 0,
+        "atk": 505,
+        "def": 534,
+        "crate": 20,
+        "cdmg": 60,
+        "res": 30,
+        "spd": 93,
+        "masteries": [
+          "Steadfast",
+          "DeadlyPrecision",
+          "Shieldbearer",
+          "KeenStrike",
+          "LayOnHands"
+        ],
+        "power": 0
+      },
+      {
+        "id": 1,
+        "champion_ref": 390,
+        "quality": 4,
+        "awaken": 3,
+        "level": 40,
+        "vault": 1,
+        "base_hp": 6420,
+        "base_acc": 0,
+        "base_atk": 565,
+        "base_def": 541,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 94,
+        "hp": 6484,
+        "acc": 0,
+        "atk": 571,
+        "def": 546,
+        "crate": 15,
+        "cdmg": 50,
+        "res": 30,
+        "spd": 94,
+        "masteries": [],
+        "power": 0
+      },
+      {
+        "id": 2,
+        "champion_ref": 1490,
+        "quality": 5,
+        "awaken": 5,
+        "level": 50,
+        "vault": 0,
+        "base_hp": 10455,
+        "base_acc": 0,
+        "base_atk": 875,
+        "base_def": 608,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 107,
+        "hp": 21977,
+        "acc": 31,
+        "atk": 1286,
+        "def": 952,
+        "crate": 53,
+        "cdmg": 109,
+        "res": 84,
+        "spd": 123,
+        "masteries": [
+          "DeadlyPrecision",
+          "Defiant",
+          "ShieldBreaker",
+          "KeenStrike",
+          "ImprovedParry"
+        ],
+        "power": 460
+      },
+      {
+        "id": 3,
+        "champion_ref": 2120,
+        "quality": 4,
+        "awaken": 4,
+        "level": 40,
+        "vault": 0,
+        "base_hp": 6510,
+        "base_acc": 0,
+        "base_atk": 595,
+        "base_def": 369,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 97,
+        "hp": 6575,
+        "acc": 0,
+        "atk": 601,
+        "def": 373,
+        "crate": 20,
+        "cdmg": 50,
+        "res": 30,
+        "spd": 97,
+        "masteries": ["DeadlyPrecision"],
+        "power": 0
+      },
+      {
+        "id": 4,
+        "champion_ref": 1120,
+        "quality": 5,
+        "awaken": 2,
+        "level": 50,
+        "vault": 0,
+        "base_hp": 11670,
+        "base_acc": 0,
+        "base_atk": 705,
+        "base_def": 786,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 103,
+        "hp": 22871,
+        "acc": 77,
+        "atk": 1277,
+        "def": 1330,
+        "crate": 15,
+        "cdmg": 72,
+        "res": 68,
+        "spd": 164,
+        "masteries": [],
+        "power": 654
+      },
+      {
+        "id": 5,
+        "champion_ref": 1500,
+        "quality": 5,
+        "awaken": 5,
+        "level": 50,
+        "vault": 0,
+        "base_hp": 9840,
+        "base_acc": 0,
+        "base_atk": 834,
+        "base_def": 681,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 104,
+        "hp": 15881,
+        "acc": 78,
+        "atk": 1418,
+        "def": 834,
+        "crate": 38,
+        "cdmg": 99,
+        "res": 69,
+        "spd": 148,
+        "masteries": [
+          "DeadlyPrecision",
+          "Defiant",
+          "KeenStrike",
+          "ImprovedParry",
+          "HeartOfGlory"
+        ],
+        "power": 456
+      },
+      {
+        "id": 6,
+        "champion_ref": 580,
+        "quality": 5,
+        "awaken": 5,
+        "level": 50,
+        "vault": 0,
+        "base_hp": 11055,
+        "base_acc": 0,
+        "base_atk": 753,
+        "base_def": 689,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 98,
+        "hp": 19760,
+        "acc": 20,
+        "atk": 1059,
+        "def": 810,
+        "crate": 20,
+        "cdmg": 71,
+        "res": 57,
+        "spd": 146,
+        "masteries": [
+          "DeadlyPrecision",
+          "Steadfast",
+          "ExaltInDeath",
+          "ShieldBreaker",
+          "KeenStrike"
+        ],
+        "power": 311
+      },
+      {
+        "id": 7,
+        "champion_ref": 190,
+        "quality": 6,
+        "awaken": 6,
+        "level": 60,
+        "vault": 0,
+        "base_hp": 16185,
+        "base_acc": 0,
+        "base_atk": 881,
+        "base_def": 1343,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 45,
+        "base_spd": 95,
+        "hp": 36438,
+        "acc": 87,
+        "atk": 1207,
+        "def": 2315,
+        "crate": 31,
+        "cdmg": 163,
+        "res": 134,
+        "spd": 182,
+        "masteries": [
+          "DeadlyPrecision",
+          "Defiant",
+          "KeenStrike",
+          "Rejuvenation",
+          "ImprovedParry",
+          "LifeDrinker",
+          "ShadowHeal",
+          "BringItDown",
+          "Bloodthirst",
+          "CycleOfViolence",
+          "Methodical",
+          "Warmaster",
+          "DelayDeath",
+          "CycleOfRevenge",
+          "Retribution"
+        ],
+        "power": 951
+      },
+      {
+        "id": 8,
+        "champion_ref": 1510,
+        "quality": 6,
+        "awaken": 6,
+        "level": 60,
+        "vault": 0,
+        "base_hp": 13710,
+        "base_acc": 0,
+        "base_atk": 1200,
+        "base_def": 914,
+        "base_crate": 15,
+        "base_cdmg": 57,
+        "base_res": 30,
+        "base_spd": 103,
+        "hp": 23355,
+        "acc": 91,
+        "atk": 3257,
+        "def": 1330,
+        "crate": 80,
+        "cdmg": 163,
+        "res": 74,
+        "spd": 171,
+        "masteries": [
+          "DeadlyPrecision",
+          "PinpointAccuracy",
+          "KeenStrike",
+          "ShieldBreaker",
+          "ExaltInDeath",
+          "RuthlessAmbush",
+          "WhirlwindOfDeath",
+          "ArcaneCelerity",
+          "LoreOfSteel",
+          "EvilEye",
+          "MasterHexer",
+          "CycleOfViolence",
+          "BloodShield",
+          "KillStreak",
+          "FlawlessExecution"
+        ],
+        "power": 865
+      },
+      {
+        "id": 9,
+        "champion_ref": 22380,
+        "quality": 4,
+        "awaken": 2,
+        "level": 40,
+        "vault": 0,
+        "base_hp": 8745,
+        "base_acc": 0,
+        "base_atk": 666,
+        "base_def": 405,
+        "base_crate": 15,
+        "base_cdmg": 50,
+        "base_res": 30,
+        "base_spd": 94,
+        "hp": 12215,
+        "acc": 17,
+        "atk": 1187,
+        "def": 630,
+        "crate": 56,
+        "cdmg": 68,
+        "res": 68,
+        "spd": 132,
+        "masteries": [],
+        "power": 423
+      }
+    ],
+    "artifact": [
+      {
+        "id": 0,
+        "champion_id": 0,
+        "slot": "Weapon",
+        "sets": "Cruel",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "ATK",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 15,
+            "Roll": 2
+          },
+          {
+            "Rune": 175,
+            "Stats": "HP",
+            "Value": 246,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 48
+      },
+      {
+        "id": 1,
+        "champion_id": 0,
+        "slot": "Helmet",
+        "sets": "CriticalRate",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "HP",
+        "main_value": 2231,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 30,
+            "Roll": 2
+          }
+        ],
+        "power": 88
+      },
+      {
+        "id": 2,
+        "champion_id": 0,
+        "slot": "Shield",
+        "sets": "CriticalRate",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 10,
+            "Roll": 1
+          }
+        ],
+        "power": 76
+      },
+      {
+        "id": 3,
+        "champion_id": 0,
+        "slot": "Gauntlets",
+        "sets": "CriticalDamage",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "C.DMG",
+        "main_value": 42,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 14,
+            "Roll": 2
+          },
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 9,
+            "Roll": 0
+          },
+          {
+            "Rune": 5,
+            "Stats": "ATK%",
+            "Value": 12,
+            "Roll": 1
+          }
+        ],
+        "power": 151
+      },
+      {
+        "id": 4,
+        "champion_id": 0,
+        "slot": "Chestplate",
+        "sets": "CriticalDamage",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "HP%",
+        "main_value": 33,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 9,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 9,
+            "Roll": 1
+          },
+          {
+            "Rune": 1,
+            "Stats": "DEF%",
+            "Value": 9,
+            "Roll": 1
+          }
+        ],
+        "power": 125
+      },
+      {
+        "id": 5,
+        "champion_id": 0,
+        "slot": "Boots",
+        "sets": "Cruel",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 16,
+        "main_stat": "ATK%",
+        "main_value": 50,
+        "sub_stats": [
+          {
+            "Rune": 100,
+            "Stats": "HP",
+            "Value": 848,
+            "Roll": 1
+          },
+          {
+            "Rune": 10,
+            "Stats": "ATK",
+            "Value": 55,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 3,
+            "Stats": "ACC",
+            "Value": 10,
+            "Roll": 0
+          }
+        ],
+        "power": 134
+      },
+      {
+        "id": 6,
+        "champion_id": 1,
+        "slot": "Weapon",
+        "sets": "Cruel",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 16,
+        "main_stat": "ATK",
+        "main_value": 190,
+        "sub_stats": [
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 7,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 13,
+            "Roll": 2
+          },
+          {
+            "Rune": 2,
+            "Stats": "RESI",
+            "Value": 15,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 84
+      },
+      {
+        "id": 7,
+        "champion_id": 1,
+        "slot": "Helmet",
+        "sets": "CriticalDamage",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "HP",
+        "main_value": 1800,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 7,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF",
+            "Value": 13,
+            "Roll": 0
+          },
+          {
+            "Rune": 3,
+            "Stats": "ATK%",
+            "Value": 10,
+            "Roll": 2
+          }
+        ],
+        "power": 48
+      },
+      {
+        "id": 8,
+        "champion_id": 1,
+        "slot": "Shield",
+        "sets": "Cruel",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 120,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ACC",
+            "Value": 29,
+            "Roll": 3
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          }
+        ],
+        "power": 61
+      },
+      {
+        "id": 9,
+        "champion_id": 1,
+        "slot": "Gauntlets",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Legendary",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "C.RATE",
+        "main_value": 26,
+        "sub_stats": [
+          {
+            "Rune": 3,
+            "Stats": "ATK%",
+            "Value": 5,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP",
+            "Value": 482,
+            "Roll": 1
+          },
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 7,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 8,
+            "Roll": 1
+          }
+        ],
+        "power": 105
+      },
+      {
+        "id": 10,
+        "champion_id": 1,
+        "slot": "Chestplate",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "ATK%",
+        "main_value": 33,
+        "sub_stats": [
+          {
+            "Rune": 14,
+            "Stats": "ATK",
+            "Value": 39,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF",
+            "Value": 20,
+            "Roll": 0
+          }
+        ],
+        "power": 93
+      },
+      {
+        "id": 11,
+        "champion_id": 1,
+        "slot": "Boots",
+        "sets": "CriticalDamage",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "SPD",
+        "main_value": 26,
+        "sub_stats": [
+          {
+            "Rune": 3,
+            "Stats": "ATK%",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 10,
+            "Roll": 1
+          }
+        ],
+        "power": 126
+      },
+      {
+        "id": 12,
+        "champion_id": 2,
+        "slot": "Weapon",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Legendary",
+        "quality": 5,
+        "level": 8,
+        "main_stat": "ATK",
+        "main_value": 104,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "RESI",
+            "Value": 10,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 9,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "SPD",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 69
+      },
+      {
+        "id": 13,
+        "champion_id": 2,
+        "slot": "Helmet",
+        "sets": "Lifesteal",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 16,
+        "main_stat": "HP",
+        "main_value": 3480,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 9,
+            "Roll": 1
+          },
+          {
+            "Rune": 5,
+            "Stats": "DEF%",
+            "Value": 9,
+            "Roll": 1
+          },
+          {
+            "Rune": 5,
+            "Stats": "HP%",
+            "Value": 8,
+            "Roll": 1
+          },
+          {
+            "Rune": 5,
+            "Stats": "SPD",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 113
+      },
+      {
+        "id": 14,
+        "champion_id": 2,
+        "slot": "Shield",
+        "sets": "Lifesteal",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 120,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "SPD",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 12,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 9,
+            "Roll": 1
+          }
+        ],
+        "power": 61
+      },
+      {
+        "id": 15,
+        "champion_id": 2,
+        "slot": "Gauntlets",
+        "sets": "Lifesteal",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 4,
+        "level": 8,
+        "main_stat": "C.RATE",
+        "main_value": 19,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ATK%",
+            "Value": 13,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          }
+        ],
+        "power": 71
+      },
+      {
+        "id": 16,
+        "champion_id": 2,
+        "slot": "Chestplate",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 8,
+        "main_stat": "ACC",
+        "main_value": 38,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 11,
+            "Roll": 1
+          }
+        ],
+        "power": 86
+      },
+      {
+        "id": 17,
+        "champion_id": 2,
+        "slot": "Boots",
+        "sets": "Lifesteal",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 8,
+        "main_stat": "SPD",
+        "main_value": 19,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 6,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 14,
+            "Roll": 2
+          }
+        ],
+        "power": 85
+      },
+      {
+        "id": 18,
+        "champion_id": 2,
+        "slot": "Ring",
+        "sets": null,
+        "clan": "Orcs",
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 8,
+        "main_stat": "DEF",
+        "main_value": 104,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 15,
+            "Roll": 2
+          }
+        ],
+        "power": 47
+      },
+      {
+        "id": 19,
+        "champion_id": 3,
+        "slot": "Weapon",
+        "sets": "Defense",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "ATK",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 2,
+            "Stats": "HP%",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 8,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 68
+      },
+      {
+        "id": 20,
+        "champion_id": 3,
+        "slot": "Helmet",
+        "sets": "Destroy",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "HP",
+        "main_value": 1800,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ATK%",
+            "Value": 5,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 15,
+            "Roll": 3
+          }
+        ],
+        "power": 57
+      },
+      {
+        "id": 21,
+        "champion_id": 3,
+        "slot": "Shield",
+        "sets": "Destroy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 13,
+            "Roll": 2
+          },
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 8,
+            "Roll": 0
+          }
+        ],
+        "power": 65
+      },
+      {
+        "id": 22,
+        "champion_id": 3,
+        "slot": "Gauntlets",
+        "sets": "Stalwart",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 6,
+        "level": 16,
+        "main_stat": "C.RATE",
+        "main_value": 60,
+        "sub_stats": [
+          {
+            "Rune": 2,
+            "Stats": "DEF%",
+            "Value": 5,
+            "Roll": 0
+          },
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 38,
+            "Roll": 3
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 6,
+            "Roll": 0
+          },
+          {
+            "Rune": 10,
+            "Stats": "ATK",
+            "Value": 18,
+            "Roll": 0
+          }
+        ],
+        "power": 196
+      },
+      {
+        "id": 23,
+        "champion_id": 3,
+        "slot": "Chestplate",
+        "sets": "Destroy",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "RESI",
+        "main_value": 50,
+        "sub_stats": [
+          {
+            "Rune": 100,
+            "Stats": "HP",
+            "Value": 717,
+            "Roll": 1
+          },
+          {
+            "Rune": 5,
+            "Stats": "DEF%",
+            "Value": 9,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 10,
+            "Roll": 1
+          }
+        ],
+        "power": 117
+      },
+      {
+        "id": 24,
+        "champion_id": 3,
+        "slot": "Boots",
+        "sets": "Destroy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "HP%",
+        "main_value": 26,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 9,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 8,
+            "Roll": 0
+          }
+        ],
+        "power": 95
+      },
+      {
+        "id": 25,
+        "champion_id": 3,
+        "slot": "Ring",
+        "sets": null,
+        "clan": "SacredOrder",
+        "rarity": "Uncommon",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "DEF%",
+            "Value": 11,
+            "Roll": 1
+          },
+          {
+            "Rune": 100,
+            "Stats": "HP",
+            "Value": 312,
+            "Roll": 0
+          },
+          {
+            "Rune": 1,
+            "Stats": "HP%",
+            "Value": 6,
+            "Roll": 0
+          }
+        ],
+        "power": 53
+      },
+      {
+        "id": 26,
+        "champion_id": 3,
+        "slot": "Amulet",
+        "sets": null,
+        "clan": "SacredOrder",
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 37,
+            "Roll": 1
+          },
+          {
+            "Rune": 150,
+            "Stats": "HP",
+            "Value": 636,
+            "Roll": 1
+          }
+        ],
+        "power": 36
+      },
+      {
+        "id": 27,
+        "champion_id": 4,
+        "slot": "Weapon",
+        "sets": "Perception",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "ATK",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 8,
+            "Roll": 1
+          },
+          {
+            "Rune": 9,
+            "Stats": "RESI",
+            "Value": 17,
+            "Roll": 1
+          },
+          {
+            "Rune": 1,
+            "Stats": "HP%",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 81
+      },
+      {
+        "id": 28,
+        "champion_id": 4,
+        "slot": "Helmet",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "HP",
+        "main_value": 2231,
+        "sub_stats": [
+          {
+            "Rune": 5,
+            "Stats": "RESI",
+            "Value": 18,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 39,
+            "Roll": 1
+          },
+          {
+            "Rune": 1,
+            "Stats": "HP%",
+            "Value": 4,
+            "Roll": 0
+          }
+        ],
+        "power": 55
+      },
+      {
+        "id": 29,
+        "champion_id": 4,
+        "slot": "Shield",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 16,
+        "main_stat": "DEF",
+        "main_value": 225,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 1,
+            "Stats": "DEF%",
+            "Value": 15,
+            "Roll": 2
+          },
+          {
+            "Rune": 5,
+            "Stats": "ACC",
+            "Value": 8,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "RESI",
+            "Value": 10,
+            "Roll": 0
+          }
+        ],
+        "power": 90
+      },
+      {
+        "id": 30,
+        "champion_id": 4,
+        "slot": "Gauntlets",
+        "sets": "Speed",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "HP",
+        "main_value": 1800,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "SPD",
+            "Value": 11,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 3,
+            "Roll": 0
+          }
+        ],
+        "power": 50
+      },
+      {
+        "id": 31,
+        "champion_id": 4,
+        "slot": "Chestplate",
+        "sets": "Speed",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "ACC",
+        "main_value": 41,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 8,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "SPD",
+            "Value": 8,
+            "Roll": 1
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 92
+      },
+      {
+        "id": 32,
+        "champion_id": 4,
+        "slot": "Boots",
+        "sets": "Perception",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 16,
+        "main_stat": "SPD",
+        "main_value": 40,
+        "sub_stats": [
+          {
+            "Rune": 2,
+            "Stats": "DEF%",
+            "Value": 14,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK%",
+            "Value": 5,
+            "Roll": 0
+          },
+          {
+            "Rune": 5,
+            "Stats": "DEF",
+            "Value": 13,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "RESI",
+            "Value": 10,
+            "Roll": 0
+          }
+        ],
+        "power": 157
+      },
+      {
+        "id": 33,
+        "champion_id": 4,
+        "slot": "Ring",
+        "sets": null,
+        "clan": "KnightsRevenant",
+        "rarity": "Uncommon",
+        "quality": 5,
+        "level": 12,
+        "main_stat": "DEF",
+        "main_value": 143,
+        "sub_stats": [
+          {
+            "Rune": 1,
+            "Stats": "DEF%",
+            "Value": 10,
+            "Roll": 1
+          },
+          {
+            "Rune": 100,
+            "Stats": "HP",
+            "Value": 438,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 16,
+            "Roll": 0
+          }
+        ],
+        "power": 39
+      },
+      {
+        "id": 34,
+        "champion_id": 4,
+        "slot": "Amulet",
+        "sets": null,
+        "clan": "KnightsRevenant",
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 13,
+        "main_stat": "C.DMG",
+        "main_value": 23,
+        "sub_stats": [
+          {
+            "Rune": 5,
+            "Stats": "ATK",
+            "Value": 30,
+            "Roll": 1
+          },
+          {
+            "Rune": 2,
+            "Stats": "ACC",
+            "Value": 18,
+            "Roll": 1
+          },
+          {
+            "Rune": 1,
+            "Stats": "RESI",
+            "Value": 9,
+            "Roll": 0
+          }
+        ],
+        "power": 77
+      },
+      {
+        "id": 35,
+        "champion_id": 4,
+        "slot": "Banner",
+        "sets": null,
+        "clan": "KnightsRevenant",
+        "rarity": "Epic",
+        "quality": 6,
+        "level": 16,
+        "main_stat": "ACC",
+        "main_value": 96,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP",
+            "Value": 1456,
+            "Roll": 3
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 6,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK%",
+            "Value": 6,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 163
+      },
+      {
+        "id": 36,
+        "champion_id": null,
+        "slot": "Weapon",
+        "sets": "Lifesteal",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 12,
+        "main_stat": "ATK",
+        "main_value": 120,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 5,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ACC",
+            "Value": 21,
+            "Roll": 2
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 8,
+            "Roll": 1
+          }
+        ],
+        "power": 60
+      },
+      {
+        "id": 37,
+        "champion_id": null,
+        "slot": "Gauntlets",
+        "sets": "Accuracy",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 4,
+        "level": 0,
+        "main_stat": "C.DMG",
+        "main_value": 8,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "SPD",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 4,
+            "Roll": 0
+          }
+        ],
+        "power": 30
+      },
+      {
+        "id": 38,
+        "champion_id": null,
+        "slot": "Helmet",
+        "sets": "Lifesteal",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "HP",
+        "main_value": 450,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 13,
+            "Roll": 0
+          }
+        ],
+        "power": 12
+      },
+      {
+        "id": 39,
+        "champion_id": null,
+        "slot": "Helmet",
+        "sets": "Offense",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "HP",
+        "main_value": 450,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ATK%",
+            "Value": 6,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 25
+      },
+      {
+        "id": 40,
+        "champion_id": null,
+        "slot": "Boots",
+        "sets": "Toxic",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "DEF%",
+        "main_value": 8,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ACC",
+            "Value": 9,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 6,
+            "Roll": 0
+          }
+        ],
+        "power": 40
+      },
+      {
+        "id": 41,
+        "champion_id": null,
+        "slot": "Shield",
+        "sets": "DivineSpeed",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "DEF",
+        "main_value": 25,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "DEF%",
+            "Value": 5,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "RESI",
+            "Value": 9,
+            "Roll": 0
+          }
+        ],
+        "power": 24
+      },
+      {
+        "id": 42,
+        "champion_id": null,
+        "slot": "Helmet",
+        "sets": "Toxic",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "HP",
+        "main_value": 450,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF",
+            "Value": 21,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "RESI",
+            "Value": 9,
+            "Roll": 0
+          }
+        ],
+        "power": 25
+      },
+      {
+        "id": 43,
+        "champion_id": null,
+        "slot": "Chestplate",
+        "sets": "Offense",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "RESI",
+        "main_value": 12,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ACC",
+            "Value": 8,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 13,
+            "Roll": 0
+          }
+        ],
+        "power": 26
+      },
+      {
+        "id": 44,
+        "champion_id": null,
+        "slot": "Chestplate",
+        "sets": "Daze",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "DEF%",
+        "main_value": 8,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP",
+            "Value": 246,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF",
+            "Value": 20,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 27
+      },
+      {
+        "id": 45,
+        "champion_id": null,
+        "slot": "Shield",
+        "sets": "Retaliation",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "DEF",
+        "main_value": 25,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP",
+            "Value": 215,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 5,
+            "Roll": 0
+          }
+        ],
+        "power": 11
+      },
+      {
+        "id": 46,
+        "champion_id": null,
+        "slot": "Weapon",
+        "sets": "Life",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "ATK",
+        "main_value": 25,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "HP%",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ACC",
+            "Value": 9,
+            "Roll": 0
+          }
+        ],
+        "power": 22
+      },
+      {
+        "id": 47,
+        "champion_id": null,
+        "slot": "Chestplate",
+        "sets": "Frost",
+        "clan": null,
+        "rarity": "Legendary",
+        "quality": 4,
+        "level": 0,
+        "main_stat": "ATK%",
+        "main_value": 6,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "DEF",
+            "Value": 7,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.RATE",
+            "Value": 3,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 9,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          }
+        ],
+        "power": 27
+      },
+      {
+        "id": 48,
+        "champion_id": null,
+        "slot": "Shield",
+        "sets": "CriticalRate",
+        "clan": null,
+        "rarity": "Epic",
+        "quality": 4,
+        "level": 0,
+        "main_stat": "DEF",
+        "main_value": 16,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ACC",
+            "Value": 7,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "C.DMG",
+            "Value": 4,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "HP",
+            "Value": 278,
+            "Roll": 0
+          }
+        ],
+        "power": 19
+      },
+      {
+        "id": 49,
+        "champion_id": null,
+        "slot": "Gauntlets",
+        "sets": "Speed",
+        "clan": null,
+        "rarity": "Rare",
+        "quality": 5,
+        "level": 0,
+        "main_stat": "C.DMG",
+        "main_value": 10,
+        "sub_stats": [
+          {
+            "Rune": 0,
+            "Stats": "ATK",
+            "Value": 16,
+            "Roll": 0
+          },
+          {
+            "Rune": 0,
+            "Stats": "DEF",
+            "Value": 18,
+            "Roll": 0
+          }
+        ],
+        "power": 18
+      }
+    ],
+    "config": [
+      {
+        "id": 1,
+        "champion_id": 1,
+        "configuration": [],
+        "method": "ListSets",
+        "activated": 1,
+        "locked": 0,
+        "accessories": ""
+      },
+      {
+        "id": 2,
+        "champion_id": 2,
+        "configuration": [],
+        "method": "SpecificSets",
+        "activated": 0,
+        "locked": 1,
+        "accessories": "Ring"
+      },
+      {
+        "id": 3,
+        "champion_id": 3,
+        "configuration": [],
+        "method": "ListSets",
+        "activated": 1,
+        "locked": 0,
+        "accessories": "Amulet"
+      }
+    ],
+    "result": []
+  }
+}
