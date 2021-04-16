@@ -3,7 +3,7 @@ import { OverlayTrigger, Tooltip as BtTooltip } from "react-bootstrap";
 
 interface ITooltipProps {
   children: ReactNode;
-  id: string;
+  id: string | number;
   text: JSX.Element | string;
 }
 
@@ -14,7 +14,7 @@ const Tooltip: FunctionComponent<ITooltipProps> = ({
 }: ITooltipProps) => {
   return (
     <OverlayTrigger
-      overlay={<BtTooltip id={id}>{text}</BtTooltip>}
+      overlay={<BtTooltip id={String(id)}>{text}</BtTooltip>}
       placement="top"
       trigger={["hover", "focus"]}
     >

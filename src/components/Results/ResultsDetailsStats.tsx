@@ -1,4 +1,8 @@
-import Stack from "../UI/Stack";
+import React from "react";
+import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IChampion, IResults, IStat } from "../../models";
@@ -7,10 +11,7 @@ import calculateScoreRealStats from "../../process/calculateScoreRealStats";
 import generateTheoricalArtifact from "../../process/generateTheoricalArtifact";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+const Stack = React.lazy(() => import("../UI/Stack"));
 
 interface IResultsDetailsStatsProps {
   champion: IChampion;
@@ -43,7 +44,7 @@ const ResultsDetailsStats = (props: IResultsDetailsStatsProps): JSX.Element => {
   const lang = useLanguage();
 
   const artifacts = useSelector((state: IState) =>
-    state.artifacts.filter((a) => a.Champion === champion.Guid)
+    state.artifacts.data.filter((a) => a.Champion === champion.Id)
   );
   const { arenaRank, greatHallBonus: greatHall } = useSelector(
     (state: IState) => state.configuration

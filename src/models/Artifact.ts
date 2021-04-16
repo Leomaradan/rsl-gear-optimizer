@@ -1,11 +1,11 @@
-import type { IStat, IStatsFull } from "./Stat";
+import type { IClans } from "./Clans";
 import type { IRarity, IStars } from "./Quality";
 import type { ISets } from "./Sets";
 import type { ISlots } from "./Slots";
-import type { IClans } from "./Clans";
+import type { IStat, IStatsFull } from "./Stat";
 
-interface IArtifactBase {
-  Guid: string;
+export interface IArtifactBase {
+  Id: number;
   Slot: ISlots;
   Set: ISets;
   Clan: IClans;
@@ -14,13 +14,13 @@ interface IArtifactBase {
   Level: number;
   MainStats: IStat;
   MainStatsValue?: number;
-  Champion?: string;
+  Champion?: number;
   isAccessory: boolean;
   SubStats: [IStatsFull?, IStatsFull?, IStatsFull?, IStatsFull?];
   Power: number;
 }
 
-export type IArtifactDraft = Omit<IArtifactBase, "Guid">;
+export type IArtifactDraft = Omit<IArtifactBase, "Id">;
 
 interface IArtifactWeapon extends IArtifactBase {
   Slot: "Weapon";

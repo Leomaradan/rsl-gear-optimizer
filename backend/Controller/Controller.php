@@ -27,9 +27,9 @@ abstract class Controller
         return $_SESSION['user']['id'];
     }
 
-    protected function invalidQuery(ResponseInterface $response)
+    protected function invalidQuery(ResponseInterface $response, $message = 'Bad Request')
     {
-        $response->getBody()->write(json_encode(['message' => 'Bad Request']));
+        $response->getBody()->write(json_encode(['message' => $message]));
 
         return $response
             ->withHeader('Content-Type', 'application/json')->withStatus(400);

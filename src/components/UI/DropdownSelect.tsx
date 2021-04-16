@@ -1,7 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import Downshift from "downshift";
-import React from "react";
 import { Dropdown } from "react-bootstrap";
 
 export interface IDropdownSelectItem {
@@ -16,7 +13,7 @@ interface IDropdownSelectProps {
   id?: string;
   items: IDropdownSelectItem[];
   required?: boolean;
-  value?: string;
+  value?: string | number;
   onChange(value: null | IDropdownSelectItem): void;
 }
 
@@ -29,7 +26,9 @@ const DropdownSelect = ({
   required,
   value,
 }: IDropdownSelectProps): JSX.Element => {
-  const initialSelectedItem = items.find((i) => i.value === value);
+  const valueStr = typeof value === "number" ? String(value) : value;
+
+  const initialSelectedItem = items.find((i) => i.value === valueStr);
 
   return (
     <Downshift

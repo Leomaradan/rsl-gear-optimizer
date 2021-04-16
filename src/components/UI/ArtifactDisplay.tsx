@@ -1,6 +1,6 @@
-import ChampionPortrait from "./ChampionPortrait";
-import StarDisplay from "./StarDisplay";
-import Tooltip from "./Tooltip";
+import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 import { SetsIconName, SlotsIconName } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
@@ -9,9 +9,9 @@ import type { IArtifact, IStat, IStatsFull } from "../../models";
 import getColour from "../../process/getColour";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+const ChampionPortrait = React.lazy(() => import("./ChampionPortrait"));
+const StarDisplay = React.lazy(() => import("./StarDisplay"));
+const Tooltip = React.lazy(() => import("./Tooltip"));
 
 interface IArtifactDisplayProps {
   artifact?: IArtifact;
@@ -74,7 +74,7 @@ const ArtifactDisplay = ({
   const lang = useLanguage();
 
   const champion = useSelector((state: IState) =>
-    state.champions.find((c) => c.Guid === artifact?.Champion)
+    state.champions.data.find((c) => c.Id === artifact?.Champion)
   );
 
   if (!artifact) {
@@ -130,7 +130,7 @@ const ArtifactDisplay = ({
   );
 
   return (
-    <Tooltip id={artifact.Guid} text={tooltipMessage}>
+    <Tooltip id={artifact.Id} text={tooltipMessage}>
       <ArtifactWrapper artifact={artifact} faded={!!faded} size={size}>
         <ArtifactImage
           alt={`${artifact.Set} ${artifact.Slot}`}

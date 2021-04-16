@@ -30,6 +30,7 @@ export const ClansIconName: Record<IClans, string> = {
   DarkElves: "11",
   KnightsRevenant: "12",
   Barbarians: "13",
+  Shadowkin: "15",
   Dwarves: "16",
 };
 

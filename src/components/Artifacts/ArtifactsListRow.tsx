@@ -1,16 +1,16 @@
-import ArtifactEditTable from "./ArtifactEditTable";
+import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
-import ArtifactDisplay from "../UI/ArtifactDisplay";
-import ChampionPortrait from "../UI/ChampionPortrait";
-import Wrapper from "../UI/Wrapper";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IArtifact, IStat, IStatsFull } from "../../models";
 import type { IState } from "../../redux/reducers";
+import ArtifactDisplay from "../UI/ArtifactDisplay";
+import ChampionPortrait from "../UI/ChampionPortrait";
+import Wrapper from "../UI/Wrapper";
 
-import React from "react";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+import ArtifactEditTable from "./ArtifactEditTable";
 
 interface IArtifactsListRowProps {
   artifact: IArtifact;
@@ -27,7 +27,7 @@ const ArtifactsListRow = (props: IArtifactsListRowProps): JSX.Element => {
   const { artifact, readOnly } = props;
 
   const champion = useSelector((state: IState) =>
-    state.champions.find((c) => c.Guid === artifact.Champion)
+    state.champions.data.find((c) => c.Id === artifact.Champion)
   );
 
   const lang = useLanguage();

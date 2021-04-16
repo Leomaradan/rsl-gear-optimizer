@@ -1,13 +1,13 @@
-import ResultsDetailsStats from "./ResultsDetailsStats";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+import { ZoomIn } from "react-bootstrap-icons";
 
-import Modal from "../UI/Modal";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion } from "../../lang/language";
 import type { IChampion, IResults } from "../../models";
 
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
-import { ZoomIn } from "react-bootstrap-icons";
+const Modal = React.lazy(() => import("../UI/Modal"));
+const ResultsDetailsStats = React.lazy(() => import("./ResultsDetailsStats"));
 
 interface IResultsModalProps {
   champion: IChampion;

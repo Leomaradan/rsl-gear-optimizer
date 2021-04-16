@@ -1,8 +1,8 @@
-import { ILanguage, dictionaryList } from "./language";
+import { createContext, useContext } from "react";
 
 import emptyFunction from "../process/emptyFunction";
 
-import { createContext, useContext } from "react";
+import { ILanguage, dictionaryList } from "./language";
 
 export interface ILanguageContextDefinition {
   userLanguage: string;

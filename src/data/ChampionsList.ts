@@ -1,3 +1,6 @@
+import Champions from "raid-data/champions-base-info.json";
+import { v4 as uuidv4 } from "uuid";
+
 import type {
   IRarity,
   IClans,
@@ -7,9 +10,6 @@ import type {
   IChampion,
   IAuraType,
 } from "../models";
-
-import { v4 as uuidv4 } from "uuid";
-import Champions from "raid-data/champions-base-info.json";
 
 export const ChampionsList: string[] = [];
 export const ChampionsDetailsList: {
@@ -26,6 +26,7 @@ export const ChampionsListFull: Partial<IChampion>[] = [];
 
 if (ChampionsList.length === 0) {
   ChampionsList.push(
+    // eslint-disable-next-line complexity
     ...Object.keys(Champions).map((c) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const championDef = (Champions as any)[c] as {
@@ -184,7 +185,7 @@ if (ChampionsList.length === 0) {
       ChampionsListFull.push({
         Affinity: element,
         Clan: clan,
-        Guid: uuidv4(),
+        Id: Math.round(Math.random() * 10000),
         Aura: aura,
         Name: name,
         Role: role,

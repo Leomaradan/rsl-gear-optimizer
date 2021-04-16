@@ -1,11 +1,10 @@
-/* eslint-disable react/no-array-index-key */
-import DisplayError from "../UI/DisplayError";
-import DropdownSelect, { IDropdownSelectItem } from "../UI/DropdownSelect";
-import Grid from "../UI/Grid";
-import RadioButtons from "../UI/RadioButtons";
-import SetDisplay from "../UI/SetDisplay";
-import Stack from "../UI/Stack";
-import Toggle from "../UI/Toggle";
+// eslint-disable-next-line import/no-named-as-default
+import produce from "immer";
+import React, { useEffect, useMemo, useState } from "react";
+import { Button, ButtonGroup } from "react-bootstrap";
+import { Trash } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
+
 import { AdvancedSets, ExistingSets, SortedExistingSets } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion, ILanguageSet } from "../../lang/language";
@@ -17,12 +16,15 @@ import type {
   ISets,
 } from "../../models";
 import type { IState } from "../../redux/reducers";
+import type { IDropdownSelectItem } from "../UI/DropdownSelect";
 
-import produce from "immer";
-import React, { useEffect, useMemo, useState } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
-import { Trash } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+const DisplayError = React.lazy(() => import("../UI/DisplayError"));
+const DropdownSelect = React.lazy(() => import("../UI/DropdownSelect"));
+const Grid = React.lazy(() => import("../UI/Grid"));
+const RadioButtons = React.lazy(() => import("../UI/RadioButtons"));
+const SetDisplay = React.lazy(() => import("../UI/SetDisplay"));
+const Stack = React.lazy(() => import("../UI/Stack"));
+const Toggle = React.lazy(() => import("../UI/Toggle"));
 
 interface IChampionFormBasicInfoProps {
   errors: IErrors;
@@ -37,10 +39,13 @@ const ChampionConfigurationFormBasicInfo = ({
 }: IChampionFormBasicInfoProps): JSX.Element => {
   const lang = useLanguage();
 
-  const champions = useSelector((redux: IState) => redux.champions);
+  const champions = useSelector((redux: IState) => redux.champions.data);
 
   const updateChampion = (champion: IDropdownSelectItem) => {
-    setState((current) => ({ ...current, SourceChampion: champion.value }));
+    setState((current) => ({
+      ...current,
+      SourceChampion: parseInt(champion.value, 10),
+    }));
   };
 
   const setSelectorCount = (sets: ISets[]) =>
@@ -89,7 +94,7 @@ const ChampionConfigurationFormBasicInfo = ({
     () =>
       champions.map((c) => ({
         text: lang.champion[c.Name as keyof ILanguageChampion] ?? c.Name,
-        value: c.Guid,
+        value: String(c.Id),
       })),
     [lang, champions]
   );

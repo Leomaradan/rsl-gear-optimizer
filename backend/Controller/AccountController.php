@@ -8,7 +8,6 @@ use Backend\Models\Artifact;
 use Backend\Models\Champion;
 use Backend\Models\Configuration;
 use Backend\Models\Option;
-use Backend\Models\Result;
 use Backend\Models\User;
 use GUMP;
 use Psr\Http\Message\ResponseInterface;
@@ -78,31 +77,9 @@ class AccountController extends Controller
         $user = User::owned($userId);
 
         if ($user) {
-            $artifacts = Artifact::owned($userId)->get();
-            $configurations = Configuration::owned($userId)->get();
-            $champions = Champion::owned($userId)->get();
-            $results = Result::owned($userId)->get();
-            $options = Option::owned($userId)->get();
-
-            foreach ($artifacts as $item) {
-                $item->delete();
-            }
-
-            foreach ($configurations as $item) {
-                $item->delete();
-            }
-
-            foreach ($champions as $item) {
-                $item->delete();
-            }
-
-            foreach ($results as $item) {
-                $item->delete();
-            }
-
-            foreach ($results as $item) {
-                $item->delete();
-            }
+            Artifact::owned($userId)->delete();
+            Configuration::owned($userId)->delete();
+            Champion::owned($userId)->delete();
 
             $user->delete();
 
@@ -129,10 +106,17 @@ class AccountController extends Controller
             if (null !== $user) {
                 $token = $this->hash($email.microtime(), 'md5');
 
+                $options = Option::owned($user->id)->first();
                 $user->token = $token;
                 $user->save();
 
-                return $this->json($response, ['token' => $token]);
+                return $this->json($response, [
+                    'token' => $token,
+                    'email' => $user->email,
+                    'username' => $user->username,
+                    'language' => $user->language,
+                    'option' => $options,
+                ]);
             }
         }
 
@@ -175,9 +159,97 @@ class AccountController extends Controller
      */
     public function import(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write('Import');
+        $data = $request->getParsedBody();
 
-        return $response;
+        $is_valid = GUMP::is_valid($data, [
+            'champions' => 'required',
+            'artifacts' => 'required',
+        ]);
+
+        $errors = false;
+        $errorsMessage = [];
+
+        $champions = [];
+        $championsTempId = [];
+        $artifacts = [];
+
+        $payloadChampions = [];
+        $payloadArtifacts = [];
+
+        if (true === $is_valid) {
+            foreach ($data['champions'] as $championData) {
+                $is_valid_champion = GUMP::is_valid($championData, CHAMPION_VALIDATION);
+
+                if (true === $is_valid_champion) {
+                    $champions[] = $championData;
+                } else {
+                    $errors = true;
+                    $errorsMessage[] = $is_valid_champion;
+                }
+            }
+
+            //var_dump($data['artifacts']);
+            foreach ($data['artifacts'] as $artifactData) {
+                //var_dump(json_encode($artifactData));
+
+                if ('' === $artifactData['clan']) {
+                    unset($artifactData['clan']);
+                }
+
+                if ('' === $artifactData['sets']) {
+                    unset($artifactData['sets']);
+                }
+
+                $is_valid_artifact = GUMP::is_valid($artifactData, ARTIFACT_VALIDATION);
+
+                if (!isset($artifactData['clan']) && !isset($artifactData['sets'])) {
+                    $is_valid_artifact = 'Missing both clan AND artifact';
+                }
+
+                $validSubStats = true;
+
+                foreach ($artifactData['sub_stats'] as $subStat) {
+                    $is_valid_artifact_substat = GUMP::is_valid($subStat, ARTIFACT_VALIDATION_SUBSTAT);
+
+                    if (true !== $is_valid_artifact_substat) {
+                        $errorsMessage[] = ['message' => $is_valid_artifact_substat, 'data' => $artifactData];
+                        $validSubStats = false;
+                    }
+                }
+
+                if (true === $is_valid_artifact && $validSubStats) {
+                    $artifacts[] = $artifactData;
+                } else {
+                    $errors = true;
+                    $errorsMessage[] = ['message' => $is_valid_artifact, 'data' => $artifactData];
+                }
+            }
+
+            if ($errors) {
+                return $this->invalidQuery($response, $errorsMessage);
+            }
+
+            Configuration::owned($this->userId())->delete();
+            Artifact::owned($this->userId())->delete();
+            Champion::owned($this->userId())->delete();
+
+            foreach ($champions as $championData) {
+                $champion = ChampionController::CreateChampion($championData, $this->userId());
+
+                $championsTempId[$championData['id']] = $champion->id;
+                $payloadChampions[] = $champion;
+            }
+
+            foreach ($artifacts as $artifactData) {
+                $artifact = ArtifactController::CreateArtifact($artifactData, $this->userId(), $championsTempId);
+
+                $payloadArtifacts[] = $artifact;
+            }
+
+            return $this->json($response, ['artifacts' => $payloadArtifacts, 'champions' => $payloadChampions]);
+        }
+
+        return $this->invalidQuery($response);
     }
 
     /**
@@ -196,30 +268,18 @@ class AccountController extends Controller
         $user = User::where('email', $email)->first();
 
         if (null === $user) {
-            var_dump('user not found');
-
             return null;
         }
-
-        var_dump('user has been found');
 
         if (null !== $user->verify_token) {
-            var_dump('verify token is not null');
-
             return null;
         }
-
-        var_dump('verify token is null');
 
         $hashed = $this->hash($password);
 
         if ($user->password !== $hashed) {
-            var_dump('invalid hash. Needed: '.$user->password.', sent: '.$hashed);
-
             return null;
         }
-
-        var_dump('user is validated!');
 
         return $user;
     }

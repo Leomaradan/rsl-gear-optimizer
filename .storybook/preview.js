@@ -1,3 +1,5 @@
+const React = require("react");
+
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   backgrounds: {
@@ -18,3 +20,11 @@ export const parameters = {
     ],
   },
 };
+
+export const decorators = [
+  (Story) => (
+    <React.Suspense fallback={<p>Loading...</p>}>
+      <Story />
+    </React.Suspense>
+  ),
+];

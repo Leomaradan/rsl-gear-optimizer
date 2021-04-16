@@ -1,7 +1,8 @@
-import { useAuth } from "./AuthContext";
-
+import React from "react";
 import type { ComponentType } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
+
+import { useAuth } from "./AuthContext";
 
 interface IPrivateRouteProps extends RouteProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +17,6 @@ const PrivateRoute = ({
 
   return (
     <Route
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
       render={(props) =>
         isAuth ? (
@@ -24,7 +24,10 @@ const PrivateRoute = ({
           <Component {...props} />
         ) : (
           <Redirect
-            to={{ pathname: "/login", state: { referer: props.location } }}
+            to={{
+              pathname: "/auth/sign-in",
+              state: { referer: props.location },
+            }}
           />
         )
       }

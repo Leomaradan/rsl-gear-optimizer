@@ -9,5 +9,8 @@
       "fileMatch": ["raidextract.json"],
       "url": "./src/process/raidextract-schema.json"
     }
-  ]
+  ],
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "javascript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal"
 }

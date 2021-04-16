@@ -52,8 +52,8 @@ return function (App $app) {
         $group->delete('/{id:[0-9]+}', ConfigController::class.':remove');
     })->add(TokenAuth::class);
 
-    $app->group('/result', function (Group $group) {
+    /* $app->group('/result', function (Group $group) {
         $group->get('', ResultController::class.':list');
         $group->put('', ResultController::class.':update');
-    })->add(TokenAuth::class);
+    })->add(TokenAuth::class); */
 };

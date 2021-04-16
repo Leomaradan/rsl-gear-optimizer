@@ -1,6 +1,17 @@
-import type { IConfigurationOptions, IConfigurationState } from "../models";
+import {
+  PayloadAction,
+  createSlice,
+  ThunkAction,
+  Dispatch,
+  Action,
+} from "@reduxjs/toolkit";
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import type {
+  IConfigurationOptions,
+  IConfigurationState,
+  IResponseConfiguration,
+} from "../models";
+import type { IState } from "./reducers";
 
 const greatHallBonusAffinity = {
   ACC: 0,
@@ -30,6 +41,10 @@ type IConfigurationSetOptionAction = PayloadAction<{
   value: any;
 }>;
 
+type IConfigurationSetAllOptionAction = PayloadAction<{
+  value: IConfigurationState;
+}>;
+
 const configurationSlice = createSlice({
   initialState,
   name: "configuration",
@@ -37,9 +52,12 @@ const configurationSlice = createSlice({
     setOption: (state, action: IConfigurationSetOptionAction) => {
       return { ...state, [action.payload.option]: action.payload.value };
     },
+    setAllOption: (state, action: IConfigurationSetAllOptionAction) => {
+      return { ...state, ...action.payload.value };
+    },
   },
 });
 
-export const { setOption } = configurationSlice.actions;
+export const { setOption, setAllOption } = configurationSlice.actions;
 
 export default configurationSlice.reducer;

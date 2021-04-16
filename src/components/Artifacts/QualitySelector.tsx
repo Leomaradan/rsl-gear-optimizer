@@ -1,7 +1,7 @@
-import type { IStars } from "../../models";
-
 import type React from "react";
 import styled from "styled-components";
+
+import type { IStars } from "../../models";
 
 interface IStatsSelectorProps {
   currentQuality?: IStars;

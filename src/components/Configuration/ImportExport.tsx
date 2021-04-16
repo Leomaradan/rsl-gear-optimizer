@@ -1,7 +1,9 @@
-import { FormInput, FormLabel, FormRow, Textarea } from "./Layout";
+import { Validator } from "jsonschema";
+import React, { ChangeEvent, useState } from "react";
+import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
-import Modal from "../UI/Modal";
-import Stack from "../UI/Stack";
 import {
   ExistingSlotsAccessories,
   RarityFromString,
@@ -28,21 +30,20 @@ import type {
   IStars,
   IStat,
 } from "../../models";
-import Backup1Schema from "../../process/backup-schema.json";
+import calculateChampionStats from "../../process/calculateChampionStats";
 import calculateScoreRealStats from "../../process/calculateScoreRealStats";
 import logger from "../../process/logger";
 import RaidExtractSchema from "../../process/raidextract-schema.json";
-import { loadArtifacts } from "../../redux/artifactsSlice";
-import { loadChampionConfigurations } from "../../redux/championConfigurationsSlice";
-import { loadChampions } from "../../redux/championsSlice";
+import { importDataThunk } from "../../redux/accountSlice";
+//import { loadArtifacts } from "../../redux/artifactsSlice";
+//import { loadChampionConfigurations } from "../../redux/championConfigurationsSlice";
+//import { loadChampions } from "../../redux/championsSlice";
 import type { IState } from "../../redux/reducers";
-import calculateChampionStats from "../../process/calculateChampionStats";
 
-import { Validator } from "jsonschema";
-import React, { ChangeEvent, useState } from "react";
-import { Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { FormInput, FormLabel, FormRow, Textarea } from "./Layout";
+
+const Modal = React.lazy(() => import("../UI/Modal"));
+const Stack = React.lazy(() => import("../UI/Stack"));
 
 const validator = new Validator();
 
@@ -107,8 +108,8 @@ type IArtifactJsonSet =
   | "StunChance"
   | "UnkillableAndSpdAndCrDmg";
 
-type IWornList = { [key: number]: string };
-type IArtifactJson = {
+type IWornList = Record<number, number>;
+interface IArtifactJson {
   id: number;
   kind:
     | "Banner"
@@ -137,9 +138,9 @@ type IArtifactJson = {
     level: number;
   }[];
   setKind: IArtifactJsonSet;
-};
+}
 
-type IChampionJson = {
+interface IChampionJson {
   accuracy: number;
   artifacts?: number[];
   attack: number;
@@ -161,12 +162,13 @@ type IChampionJson = {
   resistance: number;
   role: string;
   speed: number;
-};
+  id: number;
+}
 
-type IRaidExtractJson = {
+interface IRaidExtractJson {
   artifacts: IArtifactJson[];
   heroes: IChampionJson[];
-};
+}
 
 const importChampion = (
   heroes: IChampionJson[]
@@ -198,11 +200,11 @@ const importChampion = (
         break;
     }
 
-    const Guid = uuidv4();
+    const Id = 0 - Math.round(Math.random() * 100000);
 
     if (hero.artifacts) {
       hero.artifacts.forEach((artifact) => {
-        wornList[artifact] = Guid;
+        wornList[artifact] = Id;
       });
     }
 
@@ -254,7 +256,7 @@ const importChampion = (
       CurrentSpeed: hero.speed,
       Aura,
       InVault: hero.inStorage,
-      Guid,
+      Id,
       Level: hero.level,
       Masteries,
       Name,
@@ -462,6 +464,18 @@ const getSet = (kind: IArtifactJsonSet): ISets => {
   }
 };
 
+const getClan = (requiredFraction?: string): IClans => {
+  if (requiredFraction === "AssassinsGuild") {
+    return "Shadowkin";
+  }
+
+  if (!requiredFraction) {
+    return "";
+  }
+
+  return requiredFraction as IClans;
+};
+
 const generateArtifact = (
   artifact: IArtifactJson,
   wornList: IWornList
@@ -470,7 +484,7 @@ const generateArtifact = (
   const Slot = getSlot(artifact.kind);
 
   const newArtifact: IArtifact = {
-    Clan: (artifact.requiredFraction as IClans) ?? "",
+    Clan: getClan(artifact.requiredFraction),
     Level: artifact.level,
     MainStats: MainStats.Stats,
     Quality: getQuality(artifact.rank),
@@ -499,18 +513,12 @@ const generateArtifact = (
   return newArtifact;
 };
 
-const importBackup1 = (backup: IBackupV1): IBackupPrepare => {
-  const { artifacts, championConfig, champions } = backup;
-  // Nothing to do for the backup's current version
-  return { artifacts, championConfig, champions };
-};
-
 const ImportExport = (): JSX.Element => {
   const championConfigurations = useSelector(
     (state: IState) => state.championConfigurations
   );
   const artifacts = useSelector((state: IState) => state.artifacts);
-  const champions = useSelector((state: IState) => state.champions);
+  const champions = useSelector((state: IState) => state.champions.data);
   const { arenaRank, greatHallBonus } = useSelector(
     (state: IState) => state.configuration
   );
@@ -530,34 +538,9 @@ const ImportExport = (): JSX.Element => {
   const handleCloseRaidExtract = () => setShowRaidExtract(false);
   const handleShowRaidExtract = () => setShowRaidExtract(true);
 
-  const onImportBackup = () => {
-    const json = textareaBackup.trim();
-
-    const backup: IBackup = JSON.parse(json);
-
-    const validate = validator.validate(backup, Backup1Schema);
-
-    if (validate.errors.length === 0) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let result: IBackupPrepare = undefined as any;
-
-      if (backup.version === "1") {
-        result = importBackup1(backup);
-      }
-
-      if (result !== undefined) {
-        dispatch(loadArtifacts({ artifacts: result.artifacts }));
-        dispatch(loadChampions({ champions: result.champions }));
-        dispatch(
-          loadChampionConfigurations({
-            championConfigurations: result.championConfig,
-          })
-        );
-      }
-    }
-
-    handleCloseBackup();
-  };
+  const importStatus = useSelector(
+    (state: IState) => state.account.importStatus
+  );
 
   const onImportRaidExtract = () => {
     try {
@@ -593,7 +576,7 @@ const ImportExport = (): JSX.Element => {
 
         if (newArtifact.Champion) {
           const index = importedChampions.findIndex(
-            (c) => c.Guid === newArtifact.Champion
+            (c) => c.Id === newArtifact.Champion
           );
 
           if (index !== -1) {
@@ -603,7 +586,7 @@ const ImportExport = (): JSX.Element => {
       });
 
       importedChampions.forEach((champion, index) => {
-        const art = newArtifacts.filter((a) => a.Champion === champion.Guid);
+        const art = newArtifacts.filter((a) => a.Champion === champion.Id);
 
         const stats = calculateChampionStats(champion as IChampion, art, {
           arenaRank,
@@ -620,40 +603,30 @@ const ImportExport = (): JSX.Element => {
         importedChampions[index].CurrentSpeed = stats.SPD.total;
       });
 
-      dispatch(loadChampions({ champions: importedChampions }));
-      dispatch(loadArtifacts({ artifacts: newArtifacts }));
+      console.log({ newArtifacts, importedChampions });
+
       dispatch(
+        importDataThunk(
+          {
+            artifacts: newArtifacts,
+            champions: importedChampions,
+          },
+          () => {
+            handleCloseRaidExtract();
+          }
+        )
+      );
+
+      //dispatch(loadChampions({ champions: importedChampions, status: "Done" }));
+      //dispatch(loadArtifacts({ artifacts: newArtifacts }));
+      /*       dispatch(
         loadChampionConfigurations({
           championConfigurations: [],
         })
-      );
-      handleCloseRaidExtract();
+      ); */
+      //handleCloseRaidExtract();
     } catch (e) {
       logger.error(e);
-    }
-  };
-
-  const exportBackup = () => {
-    const backup: IBackup = {
-      artifacts,
-      championConfig: championConfigurations,
-      champions,
-      version: "1",
-    };
-
-    exportJSON(
-      JSON.stringify(backup),
-      `raid-gear-optimizer-${new Date().toISOString()}.rgo`
-    );
-  };
-
-  const fileUploadBackup = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length === 1) {
-      const reader = new FileReader();
-      reader.onload = (json: ProgressEvent<FileReader>) => {
-        setTextareaBackup((json.target?.result as string) ?? "{}");
-      };
-      reader.readAsText(e.target.files[0]);
     }
   };
 
@@ -671,50 +644,6 @@ const ImportExport = (): JSX.Element => {
     <>
       <h1>{lang.ui.title.importExport}</h1>
       <form>
-        <FormRow>
-          <FormLabel>{lang.ui.title.importExport}</FormLabel>
-          <FormInput>
-            <Stack style={{ width: "300px" }}>
-              <Button onClick={handleShowBackup} variant="danger">
-                {lang.ui.button.importBackup}
-              </Button>
-              <Button onClick={exportBackup} variant="success">
-                {lang.ui.button.exportBackup}
-              </Button>
-              <Modal
-                content={
-                  <Stack>
-                    <span className="badge badge-danger">
-                      <strong>{lang.ui.common.warning}</strong>:{" "}
-                      {lang.ui.message.importOverrideData}
-                    </span>
-                    <div className="custom-file">
-                      <input
-                        type="file"
-                        className="custom-file-input"
-                        id="fileImportBackup"
-                        accept=".rgo"
-                        onChange={fileUploadBackup}
-                      />
-                      <label
-                        className="custom-file-label"
-                        htmlFor="fileImportBackup"
-                        data-browse={lang.ui.common.browse}
-                      >
-                        {lang.ui.option.chooseBackupFile}
-                      </label>
-                    </div>
-                    <Textarea value={textareaBackup} readOnly />
-                  </Stack>
-                }
-                onClose={handleCloseBackup}
-                onSave={onImportBackup}
-                show={showModalBackup}
-                title={lang.ui.title.importBackup}
-              />
-            </Stack>
-          </FormInput>
-        </FormRow>
         <FormRow>
           <FormLabel>RaidExtract</FormLabel>
           <FormInput>
@@ -756,6 +685,7 @@ const ImportExport = (): JSX.Element => {
                     <Textarea value={textareaRaidExtract} readOnly />
                   </Stack>
                 }
+                freeze={importStatus === "Progress"}
                 onClose={handleCloseRaidExtract}
                 onSave={onImportRaidExtract}
                 show={showModalRaidExtract}

@@ -1,12 +1,10 @@
-import { useAuth } from "./AuthContext";
-
-import { useLanguage } from "../lang/LanguageContext";
-import logger from "../process/logger";
-
 import axios from "axios";
 import React, { FormEvent, useState } from "react";
 import { Alert, Button } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
+import { useLanguage } from "../../lang/LanguageContext";
+import logger from "../../process/logger";
 
 const Signup = (): JSX.Element => {
   const [isLoggedIn, setLoggedIn] = useState(false);

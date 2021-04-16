@@ -91,4 +91,40 @@ class ChampionController extends Controller
 
         return $this->invalidQuery($response);
     }
+
+    public static function CreateChampion($championData, $user_id) {
+      $filtered = array_filter($championData, function ($k) { return in_array($k, CHAMPION_FILTER); }, ARRAY_FILTER_USE_KEY);
+
+      $champion = new Champion();
+
+      $champion->champion_ref = $filtered['champion_ref'];
+      $champion->quality = $filtered['quality'];
+      $champion->awaken = $filtered['awaken'];
+      $champion->level = $filtered['level'];
+      $champion->vault = $filtered['vault'];
+      $champion->base_hp = $filtered['base_hp'];
+      $champion->base_acc = $filtered['base_acc'];
+      $champion->base_atk = $filtered['base_atk'];
+      $champion->base_def = $filtered['base_def'];
+      $champion->base_crate = $filtered['base_crate'];
+      $champion->base_cdmg = $filtered['base_cdmg'];
+      $champion->base_res = $filtered['base_res'];
+      $champion->base_spd = $filtered['base_spd'];
+      $champion->hp = $filtered['hp'];
+      $champion->acc = $filtered['acc'];
+      $champion->atk = $filtered['atk'];
+      $champion->def = $filtered['def'];
+      $champion->crate = $filtered['crate'];
+      $champion->cdmg = $filtered['cdmg'];
+      $champion->res = $filtered['res'];
+      $champion->spd = $filtered['spd'];
+      $champion->masteries = $filtered['masteries'];
+      $champion->power = $filtered['power'];
+
+      $champion->user_id = $user_id;
+
+      $champion->save();
+
+      return $champion;
+    }
 }

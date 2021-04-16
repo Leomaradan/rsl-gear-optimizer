@@ -1,6 +1,7 @@
-import { useLanguage } from "../../lang/LanguageContext";
-
+import { useCallback } from "react";
 import { Form } from "react-bootstrap";
+
+import { useLanguage } from "../../lang/LanguageContext";
 
 interface IToggleProps {
   currentState: boolean;
@@ -21,15 +22,17 @@ const Toggle = ({
 
   const textLabel = currentState ? lang.ui.common.on : lang.ui.common.off;
 
+  const onChangeHandler = useCallback(() => {
+    onToggle(!currentState);
+  }, [currentState, onToggle]);
+
   return (
     <Form.Check
       checked={!!currentState}
       disabled={disabled}
       id={name}
       label={label ?? textLabel}
-      onChange={() => {
-        onToggle(!currentState);
-      }}
+      onChange={onChangeHandler}
       type="switch"
     />
   );

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-restricted-globals */
 
-import generateData from "./generateData";
-
 import type {
   IArtifact,
   IChampion,
@@ -14,6 +12,8 @@ import type {
   IResultsWorkerCommands,
   IResultsWorkerEventGenerate,
 } from "../models";
+
+import generateData from "./generateData";
 
 const ctx: Worker = self as any;
 
@@ -31,7 +31,7 @@ interface IGenerateProps {
   gameProgression: IGameProgression;
 }
 class CombinationWorker {
-  // eslint-disable-next-line class-methods-use-this
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
   generate({
     artifacts,
     championConfigurations,
@@ -41,14 +41,14 @@ class CombinationWorker {
     gameProgression,
   }: IGenerateProps): IResults[] {
     const results: IResults[] = [];
-    const usedArtifacts: string[] = [];
+    const usedArtifacts: number[] = [];
     const maxChampions = championConfigurations.length;
 
     championConfigurations.forEach((championConfiguration, nbChampion) => {
       let filtererdArtifacts = artifacts;
 
       const champion = champions.find(
-        (c) => c.Guid === championConfiguration.SourceChampion
+        (c) => c.Id === championConfiguration.SourceChampion
       ) as IChampion;
 
       postCommand({
@@ -70,14 +70,13 @@ class CombinationWorker {
       if (excludeWornArtifacts) {
         filtererdArtifacts = filtererdArtifacts.filter(
           (artifact) =>
-            artifact.Champion === "" ||
             !artifact.Champion ||
             artifact.Champion === championConfiguration.SourceChampion
         );
       }
 
       filtererdArtifacts = filtererdArtifacts.filter(
-        (artifact) => !usedArtifacts.includes(artifact.Guid)
+        (artifact) => !usedArtifacts.includes(artifact.Id)
       );
 
       let combinations = generateData(
@@ -105,7 +104,7 @@ class CombinationWorker {
 
       if (selected) {
         selected.artifacts.forEach((element) => {
-          usedArtifacts.push(element.Guid);
+          usedArtifacts.push(element.Id);
         });
       } else {
         selected = {
@@ -124,7 +123,7 @@ class CombinationWorker {
 
       results.push({
         champion: championConfiguration,
-        name: championConfiguration.Guid,
+        name: String(championConfiguration.Id),
         ...selected,
       });
     });

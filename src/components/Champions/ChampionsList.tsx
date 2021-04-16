@@ -1,15 +1,18 @@
-import ChampionDetails from "../ChampionDetails/ChampionDetails";
-import ChampionDisplay from "../UI/ChampionDisplay";
-import Modal from "../UI/Modal";
-import Stack from "../UI/Stack";
-import Toggle from "../UI/Toggle";
+import React, { useMemo, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
+import styled from "styled-components";
+
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguage, ILanguageChampion } from "../../lang/language";
 import type { IChampion, IProfile } from "../../models";
 
-import React, { useMemo, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import styled from "styled-components";
+const ChampionDetails = React.lazy(
+  () => import("../ChampionDetails/ChampionDetails")
+);
+const ChampionDisplay = React.lazy(() => import("../UI/ChampionDisplay"));
+const Modal = React.lazy(() => import("../UI/Modal"));
+const Stack = React.lazy(() => import("../UI/Stack"));
+const Toggle = React.lazy(() => import("../UI/Toggle"));
 
 const getWeightAffinity = (champion: IChampion): number => {
   switch (champion.Affinity) {
@@ -309,7 +312,7 @@ const ChampionsList = (profile: IProfile): JSX.Element => {
                 const active = selected ? "active" : "";
 
                 return (
-                  <Link className={active} key={champion.Guid} to={to}>
+                  <Link className={active} key={champion.Id} to={to}>
                     <div>
                       <ChampionDisplay champion={champion} />
                     </div>

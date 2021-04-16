@@ -1,5 +1,3 @@
-import calculateBonus from "./calculateBonus";
-
 import type {
   IArtifact,
   IChampion,
@@ -7,6 +5,8 @@ import type {
   IGreatHallBonusAffinity,
   IStat,
 } from "../models";
+
+import calculateBonus from "./calculateBonus";
 
 const calculateGreatHallStatsPercent = (
   hall: IGreatHallBonusAffinity,

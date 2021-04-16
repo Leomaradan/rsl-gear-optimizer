@@ -1,7 +1,7 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { ExistingSlotsAccessories } from "../data";
 import type { IScoredArtifact, ISlots } from "../models";
-
-import { v4 as uuidv4 } from "uuid";
 
 type IListOfScoredArtifacts = [
   IScoredArtifact,
@@ -14,7 +14,7 @@ type IListOfScoredArtifacts = [
 
 export const getEmtyItem = (Slot: ISlots): IScoredArtifact =>
   ({
-    Guid: `fake${uuidv4()}`,
+    Id: Math.round(0 - Math.random() * 1000000),
     MainStats: "",
     MainStatsValue: 0,
     Slot,

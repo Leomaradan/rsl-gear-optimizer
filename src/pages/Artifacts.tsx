@@ -1,18 +1,29 @@
-import ArtifactsList from "../components/Artifacts/ArtifactsList";
-import ArtifactAdd from "../components/Artifacts/ArtifactAdd";
-import type { IState } from "../redux/reducers";
-import SetDisplay from "../components/UI/SetDisplay";
-import Accordion, { IAccordionSection } from "../components/UI/Accordion";
-import { useLanguage } from "../lang/LanguageContext";
-import BaseWrapper from "../components/UI/Wrapper";
-import Stack from "../components/UI/Stack";
-import type { ILanguageSet } from "../lang/language";
-import { SortedExistingSets, AdvancedSets } from "../data";
-
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import React from "react";
+import { Spinner } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
+import type { IAccordionSection } from "../components/UI/Accordion";
+
+import { SortedExistingSets, AdvancedSets } from "../data";
+import { useLanguage } from "../lang/LanguageContext";
+import type { ILanguageSet } from "../lang/language";
+import type { IState } from "../redux/reducers";
+
+const ArtifactAdd = React.lazy(
+  () => import("../components/Artifacts/ArtifactAdd")
+);
+const ArtifactsList = React.lazy(
+  () => import("../components/Artifacts/ArtifactsList")
+);
+const Accordion = React.lazy(() => import("../components/UI/Accordion"));
+const SetDisplay = React.lazy(() => import("../components/UI/SetDisplay"));
+const Stack = React.lazy(() => import("../components/UI/Stack"));
+const BaseWrapper = React.lazy(() => import("../components/UI/Wrapper"));
+const LoadingScreen = React.lazy(
+  () => import("../components/UI/LoadingScreen")
+);
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
@@ -31,7 +42,7 @@ const Artifacts = (): JSX.Element => {
   const sectionArtifacts: IAccordionSection[] = [];
 
   SortedExistingSets.forEach((set) => {
-    const filterArtifacts = artifacts.filter(
+    const filterArtifacts = artifacts.data.filter(
       (i) => i.Set === set && i.Clan === ""
     );
 
@@ -50,6 +61,10 @@ const Artifacts = (): JSX.Element => {
       });
     }
   });
+
+  if (artifacts.status !== "Done" && artifacts.status !== "Error") {
+    return <LoadingScreen />;
+  }
 
   return (
     <Stack>

@@ -1,5 +1,6 @@
-import DisplayError from "../UI/DisplayError";
-import Stack from "../UI/Stack";
+import React from "react";
+import { Col, Form } from "react-bootstrap";
+
 import { ExistingStatsExeptFlat } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
@@ -10,11 +11,10 @@ import type {
   IStat,
 } from "../../models";
 
-import ButtonSwitcher from "components/UI/ButtonSwitcher";
-import WrapperRow from "components/UI/WrapperRow";
-
-import type React from "react";
-import { Col, Form } from "react-bootstrap";
+const ButtonSwitcher = React.lazy(() => import("../UI/ButtonSwitcher"));
+const WrapperRow = React.lazy(() => import("../UI/WrapperRow"));
+const DisplayError = React.lazy(() => import("../UI/DisplayError"));
+const Stack = React.lazy(() => import("../UI/Stack"));
 
 interface IChampionFormStatsPriorityProps {
   errors: IErrors;

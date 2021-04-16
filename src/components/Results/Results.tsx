@@ -1,17 +1,17 @@
-import ResultsDetails from "./ResultsDetails";
+import React, { useState } from "react";
+import { Button, Table } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
-import ClanDisplay from "../UI/ClanDisplay";
-import ProgressBar from "../UI/ProgressBar";
-import SetDisplay from "../UI/SetDisplay";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageUiTask } from "../../lang/language";
 import type { IClans, ISets } from "../../models";
 import generateCombination from "../../process/runWorker";
 import type { IState } from "../../redux/reducers";
 
-import React, { useState } from "react";
-import { Button, Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+const ClanDisplay = React.lazy(() => import("../UI/ClanDisplay"));
+const ProgressBar = React.lazy(() => import("../UI/ProgressBar"));
+const SetDisplay = React.lazy(() => import("../UI/SetDisplay"));
+const ResultsDetails = React.lazy(() => import("./ResultsDetails"));
 
 const Results = (): JSX.Element => {
   const lang = useLanguage();
@@ -19,7 +19,7 @@ const Results = (): JSX.Element => {
   const championConfigurations = useSelector(
     (state: IState) => state.championConfigurations
   );
-  const champions = useSelector((state: IState) => state.champions);
+  const champions = useSelector((state: IState) => state.champions.data);
   const artifacts = useSelector((state: IState) => state.artifacts);
   const configuration = useSelector((state: IState) => state.configuration);
   const results = useSelector((state: IState) => state.results);
@@ -30,14 +30,16 @@ const Results = (): JSX.Element => {
     max: 0,
   });
 
-  const filteredChampions = championConfigurations.filter((c) => c.Activated);
+  const filteredChampions = championConfigurations.data.filter(
+    (c) => c.Activated
+  );
 
   const activesSets = new Set<ISets>();
   const activesClans = new Set<IClans>();
 
   filteredChampions.forEach((champion) => {
     const sourceChampion = champions.find(
-      (c) => c.Guid === champion.SourceChampion
+      (c) => c.Id === champion.SourceChampion
     );
     if (sourceChampion) {
       activesClans.add(sourceChampion.Clan);
@@ -68,7 +70,7 @@ const Results = (): JSX.Element => {
       dispatch,
       champions,
       filteredChampions,
-      artifacts,
+      artifacts.data,
       configuration.generationMethod,
       configuration.excludeWornArtifact,
       {
@@ -123,7 +125,7 @@ const Results = (): JSX.Element => {
           </tr>
           <tr>
             <td>{lang.ui.title.numberOfArtifacts}</td>
-            <td>{artifacts.length}</td>
+            <td>{artifacts.data.length}</td>
           </tr>
           <tr>
             <td>{lang.ui.title.activeSets}</td>

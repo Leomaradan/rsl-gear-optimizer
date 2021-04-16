@@ -1,11 +1,11 @@
-import ArtifactForm from "../Artifacts/ArtifactForm";
-import ArtifactDisplay from "../UI/ArtifactDisplay";
-import type { IArtifact } from "../../models";
-import { updateArtifacts } from "../../redux/artifactsSlice";
-
 import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+
+import type { IArtifact } from "../../models";
+
+const ArtifactForm = React.lazy(() => import("../Artifacts/ArtifactForm"));
+const ArtifactDisplay = React.lazy(() => import("../UI/ArtifactDisplay"));
 
 interface IArtifactPopupProps {
   artifact?: IArtifact;
@@ -27,12 +27,12 @@ const ArtifactPopup = ({ artifact, readOnly }: IArtifactPopupProps) => {
   }
 
   const unassign = () => {
-    dispatch(
+    /*     dispatch(
       updateArtifacts({
         artifact: { ...artifact, Champion: undefined },
-        id: artifact.Guid,
+        id: artifact.Id,
       })
-    );
+    ); */
   };
 
   return (

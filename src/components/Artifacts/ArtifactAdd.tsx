@@ -1,11 +1,11 @@
-import ArtifactForm from "./ArtifactForm";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
 import { StatsBySlots } from "../../data";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { IArtifact, IArtifactDraft, IClans, ISets } from "../../models";
 
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import ArtifactForm from "./ArtifactForm";
 
 interface IArtifactAddProps {
   clan?: IClans;

@@ -1,4 +1,3 @@
-import React from "react";
 import { OverlayTrigger, Popover as BtPopover } from "react-bootstrap";
 import { InfoCircle } from "react-bootstrap-icons";
 

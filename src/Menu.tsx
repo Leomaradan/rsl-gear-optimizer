@@ -1,20 +1,19 @@
-import { useAuth } from "./auth/AuthContext";
-import { useLanguage } from "./lang/LanguageContext";
-
-import React from "react";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { useSelector } from "react-redux";
+import { IndexLinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
+import { useAuth } from "./auth/AuthContext";
+import { useLanguage } from "./lang/LanguageContext";
+import type { IState } from "./redux/reducers";
+
 interface IMenuConfigLink {
-  needAuth?: boolean;
   text: string;
   to: string;
 }
 
 interface IMenuConfigDropDown {
   links: Array<IMenuConfigLink | "separator">;
-  needAuth?: boolean;
   text: string;
 }
 
@@ -25,23 +24,14 @@ const isLink = (
 };
 
 const getMenu = (
-  menu: Array<IMenuConfigLink | IMenuConfigDropDown>,
-  isAuth: boolean
+  menu: Array<IMenuConfigLink | IMenuConfigDropDown>
 ): (JSX.Element | null)[] =>
   menu.map((item) => {
-    if (item.needAuth === false && isAuth) {
-      return null;
-    }
-
-    if (item.needAuth === true && !isAuth) {
-      return null;
-    }
-
     if (isLink(item)) {
       return (
-        <LinkContainer key={item.to} to={item.to}>
+        <IndexLinkContainer key={item.to} to={item.to}>
           <Nav.Link>{item.text}</Nav.Link>
-        </LinkContainer>
+        </IndexLinkContainer>
       );
     }
 
@@ -51,22 +41,13 @@ const getMenu = (
       <NavDropdown id={firstItem.to} key={firstItem.to} title={item.text}>
         {item.links.map((subitem, index) => {
           if (subitem === "separator") {
-            // eslint-disable-next-line react/no-array-index-key
             return <NavDropdown.Divider key={index} />;
           }
 
-          if (subitem.needAuth === false && isAuth) {
-            return null;
-          }
-
-          if (subitem.needAuth === true && !isAuth) {
-            return null;
-          }
-
           return (
-            <LinkContainer key={`sub-${subitem.to}`} to={subitem.to}>
+            <IndexLinkContainer key={`sub-${subitem.to}`} to={subitem.to}>
               <NavDropdown.Item>{subitem.text}</NavDropdown.Item>
-            </LinkContainer>
+            </IndexLinkContainer>
           );
         })}
       </NavDropdown>
@@ -75,10 +56,11 @@ const getMenu = (
 
 const Menu = (): JSX.Element => {
   const lang = useLanguage();
-  const { isAuth, username } = useAuth();
+  const { isAuth } = useAuth();
+  const username = useSelector((state: IState) => state.account.username);
 
   const leftMenu: Array<IMenuConfigLink | IMenuConfigDropDown> = [
-    {
+    /*{
       links: [
         {
           text: lang.ui.title.championsList,
@@ -89,6 +71,10 @@ const Menu = (): JSX.Element => {
           to: "/teams",
         },
       ],
+      text: lang.ui.title.champions,
+    },*/
+    {
+      to: "/champions",
       text: lang.ui.title.champions,
     },
     {
@@ -119,7 +105,7 @@ const Menu = (): JSX.Element => {
       text: lang.ui.title.optimizer,
     },
   ];
-  const rightMenu: Array<IMenuConfigLink | IMenuConfigDropDown> = [
+  const rightMenuAuth: Array<IMenuConfigLink | IMenuConfigDropDown> = [
     {
       links: [
         {
@@ -136,25 +122,29 @@ const Menu = (): JSX.Element => {
           to: "/config/game",
         },
         {
-          needAuth: true,
           text: lang.ui.title.profileOptions,
           to: "/config/profile",
         },
         "separator",
         {
-          needAuth: false,
+          text: lang.ui.title.logout,
+          to: "/auth/sign-out",
+        },
+      ],
+      text: username ?? lang.ui.title.profile,
+    },
+  ];
+
+  const rightMenuAnonymous: Array<IMenuConfigLink | IMenuConfigDropDown> = [
+    {
+      links: [
+        {
           text: lang.ui.title.signup,
           to: "/auth/sign-up",
         },
         {
-          needAuth: false,
           text: lang.ui.title.login,
           to: "/auth/sign-in",
-        },
-        {
-          needAuth: true,
-          text: lang.ui.title.logout,
-          to: "/auth/sign-out",
         },
       ],
       text: username ?? lang.ui.title.profile,
@@ -175,8 +165,11 @@ const Menu = (): JSX.Element => {
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">{getMenu(leftMenu, isAuth)}</Nav>
-          <Nav className="ml-auto">{getMenu(rightMenu, isAuth)}</Nav>
+          {isAuth && <Nav className="mr-auto">{getMenu(leftMenu)}</Nav>}
+          {isAuth && <Nav className="ml-auto">{getMenu(rightMenuAuth)}</Nav>}
+          {!isAuth && (
+            <Nav className="ml-auto">{getMenu(rightMenuAnonymous)}</Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

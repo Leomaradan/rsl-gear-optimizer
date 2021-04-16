@@ -1,14 +1,17 @@
-import ChampionAdd from "./ChampionConfigurationAdd";
-import ChampionsListRow from "./ChampionConfigurationsListRow";
-
-import BaseWrapper from "../UI/Wrapper";
-import { useLanguage } from "../../lang/LanguageContext";
-import type { IState } from "../../redux/reducers";
-
 import React from "react";
 import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IState } from "../../redux/reducers";
+
+const BaseWrapper = React.lazy(() => import("../UI/Wrapper"));
+
+const ChampionAdd = React.lazy(() => import("./ChampionConfigurationAdd"));
+const ChampionsListRow = React.lazy(
+  () => import("./ChampionConfigurationsListRow")
+);
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
@@ -26,7 +29,7 @@ const ChampionsList = (): JSX.Element => {
   );
   const lang = useLanguage();
 
-  const lengthIndex = championConfigurations.length - 1;
+  const lengthIndex = championConfigurations.data.length - 1;
 
   return (
     <>
@@ -47,11 +50,11 @@ const ChampionsList = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          {championConfigurations.map((champion, index) => (
+          {championConfigurations.data.map((champion, index) => (
             <ChampionsListRow
               champion={champion}
               index={index}
-              key={champion.Guid}
+              key={champion.Id}
               lengthIndex={lengthIndex}
             />
           ))}

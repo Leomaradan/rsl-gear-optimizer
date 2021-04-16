@@ -1,17 +1,24 @@
-import ArtifactsList from "../components/Artifacts/ArtifactsList";
-import type { IState } from "../redux/reducers";
-import Accordion, { IAccordionSection } from "../components/UI/Accordion";
-import { useLanguage } from "../lang/LanguageContext";
-import BaseWrapper from "../components/UI/Wrapper";
-import Stack from "../components/UI/Stack";
-import calculateScoreEasyMode from "../process/calculateScoreEasyMode";
-import type { ILanguageSlot } from "../lang/language";
-import { ExistingSlots } from "../data";
-import type { IScoredArtifact, IChampionConfiguration, ISets } from "../models";
-
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
+import type { IAccordionSection } from "../components/UI/Accordion";
+import { ExistingSlots } from "../data";
+import { useLanguage } from "../lang/LanguageContext";
+import type { ILanguageSlot } from "../lang/language";
+import type { IScoredArtifact, IChampionConfiguration, ISets } from "../models";
+import calculateScoreEasyMode from "../process/calculateScoreEasyMode";
+import type { IState } from "../redux/reducers";
+
+const ArtifactsList = React.lazy(
+  () => import("../components/Artifacts/ArtifactsList")
+);
+const Accordion = React.lazy(() => import("../components/UI/Accordion"));
+const Stack = React.lazy(() => import("../components/UI/Stack"));
+const BaseWrapper = React.lazy(() => import("../components/UI/Wrapper"));
+const LoadingScreen = React.lazy(
+  () => import("../components/UI/LoadingScreen")
+);
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
@@ -65,12 +72,12 @@ const setsAtk: ISets[] = [
 const SellList = (): JSX.Element => {
   const artifacts = useSelector((state: IState) => state.artifacts);
   const results = useSelector((state: IState) => state.results);
-  const selectedItems: string[] = [];
+  const selectedItems: number[] = [];
 
   if (results.status === "Done") {
     results.data.forEach((row) => {
       row.artifacts.forEach((artifact) => {
-        selectedItems.push(artifact.Guid);
+        selectedItems.push(artifact.Id);
       });
     });
   }
@@ -82,8 +89,8 @@ const SellList = (): JSX.Element => {
   const weightedArtifacts2: IScoredArtifact[] = [];
   const weightedAccessories: IScoredArtifact[] = [];
 
-  const filterArtifacts = artifacts.filter(
-    (a) => !a.Champion && !selectedItems.includes(a.Guid)
+  const filterArtifacts = artifacts.data.filter(
+    (a) => !a.Champion && !selectedItems.includes(a.Id)
   );
 
   const ChampionDef = {
@@ -177,6 +184,10 @@ const SellList = (): JSX.Element => {
       });
     }
   });
+
+  if (artifacts.status !== "Done" && artifacts.status !== "Error") {
+    return <LoadingScreen />;
+  }
 
   return (
     <Stack>

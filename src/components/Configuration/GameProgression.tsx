@@ -1,8 +1,8 @@
-import { FormInput, FormLabel, FormRow } from "./Layout";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { Button, Table } from "react-bootstrap";
+import { Dash, Plus } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
 
-import Modal from "../UI/Modal";
-import Stack from "../UI/Stack";
-import Wrapper from "../UI/Wrapper";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageAffinity } from "../../lang/language";
 import type {
@@ -13,10 +13,11 @@ import type {
 import { setOption } from "../../redux/configurationSlice";
 import type { IState } from "../../redux/reducers";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
-import { Dash, Plus } from "react-bootstrap-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { FormInput, FormLabel, FormRow } from "./Layout";
+
+const Modal = React.lazy(() => import("../UI/Modal"));
+const Stack = React.lazy(() => import("../UI/Stack"));
+const Wrapper = React.lazy(() => import("../UI/Wrapper"));
 
 const GameProgression = (): JSX.Element => {
   const configuration = useSelector((state: IState) => state.configuration);

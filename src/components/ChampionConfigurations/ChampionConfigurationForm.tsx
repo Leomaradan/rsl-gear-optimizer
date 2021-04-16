@@ -1,20 +1,26 @@
-import ChampionFormBasicInfo from "./ChampionConfigurationFormBasicInfo";
-import ChampionFormMainStats from "./ChampionConfigurationFormMainStats";
-import ChampionFormStatsPriority from "./ChampionConfigurationFormStatsPriority";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Modal from "../UI/Modal";
-import Tabs, { ITabProps } from "../UI/Tabs";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguage, ILanguageChampion } from "../../lang/language";
 import type { IChampion, IChampionConfiguration, IErrors } from "../../models";
-import {
-  createChampionConfigurations,
-  updateChampionConfigurations,
-} from "../../redux/championConfigurationsSlice";
-import type { IState } from "../../redux/reducers";
 
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import type { IState } from "../../redux/reducers";
+import type { ITabProps } from "../UI/Tabs";
+
+const Tabs = React.lazy(() => import("../UI/Tabs"));
+
+const Modal = React.lazy(() => import("../UI/Modal"));
+
+const ChampionFormBasicInfo = React.lazy(
+  () => import("./ChampionConfigurationFormBasicInfo")
+);
+const ChampionFormMainStats = React.lazy(
+  () => import("./ChampionConfigurationFormMainStats")
+);
+const ChampionFormStatsPriority = React.lazy(
+  () => import("./ChampionConfigurationFormStatsPriority")
+);
 
 interface IChampionFormProps {
   champion: IChampionConfiguration;
@@ -29,7 +35,7 @@ const validate = (
 ): boolean => {
   const errorsList: IErrors = [];
 
-  if (state.SourceChampion.length === 0) {
+  if (!state.SourceChampion) {
     errorsList.push({
       slot: "champion",
       text: "errorSelectChampion",
@@ -109,18 +115,18 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
       }
 
       if (champion.order !== -1) {
-        dispatch(
+        /* dispatch(
           updateChampionConfigurations({
             championConfiguration: championSaving,
-            id: champion.Guid as string,
+            id: champion.Id as string,
           })
-        );
+        ); */
       } else {
-        dispatch(
+        /*         dispatch(
           createChampionConfigurations({
             championConfiguration: championSaving,
           })
-        );
+        ); */
       }
 
       handleClose();
@@ -164,7 +170,7 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
   ];
 
   const sourceChampion = useSelector((redux: IState) =>
-    redux.champions.find((c) => c.Guid === state.SourceChampion)
+    redux.champions.data.find((c) => c.Id === state.SourceChampion)
   ) as IChampion;
 
   return (
@@ -186,14 +192,14 @@ const ChampionForm = (props: IChampionFormProps): JSX.Element => {
         title={
           champion.order !== -1
             ? `${lang.ui.common.editing} ${
-                state.SourceChampion
+                sourceChampion
                   ? lang.champion[
                       sourceChampion.Name as keyof ILanguageChampion
                     ]
                   : ""
               }`
             : `${lang.ui.common.adding} ${
-                state.SourceChampion
+                sourceChampion
                   ? lang.champion[
                       sourceChampion.Name as keyof ILanguageChampion
                     ]

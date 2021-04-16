@@ -1,10 +1,6 @@
-import ChampionDetailsArtifacts from "./ChampionDetailsArtifacts";
-import ChampionDetailsMasteries from "./ChampionDetailsMasteries";
-import ChampionDetailsStats from "./ChampionDetailsStats";
+import React from "react";
+import styled from "styled-components";
 
-import ChampionPortrait from "../UI/ChampionPortrait";
-import StarDisplay from "../UI/StarDisplay";
-import Tabs from "../UI/Tabs";
 import { useLanguage } from "../../lang/LanguageContext";
 import type {
   ILanguageAffinity,
@@ -13,8 +9,17 @@ import type {
 } from "../../lang/language";
 import type { IChampion, IProfile } from "../../models";
 
-import React from "react";
-import styled from "styled-components";
+const ChampionPortrait = React.lazy(() => import("../UI/ChampionPortrait"));
+const StarDisplay = React.lazy(() => import("../UI/StarDisplay"));
+const Tabs = React.lazy(() => import("../UI/Tabs"));
+
+const ChampionDetailsArtifacts = React.lazy(
+  () => import("./ChampionDetailsArtifacts")
+);
+const ChampionDetailsMasteries = React.lazy(
+  () => import("./ChampionDetailsMasteries")
+);
+const ChampionDetailsStats = React.lazy(() => import("./ChampionDetailsStats"));
 
 export interface IChampionDetailsProps {
   champion: IChampion;
@@ -44,9 +49,7 @@ const ChampionDetails = ({
   champion,
   profile,
 }: IChampionDetailsProps): JSX.Element => {
-  const artifacts = profile.artifacts.filter(
-    (a) => a.Champion === champion.Guid
-  );
+  const artifacts = profile.artifacts.filter((a) => a.Champion === champion.Id);
 
   const lang = useLanguage();
 

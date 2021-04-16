@@ -1,12 +1,14 @@
-import { useAuth } from "./AuthContext";
-
-import { useLanguage } from "../lang/LanguageContext";
-import logger from "../process/logger";
-
-import axios from "axios";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useCallback, useContext, useState } from "react";
 import { Alert, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
+
+import LanguageContext, {
+  ILanguageContextDefinition,
+  useLanguage,
+} from "../../lang/LanguageContext";
+import { loginWithCredentialThunk } from "../../redux/accountSlice";
 
 interface ILoginProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,49 +16,63 @@ interface ILoginProps {
 }
 
 const Login = ({ location }: ILoginProps): JSX.Element => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  //const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setAuthToken } = useAuth();
+  const { setAuthToken, isAuth } = useAuth();
+
+  const { userLanguageChange } = useContext<ILanguageContextDefinition>(
+    LanguageContext
+  );
 
   const lang = useLanguage();
 
+  const dispatch = useDispatch();
+  //const loginStatus = useSelector((state: IState) => state.account.status);
+
   const referer = location?.state?.referer || "/";
 
-  const postLogin = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const postLogin = useCallback(
+    (event: FormEvent<HTMLFormElement>): void => {
+      event.preventDefault();
 
-    axios
-      .post(`${process.env.REACT_APP_END_POINT}/auth/login`, {
-        password,
-        userName: email,
-      })
-      .then((result) => {
-        if (result.status === 200) {
-          setAuthToken(result.data);
-          setLoggedIn(true);
-        } else {
-          setIsError(true);
-        }
-      })
-      .catch((e) => {
-        logger.error(e);
-        setIsError(true);
-      });
-  };
+      dispatch(
+        loginWithCredentialThunk(
+          email,
+          password,
+          (data) => {
+            setAuthToken(data.token);
 
-  if (isLoggedIn) {
+            userLanguageChange(data.language);
+          },
+          () => {
+            setIsError(true);
+          }
+        )
+      );
+    },
+    [dispatch, email, password, setAuthToken, userLanguageChange]
+  );
+
+  const handleChangeEmail = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(event?.target?.value);
+    },
+    []
+  );
+
+  const handleChangePassword = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(event?.target?.value);
+    },
+    []
+  );
+
+  console.log({ referer, isAuth });
+  if (isAuth) {
     return <Redirect to={referer} />;
   }
-
-  const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event?.target?.value);
-  };
-
-  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event?.target?.value);
-  };
 
   return (
     <form onSubmit={postLogin}>

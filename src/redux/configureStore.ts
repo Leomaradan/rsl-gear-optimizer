@@ -1,7 +1,10 @@
-import rootReducer from './reducers';
+import {
+  EnhancedStore,
+  configureStore as configureStoreToolkit,
+} from "@reduxjs/toolkit";
+import logger from "redux-logger";
 
-import { EnhancedStore, configureStore as configureStoreToolkit } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
+import rootReducer from "./reducers";
 
 const configureStore = (): EnhancedStore =>
   configureStoreToolkit({
@@ -9,10 +12,10 @@ const configureStore = (): EnhancedStore =>
     middleware: (getDefaultMiddleware) => {
       const middlewares = getDefaultMiddleware({
         serializableCheck: {
-          ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+          ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
         },
       });
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV !== "production") {
         return middlewares.concat(logger);
       }
 

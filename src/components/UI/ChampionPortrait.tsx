@@ -1,7 +1,6 @@
-import type { IChampion } from "../../models";
-
-import React from "react";
 import styled from "styled-components";
+
+import type { IChampion } from "../../models";
 
 const Image = styled.img<{ size?: number; autoWidth?: boolean }>`
   ${(props) => (props.size ? `height: ${props.size}px` : "")};

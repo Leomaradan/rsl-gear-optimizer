@@ -1,10 +1,10 @@
-import ChampionForm from "./ChampionConfigurationForm";
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
 import { useLanguage } from "../../lang/LanguageContext";
 import type { IChampionConfiguration } from "../../models";
 
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+const ChampionForm = React.lazy(() => import("./ChampionConfigurationForm"));
 
 const ChampionAdd = (): JSX.Element => {
   const [show, setShow] = useState(false);
@@ -14,13 +14,13 @@ const ChampionAdd = (): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const emptyChampion = {
-    Guid: "",
+    Id: -1,
     order: -1,
     BootsStats: [],
     ChestplateStats: [],
     GauntletStats: [],
     Methods: "AllSets",
-    SourceChampion: "",
+    SourceChampion: -1,
     Sets: [[]],
     StatsPriority: {},
     Activated: true,

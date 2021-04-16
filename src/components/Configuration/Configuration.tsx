@@ -1,16 +1,17 @@
-import { FormInput, FormLabel, FormRow } from "./Layout";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import LanguageSelector from "../UI/LanguageSelector";
-import Popover from "../UI/Popover";
-import RadioButtons from "../UI/RadioButtons";
-import Toggle from "../UI/Toggle";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { IArtifactsDisplayMode, IGenerationMethod } from "../../models";
 import { setOption } from "../../redux/configurationSlice";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { FormInput, FormLabel, FormRow } from "./Layout";
+
+const LanguageSelector = React.lazy(() => import("../UI/LanguageSelector"));
+const Popover = React.lazy(() => import("../UI/Popover"));
+const RadioButtons = React.lazy(() => import("../UI/RadioButtons"));
+const Toggle = React.lazy(() => import("../UI/Toggle"));
 
 const Configuration = (): JSX.Element => {
   const lang = useLanguage();

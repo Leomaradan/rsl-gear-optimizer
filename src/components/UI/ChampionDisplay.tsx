@@ -1,16 +1,16 @@
-import ChampionPortrait from "./ChampionPortrait";
-import StarDisplay from "./StarDisplay";
-import Tooltip from "./Tooltip";
-import AuraDisplay from "./AuraDisplay";
+import React from "react";
+import styled from "styled-components";
 
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion } from "../../lang/language";
 import type { IChampion } from "../../models";
 import getColour from "../../process/getColour";
 
-import React from "react";
-import styled from "styled-components";
-import AffinityDisplay from "./AffinityDisplay";
+const AffinityDisplay = React.lazy(() => import("./AffinityDisplay"));
+const AuraDisplay = React.lazy(() => import("./AuraDisplay"));
+const ChampionPortrait = React.lazy(() => import("./ChampionPortrait"));
+const StarDisplay = React.lazy(() => import("./StarDisplay"));
+const Tooltip = React.lazy(() => import("./Tooltip"));
 
 interface IChampionDisplayProps {
   champion: IChampion;
@@ -89,7 +89,7 @@ const ChampionDisplay = ({
   height: baseHeight,
 }: IChampionDisplayProps): JSX.Element => {
   const lang = useLanguage();
-  console.log({ baseHeight });
+  //console.log({ baseHeight });
 
   const height = baseHeight ?? 100;
 
@@ -97,7 +97,7 @@ const ChampionDisplay = ({
 
   return (
     <Tooltip
-      id={champion.Guid}
+      id={champion.Id}
       text={lang.champion[champion.Name as keyof ILanguageChampion]}
     >
       <ChampionWrapper champion={champion} height={height} width={width}>

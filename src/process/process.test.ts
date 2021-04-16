@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { IArtifact, IOrderable, IScoredArtifact } from "../models";
+
 import calculateBonus from "./calculateBonus";
 import calculateScoreRealStats from "./calculateScoreRealStats";
 import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
 import generateTable from "./generateTable";
 import generateTheoricalArtifact from "./generateTheoricalArtifact";
 import reorder from "./reorder";
-
-import type { IArtifact, IOrderable, IScoredArtifact } from "../models";
 
 describe("Process >> Calculate Bonus", () => {
   test("Six same set, basic sets", () => {
@@ -347,30 +347,49 @@ describe("Process >> Generate Theorical Artifact", () => {
 });
 
 describe("Process >> Generate Table", () => {
+  const W1 = 1;
+  const W2 = 2;
+  const W3 = 3;
+  const H1 = 4;
+  const H2 = 5;
+  const H3 = 6;
+  const S1 = 7;
+  const S2 = 8;
+  const S3 = 9;
+  const G1 = 10;
+  const G2 = 11;
+  const G3 = 12;
+  const C1 = 13;
+  const C2 = 14;
+  const C3 = 15;
+  const B1 = 16;
+  const B2 = 17;
+  const B3 = 18;
+
   const ARTIFACTS: IScoredArtifact[] = [
-    { Slot: "Weapon", Guid: "W1", score: 1 } as IScoredArtifact,
-    { Slot: "Weapon", Guid: "W2", score: 1 } as IScoredArtifact,
-    { Slot: "Weapon", Guid: "W3", score: 1 } as IScoredArtifact,
+    { Slot: "Weapon", Id: W1, score: 1 } as IScoredArtifact,
+    { Slot: "Weapon", Id: W2, score: 1 } as IScoredArtifact,
+    { Slot: "Weapon", Id: W3, score: 1 } as IScoredArtifact,
 
-    { Slot: "Helmet", Guid: "H1", score: 1 } as IScoredArtifact,
-    { Slot: "Helmet", Guid: "H2", score: 1 } as IScoredArtifact,
-    { Slot: "Helmet", Guid: "H3", score: 1 } as IScoredArtifact,
+    { Slot: "Helmet", Id: H1, score: 1 } as IScoredArtifact,
+    { Slot: "Helmet", Id: H2, score: 1 } as IScoredArtifact,
+    { Slot: "Helmet", Id: H3, score: 1 } as IScoredArtifact,
 
-    { Slot: "Shield", Guid: "S1", score: 1 } as IScoredArtifact,
-    { Slot: "Shield", Guid: "S1", score: 1 } as IScoredArtifact,
-    { Slot: "Shield", Guid: "S3", score: 1 } as IScoredArtifact,
+    { Slot: "Shield", Id: S1, score: 1 } as IScoredArtifact,
+    { Slot: "Shield", Id: S2, score: 1 } as IScoredArtifact,
+    { Slot: "Shield", Id: S3, score: 1 } as IScoredArtifact,
 
-    { Slot: "Gauntlets", Guid: "G1", score: 1 } as IScoredArtifact,
-    { Slot: "Gauntlets", Guid: "G2", score: 1 } as IScoredArtifact,
-    { Slot: "Gauntlets", Guid: "G3", score: 1 } as IScoredArtifact,
+    { Slot: "Gauntlets", Id: G1, score: 1 } as IScoredArtifact,
+    { Slot: "Gauntlets", Id: G2, score: 1 } as IScoredArtifact,
+    { Slot: "Gauntlets", Id: G3, score: 1 } as IScoredArtifact,
 
-    { Slot: "Chestplate", Guid: "C1", score: 1 } as IScoredArtifact,
-    { Slot: "Chestplate", Guid: "C2", score: 1 } as IScoredArtifact,
-    { Slot: "Chestplate", Guid: "C3", score: 1 } as IScoredArtifact,
+    { Slot: "Chestplate", Id: C1, score: 1 } as IScoredArtifact,
+    { Slot: "Chestplate", Id: C2, score: 1 } as IScoredArtifact,
+    { Slot: "Chestplate", Id: C3, score: 1 } as IScoredArtifact,
 
-    { Slot: "Boots", Guid: "B1", score: 1 } as IScoredArtifact,
-    { Slot: "Boots", Guid: "B2", score: 1 } as IScoredArtifact,
-    { Slot: "Boots", Guid: "B3", score: 1 } as IScoredArtifact,
+    { Slot: "Boots", Id: B1, score: 1 } as IScoredArtifact,
+    { Slot: "Boots", Id: B2, score: 1 } as IScoredArtifact,
+    { Slot: "Boots", Id: B3, score: 1 } as IScoredArtifact,
   ];
 
   test("Generate all combination without accessories", () => {
@@ -380,23 +399,23 @@ describe("Process >> Generate Table", () => {
 
     expect(result.length).toBe(729); // 6 artifact, 3 possibility each : 3^6
     expect(result[0].artifacts.filter((f) => f.Rarity !== "")).toStrictEqual([
-      { Guid: "W1", Slot: "Weapon", score: 1 },
-      { Guid: "H1", Slot: "Helmet", score: 1 },
-      { Guid: "S1", Slot: "Shield", score: 1 },
-      { Guid: "G1", Slot: "Gauntlets", score: 1 },
-      { Guid: "C1", Slot: "Chestplate", score: 1 },
-      { Guid: "B1", Slot: "Boots", score: 1 },
+      { Id: W1, Slot: "Weapon", score: 1 },
+      { Id: H1, Slot: "Helmet", score: 1 },
+      { Id: S1, Slot: "Shield", score: 1 },
+      { Id: G1, Slot: "Gauntlets", score: 1 },
+      { Id: C1, Slot: "Chestplate", score: 1 },
+      { Id: B1, Slot: "Boots", score: 1 },
     ]);
 
     expect(
       result[result.length - 1].artifacts.filter((f) => f.Rarity !== "")
     ).toStrictEqual([
-      { Guid: "W3", Slot: "Weapon", score: 1 },
-      { Guid: "H3", Slot: "Helmet", score: 1 },
-      { Guid: "S3", Slot: "Shield", score: 1 },
-      { Guid: "G3", Slot: "Gauntlets", score: 1 },
-      { Guid: "C3", Slot: "Chestplate", score: 1 },
-      { Guid: "B3", Slot: "Boots", score: 1 },
+      { Id: W3, Slot: "Weapon", score: 1 },
+      { Id: H3, Slot: "Helmet", score: 1 },
+      { Id: S3, Slot: "Shield", score: 1 },
+      { Id: G3, Slot: "Gauntlets", score: 1 },
+      { Id: C3, Slot: "Chestplate", score: 1 },
+      { Id: B3, Slot: "Boots", score: 1 },
     ]);
   });
 });

@@ -1,12 +1,13 @@
-import ArtifactForm from "./ArtifactForm";
-
-import type { IArtifact } from "../../models";
-import { deleteArtifacts } from "../../redux/artifactsSlice";
-
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
+import { DialogProvider, useDialog } from "react-bootstrap-easy-dialog";
+
+import type { IArtifact } from "../../models";
+import { deleteArtifactsThunk } from "../../redux/artifactsSlice";
+
+import ArtifactForm from "./ArtifactForm";
 
 interface IArtifactEditGridProps {
   artifact: IArtifact;
@@ -14,7 +15,8 @@ interface IArtifactEditGridProps {
 
 const ArtifactEditGrid = (props: IArtifactEditGridProps): JSX.Element => {
   const { artifact } = props;
-  const { Guid } = artifact;
+  const { Id } = artifact;
+  const dialog = useDialog();
 
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -23,7 +25,11 @@ const ArtifactEditGrid = (props: IArtifactEditGridProps): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const dispatchDeleteArtifact = () => {
-    dispatch(deleteArtifacts({ id: Guid }));
+    dialog.confirm("Confirm delete ?").then((confirm) => {
+      if (confirm) {
+        dispatch(deleteArtifactsThunk(Id));
+      }
+    });
   };
 
   return (

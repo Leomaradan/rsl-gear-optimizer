@@ -19,8 +19,7 @@ CREATE TABLE artifacts (
   sub_stats longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   power smallint(5) UNSIGNED NOT NULL DEFAULT 0,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  deleted_at timestamp NULL DEFAULT NULL
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS champions;
@@ -51,8 +50,7 @@ CREATE TABLE champions (
   masteries longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'array of masteries id',
   power smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'custom power calculation',
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  deleted_at timestamp NULL DEFAULT NULL
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS configurations;
@@ -65,9 +63,9 @@ CREATE TABLE configurations (
   activated tinyint(1) NOT NULL DEFAULT 1,
   locked tinyint(1) NOT NULL DEFAULT 0,
   accessories enum('','Ring','Amulet','Banner') NOT NULL DEFAULT '',
+  order int(10) UNSIGNED NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  deleted_at timestamp NULL DEFAULT NULL
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS options;
@@ -79,17 +77,7 @@ CREATE TABLE `options` (
   arena_rank tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'index of arena rank list',
   great_hall longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  deleted_at timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS results;
-CREATE TABLE results (
-  user_id int(10) UNSIGNED NOT NULL,
-  data longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  deleted_at timestamp NULL DEFAULT NULL
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS users;
@@ -102,8 +90,7 @@ CREATE TABLE users (
   verify_token varchar(32) DEFAULT NULL COMMENT 'verify token. Is set, the account must be validated',
   language enum('en','fr') NOT NULL DEFAULT 'en',
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  deleted_at timestamp NULL DEFAULT NULL
+  updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -123,9 +110,6 @@ ALTER TABLE configurations
   ADD KEY champion_id (champion_id);
 
 ALTER TABLE options
-  ADD PRIMARY KEY (user_id);
-
-ALTER TABLE results
   ADD PRIMARY KEY (user_id);
 
 ALTER TABLE users
@@ -161,7 +145,5 @@ ALTER TABLE configurations
 ALTER TABLE options
   ADD CONSTRAINT game_user FOREIGN KEY (user_id) REFERENCES `users` (id);
 
-ALTER TABLE results
-  ADD CONSTRAINT result_user FOREIGN KEY (user_id) REFERENCES `users` (id);
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;

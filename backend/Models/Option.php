@@ -6,14 +6,11 @@ namespace Backend\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Option extends Model
 {
-    use SoftDeletes;
-
     protected $primaryKey = 'user_id';
-    protected $hidden = ['user_id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['user_id', 'created_at', 'updated_at'];
 
     protected $fillable = ['artifacts_display',
         'exclude_worn_artifact',

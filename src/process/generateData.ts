@@ -1,10 +1,3 @@
-import calculateBonus from "./calculateBonus";
-import calculateScoreEasyMode from "./calculateScoreEasyMode";
-import calculateScoreRealStats from "./calculateScoreRealStats";
-import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
-import generateTable, { getEmtyItem } from "./generateTable";
-import calculateChampionStats from "./calculateChampionStats";
-
 import type {
   IArtifact,
   IChampion,
@@ -15,6 +8,13 @@ import type {
   IResultsWorkerCommands,
   IScoredArtifact,
 } from "../models";
+
+import calculateBonus from "./calculateBonus";
+import calculateChampionStats from "./calculateChampionStats";
+import calculateScoreEasyMode from "./calculateScoreEasyMode";
+import calculateScoreRealStats from "./calculateScoreRealStats";
+import calculateScoreTheoricalStats from "./calculateScoreTheoricalStats";
+import generateTable, { getEmtyItem } from "./generateTable";
 
 interface IGenerateDataProps {
   artifacts: IArtifact[];
@@ -27,6 +27,7 @@ interface IGenerateDataProps {
   gameProgression: IGameProgression;
 }
 
+// eslint-disable-next-line complexity
 const generateData = (
   {
     artifacts,

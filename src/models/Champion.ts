@@ -77,7 +77,7 @@ export type IChampionMastery =
   | "EagleEye";
 
 export interface IChampion {
-  Guid: string;
+  Id: number;
   Slug: string;
   Name: string;
   Quality: IStars;

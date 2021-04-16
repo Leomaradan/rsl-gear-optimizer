@@ -59,4 +59,47 @@ class ArtifactController extends Controller
 
         return $this->invalidQuery($response);
     }
+
+    public static function CreateArtifact(array $artifactData, int $userId, array $championsIds = [])
+    {
+        $filtered = array_filter($artifactData, function ($k) { return in_array($k, ARTIFACT_FILTER); }, ARRAY_FILTER_USE_KEY);
+
+        foreach ($filtered['sub_stats'] as $key => $value) {
+            $filteredSub = array_filter($value, function ($k) { return in_array($k, ARTIFACT_FILTER_SUBSTAT); }, ARRAY_FILTER_USE_KEY);
+            $filtered['sub_stats'][$key] = $filteredSub;
+        }
+
+        $artifact = new Artifact();
+
+        $artifact->slot = $filtered['slot'];
+
+        $artifact->rarity = $filtered['rarity'];
+        $artifact->quality = $filtered['quality'];
+        $artifact->level = $filtered['level'];
+        $artifact->main_stat = $filtered['main_stats'];
+        $artifact->main_value = $filtered['main_value'];
+        $artifact->sub_stats = $filtered['sub_stats'];
+        $artifact->power = $filtered['power'];
+
+        //var_dump($filtered['sets']);
+        //var_dump($filtered['clan']);
+
+        if (isset($filtered['sets'])) {
+            $artifact->sets = $filtered['sets'];
+        }
+
+        if (isset($filtered['clan'])) {
+            $artifact->clan = $filtered['clan'];
+        }
+
+        if (isset($artifactData['champion_id'])) {
+            $artifact->champion_id = $championsIds[$artifactData['champion_id']];
+        }
+
+        $artifact->user_id = $userId;
+
+        $artifact->save();
+
+        return $artifact;
+    }
 }

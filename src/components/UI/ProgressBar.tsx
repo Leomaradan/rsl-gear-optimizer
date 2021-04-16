@@ -1,4 +1,3 @@
-import React from "react";
 import { ProgressBar as BtProgressBar } from "react-bootstrap";
 
 interface IProgressBarProps {

@@ -6,13 +6,10 @@ namespace Backend\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Configuration extends Model
 {
-    use SoftDeletes;
-
-    protected $hidden = ['user_id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['user_id', 'created_at', 'updated_at'];
 
     protected $casts = [
         'configuration' => 'array',

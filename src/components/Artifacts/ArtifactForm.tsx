@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ArtifactFormBase from "./ArtifactFormBase";
-import ArtifactFormStats from "./ArtifactFormStats";
-
-import Modal from "../UI/Modal";
-import Stack from "../UI/Stack";
-import { useLanguage } from "../../lang/LanguageContext";
-import type { IArtifact, IErrors, IRarity } from "../../models";
-import { createArtifacts, updateArtifacts } from "../../redux/artifactsSlice";
-
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
+import { useLanguage } from "../../lang/LanguageContext";
+import type { IArtifact, IErrors, IRarity } from "../../models";
+import {
+  createArtifactsThunk,
+  updateArtifactsThunk,
+} from "../../redux/artifactsSlice";
+import Modal from "../UI/Modal";
+import Stack from "../UI/Stack";
+
+import ArtifactFormBase from "./ArtifactFormBase";
+import ArtifactFormStats from "./ArtifactFormStats";
 
 interface IArtifactFormProps {
   artifact: IArtifact;
@@ -115,6 +118,7 @@ const ArtifactForm = (props: IArtifactFormProps): JSX.Element => {
 
   const [state, setState] = useState<Readonly<IArtifact>>(artifact);
   const [errors, setErrors] = useState<IErrors>([]);
+  const [stateSaving, setStateSaving] = useState<boolean>(false);
 
   const lang = useLanguage();
 
@@ -123,19 +127,19 @@ const ArtifactForm = (props: IArtifactFormProps): JSX.Element => {
     setErrors([]);
   }, [artifact, show]);
 
+  const doneSaving = () => {
+    setStateSaving(false);
+  };
+
   const save = () => {
     const validation = validateArtifact(state);
 
-    if (Object.keys(validation).length === 0) {
-      if (state.Guid !== undefined) {
-        dispatch(
-          updateArtifacts({
-            artifact: state as IArtifact,
-            id: state.Guid as string,
-          })
-        );
+    if (Object.keys(validation).length === 0 && !stateSaving) {
+      setStateSaving(true);
+      if (state.Id !== undefined) {
+        dispatch(updateArtifactsThunk(state.Id, state, doneSaving, doneSaving));
       } else {
-        dispatch(createArtifacts(state));
+        dispatch(createArtifactsThunk(state, doneSaving, doneSaving));
       }
 
       handleClose();

@@ -1,7 +1,7 @@
-import AuthContext, { IAuthContextDefinition } from "./AuthContext";
-
 import localforage from "localforage";
 import React, { ReactNode, useState } from "react";
+
+import AuthContext, { IAuthContextDefinition } from "./AuthContext";
 
 interface IAuthProviderProps {
   children: ReactNode;
@@ -12,11 +12,18 @@ const AuthProvider = ({ children }: IAuthProviderProps): JSX.Element => {
 
   const provider: IAuthContextDefinition = {
     authToken,
-    isAuth: false,
+    isAuth: authToken !== undefined,
     setAuthToken: (token) => {
-      localforage.setItem("auth-token", token).then(() => {
-        setAuthToken(token);
-      });
+      console.log("setAuthToken", { token });
+      if (!token) {
+        console.log("Removing auth-token");
+        void localforage.removeItem("auth-token");
+      } else {
+        console.log("Set auth-token");
+        void localforage.setItem("auth-token", token).then(() => {
+          setAuthToken(token);
+        });
+      }
     },
   };
 

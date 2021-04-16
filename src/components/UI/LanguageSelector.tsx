@@ -1,11 +1,11 @@
+import localforage from "localforage";
+import { ChangeEvent, useContext, useEffect } from "react";
+import { Form } from "react-bootstrap";
+
 import LanguageContext, {
   ILanguageContextDefinition,
 } from "../../lang/LanguageContext";
 import { languageOptions } from "../../lang/language";
-
-import localforage from "localforage";
-import React, { ChangeEvent, useContext, useEffect } from "react";
-import { Form } from "react-bootstrap";
 
 const LanguageSelector = (): JSX.Element => {
   const {

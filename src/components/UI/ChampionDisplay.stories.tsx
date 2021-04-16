@@ -1,5 +1,7 @@
-import ChampionDisplay from "./ChampionDisplay";
+import type { Meta, Story } from "@storybook/react";
 
+import { SortedExistingClans } from "../../data/Clans";
+import { ILanguageClan, dictionaryList } from "../../lang/language";
 import type {
   IAura,
   IChampion,
@@ -9,10 +11,8 @@ import type {
   IRarity,
   IStars,
 } from "../../models";
-import { SortedExistingClans } from "../../data/Clans";
-import { ILanguageClan, dictionaryList } from "../../lang/language";
 
-import type { Meta, Story } from "@storybook/react";
+import ChampionDisplay from "./ChampionDisplay";
 
 const listClans = SortedExistingClans.map((s) => ({
   text: dictionaryList.en.clan[s as keyof ILanguageClan],
@@ -56,7 +56,7 @@ const championFactory = (options: {
     ...options,
     Clan: listClans.find((c) => c.text === options.Clan)?.value as IClans,
     Aura: Auras[options.Aura],
-    Guid: options.Name,
+    Id: 1,
     Slug: "storybook",
     Masteries: [],
     Power: 0,
@@ -98,7 +98,6 @@ export const Base: Story<{
   InVault: boolean;
 }> = (args) => {
   const champion = championFactory(args);
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <ChampionDisplay champion={champion} {...args} />;
 };
 

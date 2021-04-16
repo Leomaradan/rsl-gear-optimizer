@@ -1,8 +1,9 @@
-import ChampionEdit from "./ChampionConfigurationEdit";
+import React from "react";
+import { Button } from "react-bootstrap";
+import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
-import ChampionPortrait from "../UI/ChampionPortrait";
-import SetDisplay from "../UI/SetDisplay";
-import Wrapper from "../UI/Wrapper";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type {
@@ -11,14 +12,14 @@ import type {
   IChampionStatsPriority,
 } from "../../models";
 import methodDisplay from "../../process/methodDisplay";
-import { reorderChampionConfigurations } from "../../redux/championConfigurationsSlice";
+//import { reorderChampionConfigurations } from "../../redux/championConfigurationsSlice";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { Button } from "react-bootstrap";
-import { ArrowDown, ArrowUp } from "react-bootstrap-icons";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+const ChampionPortrait = React.lazy(() => import("../UI/ChampionPortrait"));
+const SetDisplay = React.lazy(() => import("../UI/SetDisplay"));
+const Wrapper = React.lazy(() => import("../UI/Wrapper"));
+
+const ChampionEdit = React.lazy(() => import("./ChampionConfigurationEdit"));
 
 interface IChampionsListRowProps {
   champion: IChampionConfiguration;
@@ -41,8 +42,8 @@ const ChampionConfigurationListRow = ({
 
   const lang = useLanguage();
 
-  const sourceChampion = useSelector((redux: IState) =>
-    redux.champions.find((c) => c.Guid === champion.SourceChampion)
+  const sourceChampion = useSelector((state: IState) =>
+    state.champions.data.find((c) => c.Id === champion.SourceChampion)
   ) as IChampion;
 
   const sortStatsPriority = (statsPriority: IChampionStatsPriority) => {
@@ -58,12 +59,12 @@ const ChampionConfigurationListRow = ({
       );
   };
 
-  const updateOrder = (name: string, newOrder: number) => {
-    dispatch(reorderChampionConfigurations({ id: name, newOrder }));
+  const updateOrder = (name: number, newOrder: number) => {
+    //dispatch(reorderChampionConfigurations({ id: name, newOrder }));
   };
 
   return (
-    <Row activated={champion.Activated} key={champion.Guid}>
+    <Row activated={champion.Activated} key={champion.Id}>
       <FlatCell>
         <ChampionPortrait champion={sourceChampion} size={100} />
       </FlatCell>
@@ -105,7 +106,7 @@ const ChampionConfigurationListRow = ({
           {index !== 0 && (
             <Button
               onClick={() => {
-                updateOrder(champion.Guid, index - 1);
+                updateOrder(champion.Id, index - 1);
               }}
               size="sm"
               variant="link"
@@ -117,7 +118,7 @@ const ChampionConfigurationListRow = ({
             <Button
               onClick={() => {
                 // We need to "push" the index to two position
-                updateOrder(champion.Guid, index + 2);
+                updateOrder(champion.Id, index + 2);
               }}
               size="sm"
               variant="link"

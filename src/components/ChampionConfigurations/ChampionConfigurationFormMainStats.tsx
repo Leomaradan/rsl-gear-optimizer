@@ -1,6 +1,5 @@
-import DisplayError from "../UI/DisplayError";
-import Grid from "../UI/Grid";
-import Stack from "../UI/Stack";
+import React from "react";
+
 import {
   BootsStatsExeptFlat,
   ChestplateStatsExeptFlat,
@@ -11,7 +10,9 @@ import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageStat } from "../../lang/language";
 import type { IChampionConfiguration, IErrors, IStat } from "../../models";
 
-import type React from "react";
+const DisplayError = React.lazy(() => import("../UI/DisplayError"));
+const Grid = React.lazy(() => import("../UI/Grid"));
+const Stack = React.lazy(() => import("../UI/Stack"));
 
 interface IChampionFormMainStatsProps {
   errors: IErrors;

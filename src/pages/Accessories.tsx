@@ -1,18 +1,27 @@
-import ArtifactsList from "../components/Artifacts/ArtifactsList";
-import ArtifactAdd from "../components/Artifacts/ArtifactAdd";
-import type { IState } from "../redux/reducers";
-import Accordion, { IAccordionSection } from "../components/UI/Accordion";
-import { useLanguage } from "../lang/LanguageContext";
-import BaseWrapper from "../components/UI/Wrapper";
-import Stack from "../components/UI/Stack";
-import ClanDisplay from "../components/UI/ClanDisplay";
-import type { ILanguageClan } from "../lang/language";
-import { SortedExistingClans } from "../data";
-
-import styled from "styled-components";
-import { useSelector } from "react-redux";
 import React from "react";
 import { Plus } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
+import type { IAccordionSection } from "../components/UI/Accordion";
+import { SortedExistingClans } from "../data";
+import { useLanguage } from "../lang/LanguageContext";
+import type { ILanguageClan } from "../lang/language";
+import type { IState } from "../redux/reducers";
+
+const ArtifactAdd = React.lazy(
+  () => import("../components/Artifacts/ArtifactAdd")
+);
+const ArtifactsList = React.lazy(
+  () => import("../components/Artifacts/ArtifactsList")
+);
+const Accordion = React.lazy(() => import("../components/UI/Accordion"));
+const ClanDisplay = React.lazy(() => import("../components/UI/ClanDisplay"));
+const Stack = React.lazy(() => import("../components/UI/Stack"));
+const BaseWrapper = React.lazy(() => import("../components/UI/Wrapper"));
+const LoadingScreen = React.lazy(
+  () => import("../components/UI/LoadingScreen")
+);
 
 const Wrapper = styled(BaseWrapper)`
   justify-content: space-between;
@@ -31,7 +40,7 @@ const Accessories = (): JSX.Element => {
   const sectionAccessories: IAccordionSection[] = [];
 
   SortedExistingClans.forEach((clan) => {
-    const filterArtifacts = artifacts.filter(
+    const filterArtifacts = artifacts.data.filter(
       (i) => i.Clan === clan && i.Set === ""
     );
 
@@ -49,6 +58,10 @@ const Accessories = (): JSX.Element => {
       });
     }
   });
+
+  if (artifacts.status !== "Done" && artifacts.status !== "Error") {
+    return <LoadingScreen />;
+  }
 
   return (
     <Stack>

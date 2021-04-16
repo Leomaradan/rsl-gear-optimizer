@@ -1,14 +1,14 @@
-import { useLanguage } from "../../lang/LanguageContext";
-
-import React from "react";
 import { Button, Modal as BtModal } from "react-bootstrap";
 import styled from "styled-components";
+
+import { useLanguage } from "../../lang/LanguageContext";
 
 interface IModalProps {
   content: JSX.Element;
   moreButtons?: { title: string; variant?: string; action: () => void }[];
   show: boolean;
   title: JSX.Element | string;
+  freeze?: boolean;
   onClose(): void;
   onSave?(): void;
 }
@@ -24,6 +24,7 @@ const Modal = ({
   onSave,
   show,
   title,
+  freeze,
 }: IModalProps): JSX.Element => {
   const lang = useLanguage();
 
@@ -35,11 +36,11 @@ const Modal = ({
 
       <ModalBody>{content}</ModalBody>
       <BtModal.Footer className="modal-footer">
-        <Button onClick={onClose} variant="secondary">
+        <Button onClick={onClose} variant="secondary" disabled={freeze}>
           {lang.ui.common.close}
         </Button>
         {onSave && (
-          <Button onClick={onSave} variant="primary">
+          <Button onClick={onSave} variant="primary" disabled={freeze}>
             {lang.ui.common.save}
           </Button>
         )}
@@ -49,6 +50,7 @@ const Modal = ({
               key={button.title}
               onClick={button.action}
               variant={button.variant ?? "primary"}
+              disabled={freeze}
             >
               {button.title}
             </Button>

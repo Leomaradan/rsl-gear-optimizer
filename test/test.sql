@@ -12,9 +12,9 @@ DELETE FROM users;
 
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `token`, `verify_token`, `language`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'user1', 'user1@localhost.local', 'b2e6c8f71c847dd0ebc643ca01e2f367d53ff060a8021e7ca1f23f3879e6c0a6', '2a511bc19f133cd39cac88881dfcc374', NULL, 'en', '2021-04-12 11:31:26', '2021-04-12 11:55:12', NULL),
-(2, 'user2', 'user2@localhost.local', 'b2e6c8f71c847dd0ebc643ca01e2f367d53ff060a8021e7ca1f23f3879e6c0a6', NULL, '2a511bc19f133cd39cac88881dfcc375', 'fr', '2021-04-12 11:31:26', '2021-04-12 11:55:12', NULL),
-(3, 'user3', 'user3@localhost.local', 'b2e6c8f71c847dd0ebc643ca01e2f367d53ff060a8021e7ca1f23f3879e6c0a6', '2a511bc19f133cd39cac88881dfcc376', NULL, 'en', '2021-04-12 11:31:26', '2021-04-12 11:55:12', '2021-04-12 11:55:12');
+(1, 'user1', 'user1@localhost.local', 'bbd7182cd0ee95488f1a1e6f3fe0d8f94ed0d14e4db1dce713fe82a3231c523d', '2a511bc19f133cd39cac88881dfcc374', NULL, 'en', '2021-04-12 11:31:26', '2021-04-12 11:55:12', NULL),
+(2, 'user2', 'user2@localhost.local', 'bbd7182cd0ee95488f1a1e6f3fe0d8f94ed0d14e4db1dce713fe82a3231c523d', NULL, '2a511bc19f133cd39cac88881dfcc375', 'fr', '2021-04-12 11:31:26', '2021-04-12 11:55:12', NULL),
+(3, 'user3', 'user3@localhost.local', 'bbd7182cd0ee95488f1a1e6f3fe0d8f94ed0d14e4db1dce713fe82a3231c523d', '2a511bc19f133cd39cac88881dfcc376', NULL, 'en', '2021-04-12 11:31:26', '2021-04-12 11:55:12', '2021-04-12 11:55:12');
 
 
 INSERT INTO `options` (`user_id`, `artifacts_display`, `exclude_worn_artifact`, `generation_method`, `arena_rank`, `great_hall`, `created_at`, `updated_at`, `deleted_at`) VALUES

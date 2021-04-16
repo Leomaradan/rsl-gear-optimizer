@@ -28,8 +28,8 @@ export interface IChampionStatsPriority {
 }
 
 export interface IChampionConfiguration extends IOrderable {
-  Guid: string;
-  SourceChampion: string;
+  Id: number;
+  SourceChampion: number;
   Sets: ISets[][];
   StatsPriority: IChampionStatsPriority;
   GauntletStats: IStat[];

@@ -1,8 +1,8 @@
+import mergeDeep from "../process/mergeDeep";
+
+import baseMap from "./base.json";
 import en from "./en-us.json";
 import fr from "./fr-fr.json";
-import baseMap from "./base.json";
-
-import mergeDeep from "../process/mergeDeep";
 
 export interface ILanguageAffinity {
   Force: string;
@@ -866,7 +866,7 @@ export interface ILanguage {
   };
 }
 
-/*const baseMap: ILanguage = JSON.parse(JSON.stringify(en), (_, value) => {
+/* const baseMap: ILanguage = JSON.parse(JSON.stringify(en), (_, value) => {
   if (typeof value === "string") {
     return `(NT) ${value}`;
   }
@@ -874,7 +874,7 @@ export interface ILanguage {
   return value;
 });*/
 
-//enUs: merge({}, baseMap, require('./loc/en-us.json') as IBPALanguage),
+// enUs: merge({}, baseMap, require('./loc/en-us.json') as IBPALanguage),
 
 export const dictionaryList: { [key: string]: ILanguage } = {
   en: mergeDeep<ILanguage>(

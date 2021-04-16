@@ -1,3 +1,6 @@
+import type { IArtifact } from "./Artifact";
+import type { IChampion } from "./Champion";
+import type { IChampionConfiguration } from "./ChampionConfiguration";
 import type {
   IArtifactsState,
   IChampionConfigurationsState,
@@ -8,21 +11,21 @@ export type IArtifactsDisplayMode = "Table" | "Grid";
 
 export type IGenerationMethod = "Easy" | "RealValue" | "TheoricalValue";
 
-export type IGreatHallBonusAffinity = {
+export interface IGreatHallBonusAffinity {
   "HP%": number;
   "ATK%": number;
   "DEF%": number;
   "C.DMG": number;
   RESI: number;
   ACC: number;
-};
+}
 
-export type IGreatHallBonus = {
+export interface IGreatHallBonus {
   Force: IGreatHallBonusAffinity;
   Magic: IGreatHallBonusAffinity;
   Spirit: IGreatHallBonusAffinity;
   Void: IGreatHallBonusAffinity;
-};
+}
 
 export type IArenaRank =
   | "B1"
@@ -39,6 +42,22 @@ export type IArenaRank =
   | "G4"
   | "P";
 
+export const ArenaRank: IArenaRank[] = [
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "S1",
+  "S2",
+  "S3",
+  "S4",
+  "G1",
+  "G2",
+  "G3",
+  "G4",
+  "P",
+];
+
 export interface IGameProgression {
   greatHallBonus: IGreatHallBonus;
   arenaRank: IArenaRank;
@@ -46,9 +65,9 @@ export interface IGameProgression {
 
 export interface IBackupV1 {
   version: "1";
-  champions: IChampionsState;
-  championConfig: IChampionConfigurationsState;
-  artifacts: IArtifactsState;
+  champions: IChampion[];
+  championConfig: IChampionConfiguration[];
+  artifacts: IArtifact[];
 }
 
 export type IBackup = IBackupV1;

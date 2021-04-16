@@ -1,20 +1,20 @@
-import ResultsModal from "./ResultsModal";
+import React from "react";
+import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
-import ArtifactDisplay from "../UI/ArtifactDisplay";
-import ChampionPortrait from "../UI/ChampionPortrait";
-import ProgressBar from "../UI/ProgressBar";
-import SetDisplay from "../UI/SetDisplay";
-import Wrapper from "../UI/Wrapper";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion } from "../../lang/language";
 import type { IChampion } from "../../models";
 import methodDisplay from "../../process/methodDisplay";
 import type { IState } from "../../redux/reducers";
 
-import React from "react";
-import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
+const ArtifactDisplay = React.lazy(() => import("../UI/ArtifactDisplay"));
+const ChampionPortrait = React.lazy(() => import("../UI/ChampionPortrait"));
+const ProgressBar = React.lazy(() => import("../UI/ProgressBar"));
+const SetDisplay = React.lazy(() => import("../UI/SetDisplay"));
+const Wrapper = React.lazy(() => import("../UI/Wrapper"));
+const ResultsModal = React.lazy(() => import("./ResultsModal"));
 
 const NameContainer = styled.div`
   padding: 0.75rem;
@@ -29,7 +29,7 @@ const ChampionContainer = styled.td`
 
 const ResultsDetails = (): JSX.Element => {
   const { data } = useSelector((state: IState) => state.results);
-  const champions = useSelector((state: IState) => state.champions);
+  const champions = useSelector((state: IState) => state.champions.data);
   const lang = useLanguage();
 
   if (!data || data.length === 0) {
@@ -52,7 +52,7 @@ const ResultsDetails = (): JSX.Element => {
           }
 
           const sourceChampion = champions.find(
-            (c) => c.Guid === result.champion.SourceChampion
+            (c) => c.Id === result.champion.SourceChampion
           ) as IChampion;
 
           return (

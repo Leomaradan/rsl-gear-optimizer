@@ -1,20 +1,23 @@
-import artifactsSlice from "./artifactsSlice";
-import championConfigurationsSlice from "./championConfigurationsSlice";
-import championsSlice from "./championsSlice";
-import configurationSlice from "./configurationSlice";
-import resultsSlice from "./resultsSlice";
+import { combineReducers } from "@reduxjs/toolkit";
 
 import type {
+  IAccountState,
   IArtifactsState,
   IChampionConfigurationsState,
   IChampionsState,
   IConfigurationState,
   IResultsState,
 } from "../models";
+import accountSlice from "./accountSlice";
 
-import { combineReducers } from "@reduxjs/toolkit";
+import artifactsSlice from "./artifactsSlice";
+import championConfigurationsSlice from "./championConfigurationsSlice";
+import championsSlice from "./championsSlice";
+import configurationSlice from "./configurationSlice";
+import resultsSlice from "./resultsSlice";
 
 export default combineReducers({
+  account: accountSlice,
   artifacts: artifactsSlice,
   championConfigurations: championConfigurationsSlice,
   champions: championsSlice,
@@ -23,6 +26,7 @@ export default combineReducers({
 });
 
 export interface IState {
+  account: IAccountState;
   artifacts: IArtifactsState;
   championConfigurations: IChampionConfigurationsState;
   champions: IChampionsState;

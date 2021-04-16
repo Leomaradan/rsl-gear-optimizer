@@ -194,6 +194,7 @@ module.exports = {
           "warn",
           { allowedStrings: ["(", ")"], ignoreProps: false },
         ],
+        "react/react-in-jsx-scope": "off",
         "spaced-comment": ["warn", "always", { markers: ["/"] }],
       },
     },

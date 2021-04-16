@@ -1,12 +1,11 @@
-import ChampionForm from "./ChampionConfigurationForm";
-
-import type { IChampionConfiguration } from "../../models";
-import { deleteChampionConfigurations } from "../../redux/championConfigurationsSlice";
-
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
+
+import type { IChampionConfiguration } from "../../models";
+
+const ChampionForm = React.lazy(() => import("./ChampionConfigurationForm"));
 
 interface IChampionEditProps {
   champion: IChampionConfiguration;
@@ -14,7 +13,7 @@ interface IChampionEditProps {
 
 const ChampionEdit = (props: IChampionEditProps): JSX.Element => {
   const { champion } = props;
-  const { Guid: name } = champion;
+  const { Id: name } = champion;
 
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ const ChampionEdit = (props: IChampionEditProps): JSX.Element => {
   const handleShow = () => setShow(true);
 
   const dispatchDeleteChampion = () => {
-    dispatch(deleteChampionConfigurations({ id: name }));
+    //dispatch(deleteChampionConfigurations({ id: name }));
   };
 
   return (

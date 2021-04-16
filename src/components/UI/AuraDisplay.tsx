@@ -1,7 +1,7 @@
+import styled from "styled-components";
+
 import { AuraIconName } from "../../data";
 import type { IAura } from "../../models";
-
-import styled from "styled-components";
 
 const Image = styled.img<{ size?: number }>`
   width: ${(p) => (p.size ? `${p.size}px` : "100%")};

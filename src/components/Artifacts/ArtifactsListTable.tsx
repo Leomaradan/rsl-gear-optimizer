@@ -1,10 +1,10 @@
-import ArtifactsListRow from "./ArtifactsListRow";
+import React from "react";
+import { Table } from "react-bootstrap";
 
 import { useLanguage } from "../../lang/LanguageContext";
 import type { IArtifact } from "../../models";
 
-import React from "react";
-import { Table } from "react-bootstrap";
+import ArtifactsListRow from "./ArtifactsListRow";
 
 interface IArtifactsListTableProps {
   artifacts: IArtifact[];
@@ -40,7 +40,7 @@ const ArtifactsListTable = (props: IArtifactsListTableProps): JSX.Element => {
         {artifacts.map((artifact) => (
           <ArtifactsListRow
             artifact={artifact}
-            key={artifact.Guid}
+            key={artifact.Id}
             readOnly={readOnly}
           />
         ))}

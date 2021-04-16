@@ -1,16 +1,17 @@
-import DisplayMastery from "../UI/MasteryDisplay";
-import WrapperCenter from "../UI/WrapperCenter";
+import React from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+
 import {
   DefenseMasteries,
   OffenseMasteries,
   SupportMasteries,
 } from "../../data/Masteries";
 import type { IChampion, IChampionMastery } from "../../models";
-import { updateChampion } from "../../redux/championsSlice";
+//import { updateChampion } from "../../redux/championsSlice";
 
-import React from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+const DisplayMastery = React.lazy(() => import("../UI/MasteryDisplay"));
+const WrapperCenter = React.lazy(() => import("../UI/WrapperCenter"));
 
 const Table = styled.table.attrs(() => ({ className: "table" }))<{
   color1: string;
@@ -39,21 +40,19 @@ const ChampionDetailsMasteries = ({
   const handleOnChange = (mastery: IChampionMastery) => {
     if (champion.Masteries.includes(mastery)) {
       const newMasteries = [...champion.Masteries].filter((m) => m !== mastery);
-      dispatch(
-        updateChampion({
+      //dispatch();
+      /*updateChampion({
           champion: { Masteries: newMasteries },
-          id: champion.Guid,
-        })
-      );
+          id: champion.Id,
+        })*/
     } else {
       const newMasteries = [...champion.Masteries, mastery];
 
-      dispatch(
-        updateChampion({
+      //dispatch();
+      /*updateChampion({
           champion: { Masteries: newMasteries },
-          id: champion.Guid,
-        })
-      );
+          id: champion.Id,
+        })*/
     }
   };
 

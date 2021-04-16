@@ -1,4 +1,4 @@
-import React from "react";
+import { useCallback } from "react";
 import { Form, Tab, Tabs as BtTabs } from "react-bootstrap";
 
 export interface ITabProps {
@@ -18,11 +18,14 @@ interface ITabsProps {
 const Tabs = (props: ITabsProps): JSX.Element => {
   const { defaultTabs, onChange, tabs, widget } = props;
 
-  const onSelect = (key: null | string) => {
-    if (key && onChange) {
-      onChange(key);
-    }
-  };
+  const onSelect = useCallback(
+    (key: null | string): void => {
+      if (key && onChange) {
+        onChange(key);
+      }
+    },
+    [onChange]
+  );
 
   return (
     <BtTabs defaultActiveKey={defaultTabs} onSelect={onSelect}>
