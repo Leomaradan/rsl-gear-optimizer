@@ -9,17 +9,14 @@ node_modules
 /coverage
 
 # production
-packages/frontend/build
+build
 
 # temp
 /temp
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env
 
 npm-debug.log*
 yarn-debug.log*
@@ -29,3 +26,6 @@ src/raid-data
 public/assets/*
 !public/assets/UnknownItem.jpg
 !public/assets/Masteries/
+.env.production
+
+/vendor/
