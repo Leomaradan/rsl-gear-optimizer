@@ -7,7 +7,10 @@ import type {
 } from "../models";
 import reorder from "../process/reorder";
 
-const initialState: IChampionConfigurationsState = [];
+// TEMP
+import { championConfigurations } from "./defaultState.json";
+
+const initialState: IChampionConfigurationsState = championConfigurations as any; //[];
 
 type IChampionsLoadAction = PayloadAction<{
   championConfigurations: IChampionConfiguration[];

@@ -3,7 +3,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ChampionsDetailsList } from "../data";
 import type { IChampion, IChampionDraft, IChampionsState } from "../models";
 
-const initialState: IChampionsState = [];
+// TEMP
+import { champions } from "./defaultState.json";
+
+const initialState: IChampionsState = champions as any; //[];
 
 type IChampionsLoadAction = PayloadAction<{
   champions: IChampionDraft[];

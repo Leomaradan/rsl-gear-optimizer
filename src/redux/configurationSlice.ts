@@ -2,6 +2,9 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import type { IConfigurationOptions, IConfigurationState } from "../models";
 
+// TEMP
+import { configuration } from "./defaultState.json";
+
 const greatHallBonusAffinity = {
   ACC: 0,
   "ATK%": 0,
@@ -11,7 +14,7 @@ const greatHallBonusAffinity = {
   RESI: 0,
 };
 
-const initialState: IConfigurationState = {
+const initialState: IConfigurationState = configuration as any; /*{
   arenaRank: "B1",
   artifactsDisplay: "Table",
   excludeWornArtifact: true,
@@ -22,7 +25,7 @@ const initialState: IConfigurationState = {
     Spirit: greatHallBonusAffinity,
     Void: greatHallBonusAffinity,
   },
-};
+}*/
 
 type IConfigurationSetOptionAction = PayloadAction<{
   option: IConfigurationOptions;

@@ -8,7 +8,7 @@ import type {
 
 import getStatPriority from "./getStatPriority";
 
-const statsWeight = (stats: IStat, quality: IStars) => {
+export const statsWeight = (stats: IStat, quality: IStars) => {
   switch (stats) {
     case "SPD":
       switch (quality) {

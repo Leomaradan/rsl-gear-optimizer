@@ -3,7 +3,10 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import type { IArtifact, IArtifactDraft, IArtifactsState } from "../models";
 import calculateScoreRealStats from "../process/calculateScoreRealStats";
 
-const initialState: IArtifactsState = [];
+// TEMP
+import { artifacts } from "./defaultState.json";
+
+const initialState: IArtifactsState = artifacts as any; //[];
 
 type IArtifactsLoadAction = PayloadAction<{
   artifacts: IArtifact[];
