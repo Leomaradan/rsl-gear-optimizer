@@ -43,6 +43,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-tag-input": "^6.4.3",
+    "recharts": "^2.0.9",
     "redux-logger": "^3.0.6",
     "styled-components": "^5.2.0",
     "typescript": "4.2.3",

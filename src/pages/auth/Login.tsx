@@ -2,8 +2,8 @@ import React, { FormEvent, useCallback, useContext, useState } from "react";
 import { Alert, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { useAuth } from "../../auth/AuthContext";
 
+import { useAuth } from "../../auth/AuthContext";
 import LanguageContext, {
   ILanguageContextDefinition,
   useLanguage,
@@ -16,7 +16,7 @@ interface ILoginProps {
 }
 
 const Login = ({ location }: ILoginProps): JSX.Element => {
-  //const [isLoggedIn, setLoggedIn] = useState(false);
+  // const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +29,7 @@ const Login = ({ location }: ILoginProps): JSX.Element => {
   const lang = useLanguage();
 
   const dispatch = useDispatch();
-  //const loginStatus = useSelector((state: IState) => state.account.status);
+  // const loginStatus = useSelector((state: IState) => state.account.status);
 
   const referer = location?.state?.referer || "/";
 

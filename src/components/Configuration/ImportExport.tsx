@@ -523,6 +523,9 @@ const ImportExport = (): JSX.Element => {
     (state: IState) => state.configuration
   );
 
+  const state = useSelector((s) => s);
+  console.log({ state });
+
   const lang = useLanguage();
 
   const [showModalBackup, setShowBackup] = useState(false);

@@ -15,6 +15,7 @@ import methodDisplay from "../../process/methodDisplay";
 //import { reorderChampionConfigurations } from "../../redux/championConfigurationsSlice";
 import type { IState } from "../../redux/reducers";
 
+
 const ChampionPortrait = React.lazy(() => import("../UI/ChampionPortrait"));
 const SetDisplay = React.lazy(() => import("../UI/SetDisplay"));
 const Wrapper = React.lazy(() => import("../UI/Wrapper"));

@@ -9,6 +9,11 @@ import { deleteArtifactsThunk } from "../../redux/artifactsSlice";
 
 import ArtifactForm from "./ArtifactForm";
 
+import type { IArtifact } from "../../models";
+import { deleteArtifacts } from "../../redux/artifactsSlice";
+
+import ArtifactForm from "./ArtifactForm";
+
 interface IArtifactEditGridProps {
   artifact: IArtifact;
 }

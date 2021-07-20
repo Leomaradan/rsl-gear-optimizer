@@ -23,6 +23,17 @@ const displayValue = (stat: number, isPercent = false) => {
   return `+${stat}`;
 };
 
+const StatsMax = {
+  ACC: 718,
+  ATK: 9174,
+  "C.DMG": 358,
+  "C.RATE": 250,
+  DEF: 8279,
+  HP: 171570,
+  RESI: 738,
+  SPD: 388,
+};
+
 const returnRow = (
   title: string,
   isPercent: boolean,
@@ -88,6 +99,12 @@ const ChampionDetailsStats = ({
       <tbody>
         {Object.keys(stats).map((statKey) => {
           const stat = stats[statKey];
+
+          const ratio =
+            (stat.total / StatsMax[statKey as keyof typeof StatsMax]) * 100;
+
+          console.log(`${statKey}: ${ratio}`);
+
           return returnRow(
             lang.stat[statKey as keyof ILanguageStat],
             statsPercent.includes(statKey as IStat),

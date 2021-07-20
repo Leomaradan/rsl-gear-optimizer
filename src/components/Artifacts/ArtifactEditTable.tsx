@@ -5,7 +5,7 @@ import { Pencil, Trash } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
 
 import type { IArtifact } from "../../models";
-import { deleteArtifactsThunk } from "../../redux/artifactsSlice";
+import { deleteArtifacts } from "../../redux/artifactsSlice";
 
 import ArtifactForm from "./ArtifactForm";
 

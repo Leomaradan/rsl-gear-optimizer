@@ -7,6 +7,9 @@ import type { ILanguageUiTask } from "../../lang/language";
 import type { IClans, ISets } from "../../models";
 import generateCombination from "../../process/runWorker";
 import type { IState } from "../../redux/reducers";
+import ClanDisplay from "../UI/ClanDisplay";
+import ProgressBar from "../UI/ProgressBar";
+import SetDisplay from "../UI/SetDisplay";
 
 const ClanDisplay = React.lazy(() => import("../UI/ClanDisplay"));
 const ProgressBar = React.lazy(() => import("../UI/ProgressBar"));

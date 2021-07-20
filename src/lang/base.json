@@ -787,6 +787,7 @@
       "logout": "ui.title.logout",
       "mainStats": "ui.title.mainStats",
       "mainStatsValue": "ui.title.mainStatsValue",
+      "masteries": "ui.title.masteries",
       "method": "ui.title.method",
       "newStats": "ui.title.newStats",
       "numberOfArtifacts": "ui.title.numberOfArtifacts",

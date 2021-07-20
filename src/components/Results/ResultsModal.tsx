@@ -5,6 +5,7 @@ import { ZoomIn } from "react-bootstrap-icons";
 import { useLanguage } from "../../lang/LanguageContext";
 import type { ILanguageChampion } from "../../lang/language";
 import type { IChampion, IResults } from "../../models";
+import Modal from "../UI/Modal";
 
 const Modal = React.lazy(() => import("../UI/Modal"));
 const ResultsDetailsStats = React.lazy(() => import("./ResultsDetailsStats"));

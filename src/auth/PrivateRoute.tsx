@@ -1,4 +1,3 @@
-import React from "react";
 import type { ComponentType } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 

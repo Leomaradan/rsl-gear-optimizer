@@ -766,6 +766,7 @@ export interface ILanguageUiTitle {
   actions: string;
   activeSets: string;
   arenaRank: string;
+  chart: string;
   artifacts: string;
   artifactsDisplayMode: string;
   availableAccessories: string;

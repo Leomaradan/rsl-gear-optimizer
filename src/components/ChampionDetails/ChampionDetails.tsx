@@ -9,6 +9,7 @@ import type {
 } from "../../lang/language";
 import type { IChampion, IProfile } from "../../models";
 
+
 const ChampionPortrait = React.lazy(() => import("../UI/ChampionPortrait"));
 const StarDisplay = React.lazy(() => import("../UI/StarDisplay"));
 const Tabs = React.lazy(() => import("../UI/Tabs"));
@@ -31,14 +32,18 @@ const Container = styled.div`
   gap: 10px;
   grid-template-columns: 150px 150px auto;
   grid-template-areas:
-    "portrait . ."
-    "portrait . ."
-    "portrait . ."
-    "tabs tabs tabs";
+    "portrait . . progression"
+    "portrait . . progression"
+    "portrait . . progression"
+    "tabs tabs tabs tabs";
 `;
 
 const PortraitContainer = styled.div`
   grid-area: portrait;
+`;
+
+const ProgressionContainer = styled.div`
+  grid-area: progression;
 `;
 
 const TabsContainer = styled.div`
@@ -58,6 +63,9 @@ const ChampionDetails = ({
       <PortraitContainer>
         <ChampionPortrait champion={champion} size={100} />
       </PortraitContainer>
+      <ProgressionContainer>
+        <ChampionProgression champion={champion} />
+      </ProgressionContainer>
       <div>{lang.rarity[champion.Rarity as keyof ILanguageRarity]}</div>
       <div>
         {lang.ui.title.level}: {champion.Level}
@@ -104,6 +112,17 @@ const ChampionDetails = ({
                 />
               ),
               title: "Masteries",
+            },
+            {
+              id: "chart",
+              page: (
+                <ChampionDetailsStatsChart
+                  champion={champion}
+                  artifacts={artifacts}
+                  profile={profile}
+                />
+              ),
+              title: "Charts",
             },
           ]}
         />

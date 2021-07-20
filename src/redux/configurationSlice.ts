@@ -22,7 +22,7 @@ const greatHallBonusAffinity = {
   RESI: 0,
 };
 
-const initialState: IConfigurationState = {
+const initialState: IConfigurationState = configuration as any; /*{
   arenaRank: "B1",
   artifactsDisplay: "Table",
   excludeWornArtifact: true,
@@ -33,7 +33,7 @@ const initialState: IConfigurationState = {
     Spirit: greatHallBonusAffinity,
     Void: greatHallBonusAffinity,
   },
-};
+}*/
 
 type IConfigurationSetOptionAction = PayloadAction<{
   option: IConfigurationOptions;

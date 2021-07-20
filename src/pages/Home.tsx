@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Jumbotron } from "react-bootstrap";
 
 import { useLanguage } from "../lang/LanguageContext";
